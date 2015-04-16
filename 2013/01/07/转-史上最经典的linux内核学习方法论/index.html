@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[转] 史上最经典的Linux内核学习方法论 | donge.org</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="待到山花烂漫时，还是那些经典在微笑。　　有关内核的书籍可以用汗牛充栋来形容，不过只有一些经典的神作经住了考验。首先是5本久经考验的神作(个人概括为“2+1+2”，第一个2是指2本全面讲 解内核的书，中间的1指1本讲解驱动开发的书，后面的2则指2本有关内核具体子系统的书，你是否想到了某某广告里三个人突然站起单臂齐举高呼“1比1 比 1”的场景?)。　　《Linux内核设计与实现》　　简称LKD，从入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[转] 史上最经典的Linux内核学习方法论">
+<meta property="og:url" content="http://donge.org/2013/01/07/转-史上最经典的linux内核学习方法论/index.html">
+<meta property="og:site_name" content="donge.org">
+<meta property="og:description" content="待到山花烂漫时，还是那些经典在微笑。　　有关内核的书籍可以用汗牛充栋来形容，不过只有一些经典的神作经住了考验。首先是5本久经考验的神作(个人概括为“2+1+2”，第一个2是指2本全面讲 解内核的书，中间的1指1本讲解驱动开发的书，后面的2则指2本有关内核具体子系统的书，你是否想到了某某广告里三个人突然站起单臂齐举高呼“1比1 比 1”的场景?)。　　《Linux内核设计与实现》　　简称LKD，从入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[转] 史上最经典的Linux内核学习方法论">
+<meta name="twitter:description" content="待到山花烂漫时，还是那些经典在微笑。　　有关内核的书籍可以用汗牛充栋来形容，不过只有一些经典的神作经住了考验。首先是5本久经考验的神作(个人概括为“2+1+2”，第一个2是指2本全面讲 解内核的书，中间的1指1本讲解驱动开发的书，后面的2则指2本有关内核具体子系统的书，你是否想到了某某广告里三个人突然站起单臂齐举高呼“1比1 比 1”的场景?)。　　《Linux内核设计与实现》　　简称LKD，从入">
+  
+    <link rel="alternative" href="/atom.xml" title="donge.org" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">东冬の乱记</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">HOME</a></li>
+				        
+							<li><a href="/archives">ARCHIVES</a></li>
+				        
+							<li><a href="/">PROJECTS</a></li>
+				        
+							<li><a href="/static/index.html">ABOUT</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Linux/" style="font-size: 20px;">Linux</a><a href="/tags/NSSA/" style="font-size: 10px;">NSSA</a><a href="/tags/donge-org/" style="font-size: 10px;">donge.org</a><a href="/tags/github/" style="font-size: 10px;">github</a><a href="/tags/golang/" style="font-size: 10px;">golang</a><a href="/tags/quagga/" style="font-size: 10px;">quagga</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">高级电脑爱好者</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">东冬の乱记</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+				<hgroup>
+				  <h1 class="header-author">东冬の乱记</h1>
+				</hgroup>
+			</div>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">HOME</a></li>
+		        
+					<li><a href="/archives">ARCHIVES</a></li>
+		        
+					<li><a href="/">PROJECTS</a></li>
+		        
+					<li><a href="/static/index.html">ABOUT</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-转-史上最经典的linux内核学习方法论" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2013/01/07/转-史上最经典的linux内核学习方法论/" class="article-date">
+  	<time datetime="2013-01-07T07:07:55.000Z" itemprop="datePublished">2013-01-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [转] 史上最经典的Linux内核学习方法论
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/未分类/">未分类</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div> </div><br><div><br><br>　　待到山花烂漫时，还是那些经典在微笑。<br><br>　　有关内核的书籍可以用汗牛充栋来形容，不过只有一些经典的神作经住了考验。首先是5本久经考验的神作(个人概括为“2+1+2”，第一个2是指2本全面讲 解内核的书，中间的1指1本讲解驱动开发的书，后面的2则指2本有关内核具体子系统的书，你是否想到了某某广告里三个人突然站起单臂齐举高呼“1比1 比 1”的场景?)。<br><br>　　《Linux内核设计与实现》<br><br>　　简称LKD，从入门开始，介绍了诸如进程管理、系统调用、中断和中断处理程序、内核同步、时<br><br>　　间管理、内存管理、地址空间、调试技术等方面，内容比较浅显易懂，个人认为是内核新人首先必<br><br>　　读的书籍。新人得有此书，足矣!<br><br>　　《深入理解Linux内核》<br><br>　　简称ULK，相比于LKD的内容不够深入、覆盖面不广，ULK要深入全面得多。<br><br>　　前面这两本，一本提纲挈领，一本全面深入。<br><br>　　《Linux设备驱动程序》<br><br>　　简称LDD，驱动开发者都要人手一本了。<br><br>　　《深入理解Linux虚拟内存管理》<br><br>　　简称LVMM，是一本介绍Linux虚拟内存管理机制的书。如果你希望深入的研究Linux的内存管理<br><br>　　子系统，仔细的研读这本书无疑是最好的选择。<br><br>　　《深入理解LINUX网络内幕》<br><br>　　一本讲解网络子系统实现的书，通过这本书，我们可以了解到Linux内核是如何实现复杂的网络功能的。(忘了声明下，我这列出来的书名是中文的，但是并不代表我建议大家去看他们的中文版，其中有的翻译的实在太??了，呵呵)<br><br>　　这5本书各有侧重，正如下面的图所展示的那样，恰好代表了个人一直主张的内核学习方法：首先通过LKD或ULK了解内核的设计实现特点，对内核有个整体全局的认识和理解，然后可分为两个岔路，如果从事驱动开发，则钻研LDD，如果希望对内核不是泛泛而谈而是有更深入的理解，则可以选择一个自己感兴趣的子系统，仔细分析它的代码，不懂的地方就通过社区、邮件列表或者直接发Email给maintainer请教等途径弄懂，切勿得过且过，这样分析下来，对同步、中断等等内核的很多机制也同样会非常了解，俗话说的一通则百通就是这个道理。当然，如果你选择研究的是内存管理或者网络，则可以有上面的两本书可以学习，如果是其他子系统可能就没有这么好的运气了。<br><br>　　内核社区<br><br>　　最近几年，社区网站非常的热火，不过此社区非彼社区。<br><br>　　Linux最大的一个优势就是它有一个紧密团结了众多使用者和开发者的社区，它的目标就是提供尽善尽美的内核。内核社区的中心是内核邮件列表(Linux Kernel Mailing List，LKML)，我们可以在<a href="http://vger.kernel.org/vger-lists.html#linux-kernel上面看到订阅这个邮件列表的细节。" target="_blank" rel="external">http://vger.kernel.org/vger-lists.html#linux-kernel上面看到订阅这个邮件列表的细节。</a><br><br>　　内核邮件列表的流量很大，每天都有几百条消息，这里是大牛们的战场，小牛们的天堂，任何一个内核开发者都可以从中受益非浅。除了LKML，大多数子系统也有自己独立的邮件列表来协调各自的开发工作，比如USB子系统的邮件列表可以在<a href="http://www.linux-usb.org/mailing.html上面订阅。" target="_blank" rel="external">http://www.linux-usb.org/mailing.html上面订阅。</a><br><br>　　其他网络资源<br><br>　　除了内核邮件列表，还有很多其他的论坛或网站值得我们经常关注。我们要知道，网络上不仅有兽兽和凤姐，也不仅有犀利哥和韩局长。<a href="http://www.kernel.org/" target="_blank" rel="external">http://www.kernel.org/</a> 可以通过这个网站上下载内核的源代码和补丁、跟踪内核bug等。<a href="http://kerneltrap.org" target="_blank" rel="external">http://kerneltrap.org</a> Linux和BSD内核的技术新闻。如果没时间跟踪LKML，那么经常浏览kerneltrap是个好主意。<a href="http://lwn.net/" target="_blank" rel="external">http://lwn.net/</a> Linux weekly news，创建于1997年底的一个Linux新闻站点。<a href="http://zh-kernel.org/mailman/listinfo/linux-kernel" target="_blank" rel="external">http://zh-kernel.org/mailman/listinfo/linux-kernel</a> 这是内核开发的中文邮件列表，里面活跃着很多内核开发领域的华人，比如Herbert Xu,、Mingming Cao、Bryan Wu等。<br><br></div>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2013/12/15/left-huawei/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          我为什么放弃治疗？
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/09/16/用github开始整理过去十几年hack过的代码/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">用GitHub开始整理过去十几年Hack过的代码</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="转-史上最经典的linux内核学习方法论" data-title="[转] 史上最经典的Linux内核学习方法论" data-url="http://donge.org/2013/01/07/转-史上最经典的linux内核学习方法论/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"donge"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 东冬の乱记
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

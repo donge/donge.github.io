@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>FW: syslog的编程和配置 | donge.org</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="syslog的编程和配置&amp;nbsp;本文档的Copyleft归yfydz所有，使用GPL发布，可以自由拷贝，转载，转载时请保持文档的完整性，严禁用于任何商业用途。msn: yfydz_no1@hotmail.com来源：http://yfydz.cublog.cn&amp;nbsp;参考文献：man syslog syslogd syslog.conf openlog, RFC3164&amp;nbsp;1. 前">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FW: syslog的编程和配置">
+<meta property="og:url" content="http://donge.org/2011/03/15/fw-syslog的编程和配置/index.html">
+<meta property="og:site_name" content="donge.org">
+<meta property="og:description" content="syslog的编程和配置&amp;nbsp;本文档的Copyleft归yfydz所有，使用GPL发布，可以自由拷贝，转载，转载时请保持文档的完整性，严禁用于任何商业用途。msn: yfydz_no1@hotmail.com来源：http://yfydz.cublog.cn&amp;nbsp;参考文献：man syslog syslogd syslog.conf openlog, RFC3164&amp;nbsp;1. 前">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FW: syslog的编程和配置">
+<meta name="twitter:description" content="syslog的编程和配置&amp;nbsp;本文档的Copyleft归yfydz所有，使用GPL发布，可以自由拷贝，转载，转载时请保持文档的完整性，严禁用于任何商业用途。msn: yfydz_no1@hotmail.com来源：http://yfydz.cublog.cn&amp;nbsp;参考文献：man syslog syslogd syslog.conf openlog, RFC3164&amp;nbsp;1. 前">
+  
+    <link rel="alternative" href="/atom.xml" title="donge.org" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">东冬の乱记</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">HOME</a></li>
+				        
+							<li><a href="/archives">ARCHIVES</a></li>
+				        
+							<li><a href="/">PROJECTS</a></li>
+				        
+							<li><a href="/static/index.html">ABOUT</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Linux/" style="font-size: 20px;">Linux</a><a href="/tags/NSSA/" style="font-size: 10px;">NSSA</a><a href="/tags/donge-org/" style="font-size: 10px;">donge.org</a><a href="/tags/github/" style="font-size: 10px;">github</a><a href="/tags/golang/" style="font-size: 10px;">golang</a><a href="/tags/quagga/" style="font-size: 10px;">quagga</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">高级电脑爱好者</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">东冬の乱记</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+				<hgroup>
+				  <h1 class="header-author">东冬の乱记</h1>
+				</hgroup>
+			</div>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">HOME</a></li>
+		        
+					<li><a href="/archives">ARCHIVES</a></li>
+		        
+					<li><a href="/">PROJECTS</a></li>
+		        
+					<li><a href="/static/index.html">ABOUT</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-fw-syslog的编程和配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2011/03/15/fw-syslog的编程和配置/" class="article-date">
+  	<time datetime="2011-03-15T08:25:40.000Z" itemprop="datePublished">2011-03-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      FW: syslog的编程和配置
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/OS/">OS</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div id="art" style="margin: 15px;"><br><div><span style="font-size: large; font-family: 隶书;">syslog的编程和配置</span></div><br><div>&nbsp;</div><br><div>本文档的Copyleft归yfydz所有，使用GPL发布，可以自由拷贝，转载，转载时请保持文档的完整性，严禁用于任何商业用途。<br>msn: <a href="mailto:yfydz_no1@hotmail.com" target="_blank" rel="external">yfydz_no1@hotmail.com</a><br>来源：<a href="http://yfydz.cublog.cn/" target="_blank" rel="external">http://yfydz.cublog.cn</a></div><br><div>&nbsp;</div><br><div>参考文献：man syslog syslogd syslog.conf openlog, RFC3164</div><br><div>&nbsp;</div><br><div>1. 前言</div><br><div>&nbsp;</div><br><div>syslog是UNIX系统中提供的一种日志记录方法(RFC3164)，syslog本身是一个服务器，程序中凡是使用syslog记录的信息都会发送到该服务器，服务器根据配置决定此信息是否记录，是记录到磁盘文件还是其他地方，这样使系统内所有应用程序都能以统一的方式记录日志，为系统日志的统一审计提供了方便。</div><br><div>&nbsp;</div><br><div>2. 日志格式</div><br><div>&nbsp;</div><br><div>syslog记录的日志格式为：</div><br><div>月 日 时:分:秒 主机名 标志 日志内容</div><br><div>&nbsp;</div><br><div>3. syslog编程</div><br><div>&nbsp;</div><br><div>为记录日志，通常用到3个函数，openlog(3)，syslog(3)和closelog(3)，openlog(3)和closelog(3)不是必须的，没有openlog(3)的话将用系统缺省的方式记录日志。</div><br><div>&nbsp;</div><br><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #include &lt;syslog.h&gt;</div><br><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void openlog( char <em>ident, int option, int&nbsp; facility)</em></div><br><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void syslog( int priority, char format, …)</div><br><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void closelog( void )</div><br><div>&nbsp;</div><br><div>openlog(3)有三个参数，第一个参数是标志字符串，也就是日志中的第5个字段，不设的话缺省取程序名称；</div><br><div>第二个参数是选项，是下面一些标志位的组合：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_CONS：日志信息在写给日志服务器的同时打印到终端<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_NDELAY：立即记录日志<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_PERROR：把日志信息也输出到标准错误流<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_PID：在标志字段中记录进程的PID值</div><br><div>第三个参数是说明日志类型的，定义了以下类型(各类型啥意思就自己看或猜吧，俺就不多说了)：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_AUTH<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_AUTHPRIV<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_CRON<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_DAEMON<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_KERN<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_LOCAL0 through LOG_LOCAL7<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_LPR<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_MAIL<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_NEWS<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_SYSLOG<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_USER(default)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_UUCP</div><br><div>&nbsp;</div><br><div>syslog(3)函数主要的是第一个参数priority，后面那些参数就是和printf(3)函数用法一样了，priority值表示该条日志的级别，日志级别分8级，由高到低的顺序为：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_EMERG<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_ALERT<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_CRIT<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_ERR<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_WARNING<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_NOTICE<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_INFO<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LOG_DEBUG</div><br><div>如果openlog(3)时没有指定facility，是可以把facility的值或到priority中的，如(LOG_AUTH | LOG_INFO)，已经设置了就可以不用或了。</div><br><div>&nbsp;</div><br><div>closelog(3)这个没啥好说的了，关闭日志记录。</div><br><div><br>4. syslog服务器配置</div><br><div>&nbsp;</div><br><div>syslog服务器的配置文件为/etc/syslog.conf，syslog(3)函数把想记录的日志信息都发送给日志服务器，但此日志最终是否记录到文件或发送给远程服务器，则是由此配置文件来决定的，该配置文件就是告诉日志服务器要记录那些类型和级别的日志，如何记录等信息。</div><br><div>&nbsp;</div><br><div>配置文件是文本文件，每行配置分两个字段，第一字段是说明要记录哪类日志，第二字段是说明日志存放位置，可以是本地文件，也可以是远程服务器。</div><br><div>&nbsp;</div><br><div>第一字段：<br>第一字段基本格式是&ldquo;facility.priority&rdquo;，可以同时定义多个，中间用逗号&ldquo;,&rdquo;或分号&ldquo;;&rdquo;分隔。<br>facility名称就是上面说的facility值的后半部的小写，如news, mail，kern, cron等，也可以用&ldquo;<em>&rdquo;表示所有facility类型；<br>priority名称就是上面说的priority值的后半部的小写，如emerg, alert，err, info等，也可以用&ldquo;</em>&rdquo;表示所有priority类型，比此级别高的日志都会自动记录，用none表示不记录；</div><br><div>举例：<br>kern.<em> : 所有级别的内核类型日志<br>mail.err: 错误及错误级别以上的mail类型日志</em></div><br><div>如果不记录某级别的日志，在级别前加&ldquo;!&rdquo;，如：<br>auth.info;auth.!err ：info及info级别以上但不包括err级别的auth类型日志</div><br><div><br>第二字段：<br>第二字段分两类，本地文件和远程服务器<br>本地文件：直接就是写本地文件的文件名，如 /var/log/messages。一般来说日志信息会立即写到文件中，但会降低系统效率，可以在文件名前加减号&ldquo;-&rdquo;表示先将信息缓存，到一定量后再一次性写入文件，这样可以提高效率；<br>远程服务器：格式是<a href="mailto:&ldquo;@address" target="_blank" rel="external">&ldquo;@address</a>&rdquo;，&ldquo;@&rdquo;表示进行远程记录，将日志发送到远程的日志服务器，日志服务器的端口是UDP514，address可以是IP地址，也可以是域名</div><br><div>&nbsp;</div><br><div>举例：</div><br><div># 将所有级别的内核日志发送到终端<br>kern.&nbsp; /dev/console&nbsp;</div><br><div>&nbsp;</div><br><div># 将所有类型所有级别的日志记录到/var/log/messages文件<br><em>.</em> /var/log/messages</div><br><div>&nbsp;</div><br><div># 所有info级别以上的信息，不包括mail类型所有级别和authpriv类型的err级别信息，</div><br><div># 记录到/var/log/messages文件，不立即写入<br><em>.info;mail.none;authpriv.!err&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -/var/log/messages</em></div><br><div>&nbsp;</div><br><div>#将所有级别的内核日志发送到远程syslog服务器<br>kern.&nbsp; @1.1.1.1</div><br><div>&nbsp;</div><br><div>5. syslog服务器</div><br><div>&nbsp;</div><br><div>在linux下提供了sysklogd的syslog服务器的实现，可以记录本机日志也可以接收(syslogd的-r选项)和转发(syslogd的-h选项)来自外部的日志。</div><br><div>&nbsp;</div><br><div>sysklogd包括两个程序，klogd和syslogd，klogd用于接收内核日志，再发送到syslogd，syslogd则可以直接接收应用程序和远程的日志，syslogd是通过一个域socket(AF_UNIX)来接收数据的，syslog()函数记录的日志都发送到此域socket，socket文件是/dev/log。</div><br><div>&nbsp;</div><br><div>syslog(3)函数发送给syslogd服务器的日志信息前都加上了类型和级别信息，具体格式是&ldquo;&lt;x&gt;&rdquo;，&ldquo;x&rdquo;是一个0～255的数，8位，低3位表示日志级别，所以共8级，高五位表示日志类型，最多32种，不过目前没用到那么多，可以看看/usr/include/sys/syslog.h中的定义就知道了。</div><br><div>&nbsp;</div><br><div>要生成日志信息时，syslogd是先生成日志前部信息：月 日 时:分:秒 主机名 标志，再和日志内容信息拼接起来的，日期用ctime(3)函数获取，隐去了前4个表示星期的字节和后面年的信息，最终生成你所看到的日期格式，老实说那段代码及其丑陋。</div><br><div>&nbsp;</div><br><div>6. 结论</div><br><div>&nbsp;</div><br><div>syslog方便了程序信息的记录，由于使用了统一的格式记录使得审计也可以比较方便。要记录日志，除了在应用程序中用syslog(3)函数记录外，还要正确配置/etc/syslog.conf文件，使服务器能正确记录那些想记录的日志。</div><br></div>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2011/03/20/fw-对程序员最具影响的书/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          FW: 对程序员最具影响的书
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/03/15/nssa/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">FW: OSPF NSSA白皮书</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="fw-syslog的编程和配置" data-title="FW: syslog的编程和配置" data-url="http://donge.org/2011/03/15/fw-syslog的编程和配置/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"donge"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 东冬の乱记
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

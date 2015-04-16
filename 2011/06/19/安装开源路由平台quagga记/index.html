@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[亲笔]安装开源路由平台Quagga记 | donge.org</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[亲笔]安装开源路由平台Quagga记">
+<meta property="og:url" content="http://donge.org/2011/06/19/安装开源路由平台quagga记/index.html">
+<meta property="og:site_name" content="donge.org">
+<meta property="og:description" content="周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[亲笔]安装开源路由平台Quagga记">
+<meta name="twitter:description" content="周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco">
+  
+    <link rel="alternative" href="/atom.xml" title="donge.org" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">东冬の乱记</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">HOME</a></li>
+				        
+							<li><a href="/archives">ARCHIVES</a></li>
+				        
+							<li><a href="/">PROJECTS</a></li>
+				        
+							<li><a href="/static/index.html">ABOUT</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Linux/" style="font-size: 20px;">Linux</a><a href="/tags/NSSA/" style="font-size: 10px;">NSSA</a><a href="/tags/donge-org/" style="font-size: 10px;">donge.org</a><a href="/tags/github/" style="font-size: 10px;">github</a><a href="/tags/golang/" style="font-size: 10px;">golang</a><a href="/tags/quagga/" style="font-size: 10px;">quagga</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">高级电脑爱好者</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">东冬の乱记</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+				<hgroup>
+				  <h1 class="header-author">东冬の乱记</h1>
+				</hgroup>
+			</div>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">HOME</a></li>
+		        
+					<li><a href="/archives">ARCHIVES</a></li>
+		        
+					<li><a href="/">PROJECTS</a></li>
+		        
+					<li><a href="/static/index.html">ABOUT</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-安装开源路由平台quagga记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2011/06/19/安装开源路由平台quagga记/" class="article-date">
+  	<time datetime="2011-06-19T13:23:00.000Z" itemprop="datePublished">2011-06-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [亲笔]安装开源路由平台Quagga记
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/quagga/">quagga</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco。当前Quagga最新版本是0.99.18。可以前往<a href="http://www.quagga.net/" target="_blank" rel="external">http://www.quagga.net/</a>获得。</p>
+<p>1. 安装编译运行系统<br>由于电脑是Windows，所以需要安装一个Linux编译环境，选择了DeepinLinux，一款国产优秀的面向桌面的Linux发行版，Ubuntu分支，轻量级界面还很漂亮。可以前往<a href="http://www.deepinlinux.com" target="_blank" rel="external">http://www.deepinlinux.com</a>获得。由于平时无法脱离Windows，所以安装到虚拟机中，VMWare, VisualBox, WMLite随你选了，废话不说，这个过程略了。</p>
+<p>2. 配置Linux环境<br>GCC编译环境，make，autoconf，essential-lib，git都不能少啊，我不是Linux铁粉，所以都用apt-get搞定，少什么加什么，不行就google。当然在Windows使用Linux，可以配置好SSH，在Windows下访问，Linux虚拟机后台运行命令行即可。</p>
+<p>3. 获得Quagga代码分支<br>可以从网站下载源码包，当然如果有网络的话，可以直接git。<br><code>git clone git://code.quagga.net/quagga.git</code>下载到本地后，看一下说明文件。</p>
+<p>4. 安装Quagga<br>第一步使用bootstrap.sh检查一下编译环境。<br>缺少那些工具或者lib都会有提示，按照提示配置完成。<br>第二步configure编译选项，这个步骤自动的，可以加参数配置，手册中说明很详细。<br>configure也用于修改软件的功能，如支持IPv6，关闭某个协议等等。<br>第三步make, make install，编译安装，OK。</p>
+<p>5.运行Quagga<br>运行文件还是Zebra，不是Quagga，不要弄错了。有几个会出错的问题。<br>a. 如果遇到说zebra静态库找不到问题，可以将/usr/local/lib中的静态库cp到系统库中/lib快速解决，或者建立软链接，或者修改系统环境变量。<br>b.如果遇到说配置文件找不到(privs_init: could not lookup user quagga)。可以按如下操作，cp一个样例配置到配置中，再添加一下用户。</p>
+<h1 id="cp_-Rf_/usr/local/etc/zebra-conf-sample_/usr/local/etc/zebra-conf">cp -Rf /usr/local/etc/zebra.conf.sample /usr/local/etc/zebra.conf</h1><h1 id="zebra_-d_-u_root_-g_root">zebra -d -u root -g root</h1><p>然后再zebra就作为守护进程启动了。</p>
+<p>6. 进入Quagga<br>Zebra默认端口号2601，可以在/etc/services中修改，可以用telnet登陆，登陆密码是zebra。登陆后就可以使用了，如果你用过Cisco IOS，就不用我多说了，哈哈~~</p>
+<p><a href="mailto:root@donge:~/quagga" target="_blank" rel="external">root@donge:~/quagga</a># telnet localhost 2601<br>Trying 127.0.0.1…<br>Connected to localhost.<br>Escape character is ‘^]’.</p>
+<p>Hello, this is Quagga (version 0.99.18).<br>Copyright 1996-2005 Kunihiro Ishiguro, et al.<br>User Access Verification</p>
+<p>Password:<br>Router&gt;<br>Router&gt; show in<br>Router&gt; show interface<br>Interface eth0 is up, line protocol detection is disabled<br>  index 2 metric 1 mtu 1500<br>  flags: &lt;UP,BROADCAST,RUNNING,MULTICAST&gt;<br>  HWaddr: 00:0c:29:6d:c3:f7<br>  inet 192.168.128.128/24 broadcast 192.168.128.255<br>  inet6 fe80::20c:29ff:fe6d:c3f7/64<br>Interface lo is up, line protocol detection is disabled<br>  index 1 metric 1 mtu 16436<br>  flags: &lt;UP,LOOPBACK,RUNNING&gt;<br>  inet 127.0.0.1/8<br>  inet6 ::1/128</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2011/07/19/精读trill协议/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          精读TRILL协议
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/06/17/zt对下一代高端通信系统设计的七个展望/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">[ZT]对下一代高端通信系统设计的七个展望</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="安装开源路由平台quagga记" data-title="[亲笔]安装开源路由平台Quagga记" data-url="http://donge.org/2011/06/19/安装开源路由平台quagga记/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"donge"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 东冬の乱记
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

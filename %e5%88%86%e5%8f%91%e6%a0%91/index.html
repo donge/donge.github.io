@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>分发树 | donge.org</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="4.5 分发树RB分发树用来转发多播报文，理论上全网一棵树可以满足组播业务。为了组播负载分担和减少反向转发次数，TRILL允许计算多颗分发树。由Ingress对不同组选择使用不同分发树。
+所有树都需要知道:
+
+一共需要计算多少颗树
+哪些树需要计算
+这些树具体的数ID
+Ingress选择使用了那颗树
+
+根优先级是16-bit，默认0x8000，数字越高优先级越高。
+所有的RB都发布它能计算的最大树的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="分发树">
+<meta property="og:url" content="http://donge.org/%e5%88%86%e5%8f%91%e6%a0%91/index.html">
+<meta property="og:site_name" content="donge.org">
+<meta property="og:description" content="4.5 分发树RB分发树用来转发多播报文，理论上全网一棵树可以满足组播业务。为了组播负载分担和减少反向转发次数，TRILL允许计算多颗分发树。由Ingress对不同组选择使用不同分发树。
+所有树都需要知道:
+
+一共需要计算多少颗树
+哪些树需要计算
+这些树具体的数ID
+Ingress选择使用了那颗树
+
+根优先级是16-bit，默认0x8000，数字越高优先级越高。
+所有的RB都发布它能计算的最大树的">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分发树">
+<meta name="twitter:description" content="4.5 分发树RB分发树用来转发多播报文，理论上全网一棵树可以满足组播业务。为了组播负载分担和减少反向转发次数，TRILL允许计算多颗分发树。由Ingress对不同组选择使用不同分发树。
+所有树都需要知道:
+
+一共需要计算多少颗树
+哪些树需要计算
+这些树具体的数ID
+Ingress选择使用了那颗树
+
+根优先级是16-bit，默认0x8000，数字越高优先级越高。
+所有的RB都发布它能计算的最大树的">
+  
+    <link rel="alternative" href="/atom.xml" title="donge.org" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">东冬の乱记</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">HOME</a></li>
+				        
+							<li><a href="/archives">ARCHIVES</a></li>
+				        
+							<li><a href="/">PROJECTS</a></li>
+				        
+							<li><a href="/static/index.html">ABOUT</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Linux/" style="font-size: 20px;">Linux</a><a href="/tags/NSSA/" style="font-size: 10px;">NSSA</a><a href="/tags/donge-org/" style="font-size: 10px;">donge.org</a><a href="/tags/github/" style="font-size: 10px;">github</a><a href="/tags/golang/" style="font-size: 10px;">golang</a><a href="/tags/quagga/" style="font-size: 10px;">quagga</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">高级电脑爱好者</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">东冬の乱记</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+				<hgroup>
+				  <h1 class="header-author">东冬の乱记</h1>
+				</hgroup>
+			</div>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">HOME</a></li>
+		        
+					<li><a href="/archives">ARCHIVES</a></li>
+		        
+					<li><a href="/">PROJECTS</a></li>
+		        
+					<li><a href="/static/index.html">ABOUT</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/%e5%88%86%e5%8f%91%e6%a0%91/index.html" class="article-date">
+  	<time datetime="2011-07-23T03:40:21.000Z" itemprop="datePublished">2011-07-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      分发树
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>4.5 分发树</strong><br>RB分发树用来转发多播报文，理论上全网一棵树可以满足组播业务。为了组播负载分担和减少反向转发次数，TRILL允许计算多颗分发树。由Ingress对不同组选择使用不同分发树。</p>
+<p>所有树都需要知道:</p>
+<ul>
+<li>一共需要计算多少颗树</li>
+<li>哪些树需要计算</li>
+<li>这些树具体的数ID</li>
+<li>Ingress选择使用了那颗树</li>
+</ul>
+<p>根优先级是16-bit，默认0x8000，数字越高优先级越高。</p>
+<p>所有的RB都发布它能计算的最大树的数量，和它想让全网计算的最大树的数量。<br>k是全网root-priority最大的RB发布希望全网计算的最大树的数量。它不会比全网RB中能计算最小分发树数量还小。<br>如果RB没有指定根数列表，那么k就是全网RB中的前k个。<br>如果RB能发布能计算的最大数是0，那么按1计算，所以k默认值是1。</p>
+<p>root-prioirty高的RB还有发布根树的列表，一共s个，其中的k个会被计算。如果s小于k个，那么依然需要计算k颗。剩下的从根数优先级高的开始补充到k。</p>
+<p>有两个例外:</p>
+<ul>
+<li>优先级为0的树不会选择成为根树，除非所有RB优先级都是0，那么选择最高优先级的一颗。所以至少保证有一颗。</li>
+<li>当暂时列表中出现了两个或者多个相同根树时，保留优先级大的一个。</li>
+</ul>
+<p>s=k, 发布和计算的相同<br>s=0, 将所有RB优先级排列，选择k颗颗<br>s&lt;k, 选择s颗，再补充道k颗</p>
+<p><strong>4.5.1 分发树计算
+</strong>RB使用SPF算法计算分发树，并且树节点不能同时有两个父节点。在选择父节点时，不能单纯的选择ID小的。否则多棵树下路径不会分担。<br>当计算第j颗树时，对于节点N有p个父节点。需要选择第j mod p个父节点作为选择的父节点。</p>
+<p>另外要注意并行链路, p2p或者抑制伪节点时，他们是有共同父节点的，即”P.0”</p>
+<p><strong>4.5.2 多播检查
+</strong>1. 邻居检查: 多播流量只能从建立邻居的接口进入。 <span style="color: #ff0000;"># RPF比邻居检查更严格，RPF只能检查接口，在广播网下只检查接口不够，所以还需要检查邻居MAC。</span></p>
+<p>2. RPF检查: 对一个多播帧，基于其转发树和Ingress RB来检查的。<br>为了限制RPF检查量，RB2必须宣传对于一个多播帧使用了哪个根树x。RB3如果计算使用树x当Ingress RB是RB2时，流量需要从RB2的路径上流入。RB2需要发布选择使用了的j棵树。如果j棵树中的数在RB1的k颗中不存在，则忽略。<br>j棵树应该是包含在k棵树中的，j缺省值1，如果是0，那么可能选择k棵树中任意的。</p>
+<p>3. 并行链路检查:并行链路RB1-RB2之间的链路，指挥被RB1，RB2之间感知，所以只在这个设备之间检查。多播帧不能在负载分担链路上发多份。<br>P2P： 这时选择systemID大的邻居中CircuitID最大的。<br>抑制伪节点：选择伪节点ID最大的。</p>
+<p>4. 端口组检查: 多个端口在一个Link上时，有一个端口接收，其余丢弃。</p>
+<p><strong>4.5.3 分发树剪枝
+</strong>可以对VLAN和组播组剪枝来消除冗余流量。对于组播组剪枝，需要IGMP , MLD协议映射IP组播与二层组播地址，并且要描述二层组播地址是IPv4/IPv6。</p>
+<p><strong><strong>4.5.4 组播分发优化
+</strong></strong>网络中可以有一些RB进行了组播剪枝，一些没有。组播组相同。</p>
+<p><strong><strong><strong><strong>4.5.5 组播帧转发
+</strong></strong></strong></strong>* 如果RB收到一个VLAN-x，并且TRILL头部表明使用了nickname1作为根树。</p>
+<ul>
+<li>如果不是从邻居收到的，丢弃</li>
+<li>如果是IGMP, MLD的通告报文，则封装后发给邻居nickname1树上的邻居。说明下游有VLAN-x的IPv4或IPv6路由。</li>
+<li>如果是2层组播地址，从IP组播组映射的，但在IP组播组中找不到，那么当做广播。发给邻居。</li>
+<li>不然，如果是纯2层组播地址，当成广播发给邻居。</li>
+</ul>
+<p>数据帧对于VLAN forwarder解封装后每个Link都需要发。ESADI帧只需要forwarder处理就可以。</p>
+<p><strong><strong><strong><strong>
+</strong></strong><br></strong><br> </strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="undefined" data-title="分发树" data-url="http://donge.org/%e5%88%86%e5%8f%91%e6%a0%91/index.html"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"donge"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 东冬の乱记
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>

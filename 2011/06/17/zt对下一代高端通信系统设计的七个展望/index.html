@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>[ZT]对下一代高端通信系统设计的七个展望 | donge.org</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="转一篇陈首席的文章，慢慢理解一下~~
+高端通信系统设计从来就是一个困难的话题。一个优秀的系统设计往往决定了其竞争力和相应的生命周期。
+本文试图阐述笔者对下一代高端通信系统设计的一些展望。抛豆腐引砖块，其目的是通过读者的评论，使得美军，共军，国军，伪军等的知识和经验可以共享。使得Open Source的精神发扬光大。
+1。 LDF Rule（Legacy Decides Future）系统都是演变的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[ZT]对下一代高端通信系统设计的七个展望">
+<meta property="og:url" content="http://donge.org/2011/06/17/zt对下一代高端通信系统设计的七个展望/index.html">
+<meta property="og:site_name" content="donge.org">
+<meta property="og:description" content="转一篇陈首席的文章，慢慢理解一下~~
+高端通信系统设计从来就是一个困难的话题。一个优秀的系统设计往往决定了其竞争力和相应的生命周期。
+本文试图阐述笔者对下一代高端通信系统设计的一些展望。抛豆腐引砖块，其目的是通过读者的评论，使得美军，共军，国军，伪军等的知识和经验可以共享。使得Open Source的精神发扬光大。
+1。 LDF Rule（Legacy Decides Future）系统都是演变的">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[ZT]对下一代高端通信系统设计的七个展望">
+<meta name="twitter:description" content="转一篇陈首席的文章，慢慢理解一下~~
+高端通信系统设计从来就是一个困难的话题。一个优秀的系统设计往往决定了其竞争力和相应的生命周期。
+本文试图阐述笔者对下一代高端通信系统设计的一些展望。抛豆腐引砖块，其目的是通过读者的评论，使得美军，共军，国军，伪军等的知识和经验可以共享。使得Open Source的精神发扬光大。
+1。 LDF Rule（Legacy Decides Future）系统都是演变的">
+  
+    <link rel="alternative" href="/atom.xml" title="donge.org" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">东冬の乱记</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">HOME</a></li>
+				        
+							<li><a href="/archives">ARCHIVES</a></li>
+				        
+							<li><a href="/">PROJECTS</a></li>
+				        
+							<li><a href="/static/index.html">ABOUT</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/Linux/" style="font-size: 20px;">Linux</a><a href="/tags/NSSA/" style="font-size: 10px;">NSSA</a><a href="/tags/donge-org/" style="font-size: 10px;">donge.org</a><a href="/tags/github/" style="font-size: 10px;">github</a><a href="/tags/golang/" style="font-size: 10px;">golang</a><a href="/tags/quagga/" style="font-size: 10px;">quagga</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">高级电脑爱好者</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">东冬の乱记</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128">
+				<hgroup>
+				  <h1 class="header-author">东冬の乱记</h1>
+				</hgroup>
+			</div>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">HOME</a></li>
+		        
+					<li><a href="/archives">ARCHIVES</a></li>
+		        
+					<li><a href="/">PROJECTS</a></li>
+		        
+					<li><a href="/static/index.html">ABOUT</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-zt对下一代高端通信系统设计的七个展望" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2011/06/17/zt对下一代高端通信系统设计的七个展望/" class="article-date">
+  	<time datetime="2011-06-16T16:13:59.000Z" itemprop="datePublished">2011-06-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      [ZT]对下一代高端通信系统设计的七个展望
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转一篇陈首席的文章，慢慢理解一下~~</p>
+<p>高端通信系统设计从来就是一个困难的话题。一个优秀的系统设计往往决定了其竞争力和相应的生命周期。</p>
+<p>本文试图阐述笔者对下一代高端通信系统设计的一些展望。抛豆腐引砖块，其目的是通过读者的评论，使得美军，共军，国军，伪军等的知识和经验可以共享。使得Open Source的精神发扬光大。</p>
+<p><strong>1。 LDF Rule（Legacy Decides Future）</strong><br>系统都是演变的，而非设计的。一个好的系统设计必须首先满足对历史系统，历史代码的演进路标。否则，就是在做Science，而非Engineering。这方面最大的挑战就是在哪个release去掉哪些历史遗留问题。改良的代价一定是小于革命。</p>
+<p>在这个第一重要的法则里，要求的是系统设计师必须了解细节。需要能进能出［想歪了的同学请自己惩罚一下自己邪恶的心灵］。要的是能bottom up。然后在bottom up的基础上，进行top down的设计。缺一不可。只能bottom inside，是一个单纯的工程师；只能top through就是一个玩胶片的大忽悠。</p>
+<p><strong>2。 CDMD Convergence Rule</strong><br>（Control Plane，Data Plane，Management Plane and Debug Plane Convergence）<br>这个rule类似与我大宋气功中的一句经典法则：人身无处不丹田。啥意思呢？<br>控制平面，数据平面，管理平面，调试平面都将是一个逻辑的概念，而非一个物理的实体，例如控制平面卡，数据平面卡。。。</p>
+<p>上述的各个Plane都是你中有我，我中有你。［想歪了的同学请自己惩罚一下自己邪恶的心灵］。</p>
+<p>在任何一个环节都需要有相应的逻辑部分。整体系统的任何一个平面是通过分布在系统各个环节中的子平面来共同构成的。</p>
+<p>这方面最大的挑战是：系统架构师必须对分布式系统的设计非常过敏，sorry，敏感。</p>
+<p>在分布式系统设计中，一个最重要的理论悖论是： 在分布式系统中，在任何时刻，在任何一个节点上，是无法知道当时的全局状态的。</p>
+<p>这是啥意思呢？</p>
+<p>就是，除了上帝，你在一个时刻点Ti，是不可能知道Ti时刻系统其他信息的。你能知道的信息只能是T（i＋Delta）。这个Delta就是通信开销所带来的。</p>
+<p>大白话就是，杨小姐（杨贵妃），从理论上，Y从来就没有吃过新鲜的荔枝，no matter驿道上的马儿跑的有多快。</p>
+<p>在这个分布式天生的死穴问题上，带来的问题是最多的。</p>
+<p>作为系统架构师，必须对时序逻辑（Temporal Logic）有所掌握。Otherwise, 系统设计一定是漏洞十出。</p>
+<p>另外，分布式系统的nature决定了任何全局算法的优化一定不是最优的，而是次优的。<br>在CDMD Convergence的设计基础上，一个很大的演变就是：C，D，M，D的计算资源的自适应（Adaptive）的调配。而非静态的划分。</p>
+<p>要充分利用计算池的模型，Processing on Demand。</p>
+<p><strong>3。CTP（Close To Port） Rule</strong><br>计算或者存储能力一定要离端口（Port）近。越远，越歇火。 当官是要离党中央近。做系统是要离Traffic近。</p>
+<p>这里的一个设计Case study 是：要充分利用系统中线卡，处理卡，I/O卡上的计算能力。这些计算能力是离端口最近的，对Traffic而言，是Local Bus的距离，而非Interconnect的长途跋涉。</p>
+<p>计算是分布的。分布计算的集合就是系统的总体计算和（或）处理能力。</p>
+<p><strong>4。 CCNUMA Adoption Rule</strong><br>CCNUMA一定会被广泛的用在将来的高端通信系统中。</p>
+<p>只有CCNUMA的应用，才能达到分布式技术的同时，又能支持历史系统，CDMD的融合和Close to Port的法则。</p>
+<p>在CCNUMA系统设计中，必须对Memory的分布非常敏感。跨Interconnect，例如QPI，的过分存取，一定是带来硬伤。</p>
+<p>系统架构师必须对Cache，L1，L2，和L3和ccNUMA－Interconnect，例如QPI等一些知识有足够的积累和实战能力。否则，很难把握CCNUMA系统。</p>
+<p><strong>5。 Hybrid Model Rule</strong><br>ASIC，FPGA等等不会消亡。消亡的是你革命的心。任何设计都是一个性价比的折衷。<br>天下没有最美丽的女子；只有最适合你的女人。<br>在这个设计法则方面，要各位主要ASIC或者FPGA上的控制CPU的计算能力的浪费。<br>在CCNUMA的基础上，所有的CPU的整合就是一个CPU。所不同的是处理的数据可以不同而已。</p>
+<p><strong>6。 MapReduce Rule</strong></p>
+<p>经典的并行计算的MIMD模型应该被广泛的应用。</p>
+<p>多个计算流形成一个计算池；<br>多个数据流形成一个数据池。</p>
+<p>MapReduce不应该只是Loosely Coupled Distributed Computing的宠儿，例如Google，Facebook。</p>
+<p>MapReduce的思想精髓应该，而且也会被广泛的应用在高端通信系统（Tightly Coupled Distributed Computing）的设计上。</p>
+<p><strong>7。 x86＋ zero－overhead Linux </strong><br>x86＋Linux的在通信系统中一定会得到广泛的应用。从而使得通信系统能够迅速的实现，更为重要的是，支持大量的3rd party的应用。</p>
+<p>任何不adopt Linux／Unix的力量都是错误的。历史的将来会证明这一点。。。</p>
+<p>应用决定一切。 Linux的强大中的强大就是无数的应用。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2011/06/19/安装开源路由平台quagga记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          [亲笔]安装开源路由平台Quagga记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/06/12/人生五十年，如梦又似幻。有生方有死，壮士何所/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">人生五十年，如梦又似幻。有生方有死，壮士何所憾。</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="zt对下一代高端通信系统设计的七个展望" data-title="[ZT]对下一代高端通信系统设计的七个展望" data-url="http://donge.org/2011/06/17/zt对下一代高端通信系统设计的七个展望/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"donge"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 东冬の乱记
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/mobile.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+  </div>
+</body>
+</html>
