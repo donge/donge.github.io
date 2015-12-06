@@ -260,6 +260,35 @@ wFilter介绍wFilter是一个实时对网络报文进行关键字过虑，告警
 <p><strong>架构优点</strong>是部署灵活，接口标准，可以扩展至Web，桌面，移动APP。</p>
 <p>报文过滤器需要<strong>部署</strong>在X86 Linux服务器上，CPU硬件支持DPDK，支持双网卡。与管理前端后端和统一部署在一台服务器(single deploy)。也可以分布式部署到两台，三台甚至更多服务器上(multiple deploy)。</p>
 <p>举一个例子，用户有N个报文过滤器分布部署，数据后端可以根据压力情况部署N/2个，即每两个过滤器共享一个数据库。前端可以只有一个页面整体展示数据。未来如果需要对数据做MapReduce，可以扩展中间件层。</p>
+<p>2014 </p>
+<h1 id="XIAOSHAOZI"><a href="https://github.com/donge/xiaoshaozi" target="_blank" rel="external">XIAOSHAOZI</a></h1><h2 id="介绍-1">介绍</h2><p>XIAOSHAOZI是一个Bitcoin自动交易框架，可以实现高频自动交易功能。程序通过设置的参数通过高频追踪当前市场价格来判断走势，进行自动的买入卖出。<br>程序提供了JSON配置文件，抽象了API，算法接口。并拥有简单的前台方便管理。</p>
+<p><strong>结构</strong></p>
+<p>├── EncryDigestUtil.java<br>├── README.md<br>├── api                                    -&gt;  API接口集<br>│   ├── EncryDigestUtil.class<br>│   ├── api_btcchina.go<br>│   ├── api_btcchina_test.go<br>│   ├── api_chbtc.go<br>│   ├── api_chbtc_test.go<br>│   ├── api_fxbtc.go<br>│   ├── api_huobi_test.go<br>│   ├── api_huobi_v1.go<br>│   ├── api_huobi_v2.go<br>│   ├── api_okcoin.go<br>│   └── api_okcoin_test.go<br>├── chbtc_donge.json<br>├── chbtc_kongting.json<br>├── config.go                              -&gt;  配置文件处理<br>├── ema.go                                 -&gt;  算法接口，目前只有移动平均线:)<br>├── huobi.json<br>├── huobi_23jh.json<br>├── main.go                                -&gt;  主程序，前后台<br>├── okcoin.json<br>├── run.sh<br>├── simu_23jh.json<br>└── simu_huobi.json                        -&gt; JSON均为配置文件，未提供</p>
+<p><strong>配置</strong><br>主程序读取配置文件启动启动，API接口，模拟运行，算法参数等均在此配置。</p>
+<pre><code>{
+    <span class="string">"Id"</span>: 1, /<span class="keyword">*</span> 暂未使用 <span class="keyword">*</span>/
+    <span class="string">"Type"</span>: 0, /<span class="keyword">*</span> API接口编号，见API编号说明 <span class="keyword">*</span>/
+    <span class="string">"Port"</span>: <span class="string">"0.0.0.0:8888"</span>, /<span class="keyword">*</span> 管理前台Web地址 <span class="keyword">*</span>/
+    <span class="string">"Email"</span>: <span class="string">"hello"</span>, /<span class="keyword">*</span> 模拟接口使用 <span class="keyword">*</span>/
+    <span class="string">"Password"</span>: <span class="string">"world"</span>,
+    <span class="string">"AccessKey"</span>: <span class="string">"132c0bbd-2fb8c51d-b5b2e537-6a0a2"</span>, /<span class="keyword">*</span> 官方接口使用密钥适配 <span class="keyword">*</span>/
+    <span class="string">"SecurtKey"</span>: <span class="string">"03ba516d-a76e1ce6-a788b38c-e73e7"</span>,
+    <span class="string">"Quick"</span>: 500, /<span class="keyword">*</span> 快线速度 <span class="keyword">*</span>/
+    <span class="string">"Slow"</span>: 1200, /<span class="keyword">*</span> 慢线速度 <span class="keyword">*</span>/
+    <span class="string">"QuickInit"</span>: 0, /<span class="keyword">*</span> 快线初始值 <span class="keyword">*</span>/
+    <span class="string">"SlowInit"</span>: 0, /<span class="keyword">*</span> 慢线初始值 <span class="keyword">*</span>/
+    <span class="string">"Delta"</span>: 1, /<span class="keyword">*</span> 突破偏移量 <span class="keyword">*</span>/
+    <span class="string">"Diff"</span>: 10, /<span class="keyword">*</span> 挂单超量 <span class="keyword">*</span>/
+    <span class="string">"Pulse"</span>: 15, /<span class="keyword">*</span> 间隔，单位秒 <span class="keyword">*</span>/
+    <span class="string">"Simulator"</span>: false, /<span class="keyword">*</span> 模拟功能开关 <span class="keyword">*</span>/
+    <span class="string">"Cash"</span>: 0, /<span class="keyword">*</span> 模拟功能初始现金 <span class="keyword">*</span>/
+    <span class="string">"Coin"</span>: 0 /<span class="keyword">*</span> 模拟功能初始币数 <span class="keyword">*</span>/
+}
+</code></pre><p><strong>API</strong><br>框架利用Golang interface特性，抽象了交易API接口，根据配置文件适配了主流的国内交易所API：<br>0.火币网(api_huobi_v1.go): 非官方接口，利用http request模拟用户登录，交易操作的接口，是在官方接口失效情况下的备份。<br>火币网(api_huobi_v2.go): 适配火币网官方的Restful API。<br>2.Okcoin(api_okcoin.go): 适配Okcoin官方的Restful API。<br>3.比特币中国(api_btcchina.go): 适配比特币中国官方的Restful API。<br>1.中国比特币(api_chbtc.go): 适配中国比特币的API，接口中因为有一个算法问题，实际调用了官方提供的Java接口(EncryDigestUtil.class)。<br>4.FXBTC(api_fxbtc.go): FXBTC是早期的比特币交易所，现在已经倒闭。</p>
+<p><strong>算法</strong><br>只适配了移动平均线，简称均线。设置一条快线，一条慢线，进行追逐。当快线突破慢线时，进行交易。默认15s进行一次市场价格查询，保证实时性。<br>向上突破，说明短期见涨，进行买入。向下突破，说明短期见跌，进行卖出止损。<br>这个是最简单的算法，也容易理解。</p>
+<p><strong>管理</strong><br>管理采用Web接口来监控运行状态，可以随时调整参数。比如<br><a href="http://0.0.0.0:8888/?quick_step=1000" target="_blank" rel="external">http://0.0.0.0:8888/?quick_step=1000</a><br>即可将快线参数调整为1000.</p>
+<p><strong>部署</strong><br>程序可以部署在各种VPS上，编译后程序不依赖Golang环境，这也是Golang的一个优点。<br>我推荐是通过树莓派在家中部署，一为网速快，避免差价操作失败。二为安全，类似于银行密码的东西就不要放在云上了。<br>通过花生壳或者2233等服务映射到外网端口，通过手机浏览器进行实时监控和管理。</p>
+<p><strong>写在最后</strong><br>量化交易程序并不能一夜暴富。实践后才知道，实际市场中并没有万能的算法，当然也并不是复杂的算法就会盈利，简单算法就会赔钱。市场的趋势符合算法才能盈利，而市场本身的趋势是无法预测的。短期的趋势符合参数才能有所收益，是否能坚持一种风格交易，完全是人性的问题。当然请保持学习的态度和娱乐精神:)</p>
 
       
     </div>
