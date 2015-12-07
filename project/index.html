@@ -247,7 +247,7 @@ wFilter介绍wFilter是一个实时对网络报文进行关键字过虑，告警
 <h1 id="wFilter"><a href="https://github.com/donge/wfilter" target="_blank" rel="external">wFilter</a></h1><h2 id="介绍">介绍</h2><p>wFilter是一个实时对网络报文进行关键字过虑，告警，拦截的一个项目。<br>可以理解为一个Mini GFW，也是一个Mini的Full-stack项目。</p>
 <p><strong>原理</strong>主要是基于DPDK的针对网络二层帧的实时深度解析，字符串多模同时匹配(Aho-Corasick算法)。</p>
 <p><strong>优点</strong>是集成了DPDK大页内存管理(hugepage)，应用处理报文无拷贝(uio)，CPU独占(core affinity)和Aho-Corasick算法的字符串一次便利，多模同时匹配特性。实时性高，性能高。</p>
-<p>Aho-Corasick: <a href="https://www.youtube.com/watch?v=-7Pv1Lsa0Nw" target="_blank" rel="external">https://www.youtube.com/watch?v=-7Pv1Lsa0Nw</a></p>
+<p>Aho-Corasick: <a href="https://www.youtube.com/watch?v=d24CyiU1JFk" target="_blank" rel="external">https://www.youtube.com/watch?v=d24CyiU1JFk</a></p>
 <h2 id="架构和部署">架构和部署</h2><p>wFilter项目实际包括三部分。</p>
 <ol>
 <li><p><a href="https://github.com/donge/wfilter" target="_blank" rel="external">报文过滤器 wFilter</a>:<br>底层(数据面) ，负责报文转发和关键字过虑告警。可以根据压力调节CPU独占情况。</p>
@@ -266,15 +266,11 @@ wFilter介绍wFilter是一个实时对网络报文进行关键字过虑，告警
 ├── api                                    -&gt;  API接口适配集合
 │   ├── EncryDigestUtil<span class="class">.class</span>
 │   ├── api_btcchina<span class="class">.go</span>
-│   ├── api_btcchina_test<span class="class">.go</span>
 │   ├── api_chbtc<span class="class">.go</span>
-│   ├── api_chbtc_test<span class="class">.go</span>
 │   ├── api_fxbtc<span class="class">.go</span>
-│   ├── api_huobi_test<span class="class">.go</span>
 │   ├── api_huobi_v1<span class="class">.go</span>
 │   ├── api_huobi_v2<span class="class">.go</span>
 │   ├── api_okcoin<span class="class">.go</span>
-│   └── api_okcoin_test<span class="class">.go</span>
 ├── chbtc_donge<span class="class">.json</span>
 ├── chbtc_kongting<span class="class">.json</span>
 ├── config<span class="class">.go</span>                              -&gt;  配置文件处理
@@ -307,14 +303,13 @@ wFilter介绍wFilter是一个实时对网络报文进行关键字过虑，告警
     <span class="string">"Coin"</span>: 0 /<span class="keyword">*</span> 模拟功能初始币数 <span class="keyword">*</span>/
 }
 </code></pre><h2 id="API">API</h2><p>框架利用Golang interface特性，抽象了交易API接口，根据配置文件适配了主流的国内交易所API：</p>
-<ol>
-<li>火币网(api_huobi_v1.go): 非官方接口，利用http request模拟用户登录，交易操作的接口，是在官方接口失效情况下的备份。<br>火币网(api_huobi_v2.go): 适配火币网官方的Restful API。</li>
-<li>Okcoin(api_okcoin.go): 适配Okcoin官方的Restful API。</li>
-<li>比特币中国(api_btcchina.go): 适配比特币中国官方的Restful API。</li>
-<li>中国比特币(api_chbtc.go): 适配中国比特币的API，接口中因为有一个算法问题，实际调用了官方提供的Java接口(EncryDigestUtil.class)。</li>
-<li>FXBTC(api_fxbtc.go): FXBTC是早期的比特币交易所，现在已经倒闭。</li>
-</ol>
-<h2 id="算法">算法</h2><p>只适配了移动平均线，简称均线。设置一条快线，一条慢线，进行追逐。当快线突破慢线时，进行交易。默认15s进行一次市场价格查询，保证实时性。<br>向上突破，说明短期见涨，进行买入。向下突破，说明短期见跌，进行卖出止损。<br>这个是最简单的算法，也容易理解。</p>
+<pre><code><span class="number">0.</span> 火币网(api_huobi_v1.<span class="keyword">go</span>): 非官方接口，利用http request模拟用户登录，交易操作的接口，是在官方接口失效情况下的备份。
+火币网(api_huobi_v2.<span class="keyword">go</span>): 适配火币网官方的Restful API。
+<span class="number">2.</span> Okcoin(api_okcoin.<span class="keyword">go</span>): 适配Okcoin官方的Restful API。
+<span class="number">3.</span> 比特币中国(api_btcchina.<span class="keyword">go</span>): 适配比特币中国官方的Restful API。
+<span class="number">1.</span> 中国比特币(api_chbtc.<span class="keyword">go</span>): 适配中国比特币的API，接口中因为有一个算法问题，实际调用了官方提供的Java接口(EncryDigestUtil.class)。
+<span class="number">4.</span> FXBTC(api_fxbtc.<span class="keyword">go</span>): FXBTC是早期的比特币交易所，现在已经倒闭。
+</code></pre><h2 id="算法">算法</h2><p>只适配了移动平均线，简称均线。设置一条快线，一条慢线，进行追逐。当快线突破慢线时，进行交易。默认15s进行一次市场价格查询，保证实时性。<br>向上突破，说明短期见涨，进行买入。向下突破，说明短期见跌，进行卖出止损。<br>这个是最简单的算法，也容易理解。</p>
 <h2 id="管理">管理</h2><p>管理采用Web接口来监控运行状态，可以随时调整参数。比如<br><a href="http://0.0.0.0:8888/?quick_step=1000" target="_blank" rel="external">http://0.0.0.0:8888/?quick_step=1000</a><br>即可将快线参数调整为1000.</p>
 <h2 id="部署">部署</h2><p>程序可以部署在各种VPS上，编译后程序不依赖Golang环境，这也是Golang的一个优点。<br>我推荐是通过树莓派在家中部署，一为网速快，避免差价操作失败。二为安全，类似于银行密码的东西就不要放在云上了。<br>通过花生壳或者2233等服务映射到外网端口，通过手机浏览器进行实时监控和管理。</p>
 <h2 id="写在最后">写在最后</h2><p>量化交易程序并不能一夜暴富。实践后才知道，实际市场中并没有万能的算法，当然也并不是复杂的算法就会盈利，简单算法就会赔钱。市场的趋势符合算法才能盈利，而市场本身的趋势是无法预测的。短期的趋势符合参数才能有所收益，是否能坚持一种风格交易，完全是人性的问题。当然请保持学习的态度和娱乐精神:)</p>
