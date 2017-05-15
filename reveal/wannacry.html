@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js – The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h3>FreeTalk</h3>
+					<h1>WannaCry</h1>
+					<p>
+						<small>Created by <a href="http://donge.org">donge.org</a> / <a href="mailto:donge.org">donge@donge.org</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Ops..</h2>
+					<p>
+						<img src="https://cdn.securelist.com/files/2017/05/wannacry_07.png">
+					</p>
+				</section>
+
+				<section>
+					<h2>Ops..</h2>
+					<p>
+						<img src="https://cloud.githubusercontent.com/assets/6072743/26030200/1ca3370a-387e-11e7-9c6d-8d1b029c90cc.png">
+					</p>
+				</section>
+
+				<section>
+					<h2>Outline</h2>
+					<p>
+						<ul>
+						<li>Timeline</li>
+						<li>WannaCry</li>
+						<li>Kill Switch</li>
+						<li>How To</li>
+						<li>exploit: eternalblue</li>
+						<li>backdoor: doublepulsar</li>
+						<li>POC: FuzzBunch</li>
+						<li>Reverse Engineering</li>
+						<li>How security company do?</li>
+						</ul>
+					</p>
+				</section>
+
+					<section>
+					<h2>Timeline</h2>
+					<p>
+						<ul>
+						<li>5.11 Bomb</li>
+						<li>5.12 KillSwitch</li>
+						<li>4.14 ShadowBroker leak NSA Equation tools</li>
+						</ul>
+					</p>
+				</section>
+
+					<section>
+					<h2>WannaCry</h2>
+					<p>
+					<a href="https://www.microsoft.com/security/portal/threat/encyclopedia/Entry.aspx?Name=Ransom:Win32/WannaCrypt" target="_blank">From Microsoft</a></p>
+					<p><a href="https://github.com/Hackstar7/WanaCry" target="_blank">awesome WanaCry...</a></p>
+					<p>Please pay BitCoin to recover</p>
+				</section>
+				<section>
+					<h2>Kill Switch</h2>
+					<p>
+<a href="https://www.malwaretech.com/2017/05/how-to-accidentally-stop-a-global-cyber-attacks.html" target="_blank">By Accident being a hero</a>
+					</p>
+					<p>sandbox</p>
+				</section>
+				<section>
+					<h2>How To</h2>
+					<p>
+						<ul>
+						<li>find a core</li>
+						<li>POC</li>
+						<li>penetration test</li>
+						<li>shellcode</li>
+						<li>backdooring</li>
+						<li>ransomware</li>
+						<li>speading</li>
+						</ul>
+					</p>
+				</section>
+
+				<section>
+						<h2>EternalBlue</h2>
+						<p>EternalBlue is an exploit developed by the U.S. National Security Agency (NSA). It was released by the Shadow Brokers hacker group on April 14, 2017.</p>
+						<p>Server Message Block 1.0 (SMBv1) Port: 445</p>
+						<p><a href="https://technet.microsoft.com/en-us/library/security/ms17-010.aspx" target="_blank">From Microsoft</a></p>
+						<p><a href="http://www.91ri.org/16946.html" target="_blank">One analysis </a></p>
+						<p>Win10</p>
+				</section>
+
+				<section>
+					<h2>doublepulsar</h2>
+					<p>
+					  <p><a href="http://blog.binaryedge.io/2017/04/21/doublepulsar/" target="_blank">implant backdoor</a>
+						<p><a href="https://github.com/countercept/doublepulsar-detection-script" target="_blank">detect script by python</a>
+						<p><a href="https://countercept.com/our-thinking/analyzing-the-doublepulsar-kernel-dll-injection-technique/" target="_blank">TL;DR</a>
+					</p>
+				</section>
+
+				<section>
+					<h2>FuzzBunch</h2>
+					<p>
+            <p><a href="https://github.com/misterch0c/shadowbroker" target="_blank">exploit framework, similar to MetaSploit</a></p>
+						<p><a href="http://www.hackingtutorials.org/exploit-tutorials/exploiting-eternalblue-for-shell-with-empire-msfconsole/" target="_blank">Script Boy</a></p>
+					</p>
+				</section>
+
+				<section>
+					<h2>Reverse Engineering</h2>
+					<p>
+						<a href="https://blog.malwarebytes.com/threat-analysis/2017/05/the-worm-that-spreads-wanacrypt0r/">Reverse Engineering Analisys</a>
+					</p>
+				</section>
+
+				<section>
+					<h2>How security company do? yelling !!!</h2>
+					<p>For security company: Guide? release tools?</p>
+					<p>For SRX box: SkyATP, UTM </p>
+				</section>
+
+				<section>
+					<h2>END</h2>
+					<p>Any thoughts?</p>
+				</section>
+
+				<section>
+					<section id="fragments">
+						<h2>any idea</h2>
+						<p>let's try</p>
+						<p class="fragment">... and try ...</p>
+
+						<aside class="notes">
+							This slide has fragments which are also stepped through in the notes window.
+						</aside>
+					</section>
+					<section>
+						<h2>Fragment Styles</h2>
+						<p>There's different types of fragments, like:</p>
+						<p class="fragment grow">grow</p>
+						<p class="fragment shrink">shrink</p>
+						<p class="fragment fade-out">fade-out</p>
+						<p class="fragment fade-up">fade-up (also down, left and right!)</p>
+						<p class="fragment current-visible">current-visible</p>
+						<p>Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span></p>
+					</section>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
