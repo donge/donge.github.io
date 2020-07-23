@@ -6,11 +6,52 @@
     <description>Recent content on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 07 Dec 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jul 2020 16:31:11 +0800</lastBuildDate>
     
 	<atom:link href="https://www.donge.org/index.xml" rel="self" type="application/rss+xml" />
     
     
+    <item>
+      <title>关于规则引擎的思考(1)</title>
+      <link>https://www.donge.org/posts/rule-engine-1/</link>
+      <pubDate>Thu, 23 Jul 2020 16:31:11 +0800</pubDate>
+
+      <guid>https://www.donge.org/posts/rule-engine-1/</guid>
+      <description>规则引擎是什么？ 先看一类文章，为什么要用规则引擎
+https://www.cnblogs.com/rjzheng/p/10996186.html https://www.jianshu.com/p/9b67ab434795
+先看一类文章，为什么不需要规则引擎
+https://www.yinwang.org/blog-cn/2017/05/25/dsl https://www.jianshu.com/p/d136a76e1c0d
+第一类的文章使用规则引擎相当于把 if else 数据化，复杂程度没有降低，只是转移了，为了规则引擎而规则引擎。
+由静态语言转向数据，可以热加载热更新，这才是真正的需求。
+而第二类文章所说复杂规则引擎，必然引入DSL，相当于一个冷门的语言，不但复杂度没降低，熟悉它的成本反而升高，得不偿失。仅为了热加载或解耦不如用脚本。
+规则引擎的功能是什么？ 假设一下：
+如果没有需求的限制，需要灵活的功能大而全的规则引擎，那么最后这个规则引擎就会变成Drools，甚至脚本语言。
+一种靠解析器执行的以决策树为主的东西。如果说因为Hard Code复杂，换成Drools的话，非程序员也无法使用Drools，所以规则引擎可以降低逻辑复杂度是一个悖论。
+那么，通常情况下，我们只需要一个脚本语言，Lua或者Python，这个语言可以完成热加载，有逻辑表达即可。
+再进一步说一下语言表达和规则表达的区别，规则主要是匹配逻辑，if else，即语言中的 “逻辑”（控制） 部分，程序语言中还有 “累加”（计算），“变量” （数据），看看是不是用得到。
+考虑完以上问题后：几个著名规则引擎 or DSL。
+  ACL只用于包过滤：输入是网络包文，输出是一个动作
+  SQL只用于数据操作和分析：输入是表达式，输出表达式结果
+  eBPF: 算是引擎，DSL都算不上，汇编代码啊。
+  TOML/YAML：连规则都算不上，DSL配置吧。
+  我们回到在特定问题域，特定需求范围下探讨规则引擎 / DSL / 配置文件来驱动逻辑。
+规则引擎 is Nothing 所以“规则引擎”没有狭义的概念和实现，还是需要从需求考虑：
+是注重人机交互，提供交互UI，降低用户使用难度？
+还是为了数据驱动逻辑，分离数据与执行？
+还是为了热更新，热加载？
+还是只想碰“词”
+结论：“规则引擎”是抽象的功能需求，并不是一个具体的技术方案，更不是指导开发实现的特定方法。</description>
+    </item>
+
+    <item>
+      <title>Hugo 分割线</title>
+      <link>https://www.donge.org/posts/hello-world-3/</link>
+      <pubDate>Thu, 23 Jul 2020 15:48:11 +0800</pubDate>
+
+      <guid>https://www.donge.org/posts/hello-world-3/</guid>
+      <description>Hugo &amp;lt;- Hexo3 &amp;lt;- Hexo2 &amp;lt;- WordPress &amp;lt;- Micolog GAE</description>
+    </item>
+
     <item>
       <title>简易Bitcoin自动交易框架 - XIAOSHAOZI</title>
       <link>https://www.donge.org/posts/xiaoshaozi/</link>

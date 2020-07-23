@@ -64,6 +64,63 @@
   
   <div class="post animated fadeInDown">
     <div class="post-title">
+      <h3><a href="/posts/rule-engine-1/">关于规则引擎的思考(1)</a>
+      </h3>
+    </div>
+    <div class="post-content"><div class="p_part"><p>规则引擎是什么？ 先看一类文章，为什么要用规则引擎
+https://www.cnblogs.com/rjzheng/p/10996186.html https://www.jianshu.com/p/9b67ab434795
+先看一类文章，为什么不需要规则引擎
+https://www.yinwang.org/blog-cn/2017/05/25/dsl https://www.jianshu.com/p/d136a76e1c0d
+第一类的文章使用规则引擎相当于把 if else 数据化，复杂程度没有降低，只是转移了，为了规则引擎而规则引擎。
+由静态语言转向数据，可以热加载热更新，这才是真正的需求。
+而第二类文章所说复杂规则引擎，必然引入DSL，相当于一个冷门的语言，不但复杂度没降低，熟悉它的成本反而升高，得不偿失。仅为了热加载或解耦不如用脚本。
+规则引擎的功能是什么？ 假设一下：
+如果没有需求的限制，需要灵活的功能大而全的规则引擎，那么最后这个规则引擎就会变成Drools，甚至脚本语言。
+一种靠解析器执行的以决策树为主的东西。如果说因为Hard Code复杂，换成Drools的话，非程序员也无法使用Drools，所以规则引擎可以降低逻辑复杂度是一个悖论。
+那么，通常情况下，我们只需要一个脚本语言，Lua或者Python，这个语言可以完成热加载，有逻辑表达即可。
+再进一步说一下语言表达和规则表达的区别，规则主要是匹配逻辑，if else，即语言中的 “逻辑”（控制） 部分，程序语言中还有 “累加”（计算），“变量” （数据），看看是不是用得到。
+考虑完以上问题后：几个著名规则引擎 or DSL。
+  ACL只用于包过滤：输入是网络包文，输出是一个动作
+  SQL只用于数据操作和分析：输入是表达式，输出表达式结果
+  eBPF: 算是引擎，DSL都算不上，汇编代码啊。
+  TOML/YAML：连规则都算不上，DSL配置吧。
+  我们回到在特定问题域，特定需求范围下探讨规则引擎 / DSL / 配置文件来驱动逻辑。
+规则引擎 is Nothing 所以“规则引擎”没有狭义的概念和实现，还是需要从需求考虑：
+是注重人机交互，提供交互UI，降低用户使用难度？
+还是为了数据驱动逻辑，分离数据与执行？
+还是为了热更新，热加载？
+还是只想碰“词”
+结论：“规则引擎”是抽象的功能需求，并不是一个具体的技术方案，更不是指导开发实现的特定方法。</p></div>
+
+  <div class="p_part"><p></p></div></div>
+    <div class="post-footer">
+      <div class="meta">
+        <div class="info"><i class="fa fa-sun-o"></i><span class="date">Thu, Jul 23, 2020</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="post animated fadeInDown">
+    <div class="post-title">
+      <h3><a href="/posts/hello-world-3/">Hugo 分割线</a>
+      </h3>
+    </div>
+    <div class="post-content"><div class="p_part"><p>Hugo &lt;- Hexo3 &lt;- Hexo2 &lt;- WordPress &lt;- Micolog GAE</p></div>
+
+  <div class="p_part"><p></p></div></div>
+    <div class="post-footer">
+      <div class="meta">
+        <div class="info"><i class="fa fa-sun-o"></i><span class="date">Thu, Jul 23, 2020</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="post animated fadeInDown">
+    <div class="post-title">
       <h3><a href="/posts/xiaoshaozi/">简易Bitcoin自动交易框架 - XIAOSHAOZI</a>
       </h3>
     </div>
@@ -261,53 +318,6 @@ P.S. 关于这丑陋的贴图 是这周我的Bitcoin自动交易机器人(绰号
     <div class="post-footer">
       <div class="meta">
         <div class="info"><i class="fa fa-sun-o"></i><span class="date">Sun, Jan 12, 2014</span>
-                 
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="post animated fadeInDown">
-    <div class="post-title">
-      <h3><a href="/posts/2014-new-year/">2014你来了，我在哪里？</a>
-      </h3>
-    </div>
-    <div class="post-content"><div class="p_part"><p>新年来了，大家快乐：） 回顾2013 一. 圆了勺子出国旅游的心愿，去了泰国，很棒。我又因公去印度一次，英语还是不行。 二. 终于迈出了勇敢的一步，或者说是胆小的一步。怕猝死，离开了华为，一波三折。 三. 开始学习理财，今年收益3%左右，比较挫。开始关注比特币，变成了脑残粉，参加了几次小会。心得：远离中国股市。 四. 新的工作环境很好，压力不大，这里遇到一位牛人，令人钦佩。跟他学习了很多互联网开发的东西，很兴奋。 五. 身体健康程度有好转，但有发福趋势，锻炼还没跟上。没读书，是个文盲。
-展望2014 一. 计划至少出国旅游两次，已定清明去马来。下半年去越南，韩国，或者港台。 二. 工作上继续保持，争取全面了解防火墙，成为一个合格的路由器，交换机，防火墙三栖研发工程师。 三. 做对冲理财，90%保守，10%激进。跟进虚拟货币系统的发展，建立稍微像样的自动交易系统。目标收益10%。 四. 学习一门新语言Go，用Go写一个Web项目。争取让别人觉得你会C/C++, Python, Go。顺便了解nodejs, erlang。 五. 体重保持130以内，锻炼超过2013。争取读上两本书，多和朋友交流，多写博客，让自己看起来有点文化，不呆板。
-2013年的最后一天在好朋友家里跨年，很开心。2014年的第一天在家里调了一天程序，很满足。 媳妇也今天在家里猫了一天，看脑残电视剧，和韩国欧巴。我祝她早日新的一年少睡觉，多学习：）
-P.S. 贡献一个原创的Bitcoin trade APIs for Python，用了T神推荐的requests库，所以很简单。 https://github.com/donge/chbtc
-requests是人性的http库，Web开发，杀人越货必备。 http://docs.python-requests.org/en/latest/</p></div>
-  
-  <div class="p_part"><p></p></div></div>
-    <div class="post-footer">
-      <div class="meta">
-        <div class="info"><i class="fa fa-sun-o"></i><span class="date">Wed, Jan 1, 2014</span>
-                 
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="post animated fadeInDown">
-    <div class="post-title">
-      <h3><a href="/posts/it-hero/">IT英雄榜</a>
-      </h3>
-    </div>
-    <div class="post-content"><div class="p_part"><p>搞IT的人总有一个很坏的毛病，就是觉得自己牛逼，别人傻蛋。 今天突然冒出一个想法，我很想知道中国最顶尖的程序员到底什么水平，搞一个程序员排行榜如何呢？ 但实际上是IT行业是一个很细节的行业，很难说谁比谁的技艺更高。所以想分出个第一第二，那真的是开玩笑。 但确实有这样一群人，他们在自己的领域登封造级，或练就一身绝学，或威名远播，那我就随便点评一下我知道的武林高手们。
-天下武功无快不破 - 楼天城 ID: ACRush 生年: 1986年 清华博，人送“教主”，玩过算法竞赛的人无人不知他的大名。从全国奥赛开始，到ACM/ICPC，Topcoder，Baidu Astar等等比赛斩获无数奖项。之前那篇博客中描写的“10分钟800行，无错编译，一次通过”就是关于他的传说。我上大学那年北大ACM站的AC数量排行第一的就是他，无疑现实了他ID的王者风范，ACRush！
-孤独求败 - 王垠 英姿少年，桀骜不驯，博士退学两次，大骂Google工程师都是二把刀的程序天才。在计算机语言的语法，语义解析领域有很强的功力，追求计算机逻辑最精髓的东西。大学时读过他Linux，LeTax的文章，就初觉小牛。最近看到他写的40行语言解析器的相关讨论，真是不明觉厉，这个领域也算是独孤求败了吧。
-&ldquo;我是传奇&rdquo; - 田春 从网易出来的奇葩，人送绰号&rsquo;伞哥&rsquo;，因为每天无论阴晴都带一把伞出门，一身白衣，面无表情。一副刺客打扮，一看就装逼得不行。但此人精通Common Lisp，并且是国家级毽球运动员，跆拳道高手，并掌握多门外语的高素质综合人才，自诩&quot;中国素质教育之典范&rdquo;。有这种素质，不装都不行。
-我就是风云 - 吴云洋 第一次听到这个名字，那时还在读高中，天天看游戏杂志。看到这样一个程序员，感觉很有趣。明明是个程序员弄得和游戏代言人一样，一头长发飘飘，起个名字还这么屌。殊不知此人确实在游戏领域还真是无人不知，曾任网易杭州研究所总监。一直坚持编程，属于全才，无愧“风云”的名字了。
-八面玲珑 - 冯大辉 其实我真不确定他是不是程序员，但圈内知名度实在太高，成功转型自媒体人Fenng。原阿里数据库架构师，精通数据库和系统架构。目前任丁香园CTO，后出品小道盒子，加之人脉很广。所以江湖之事，他应该是先闻先知。不算武林高手，也算个泥菩萨。
-以下是候补名单 凌波微步 - 许式伟 刚刚了解不久，WPS的架构师，前盛大技术总监。曾经擅长erlang，后又唱红golang，并使用golang成功创业。擅长互联网架构，分布式系统。热爱对新技术，这个跟进速度估计在从事编程10年以上开发者身上很难找到，绝对是武林中顶尖的轻功高手。
-TBD - YOU 当然，这个名单是不固定的，因为还有很多我一时记不起来和不知道的高手，欢迎大家提供名单，要真的程序员哦~
-最后还是说说武林高手的共同之处，不仅仅在自己的专业领域牛逼，还要让别人了解你的牛逼。 前两天看到一个互联网招聘，说需要提供贡献过的开源项目，博客地址，Github账户，豆瓣书单&hellip; 这才意志到，高手绝不是隐居山林的高手，而是真正行走在江湖上的人。江湖很大，人外有人，天外有天，自问你还觉得牛逼么？
-有人，就有江湖，To be continue&hellip;</p></div>
-  
-  <div class="p_part"><p></p></div></div>
-    <div class="post-footer">
-      <div class="meta">
-        <div class="info"><i class="fa fa-sun-o"></i><span class="date">Tue, Dec 24, 2013</span>
                  
         </div>
       </div>
