@@ -43,13 +43,6 @@ jQuery(document).ready(function(){
 		bgColor: '#FFFFFF',
 		radius: 0
  	});
- 	//google maps
-	if (jQuery("div").is("#sc_googlemap")) {
-	if( $QRadress != null && $QRadress != "" ) 
-		{ $googleMaps = $QRadress } 
-			else { $googleMaps = "Washington" } // defaultMaps
-	googlemap_init(  jQuery("#sc_googlemap").get(0), $googleMaps);
-	};
 		
 	//Profile
 	if( $QRname != null && $QRname != "" ) {  jQuery('#profile_data .name').slideDown() } 
