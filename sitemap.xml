@@ -11,14 +11,19 @@
     <loc>https://donge.org/</loc>
     <lastmod>2020-07-23T16:31:11+08:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://donge.org/posts/rule-engine-1/</loc>
     <lastmod>2020-07-23T16:31:11+08:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://donge.org/posts/hello-world-3/</loc>
+    <lastmod>2020-07-23T15:48:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://donge.org/posts/my-first-post/</loc>
     <lastmod>2020-07-23T15:48:11+08:00</lastmod>
   </url>
   

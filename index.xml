@@ -15,7 +15,7 @@
       <title>关于规则引擎的思考(1)</title>
       <link>https://donge.org/posts/rule-engine-1/</link>
       <pubDate>Thu, 23 Jul 2020 16:31:11 +0800</pubDate>
-
+      
       <guid>https://donge.org/posts/rule-engine-1/</guid>
       <description>规则引擎是什么？ 先看一类文章，为什么要用规则引擎
 https://www.cnblogs.com/rjzheng/p/10996186.html https://www.jianshu.com/p/9b67ab434795
@@ -42,16 +42,25 @@ https://www.yinwang.org/blog-cn/2017/05/25/dsl https://www.jianshu.com/p/d136a76
 还是只想碰“词”
 结论：“规则引擎”是抽象的功能需求，并不是一个具体的技术方案，更不是指导开发实现的特定方法。</description>
     </item>
-
+    
     <item>
       <title>Hugo 分割线</title>
       <link>https://donge.org/posts/hello-world-3/</link>
       <pubDate>Thu, 23 Jul 2020 15:48:11 +0800</pubDate>
-
+      
       <guid>https://donge.org/posts/hello-world-3/</guid>
       <description>Hugo &amp;lt;- Hexo3 &amp;lt;- Hexo2 &amp;lt;- WordPress &amp;lt;- Micolog GAE</description>
     </item>
-
+    
+    <item>
+      <title>Hugo 分割线</title>
+      <link>https://donge.org/posts/my-first-post/</link>
+      <pubDate>Thu, 23 Jul 2020 15:48:11 +0800</pubDate>
+      
+      <guid>https://donge.org/posts/my-first-post/</guid>
+      <description>Hugo &amp;lt;- Hexo3 &amp;lt;- Hexo2 &amp;lt;- WordPress &amp;lt;- Micolog GAE</description>
+    </item>
+    
     <item>
       <title>简易Bitcoin自动交易框架 - XIAOSHAOZI</title>
       <link>https://donge.org/posts/xiaoshaozi/</link>
