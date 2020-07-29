@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light"><head>
+    <title> donge.org | 关于规则引擎的思考(2) </title>
+    <meta charset="utf-8"><meta name="generator" content="Hugo 0.74.2" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="description" content="donge.org">
+    
+    <link rel="stylesheet" href="https://donge.org/css/style.min.67cd718c0a3c8009c771494d381fb7128246a454bd0518fed97cb65d257db948.css" integrity="sha256-Z81xjAo8gAnHcUlNOB&#43;3EoJGpFS9BRj&#43;2Xy2XSV9uUg=" crossorigin="anonymous" type="text/css"><link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    
+    <link rel="shortcut icon" href="https://donge.org/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://donge.org/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://donge.org/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://donge.org/favicon-16x16.png">
+    <link rel="canonical" href="https://donge.org/posts/rule-engine-2/">
+    
+    
+    <script type="text/javascript" src="https://donge.org/js/anatole-header.min.c275265a259296f3dd50e8236a77fcbcadb1dbb9597d3045c675dcc2c7c58a93.js" integrity="sha256-wnUmWiWSlvPdUOgjanf8vK2x27lZfTBFxnXcwsfFipM=" crossorigin="anonymous"></script>
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="关于规则引擎的思考(2)"/>
+<meta name="twitter:description" content="规则 &amp; 引擎 规则引擎字面隐含的需求：
+规则：简单人能读懂的条件
+引擎：快速执行规则背后的机器指令
+所以人们想用简单的表达来指导复杂的工作，这种化繁为简的银弹是真实需求。
+但规则到指令不是等量的，所以一定有细节的损失，也就是规则不能表达的逻辑。
+UI —- 配置 —- DSL — * — 脚本 —- 静态语言 —— 汇编/机器指令 所以规则引擎的过程是一个语义表达从简单到复杂的过程。
+中间有一个人到机器的分界。（程序员是人，也是机器）
+回到之前举的例子，我也正好比较熟悉。
+ACL或eBPF：保过滤规则引擎
+配置层面（人读）：
+router#show access-list Extended IP access list test permit ip host 2.2.2.2 host 3.3.3.3 permit tcp host 1.1.1.1 host 5.5.5.5 eq www permit icmp any any permit udp host 6.6.6.6 10.10.10.0 0.0.0.255 eq domain host 192.168.0.1 and not host 10.1.1.1 and (port 138 or port 139 or port 445) UI界面，配置文件，DSL都认为是人读的。"/>
+
+</head><body><div class="sidebar animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src="https://0.gravatar.com/avatar/eea4b40b05d3d09858acb8009b5088a9?d=https%3A%2F%2Fidenticons.github.com%2F4158d3f85d28c6395519d8920d8c8184.png&amp;r=x&amp;s=128" alt="profile picture">
+        <h3 title=""><a href="/">东冬の乱记</a></h3>
+        <div class="description">
+          <p>donge.org</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links">
+        
+    </ul>
+    <div class="footer">
+        <div class="by_farbox">&copy; donge.org 2020 </div>
+      </div>
+    </div>
+</div><div class="main">
+            <div class="page-top animated fadeInDown">
+    <ul class="nav">
+        
+        
+        
+        <li><a  href="/" title="">Home</a></li>
+        
+        
+        <li><a  href="/posts/" title="">Posts</a></li>
+        
+        
+        <li><a  href="/resume/" title="">Resume</a></li>
+        
+        
+        <li><a  href="/about/" title="">About</a></li>
+        
+    </ul>
+    <div class="themeswitcher">
+        <a class="theme-switch" title="Switch Theme">
+            <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+            <div class="autopagerize_page_element">
+                <div class="content">
+<div class="post animated fadeInDown">
+    <div class="post-content">
+
+      <div class="post-title">
+        <h3>关于规则引擎的思考(2)
+        </h3>
+        
+        </div>
+
+    <h3 id="规则--引擎">规则 &amp; 引擎</h3>
+<p>规则引擎字面隐含的需求：</p>
+<p>规则：简单人能读懂的条件</p>
+<p>引擎：快速执行规则背后的机器指令</p>
+<p>所以人们想用简单的表达来指导复杂的工作，这种化繁为简的银弹是真实需求。</p>
+<p>但规则到指令不是等量的，所以一定有细节的损失，也就是规则不能表达的逻辑。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"> <span style="color:#a6e22e">UI</span> <span style="color:#960050;background-color:#1e0010">—</span><span style="color:#f92672">-</span> <span style="color:#a6e22e">配置</span> <span style="color:#960050;background-color:#1e0010">—</span><span style="color:#f92672">-</span> <span style="color:#a6e22e">DSL</span> <span style="color:#960050;background-color:#1e0010">—</span> <span style="color:#f92672">*</span> <span style="color:#960050;background-color:#1e0010">—</span> <span style="color:#a6e22e">脚本</span> <span style="color:#960050;background-color:#1e0010">—</span><span style="color:#f92672">-</span> <span style="color:#a6e22e">静态语言</span> <span style="color:#960050;background-color:#1e0010">——</span> <span style="color:#a6e22e">汇编</span><span style="color:#f92672">/</span><span style="color:#a6e22e">机器指令</span>
+</code></pre></div><p>所以规则引擎的过程是一个语义表达从简单到复杂的过程。</p>
+<p>中间有一个人到机器的分界。（程序员是人，也是机器）</p>
+<p>回到之前举的例子，我也正好比较熟悉。</p>
+<p>ACL或eBPF：保过滤规则引擎</p>
+<p>配置层面（人读）：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">router</span><span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">show</span> <span style="color:#a6e22e">access</span><span style="color:#f92672">-</span><span style="color:#a6e22e">list</span>
+  <span style="color:#a6e22e">Extended</span> <span style="color:#a6e22e">IP</span> <span style="color:#a6e22e">access</span> <span style="color:#a6e22e">list</span> <span style="color:#a6e22e">test</span>
+      <span style="color:#a6e22e">permit</span> <span style="color:#a6e22e">ip</span> <span style="color:#a6e22e">host</span> <span style="color:#ae81ff">2.2.2.2</span> <span style="color:#a6e22e">host</span> <span style="color:#ae81ff">3.3.3.3</span>
+      <span style="color:#a6e22e">permit</span> <span style="color:#a6e22e">tcp</span> <span style="color:#a6e22e">host</span> <span style="color:#ae81ff">1.1.1.1</span> <span style="color:#a6e22e">host</span> <span style="color:#ae81ff">5.5.5.5</span> <span style="color:#a6e22e">eq</span> <span style="color:#a6e22e">www</span>
+      <span style="color:#a6e22e">permit</span> <span style="color:#a6e22e">icmp</span> <span style="color:#a6e22e">any</span> <span style="color:#a6e22e">any</span>
+      <span style="color:#a6e22e">permit</span> <span style="color:#a6e22e">udp</span> <span style="color:#a6e22e">host</span> <span style="color:#ae81ff">6.6.6.6</span> <span style="color:#ae81ff">10.10.10.0</span> <span style="color:#ae81ff">0.0.0.255</span> <span style="color:#a6e22e">eq</span> <span style="color:#a6e22e">domain</span>
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">host</span> <span style="color:#ae81ff">192.168.0.1</span> <span style="color:#a6e22e">and</span> <span style="color:#a6e22e">not</span> <span style="color:#a6e22e">host</span> <span style="color:#ae81ff">10.1.1.1</span> <span style="color:#a6e22e">and</span> (<span style="color:#a6e22e">port</span> <span style="color:#ae81ff">138</span> <span style="color:#a6e22e">or</span> <span style="color:#a6e22e">port</span> <span style="color:#ae81ff">139</span> <span style="color:#a6e22e">or</span> <span style="color:#a6e22e">port</span> <span style="color:#ae81ff">445</span>)
+</code></pre></div><p>UI界面，配置文件，DSL都认为是人读的。</p>
+<p>配置的指令会转化/编译为执行，下发到引擎，让引擎来执行。</p>
+<p>被隐藏的细节是什么呢，ip这个字段在报文的什么位置，如果有人想匹配一个内容中的ip地址，这个也许在目前规则上就表达不了，如果需要这样的需求，过度复杂规则又会变成阴间的玩意儿。</p>
+<h3 id="规则的逻辑">规则的逻辑</h3>
+<p>包过滤规则的逻辑确实是if else这样的条件组合，复杂条件组合及决策树。</p>
+<p><a href="https://zh.wikipedia.org/zh-hans/%E5%86%B3%E7%AD%96%E6%A0%91%E5%AD%A6%E4%B9%A0">https://zh.wikipedia.org/zh-hans/决策树学习</a></p>
+<p>逻辑匹配：这是最典型的规则，但也是最简单的规则。目测70%规则引擎都是需要表达逻辑匹配。</p>
+<p>前面提到，程序语言除了条件，还能表达计算和数据。这样也就产生了复杂规则。</p>
+<p>比如SQL：以数据为中心，可以用SELECT叠加各种表达式筛选内容。</p>
+<p>数据筛选：和匹配是一个意思，但重心在数据集合上，后面再说。</p>
+<p>计算：计算在规则中的作用都是临时的，用于达到逻辑匹配和数据筛选的变换，但这个也很重要。</p>
+<h3 id="规则的定义协议-or-模式">规则的定义：协议 or 模式</h3>
+<p>规则如果是预先定义的，那么就是协议，强匹配。</p>
+<p>如果规则不能预先定义，通过规律定义，弱匹配，那么就是模式。</p>
+<p>有时两者都要坚固，相互作用。能做到一个可以闭环生长的反馈系统。</p>
+<p>以上问题可能要考虑到：</p>
+<ol>
+<li>需求边界的限定</li>
+<li>有限的可读配置</li>
+<li>能覆盖需求的逻辑</li>
+<li>既要事前预测，事中匹配，还要事后分析，并可以反馈。</li>
+</ol>
+
+    </div>
+    <div class="post-footer">
+      <div class="info">
+        
+        
+      </div>
+    </div>
+
+    
+</div>
+
+
+                </div>
+            </div>
+        </div>
+</body>
+
+
+
+<script type="text/javascript" src="https://donge.org/js/jquery.min.86b1e8f819ee2d9099a783e50b49dff24282545fc40773861f9126b921532e4c.js" integrity="sha256-hrHo&#43;BnuLZCZp4PlC0nf8kKCVF/EB3OGH5EmuSFTLkw=" crossorigin="anonymous"></script>
+
+
+
+
+<script type="text/javascript" src="https://donge.org/js/bundle.min.0f9c74cb78f13d1f15f33daff4037c70354f98acfbb97a6f61708966675c3cae.js" integrity="sha256-D5x0y3jxPR8V8z2v9AN8cDVPmKz7uXpvYXCJZmdcPK4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://donge.org/js/medium-zoom.min.92f21c856129f84aeb719459b3e6ac621a3032fd7b180a18c04e1d12083f8aba.js" integrity="sha256-kvIchWEp&#43;ErrcZRZs&#43;asYhowMv17GAoYwE4dEgg/iro=" crossorigin="anonymous"></script></html></body>
+
+</html>

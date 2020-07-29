@@ -67,6 +67,67 @@
   
   <div class="post animated fadeInDown">
     <div class="post-title">
+      <h3><a href="/posts/tom%E7%8C%AB%E7%9A%84%E5%AE%B6%E5%9C%A8%E4%B8%9C%E5%8C%97/">Tom猫的家在东北</a>
+      </h3>
+    </div>
+    <div class="post-content"><div class="p_part"><p>有一种Tom猫来自东北~~</p></div>
+  
+  <div class="p_part"><p></p></div></div>
+    <div class="post-footer">
+      <div class="meta">
+        <div class="info"><i class="fa fa-sun-o"></i><span class="date">Sat, Jul 23, 2011</span>
+                 
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="post animated fadeInDown">
+    <div class="post-title">
+      <h3><a href="/posts/%E7%B2%BE%E8%AF%BBtrill%E5%8D%8F%E8%AE%AE/">精读TRILL协议</a>
+      </h3>
+    </div>
+    <div class="post-content"><div class="p_part"><p>精读TRILL协议**4.4 TRILL-Hello协议 **http://donge.org/?page_id=9231
+**4.5 分发树 **http://donge.org/?page_id=9250</p></div>
+  
+  <div class="p_part"><p></p></div></div>
+    <div class="post-footer">
+      <div class="meta">
+        <div class="info"><i class="fa fa-sun-o"></i><span class="date">Tue, Jul 19, 2011</span>
+                 
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="post animated fadeInDown">
+    <div class="post-title">
+      <h3><a href="/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/">[亲笔]安装开源路由平台Quagga记</a>
+      </h3>
+    </div>
+    <div class="post-content"><div class="p_part"><p>周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco。当前Quagga最新版本是0.99.18。可以前往http://www.quagga.net/获得。
+1. 安装编译运行系统 由于电脑是Windows，所以需要安装一个Linux编译环境，选择了DeepinLinux，一款国产优秀的面向桌面的Linux发行版，Ubuntu分支，轻量级界面还很漂亮。可以前往http://www.deepinlinux.com获得。由于平时无法脱离Windows，所以安装到虚拟机中，VMWare, VisualBox, WMLite随你选了，废话不说，这个过程略了。
+2. 配置Linux环境 GCC编译环境，make，autoconf，essential-lib，git都不能少啊，我不是Linux铁粉，所以都用apt-get搞定，少什么加什么，不行就google。当然在Windows使用Linux，可以配置好SSH，在Windows下访问，Linux虚拟机后台运行命令行即可。
+3. 获得Quagga代码分支 可以从网站下载源码包，当然如果有网络的话，可以直接git。 git clone git://code.quagga.net/quagga.git下载到本地后，看一下说明文件。
+4. 安装Quagga 第一步使用bootstrap.sh检查一下编译环境。 缺少那些工具或者lib都会有提示，按照提示配置完成。 第二步configure编译选项，这个步骤自动的，可以加参数配置，手册中说明很详细。 configure也用于修改软件的功能，如支持IPv6，关闭某个协议等等。 第三步make, make install，编译安装，OK。
+5.运行Quagga 运行文件还是Zebra，不是Quagga，不要弄错了。有几个会出错的问题。 a. 如果遇到说zebra静态库找不到问题，可以将/usr/local/lib中的静态库cp到系统库中/lib快速解决，或者建立软链接，或者修改系统环境变量。 b.如果遇到说配置文件找不到(privs_init: could not lookup user quagga)。可以按如下操作，cp一个样例配置到配置中，再添加一下用户。
+cp -Rf /usr/local/etc/zebra.conf.sample /usr/local/etc/zebra.conf zebra -d -u root -g root 然后再zebra就作为守护进程启动了。
+6. 进入Quagga Zebra默认端口号2601，可以在/etc/services中修改，可以用telnet登陆，登陆密码是zebra。登陆后就可以使用了，如果你用过Cisco IOS，就不用我多说了，哈哈~~
+root@donge:~/quagga# telnet localhost 2601 Trying 127.0.0.1&hellip; Connected to localhost. Escape character is &lsquo;^]&rsquo;.
+Hello, this is Quagga (version 0.</p></div>
+  
+  <div class="p_part"><p></p></div></div>
+    <div class="post-footer">
+      <div class="meta">
+        <div class="info"><i class="fa fa-sun-o"></i><span class="date">Sun, Jun 19, 2011</span>
+          <a class="tag" href="/tags/linux/">Linux</a><a class="tag" href="/tags/quagga/">quagga</a>       
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="post animated fadeInDown">
+    <div class="post-title">
       <h3><a href="/posts/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B/">[ZT]对下一代高端通信系统设计的七个展望</a>
       </h3>
     </div>
@@ -258,33 +319,6 @@
     </div>
   </div>
   
-  <div class="post animated fadeInDown">
-    <div class="post-title">
-      <h3><a href="/posts/%E5%8D%9A%E5%AE%A2%E5%8F%88%E9%87%8D%E6%96%B0%E5%BC%80%E5%BC%A0%E4%BA%86%E5%93%88%E5%93%88/">博客又重新开张了，哈哈~~</a>
-      </h3>
-    </div>
-    <div class="post-content"><div class="p_part"><p>网站关闭了几个月，又要重新开了，虽然没写几篇博客，也没人看，但好歹是个窝，没事发发牢骚，聊聊心情。
-中断的原因自然是没有备案了，不是我故意和政府作对，是实在没有时间，工作太忙了。
-这段时间，一进主页，就是“请到公安部门备案”。不了解的朋友们，还以为我犯事了吧，立刻Alt+F4。
-估计过年也没敢和我联系，生怕有所牵连。
-所以这里声明一下，我是良民，连愤青都不是，没那个魄力。
-本来挺好的Internet，到了中国就变了味道，算了，这里不说政治。
-被逼无奈只能用回了Google App Engine，虽然很慢，但是很稳定，还有一点就是够潮~~
-云计算，SaaS&hellip; 太扯了，都是浮云，算了，这里不说商业。
-这里只说我想说的~~
-I&rsquo;m back, donge.org
-2011.3.13</p></div>
-  
-  <div class="p_part"><p></p></div></div>
-    <div class="post-footer">
-      <div class="meta">
-        <div class="info"><i class="fa fa-sun-o"></i><span class="date">Sun, Mar 13, 2011</span>
-          <a class="tag" href="/tags/donge.org/">donge.org</a>       
-        </div>
-      </div>
-    </div>
-  </div>
-  
 <div class="pagination">
   
 <ul class="pagination">
@@ -306,11 +340,14 @@ I&rsquo;m back, donge.org
   <li class="page-item active">
     <a class="page-link" href="/page/4/">4</a>
   </li>
-  <li class="page-item disabled">
-    <a  class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+  <li class="page-item">
+    <a class="page-link" href="/page/5/">5</a>
   </li>
   <li class="page-item">
-    <a href="/page/4/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    <a href="/page/5/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+  </li>
+  <li class="page-item">
+    <a href="/page/5/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
   </li>
 </ul>
 

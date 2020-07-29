@@ -6,10 +6,50 @@
     <description>Recent content on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 23 Jul 2020 16:31:11 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jul 2020 01:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://donge.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>关于规则引擎的思考(3)</title>
+      <link>https://donge.org/posts/rule-engine-3/</link>
+      <pubDate>Wed, 29 Jul 2020 01:00:00 +0800</pubDate>
+      
+      <guid>https://donge.org/posts/rule-engine-3/</guid>
+      <description>我的需求 风控/安全的规则引擎：
+ 实时引擎：  逻辑匹配70%：if else
+有状态的计算30%：虽然比重小，但实现麻烦。
+state管理的流式数据计算。原理参考Spark，Flink，但又不是通用系统。不能用Spark，Flink是需要同步做决策，Spark，Flink显然不合适。
+https://spark.apache.org/docs/1.6.2/api/java/org/apache/spark/streaming/State.html
+有需求边界夹持，可以做的更快，更小。
+举个例子：状态防火墙中的session table，以IP五元祖为key，其中一种状态是tcp状态。
+我们使用数据流式处理如何实现呢
+key: ip 5-tuple
+state: 就是tcp状态顺序，在一定生命周期下统计，有明确开始(create)，和退出时机(remove)。
+def sequnceFunction(ip, tcp_action, state) := { if (state.exists) { if (tcp_ack == FIN_ACK) { state.remove() } else { state.update(transState(tcp_action)); } } else { state.update(initStatinitState(tcp_action)); } 这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些
+https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html
+   状态 场景 需求     ValueState 单值统计 需要   ListState 序列统计 需要   ReducingState 也是值数 只不过不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值   AggregatingState Reducing 和 ListState更复杂的表达，目前不需要    MapState 二维矩阵，目前不需要，场景上可以用预测接口PMML替代     实时引擎要有嵌入机器学习模型的能力，使用PMML。</description>
+    </item>
+    
+    <item>
+      <title>关于规则引擎的思考(2)</title>
+      <link>https://donge.org/posts/rule-engine-2/</link>
+      <pubDate>Wed, 29 Jul 2020 00:00:00 +0800</pubDate>
+      
+      <guid>https://donge.org/posts/rule-engine-2/</guid>
+      <description>规则 &amp;amp; 引擎 规则引擎字面隐含的需求：
+规则：简单人能读懂的条件
+引擎：快速执行规则背后的机器指令
+所以人们想用简单的表达来指导复杂的工作，这种化繁为简的银弹是真实需求。
+但规则到指令不是等量的，所以一定有细节的损失，也就是规则不能表达的逻辑。
+UI —- 配置 —- DSL — * — 脚本 —- 静态语言 —— 汇编/机器指令 所以规则引擎的过程是一个语义表达从简单到复杂的过程。
+中间有一个人到机器的分界。（程序员是人，也是机器）
+回到之前举的例子，我也正好比较熟悉。
+ACL或eBPF：保过滤规则引擎
+配置层面（人读）：
+router#show access-list Extended IP access list test permit ip host 2.2.2.2 host 3.3.3.3 permit tcp host 1.1.1.1 host 5.5.5.5 eq www permit icmp any any permit udp host 6.6.6.6 10.10.10.0 0.0.0.255 eq domain host 192.168.0.1 and not host 10.1.1.1 and (port 138 or port 139 or port 445) UI界面，配置文件，DSL都认为是人读的。</description>
+    </item>
     
     <item>
       <title>关于规则引擎的思考(1)</title>
@@ -50,6 +90,15 @@ https://www.yinwang.org/blog-cn/2017/05/25/dsl https://www.jianshu.com/p/d136a76
       
       <guid>https://donge.org/posts/hello-world-3/</guid>
       <description>Hugo &amp;lt;- Hexo3 &amp;lt;- Hexo2 &amp;lt;- WordPress &amp;lt;- Micolog GAE</description>
+    </item>
+    
+    <item>
+      <title>Hugo 分割线</title>
+      <link>https://donge.org/posts/my-first-post/</link>
+      <pubDate>Thu, 23 Jul 2020 15:48:11 +0800</pubDate>
+      
+      <guid>https://donge.org/posts/my-first-post/</guid>
+      <description>Hugo 2020 &amp;lt;- Hexo3 2015 &amp;lt;- Hexo2 2013 &amp;lt;- WordPress 2012 &amp;lt;- Micolog GAE 2011 &amp;lt;- Z-Blog &amp;lt;- ASP Blog</description>
     </item>
     
     <item>
