@@ -17,7 +17,9 @@
       <pubDate>Wed, 29 Jul 2020 01:00:00 +0800</pubDate>
       
       <guid>https://donge.org/posts/rule-engine-3/</guid>
-      <description>我的需求 风控/安全的规则引擎：
+      <description>做一个安全风控的引擎，用规则配置，需要能够自反馈。所以也不是一个简单的规则引擎。
+也就是实时引擎 + 离线引擎两个部分。或者说是 数据平面 + 控制平面也行。
+实时引擎在业务流量上处理，离线引擎给实时引擎提供弹药。
  实时引擎：  逻辑匹配70%：if else
 有状态的计算30%：虽然比重小，但实现麻烦。
 state管理的流式数据计算。原理参考Spark，Flink，但又不是通用系统。不能用Spark，Flink是需要同步做决策，Spark，Flink显然不合适。
@@ -29,7 +31,10 @@ key: ip 5-tuple
 state: 就是tcp状态顺序，在一定生命周期下统计，有明确开始(create)，和退出时机(remove)。
 def sequnceFunction(ip, tcp_action, state) := { if (state.exists) { if (tcp_ack == FIN_ACK) { state.remove() } else { state.update(transState(tcp_action)); } } else { state.update(initStatinitState(tcp_action)); } 这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些
 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html
-   状态 场景 需求     ValueState 单值统计 需要   ListState 序列统计 需要   ReducingState 也是值数 只不过不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值   AggregatingState Reducing 和 ListState更复杂的表达，目前不需要    MapState 二维矩阵，目前不需要，场景上可以用预测接口PMML替代     实时引擎要有嵌入机器学习模型的能力，使用PMML。</description>
+/table
+| 状态 | 场景 | 需求 |
+| &amp;mdash;- | &amp;mdash;- | &amp;mdash;- |
+| ValueState | 单值统计 | 需要 |</description>
     </item>
     
     <item>
@@ -90,15 +95,6 @@ https://www.yinwang.org/blog-cn/2017/05/25/dsl https://www.jianshu.com/p/d136a76
       
       <guid>https://donge.org/posts/hello-world-3/</guid>
       <description>Hugo &amp;lt;- Hexo3 &amp;lt;- Hexo2 &amp;lt;- WordPress &amp;lt;- Micolog GAE</description>
-    </item>
-    
-    <item>
-      <title>Hugo 分割线</title>
-      <link>https://donge.org/posts/my-first-post/</link>
-      <pubDate>Thu, 23 Jul 2020 15:48:11 +0800</pubDate>
-      
-      <guid>https://donge.org/posts/my-first-post/</guid>
-      <description>Hugo 2020 &amp;lt;- Hexo3 2015 &amp;lt;- Hexo2 2013 &amp;lt;- WordPress 2012 &amp;lt;- Micolog GAE 2011 &amp;lt;- Z-Blog &amp;lt;- ASP Blog</description>
     </item>
     
     <item>

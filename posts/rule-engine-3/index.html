@@ -16,7 +16,9 @@
     <script type="text/javascript" src="https://donge.org/js/anatole-header.min.c275265a259296f3dd50e8236a77fcbcadb1dbb9597d3045c675dcc2c7c58a93.js" integrity="sha256-wnUmWiWSlvPdUOgjanf8vK2x27lZfTBFxnXcwsfFipM=" crossorigin="anonymous"></script>
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="关于规则引擎的思考(3)"/>
-<meta name="twitter:description" content="我的需求 风控/安全的规则引擎：
+<meta name="twitter:description" content="做一个安全风控的引擎，用规则配置，需要能够自反馈。所以也不是一个简单的规则引擎。
+也就是实时引擎 &#43; 离线引擎两个部分。或者说是 数据平面 &#43; 控制平面也行。
+实时引擎在业务流量上处理，离线引擎给实时引擎提供弹药。
  实时引擎：  逻辑匹配70%：if else
 有状态的计算30%：虽然比重小，但实现麻烦。
 state管理的流式数据计算。原理参考Spark，Flink，但又不是通用系统。不能用Spark，Flink是需要同步做决策，Spark，Flink显然不合适。
@@ -28,7 +30,10 @@ key: ip 5-tuple
 state: 就是tcp状态顺序，在一定生命周期下统计，有明确开始(create)，和退出时机(remove)。
 def sequnceFunction(ip, tcp_action, state) := { if (state.exists) { if (tcp_ack == FIN_ACK) { state.remove() } else { state.update(transState(tcp_action)); } } else { state.update(initStatinitState(tcp_action)); } 这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些
 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html
-   状态 场景 需求     ValueState 单值统计 需要   ListState 序列统计 需要   ReducingState 也是值数 只不过不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值   AggregatingState Reducing 和 ListState更复杂的表达，目前不需要    MapState 二维矩阵，目前不需要，场景上可以用预测接口PMML替代     实时引擎要有嵌入机器学习模型的能力，使用PMML。"/>
+/table
+| 状态 | 场景 | 需求 |
+| &mdash;- | &mdash;- | &mdash;- |
+| ValueState | 单值统计 | 需要 |"/>
 
 </head><body><div class="sidebar animated fadeInDown">
     <div class="logo-title">
@@ -83,8 +88,9 @@ https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.ht
         
         </div>
 
-    <h2 id="我的需求">我的需求</h2>
-<p>风控/安全的规则引擎：</p>
+    <p>做一个安全风控的引擎，用规则配置，需要能够自反馈。所以也不是一个简单的规则引擎。</p>
+<p>也就是实时引擎 + 离线引擎两个部分。或者说是 数据平面 + 控制平面也行。</p>
+<p>实时引擎在业务流量上处理，离线引擎给实时引擎提供弹药。</p>
 <ol>
 <li>实时引擎：</li>
 </ol>
@@ -111,42 +117,14 @@ https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.ht
 }
 </code></pre></div><p>这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些</p>
 <p><a href="https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html">https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html</a></p>
-<table>
-<thead>
-<tr>
-<th>状态</th>
-<th>场景</th>
-<th>需求</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ValueState</td>
-<td>单值统计</td>
-<td>需要</td>
-</tr>
-<tr>
-<td>ListState</td>
-<td>序列统计</td>
-<td>需要</td>
-</tr>
-<tr>
-<td>ReducingState</td>
-<td>也是值数</td>
-<td>只不过不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值</td>
-</tr>
-<tr>
-<td>AggregatingState</td>
-<td>Reducing 和 ListState更复杂的表达，目前不需要</td>
-<td></td>
-</tr>
-<tr>
-<td>MapState</td>
-<td>二维矩阵，目前不需要，场景上可以用预测接口PMML替代</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>/table</p>
+<p>| 状态 | 场景 | 需求 |</p>
+<p>| &mdash;- | &mdash;- | &mdash;- |</p>
+<p>| ValueState | 单值统计 | 需要 |</p>
+<p>| ListState | 序列统计 | 需要 |</p>
+<p>| ReducingState | 也是单数 | 只不过不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值</p>
+<p>| AggregatingState | Reducing 和 ListState更复杂的表达，目前不需要 |</p>
+<p>| MapState | 二维矩阵，目前不需要，场景上可以用预测接口PMML替代 |</p>
 <p>实时引擎要有嵌入机器学习模型的能力，使用PMML。</p>
 <ol start="2">
 <li>离线引擎：</li>

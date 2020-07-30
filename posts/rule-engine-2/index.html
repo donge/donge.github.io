@@ -107,10 +107,12 @@ router#show access-list Extended IP access list test permit ip host 2.2.2.2 host
 <h3 id="规则的逻辑">规则的逻辑</h3>
 <p>包过滤规则的逻辑确实是if else这样的条件组合，复杂条件组合及决策树。</p>
 <p><a href="https://zh.wikipedia.org/zh-hans/%E5%86%B3%E7%AD%96%E6%A0%91%E5%AD%A6%E4%B9%A0">https://zh.wikipedia.org/zh-hans/决策树学习</a></p>
-<p>逻辑匹配：这是最典型的规则，但也是最简单的规则。目测70%规则引擎都是需要表达逻辑匹配。</p>
+<p>条件匹配：这是最典型的规则，但也是最简单的规则。目测70%规则引擎都是需要表达逻辑匹配。</p>
+<p>条件是数据？还是程序？程序君这篇很有启发。</p>
+<p><a href="https://mp.weixin.qq.com/s/Ym0CttjcOV6fy67craPmLQ">https://mp.weixin.qq.com/s/Ym0CttjcOV6fy67craPmLQ</a> Policy Engine 的前世今生</p>
 <p>前面提到，程序语言除了条件，还能表达计算和数据。这样也就产生了复杂规则。</p>
 <p>比如SQL：以数据为中心，可以用SELECT叠加各种表达式筛选内容。</p>
-<p>数据筛选：和匹配是一个意思，但重心在数据集合上，后面再说。</p>
+<p>数据筛选：和匹配是一个意思，但重心在数据集合上，数据量上千万量级，放在条件里面就无法热更新了。</p>
 <p>计算：计算在规则中的作用都是临时的，用于达到逻辑匹配和数据筛选的变换，但这个也很重要。</p>
 <h3 id="规则的定义协议-or-模式">规则的定义：协议 or 模式</h3>
 <p>规则如果是预先定义的，那么就是协议，强匹配。</p>
