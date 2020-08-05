@@ -6,10 +6,39 @@
     <description>Recent content in Posts on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 29 Jul 2020 01:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 05 Aug 2020 01:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://donge.org/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Servicewall是“疫苗”公司？NO</title>
+      <link>https://donge.org/posts/servicewall/</link>
+      <pubDate>Wed, 05 Aug 2020 01:00:00 +0800</pubDate>
+      
+      <guid>https://donge.org/posts/servicewall/</guid>
+      <description>Servicewall是家什么公司？ 公司成立于2018年5月，并获得了由北极光等著名VC联合投资，公司创始团队由来自美国 Netscreen、American Express 等知名企业的专家组成。Servicewall结合设备指纹，数据加密，大数据，人工智能等技术致力于为中国客户提供专业化的在线反欺诈服务。
+解决什么问题？ 从需求角度就是解决这个决策树上的问题，把业务风险识别出来，并提供有效的消除方案。
+如何解决？ 方法，工程，和我个人对系统的理解。
+方法：  通过有效的设备探针检测用户终端环境，收集非敏感信息，如硬件属性。 利用数据分析，机器学习等技术将人与机器的特征区分开。并在特定业务领域下，分析用户的行为，识别潜在风险。 提供串联，旁路等软硬件方案，实时解决业务过程中的风险 灵活的组合和接入方案，满足业务场景的变化和客户的私有化定制需求。  工程： 想解决好这些问题，在工程上其实有很多的挑战
+ 设备探针如何加密不被破解？ 大数据平台Hadoop / Spark实时性低，如何实时获得结果？ SaaS服务与私有化服务器架构如何保持一致？ 无网络环境如何快速无依赖部署？ 私有化环境数据平台如何无人值守运维？ 如何平衡分析结果的准确率与召回率？  &amp;hellip; 等等，虽然是新领域，但所有的问题都不是独特的，我们拥抱新技术，勇于探索，大胆尝试，创造黑科技。
+至少有以下特色：
+ 云原生，微服务：真Docker全容器化，包括基础设施组件，甚至数据平台。 Java / Golang技术栈：兼顾开发效率，稳定，性能的新老搭配。 节制的数据平台：追求数据的性价比，不浪费。Spark / Clickhouse。 基于事实的分析理念：不假设，简单有效。“如无必要，勿增实体”(Occam&amp;rsquo;s Razor)。  我的理解 系统中有一个“防火墙” 和“分析平台”，或者说是一个“数据平面”和一个“控制平面”。
+数据平面可以串行部署在用户业务线上，所以要稳定可靠，性能高，功能不能太复杂，是系统的“肌肉”。
+控制平面有智能，配置灵活，是系统的“大脑”，与数据平面不强耦合，可以独立升级规则，版本。
+两个平面形成一个完整的反馈系统，通过强大的“神经”(控制通道/RPC)和“血管”(数据通道/MQ)链接。
+而数据则是打通系统的“养料”，数据分析系统都是长出来的，没有真正遇到过“病毒”怎么可能产生健康的“免疫机能”呢？
+仅用假设是做不好安全，问题总是出现在未知的地方。这里我们在这个方向上积累了2年多，用很多事实问题的抽象了不少模型，算是“疫苗”研制初见成果吧。
+有了有效的“疫苗”可以迅速解决客户问题，当然在业务安全方向，“病毒”也随着技术的进步，进步很快，对抗“病毒”升级是业务安全的常态。
+所以防御系统不仅仅是“疫苗”，而是一套已经注入很多“疫苗”的健壮的免疫系统。
+广告时间 目前Servicewall已经在“疫苗”量产的路上，客户数量也在稳步提升，为了更好的支撑客户和改良系统，我们需要更多的伙伴加入。
+后端开发工程师
+负责产品功能、后端服务接口的设计与实现。
+具备 3 年以上服务端开发经验，具备扎实的计算机专业基本功；
+精通 Java / Golang，擅长分布式系统设计与开发，熟悉函数式编程，对 JVM 原理有一定的了解；
+掌握常见的缓存、消息等机制，熟悉 IO/NIO、多线程、集合等基础框架；
+熟悉 Spring Boot、Kafka、Redis、MongoDB 等开源服务框架；</description>
+    </item>
     
     <item>
       <title>关于规则引擎的思考(3)</title>
@@ -31,36 +60,7 @@ key: ip 5-tuple
 state: 就是tcp状态顺序，在一定生命周期下统计，有明确开始(create)，和退出时机(remove)。
 def sequnceFunction(ip, tcp_action, state) := { if (state.exists) { if (tcp_ack == FIN_ACK) { state.remove() } else { state.update(transState(tcp_action)); } } else { state.update(initStatinitState(tcp_action)); } 这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些
 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html
-/table
-| 状态 | 场景 | 需求 |
-| &amp;mdash;- | &amp;mdash;- | &amp;mdash;- |
-| ValueState | 单值统计 | 需要 |</description>
-    </item>
-    
-    <item>
-      <title>关于规则引擎的思考(3)</title>
-      <link>https://donge.org/posts/servicewall/</link>
-      <pubDate>Wed, 29 Jul 2020 01:00:00 +0800</pubDate>
-      
-      <guid>https://donge.org/posts/servicewall/</guid>
-      <description>做一个安全风控的引擎，用规则配置，需要能够自反馈。所以也不是一个简单的规则引擎。
-也就是实时引擎 + 离线引擎两个部分。或者说是 数据平面 + 控制平面也行。
-实时引擎在业务流量上处理，离线引擎给实时引擎提供弹药。
- 实时引擎：  逻辑匹配70%：if else
-有状态的计算30%：虽然比重小，但实现麻烦。
-state管理的流式数据计算。原理参考Spark，Flink，但又不是通用系统。不能用Spark，Flink是需要同步做决策，Spark，Flink显然不合适。
-https://spark.apache.org/docs/1.6.2/api/java/org/apache/spark/streaming/State.html
-有需求边界夹持，可以做的更快，更小。
-举个例子：状态防火墙中的session table，以IP五元祖为key，其中一种状态是tcp状态。
-我们使用数据流式处理如何实现呢
-key: ip 5-tuple
-state: 就是tcp状态顺序，在一定生命周期下统计，有明确开始(create)，和退出时机(remove)。
-def sequnceFunction(ip, tcp_action, state) := { if (state.exists) { if (tcp_ack == FIN_ACK) { state.remove() } else { state.update(transState(tcp_action)); } } else { state.update(initStatinitState(tcp_action)); } 这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些
-https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html
-/table
-| 状态 | 场景 | 需求 |
-| &amp;mdash;- | &amp;mdash;- | &amp;mdash;- |
-| ValueState | 单值统计 | 需要 |</description>
+   状态 场景 需求     ValueState 单值统计 需要   ListState 序列统计 需要   ReducingState 单值 不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值   AggregatingState 复杂统计 Reducing 和 ListState更复杂的表达，目前不需要   MapState 二维矩阵 目前不需要，场景上可以用预测接口PMML替代    实时引擎要有嵌入机器学习模型的能力，使用PMML。</description>
     </item>
     
     <item>

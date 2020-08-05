@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light"><head>
-    <title> donge.org | 关于规则引擎的思考(3) </title>
+    <title> donge.org | Servicewall是“疫苗”公司？NO </title>
     <meta charset="utf-8"><meta name="generator" content="Hugo 0.74.2" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta name="description" content="donge.org">
     
@@ -15,25 +15,28 @@
     
     <script type="text/javascript" src="https://donge.org/js/anatole-header.min.c275265a259296f3dd50e8236a77fcbcadb1dbb9597d3045c675dcc2c7c58a93.js" integrity="sha256-wnUmWiWSlvPdUOgjanf8vK2x27lZfTBFxnXcwsfFipM=" crossorigin="anonymous"></script>
     <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="关于规则引擎的思考(3)"/>
-<meta name="twitter:description" content="做一个安全风控的引擎，用规则配置，需要能够自反馈。所以也不是一个简单的规则引擎。
-也就是实时引擎 &#43; 离线引擎两个部分。或者说是 数据平面 &#43; 控制平面也行。
-实时引擎在业务流量上处理，离线引擎给实时引擎提供弹药。
- 实时引擎：  逻辑匹配70%：if else
-有状态的计算30%：虽然比重小，但实现麻烦。
-state管理的流式数据计算。原理参考Spark，Flink，但又不是通用系统。不能用Spark，Flink是需要同步做决策，Spark，Flink显然不合适。
-https://spark.apache.org/docs/1.6.2/api/java/org/apache/spark/streaming/State.html
-有需求边界夹持，可以做的更快，更小。
-举个例子：状态防火墙中的session table，以IP五元祖为key，其中一种状态是tcp状态。
-我们使用数据流式处理如何实现呢
-key: ip 5-tuple
-state: 就是tcp状态顺序，在一定生命周期下统计，有明确开始(create)，和退出时机(remove)。
-def sequnceFunction(ip, tcp_action, state) := { if (state.exists) { if (tcp_ack == FIN_ACK) { state.remove() } else { state.update(transState(tcp_action)); } } else { state.update(initStatinitState(tcp_action)); } 这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些
-https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html
-/table
-| 状态 | 场景 | 需求 |
-| &mdash;- | &mdash;- | &mdash;- |
-| ValueState | 单值统计 | 需要 |"/>
+<meta name="twitter:title" content="Servicewall是“疫苗”公司？NO"/>
+<meta name="twitter:description" content="Servicewall是家什么公司？ 公司成立于2018年5月，并获得了由北极光等著名VC联合投资，公司创始团队由来自美国 Netscreen、American Express 等知名企业的专家组成。Servicewall结合设备指纹，数据加密，大数据，人工智能等技术致力于为中国客户提供专业化的在线反欺诈服务。
+解决什么问题？ 从需求角度就是解决这个决策树上的问题，把业务风险识别出来，并提供有效的消除方案。
+如何解决？ 方法，工程，和我个人对系统的理解。
+方法：  通过有效的设备探针检测用户终端环境，收集非敏感信息，如硬件属性。 利用数据分析，机器学习等技术将人与机器的特征区分开。并在特定业务领域下，分析用户的行为，识别潜在风险。 提供串联，旁路等软硬件方案，实时解决业务过程中的风险 灵活的组合和接入方案，满足业务场景的变化和客户的私有化定制需求。  工程： 想解决好这些问题，在工程上其实有很多的挑战
+ 设备探针如何加密不被破解？ 大数据平台Hadoop / Spark实时性低，如何实时获得结果？ SaaS服务与私有化服务器架构如何保持一致？ 无网络环境如何快速无依赖部署？ 私有化环境数据平台如何无人值守运维？ 如何平衡分析结果的准确率与召回率？  &hellip; 等等，虽然是新领域，但所有的问题都不是独特的，我们拥抱新技术，勇于探索，大胆尝试，创造黑科技。
+至少有以下特色：
+ 云原生，微服务：真Docker全容器化，包括基础设施组件，甚至数据平台。 Java / Golang技术栈：兼顾开发效率，稳定，性能的新老搭配。 节制的数据平台：追求数据的性价比，不浪费。Spark / Clickhouse。 基于事实的分析理念：不假设，简单有效。“如无必要，勿增实体”(Occam&rsquo;s Razor)。  我的理解 系统中有一个“防火墙” 和“分析平台”，或者说是一个“数据平面”和一个“控制平面”。
+数据平面可以串行部署在用户业务线上，所以要稳定可靠，性能高，功能不能太复杂，是系统的“肌肉”。
+控制平面有智能，配置灵活，是系统的“大脑”，与数据平面不强耦合，可以独立升级规则，版本。
+两个平面形成一个完整的反馈系统，通过强大的“神经”(控制通道/RPC)和“血管”(数据通道/MQ)链接。
+而数据则是打通系统的“养料”，数据分析系统都是长出来的，没有真正遇到过“病毒”怎么可能产生健康的“免疫机能”呢？
+仅用假设是做不好安全，问题总是出现在未知的地方。这里我们在这个方向上积累了2年多，用很多事实问题的抽象了不少模型，算是“疫苗”研制初见成果吧。
+有了有效的“疫苗”可以迅速解决客户问题，当然在业务安全方向，“病毒”也随着技术的进步，进步很快，对抗“病毒”升级是业务安全的常态。
+所以防御系统不仅仅是“疫苗”，而是一套已经注入很多“疫苗”的健壮的免疫系统。
+广告时间 目前Servicewall已经在“疫苗”量产的路上，客户数量也在稳步提升，为了更好的支撑客户和改良系统，我们需要更多的伙伴加入。
+后端开发工程师
+负责产品功能、后端服务接口的设计与实现。
+具备 3 年以上服务端开发经验，具备扎实的计算机专业基本功；
+精通 Java / Golang，擅长分布式系统设计与开发，熟悉函数式编程，对 JVM 原理有一定的了解；
+掌握常见的缓存、消息等机制，熟悉 IO/NIO、多线程、集合等基础框架；
+熟悉 Spring Boot、Kafka、Redis、MongoDB 等开源服务框架；"/>
 
 </head><body><div class="sidebar animated fadeInDown">
     <div class="logo-title">
@@ -83,77 +86,77 @@ https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.ht
     <div class="post-content">
 
       <div class="post-title">
-        <h3>关于规则引擎的思考(3)
+        <h3>Servicewall是“疫苗”公司？NO
         </h3>
         
         </div>
 
-    <p>做一个安全风控的引擎，用规则配置，需要能够自反馈。所以也不是一个简单的规则引擎。</p>
-<p>也就是实时引擎 + 离线引擎两个部分。或者说是 数据平面 + 控制平面也行。</p>
-<p>实时引擎在业务流量上处理，离线引擎给实时引擎提供弹药。</p>
-<ol>
-<li>实时引擎：</li>
-</ol>
-<p>逻辑匹配70%：if else</p>
-<p>有状态的计算30%：虽然比重小，但实现麻烦。</p>
-<p>state管理的流式数据计算。原理参考Spark，Flink，但又不是通用系统。不能用Spark，Flink是需要同步做决策，Spark，Flink显然不合适。</p>
-<p><a href="https://spark.apache.org/docs/1.6.2/api/java/org/apache/spark/streaming/State.html">https://spark.apache.org/docs/1.6.2/api/java/org/apache/spark/streaming/State.html</a></p>
-<p>有需求边界夹持，可以做的更快，更小。</p>
-<p>举个例子：状态防火墙中的session table，以IP五元祖为key，其中一种状态是tcp状态。</p>
-<p>我们使用数据流式处理如何实现呢</p>
-<p>key: ip 5-tuple</p>
-<p>state: 就是tcp状态顺序，在一定生命周期下统计，有明确开始(create)，和退出时机(remove)。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#a6e22e">def</span> <span style="color:#a6e22e">sequnceFunction</span>(<span style="color:#a6e22e">ip</span>, <span style="color:#a6e22e">tcp_action</span>, <span style="color:#a6e22e">state</span>) <span style="color:#f92672">:=</span> {
-
-<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">exists</span>) {
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">tcp_ack</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">FIN_ACK</span>) {
-          <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">remove</span>()
-    } <span style="color:#66d9ef">else</span> {
-         <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">update</span>(<span style="color:#a6e22e">transState</span>(<span style="color:#a6e22e">tcp_action</span>));
-    }
-
-} <span style="color:#66d9ef">else</span> {
-    <span style="color:#a6e22e">state</span>.<span style="color:#a6e22e">update</span>(<span style="color:#a6e22e">initStatinitState</span>(<span style="color:#a6e22e">tcp_action</span>));
-}
-</code></pre></div><p>这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些</p>
-<p><a href="https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html">https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html</a></p>
-<p>/table</p>
-<p>| 状态 | 场景 | 需求 |</p>
-<p>| &mdash;- | &mdash;- | &mdash;- |</p>
-<p>| ValueState | 单值统计 | 需要 |</p>
-<p>| ListState | 序列统计 | 需要 |</p>
-<p>| ReducingState | 也是单数 | 只不过不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值</p>
-<p>| AggregatingState | Reducing 和 ListState更复杂的表达，目前不需要 |</p>
-<p>| MapState | 二维矩阵，目前不需要，场景上可以用预测接口PMML替代 |</p>
-<p>实时引擎要有嵌入机器学习模型的能力，使用PMML。</p>
-<ol start="2">
-<li>离线引擎：</li>
-</ol>
-<p>需要能和实时引擎配合，因为是离线的，所以Spark，Clickhouse等工具都可以。</p>
-<p>离线一般采用定时任务，从配置的规则中执行数据筛选，获得规律的统计参数，模型。然后作用到实时引擎上。可以从机器学习角度理解，就是train完model后，还需要用这个model predict。</p>
-<p>Spark ML训练的模型要能更新到PMML中。</p>
-<p>模型有很多类型，有数据相关的，如KNN，也有数据无关的，如决策树。</p>
-<p>所以最后输出的是</p>
-<ol>
-<li>数据：如：路由表，风险用户列表。</li>
-<li>参数：当前没小时访问次数风险阈值，单一用户支付的风险金额。</li>
-<li>模型：数据+参数的组合组合。</li>
-</ol>
-<p>逻辑是这个逻辑，但大多工程实践上AI并没有那么强，所以这些口子留出来。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#75715e">//状态管理
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">risk_state</span>(<span style="color:#a6e22e">data</span>)
-<span style="color:#75715e">//表查询
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">risk_table</span>.<span style="color:#a6e22e">lookup</span>(<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">key</span>)
-<span style="color:#75715e">//动态调参
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">risk_params</span>(<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">val</span>) 
-
-<span style="color:#75715e">//逻辑匹配
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">a</span> <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">risk</span>
-<span style="color:#75715e">//模型匹配
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">risk_module</span>.<span style="color:#a6e22e">predict</span>(<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">feature</span>)
-</code></pre></div><p>最终很可能if else起了70%的作用，表查询起了20%的作用，调参数起了7%的作用，模型起了3%的作用。</p>
-<p>符合典型的奥卡姆剃刀原理。</p>
-<p>大概就是这些想法了。</p>
+    <h2 id="servicewall是家什么公司">Servicewall是家什么公司？</h2>
+<p>公司成立于2018年5月，并获得了由北极光等著名VC联合投资，公司创始团队由来自美国 Netscreen、American Express 等知名企业的专家组成。Servicewall结合设备指纹，数据加密，大数据，人工智能等技术致力于为中国客户提供专业化的在线反欺诈服务。</p>
+<h2 id="解决什么问题">解决什么问题？</h2>
+<p><img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/3d8f59b2-f917-4115-94bd-d12c4f297bc1/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200805%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20200805T083938Z&amp;X-Amz-Expires=86400&amp;X-Amz-Signature=19ea8fc20774b172bbae71ef58976e93296c63f9bfb7235118515b641460cd2b&amp;X-Amz-SignedHeaders=host&amp;response-content-disposition=filename%20%3D%22Untitled.png%22" alt="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/3d8f59b2-f917-4115-94bd-d12c4f297bc1/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200805%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200805T083938Z&X-Amz-Expires=86400&X-Amz-Signature=19ea8fc20774b172bbae71ef58976e93296c63f9bfb7235118515b641460cd2b&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22"></p>
+<p>从需求角度就是解决这个决策树上的问题，把业务风险识别出来，并提供有效的消除方案。</p>
+<h2 id="如何解决">如何解决？</h2>
+<p>方法，工程，和我个人对系统的理解。</p>
+<h3 id="方法">方法：</h3>
+<ul>
+<li>通过有效的设备探针检测用户终端环境，收集非敏感信息，如硬件属性。</li>
+<li>利用数据分析，机器学习等技术将人与机器的特征区分开。并在特定业务领域下，分析用户的行为，识别潜在风险。</li>
+<li>提供串联，旁路等软硬件方案，实时解决业务过程中的风险</li>
+<li>灵活的组合和接入方案，满足业务场景的变化和客户的私有化定制需求。</li>
+</ul>
+<h3 id="工程">工程：</h3>
+<p>想解决好这些问题，在工程上其实有很多的挑战</p>
+<ul>
+<li>设备探针如何加密不被破解？</li>
+<li>大数据平台Hadoop / Spark实时性低，如何实时获得结果？</li>
+<li>SaaS服务与私有化服务器架构如何保持一致？</li>
+<li>无网络环境如何快速无依赖部署？</li>
+<li>私有化环境数据平台如何无人值守运维？</li>
+<li>如何平衡分析结果的准确率与召回率？</li>
+</ul>
+<p>&hellip; 等等，虽然是新领域，但所有的问题都不是独特的，我们拥抱新技术，勇于探索，大胆尝试，创造黑科技。</p>
+<p>至少有以下特色：</p>
+<ul>
+<li>云原生，微服务：真Docker全容器化，包括基础设施组件，甚至数据平台。</li>
+<li>Java / Golang技术栈：兼顾开发效率，稳定，性能的新老搭配。</li>
+<li>节制的数据平台：追求数据的性价比，不浪费。Spark / Clickhouse。</li>
+<li>基于事实的分析理念：不假设，简单有效。“如无必要，勿增实体”(Occam&rsquo;s Razor)。</li>
+</ul>
+<h3 id="我的理解">我的理解</h3>
+<p>系统中有一个“防火墙” 和“分析平台”，或者说是一个“数据平面”和一个“控制平面”。</p>
+<p>数据平面可以串行部署在用户业务线上，所以要稳定可靠，性能高，功能不能太复杂，是系统的“肌肉”。</p>
+<p>控制平面有智能，配置灵活，是系统的“大脑”，与数据平面不强耦合，可以独立升级规则，版本。</p>
+<p>两个平面形成一个完整的反馈系统，通过强大的“神经”(控制通道/RPC)和“血管”(数据通道/MQ)链接。</p>
+<p><img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/caf8f4c7-d05b-42ce-8819-309377ffa52d/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200805%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20200805T084156Z&amp;X-Amz-Expires=86400&amp;X-Amz-Signature=3cf0a816bff8c2bd83ffe4f4be95d53110621884f8fcda664f5699a960114fb6&amp;X-Amz-SignedHeaders=host&amp;response-content-disposition=filename%20%3D%22Untitled.png%22" alt="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/caf8f4c7-d05b-42ce-8819-309377ffa52d/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20200805%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20200805T084156Z&X-Amz-Expires=86400&X-Amz-Signature=3cf0a816bff8c2bd83ffe4f4be95d53110621884f8fcda664f5699a960114fb6&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22"></p>
+<p>而数据则是打通系统的“养料”，数据分析系统都是长出来的，没有真正遇到过“病毒”怎么可能产生健康的“免疫机能”呢？</p>
+<p>仅用假设是做不好安全，问题总是出现在未知的地方。这里我们在这个方向上积累了2年多，用很多事实问题的抽象了不少模型，算是“疫苗”研制初见成果吧。</p>
+<p>有了有效的“疫苗”可以迅速解决客户问题，当然在业务安全方向，“病毒”也随着技术的进步，进步很快，对抗“病毒”升级是业务安全的常态。</p>
+<p>所以防御系统不仅仅是“疫苗”，而是一套已经注入很多“疫苗”的健壮的免疫系统。</p>
+<h2 id="广告时间">广告时间</h2>
+<p>目前Servicewall已经在“疫苗”量产的路上，客户数量也在稳步提升，为了更好的支撑客户和改良系统，我们需要更多的伙伴加入。</p>
+<p><strong>后端开发工程师</strong></p>
+<p>负责产品功能、后端服务接口的设计与实现。</p>
+<p>具备 3 年以上服务端开发经验，具备扎实的计算机专业基本功；</p>
+<p>精通 Java / Golang，擅长分布式系统设计与开发，熟悉函数式编程，对 JVM 原理有一定的了解；</p>
+<p>掌握常见的缓存、消息等机制，熟悉 IO/NIO、多线程、集合等基础框架；</p>
+<p>熟悉 Spring Boot、Kafka、Redis、MongoDB 等开源服务框架；</p>
+<p>熟悉 Docker，熟练使用 Shell、Ruby、Lua、Python 等一种脚本语言；</p>
+<p>熟悉单元测试、功能测试、性能测试；</p>
+<p>熟悉Spark，Flink等主流分布式计算框架者优先。</p>
+<p>有互联网账号安全、反作弊、反欺诈、交易风控等方面有开发经验者优先。</p>
+<p><strong>数据开发工程师</strong></p>
+<p>对数据敏感，对海量用户行为和内容信息建模，构建和优化企业用户的安全和反欺诈模型。</p>
+<p>结合具体业务，理解并运用主流的数据挖掘和机器学习算法，提出解决方案。</p>
+<p>计算机，数学等相关专业本科以上学历。</p>
+<p>3年以上数据分析或工程经验。有反作弊，反欺诈，网络安全，金融风控等行业经验优先。</p>
+<p>熟悉数据结构，算法，Linux，SQL。</p>
+<p>熟练使用Java，Golang，Scala，Python等至少一门语言。</p>
+<p>熟练使用Hadoop，Spark，Flink等主流分布式计算框架。</p>
+<p>熟悉主流机器学习，特征处理等的数据挖掘的方法。</p>
+<p>具备良好的逻辑思维能力、沟通技巧、组织沟通能力、团队精神以及优秀的问题解决能力。</p>
+<p><strong>BOSS直投</strong></p>
+<p><a href="mailto:shalang@servicewall.ai">shalang@servicewall.ai</a></p>
 
     </div>
     <div class="post-footer">

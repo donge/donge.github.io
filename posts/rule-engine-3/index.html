@@ -30,10 +30,7 @@ key: ip 5-tuple
 state: 就是tcp状态顺序，在一定生命周期下统计，有明确开始(create)，和退出时机(remove)。
 def sequnceFunction(ip, tcp_action, state) := { if (state.exists) { if (tcp_ack == FIN_ACK) { state.remove() } else { state.update(transState(tcp_action)); } } else { state.update(initStatinitState(tcp_action)); } 这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些
 https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html
-/table
-| 状态 | 场景 | 需求 |
-| &mdash;- | &mdash;- | &mdash;- |
-| ValueState | 单值统计 | 需要 |"/>
+   状态 场景 需求     ValueState 单值统计 需要   ListState 序列统计 需要   ReducingState 单值 不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值   AggregatingState 复杂统计 Reducing 和 ListState更复杂的表达，目前不需要   MapState 二维矩阵 目前不需要，场景上可以用预测接口PMML替代    实时引擎要有嵌入机器学习模型的能力，使用PMML。"/>
 
 </head><body><div class="sidebar animated fadeInDown">
     <div class="logo-title">
@@ -117,14 +114,42 @@ https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.ht
 }
 </code></pre></div><p>这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些</p>
 <p><a href="https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html">https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html</a></p>
-<p>/table</p>
-<p>| 状态 | 场景 | 需求 |</p>
-<p>| &mdash;- | &mdash;- | &mdash;- |</p>
-<p>| ValueState | 单值统计 | 需要 |</p>
-<p>| ListState | 序列统计 | 需要 |</p>
-<p>| ReducingState | 也是单数 | 只不过不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值</p>
-<p>| AggregatingState | Reducing 和 ListState更复杂的表达，目前不需要 |</p>
-<p>| MapState | 二维矩阵，目前不需要，场景上可以用预测接口PMML替代 |</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>场景</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ValueState</td>
+<td>单值统计</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>ListState</td>
+<td>序列统计</td>
+<td>需要</td>
+</tr>
+<tr>
+<td>ReducingState</td>
+<td>单值</td>
+<td>不是简单累加，比如求唯一数量，可以用近似算法HyperHyperLog，这样就变成单值</td>
+</tr>
+<tr>
+<td>AggregatingState</td>
+<td>复杂统计</td>
+<td>Reducing 和 ListState更复杂的表达，目前不需要</td>
+</tr>
+<tr>
+<td>MapState</td>
+<td>二维矩阵</td>
+<td>目前不需要，场景上可以用预测接口PMML替代</td>
+</tr>
+</tbody>
+</table>
 <p>实时引擎要有嵌入机器学习模型的能力，使用PMML。</p>
 <ol start="2">
 <li>离线引擎：</li>
