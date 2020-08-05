@@ -38,6 +38,32 @@ https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.ht
     </item>
     
     <item>
+      <title>关于规则引擎的思考(3)</title>
+      <link>https://donge.org/posts/servicewall/</link>
+      <pubDate>Wed, 29 Jul 2020 01:00:00 +0800</pubDate>
+      
+      <guid>https://donge.org/posts/servicewall/</guid>
+      <description>做一个安全风控的引擎，用规则配置，需要能够自反馈。所以也不是一个简单的规则引擎。
+也就是实时引擎 + 离线引擎两个部分。或者说是 数据平面 + 控制平面也行。
+实时引擎在业务流量上处理，离线引擎给实时引擎提供弹药。
+ 实时引擎：  逻辑匹配70%：if else
+有状态的计算30%：虽然比重小，但实现麻烦。
+state管理的流式数据计算。原理参考Spark，Flink，但又不是通用系统。不能用Spark，Flink是需要同步做决策，Spark，Flink显然不合适。
+https://spark.apache.org/docs/1.6.2/api/java/org/apache/spark/streaming/State.html
+有需求边界夹持，可以做的更快，更小。
+举个例子：状态防火墙中的session table，以IP五元祖为key，其中一种状态是tcp状态。
+我们使用数据流式处理如何实现呢
+key: ip 5-tuple
+state: 就是tcp状态顺序，在一定生命周期下统计，有明确开始(create)，和退出时机(remove)。
+def sequnceFunction(ip, tcp_action, state) := { if (state.exists) { if (tcp_ack == FIN_ACK) { state.remove() } else { state.update(transState(tcp_action)); } } else { state.update(initStatinitState(tcp_action)); } 这个例子的状态比较具体，如果抽象一些，这个状态大概分为这些
+https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html
+/table
+| 状态 | 场景 | 需求 |
+| &amp;mdash;- | &amp;mdash;- | &amp;mdash;- |
+| ValueState | 单值统计 | 需要 |</description>
+    </item>
+    
+    <item>
       <title>关于规则引擎的思考(2)</title>
       <link>https://donge.org/posts/rule-engine-2/</link>
       <pubDate>Wed, 29 Jul 2020 00:00:00 +0800</pubDate>
