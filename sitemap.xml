@@ -3,17 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://donge.org/posts/2021_network_arch/</loc>
-    <lastmod>2021-03-08T01:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://donge.org/posts/</loc>
-    <lastmod>2021-03-08T01:00:00+08:00</lastmod>
+    <lastmod>2021-06-23T01:00:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://donge.org/</loc>
+    <lastmod>2021-06-23T01:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://donge.org/posts/bigdata-1-state/</loc>
+    <lastmod>2021-06-23T01:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://donge.org/posts/2021_network_arch/</loc>
     <lastmod>2021-03-08T01:00:00+08:00</lastmod>
   </url>
   
