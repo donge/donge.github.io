@@ -8,14 +8,14 @@
     <language>zh-CN</language>
     <lastBuildDate>Sun, 18 Aug 2024 01:00:00 +0800</lastBuildDate><atom:link href="https://donge.org/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Few-Shot API Attack Detection - Overcoming DataScarcity with GAN-Inspired Learning</title>
+      <title>基于Transformer异常序列实时检测</title>
       <link>https://donge.org/posts/2024-api-transformer/</link>
       <pubDate>Sun, 18 Aug 2024 01:00:00 +0800</pubDate>
       
       <guid>https://donge.org/posts/2024-api-transformer/</guid>
       
         <description>最近在Transformer-based场景下的异常检测读了一些论文，但目前这个领域还没看到特别工程化的内容，这是其中一篇比较新的。
-https://arxiv.org/pdf/2405.11258
+Few-Shot API Attack Detection - Overcoming DataScarcity with GAN-Inspired Learning https://arxiv.org/pdf/2405.11258
 方法介绍
 论文提出了一种基于Transformer架构，特别是RoBERTa模型的新型少样本检测方法。 该方法利用最先进的Transformer架构增强了对API请求的上下文理解，与传统方法相比，提高了异常检测的能力。
 技术细节 - GIAAD架构：提出了一种名为GAN-Inspired Anomalous API Detection（GIAAD）的API异常检测方法，它基于少样本学习原则，并采用GAN启发式方法模拟GAN中的生成器概念。 - 数据生成：使用深度学习模型，基于RoBERTa架构，通过掩码语言模型（MLM）技术生成新的API请求示例。 - 异常检测模型训练：合并生成的数据集和少量样本数据集，然后训练RoBERTa MLM，以便在正常API请求上识别模式和语言规则。
