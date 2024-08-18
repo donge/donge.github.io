@@ -1,0 +1,474 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        反架构
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/anti-arch/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="反架构">
+  <meta name="twitter:description" content="软件架构可以说是软件开发的“政治正确”，不谈“高大上”的架构，不但得不到客户的信任，也无法在团队中获得话语权，今天就来“反”一下。
+架构设计本身就是个抽象过程，不但包含实践的方法和过程，还有抽象的理论和总结。而这个过程表象很容易掩盖本质，有时还可能是陷阱或骗局。
+我一直是个实用主义者，也就是相信架构设计是以需求为出发点，遵循最小投入最大产出的原则进行。所以我主要“反”的是两种：
+理想主义的架构 商业包装的架构 而很多坑都是在这两者之间纠缠，让你云里雾里。
+理想主义架构 可以认为是比较唯心的，偏离了实际情况，追求完美，追求内心的舒适。这种架构思路在非常优秀的程序员身上都能找到，是难以避免的人性问题。常见的一些情况
+可靠性：谈及可靠性容忍不了单点错误，从各种可能性上全面考虑，假设大量出错场景并解决。过度设计通常会导致系统复杂，可维护性低，因可提高靠性本身的功能产生了不可靠的问题。
+可扩展性：过度追求设计上分离，分层，假设变化无处不在，通常会导致服务切分太细，维护工作量大，资源利用率低，性能下降。
+性能：追求性能的极致，会产生会系统和环境的依赖，导致可移植性低，模块耦合严重。
+理论深度：喜欢套用理论升华方法，本身是本末倒置的行为，但用在商业包装上却是合适的。是对外不对内的架构。
+回过头来看，可以看到架构设计实际上很多时候是取舍，所以“什么都要的”的成年人想法是不实际的，根据具体场景，产品差异做好小孩子的选择。
+商业包装的架构 理想主义常存在于追求完美的人性弱点里，而商业包装就是针对这种人性弱点所设计的有商业目的的架构，把程序员作为客户，包装出的架构或技术。它们有时不是为了解决问题，而是谋取更高的利益，鼓吹双赢，所以更加隐蔽。我们也思考一些例子
+商业驱动的热门架构：比如云原生架构，微服务，上云，大力传播这种架构理念的是AWS，阿里云及其关联企业或组织，哪怕是开源组织，赞助商也是他们。不是说微服务不好，而是要审视自身的需求，平衡好预算和组织能力。因为对于商业来说数字化转型花了钱就一定要是“成功”的，“来都来了，做也做了”也只能说它好，上车容易下车难，所以一定要提前想明白。这种问题在大公司比较突出。
+设备厂商的完美可靠性：通常提完美可靠性方案的话，都是设备厂商，因为可靠性最简单的就是“冗余”，说白了就是利用技术人员追求完美可靠性的心理，多卖一些设备，多赚一份钱，所以在技术架构上都打着一些旗号，也为甲方设计好了说辞。我承认作为乙方这是商业上的成功，也确实应该这样做。但最为甲方客户时，很容易过度投资。
+开源技术的成本：但天下没有免费的午餐，除了“商业驱动”，还有就是“请君如翁”式的沉没成本。利用开源解决你的所有问题，需要自己“搭积木”，比如Hadoop表面上给出了完美的开放性，生态，但如果想搭建一套完整的大数据平台，那么至少涉及5，6个开源组件，并且有很多复杂的技术细节和经验，一旦因为免费，你投入了时间和精力，像极了“爱情”，被沉没成本冲昏头脑。而往往这种大而全的架构都很中庸，对场景模糊，需求贪婪的甲方很容易中招。
+技术的阴谋论：因为各种商业目的，一些并不好的架构模式或实践也会包装成优秀实践，毕竟角度不同。哪怕角度相同，体质也不同。有的大公司通过分享复杂技术，完美架构方案，来进行人力和智力资源的对抗，最终必定大鱼吃小鱼。小鱼还得向大鱼求救，为大鱼买单，所以这些商业因素所影响的技术目的是很复杂的。
+感想 虽然说了这么多负面的东西，但技术的本源还是正向的，会长期推动生产力的进步。还是要鼓励拥抱变化，无畏学习。
+同时不要局限在技术上看架构，要从产品，组织，商业上多角度选择，还包括资源，人力，团队能力，商业合作，产品差异。
+刚工作时，一位架构师培训时说“架构是长出来”，现在来看颇有深意，“架构”长得好不好，除了人的辛勤栽培，还有土壤，阳光，温度…
+技术上承认自己的不完美，接受妥协，擦亮双眼，辩证而全面的想，低成本而无畏的学和试。">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/anti-arch/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="反架构">
+  <meta property="og:description" content="软件架构可以说是软件开发的“政治正确”，不谈“高大上”的架构，不但得不到客户的信任，也无法在团队中获得话语权，今天就来“反”一下。
+架构设计本身就是个抽象过程，不但包含实践的方法和过程，还有抽象的理论和总结。而这个过程表象很容易掩盖本质，有时还可能是陷阱或骗局。
+我一直是个实用主义者，也就是相信架构设计是以需求为出发点，遵循最小投入最大产出的原则进行。所以我主要“反”的是两种：
+理想主义的架构 商业包装的架构 而很多坑都是在这两者之间纠缠，让你云里雾里。
+理想主义架构 可以认为是比较唯心的，偏离了实际情况，追求完美，追求内心的舒适。这种架构思路在非常优秀的程序员身上都能找到，是难以避免的人性问题。常见的一些情况
+可靠性：谈及可靠性容忍不了单点错误，从各种可能性上全面考虑，假设大量出错场景并解决。过度设计通常会导致系统复杂，可维护性低，因可提高靠性本身的功能产生了不可靠的问题。
+可扩展性：过度追求设计上分离，分层，假设变化无处不在，通常会导致服务切分太细，维护工作量大，资源利用率低，性能下降。
+性能：追求性能的极致，会产生会系统和环境的依赖，导致可移植性低，模块耦合严重。
+理论深度：喜欢套用理论升华方法，本身是本末倒置的行为，但用在商业包装上却是合适的。是对外不对内的架构。
+回过头来看，可以看到架构设计实际上很多时候是取舍，所以“什么都要的”的成年人想法是不实际的，根据具体场景，产品差异做好小孩子的选择。
+商业包装的架构 理想主义常存在于追求完美的人性弱点里，而商业包装就是针对这种人性弱点所设计的有商业目的的架构，把程序员作为客户，包装出的架构或技术。它们有时不是为了解决问题，而是谋取更高的利益，鼓吹双赢，所以更加隐蔽。我们也思考一些例子
+商业驱动的热门架构：比如云原生架构，微服务，上云，大力传播这种架构理念的是AWS，阿里云及其关联企业或组织，哪怕是开源组织，赞助商也是他们。不是说微服务不好，而是要审视自身的需求，平衡好预算和组织能力。因为对于商业来说数字化转型花了钱就一定要是“成功”的，“来都来了，做也做了”也只能说它好，上车容易下车难，所以一定要提前想明白。这种问题在大公司比较突出。
+设备厂商的完美可靠性：通常提完美可靠性方案的话，都是设备厂商，因为可靠性最简单的就是“冗余”，说白了就是利用技术人员追求完美可靠性的心理，多卖一些设备，多赚一份钱，所以在技术架构上都打着一些旗号，也为甲方设计好了说辞。我承认作为乙方这是商业上的成功，也确实应该这样做。但最为甲方客户时，很容易过度投资。
+开源技术的成本：但天下没有免费的午餐，除了“商业驱动”，还有就是“请君如翁”式的沉没成本。利用开源解决你的所有问题，需要自己“搭积木”，比如Hadoop表面上给出了完美的开放性，生态，但如果想搭建一套完整的大数据平台，那么至少涉及5，6个开源组件，并且有很多复杂的技术细节和经验，一旦因为免费，你投入了时间和精力，像极了“爱情”，被沉没成本冲昏头脑。而往往这种大而全的架构都很中庸，对场景模糊，需求贪婪的甲方很容易中招。
+技术的阴谋论：因为各种商业目的，一些并不好的架构模式或实践也会包装成优秀实践，毕竟角度不同。哪怕角度相同，体质也不同。有的大公司通过分享复杂技术，完美架构方案，来进行人力和智力资源的对抗，最终必定大鱼吃小鱼。小鱼还得向大鱼求救，为大鱼买单，所以这些商业因素所影响的技术目的是很复杂的。
+感想 虽然说了这么多负面的东西，但技术的本源还是正向的，会长期推动生产力的进步。还是要鼓励拥抱变化，无畏学习。
+同时不要局限在技术上看架构，要从产品，组织，商业上多角度选择，还包括资源，人力，团队能力，商业合作，产品差异。
+刚工作时，一位架构师培训时说“架构是长出来”，现在来看颇有深意，“架构”长得好不好，除了人的辛勤栽培，还有土壤，阳光，温度…
+技术上承认自己的不完美，接受妥协，擦亮双眼，辩证而全面的想，低成本而无畏的学和试。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-08-02T01:00:00+08:00">
+    <meta property="article:modified_time" content="2021-08-02T01:00:00+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "反架构",
+        "headline": "反架构",
+        "alternativeHeadline": "",
+        "description": "
+      
+        软件架构可以说是软件开发的“政治正确”，不谈“高大上”的架构，不但得不到客户的信任，也无法在团队中获得话语权，今天就来“反”一下。\n架构设计本身就是个抽象过程，不但包含实践的方法和过程，还有抽象的理论和总结。而这个过程表象很容易掩盖本质，有时还可能是陷阱或骗局。\n我一直是个实用主义者，也就是相信架构设计是以需求为出发点，遵循最小投入最大产出的原则进行。所以我主要“反”的是两种：\n理想主义的架构 商业包装的架构 而很多坑都是在这两者之间纠缠，让你云里雾里。\n理想主义架构 可以认为是比较唯心的，偏离了实际情况，追求完美，追求内心的舒适。这种架构思路在非常优秀的程序员身上都能找到，是难以避免的人性问题。常见的一些情况\n可靠性：谈及可靠性容忍不了单点错误，从各种可能性上全面考虑，假设大量出错场景并解决。过度设计通常会导致系统复杂，可维护性低，因可提高靠性本身的功能产生了不可靠的问题。\n可扩展性：过度追求设计上分离，分层，假设变化无处不在，通常会导致服务切分太细，维护工作量大，资源利用率低，性能下降。\n性能：追求性能的极致，会产生会系统和环境的依赖，导致可移植性低，模块耦合严重。\n理论深度：喜欢套用理论升华方法，本身是本末倒置的行为，但用在商业包装上却是合适的。是对外不对内的架构。\n回过头来看，可以看到架构设计实际上很多时候是取舍，所以“什么都要的”的成年人想法是不实际的，根据具体场景，产品差异做好小孩子的选择。\n商业包装的架构 理想主义常存在于追求完美的人性弱点里，而商业包装就是针对这种人性弱点所设计的有商业目的的架构，把程序员作为客户，包装出的架构或技术。它们有时不是为了解决问题，而是谋取更高的利益，鼓吹双赢，所以更加隐蔽。我们也思考一些例子\n商业驱动的热门架构：比如云原生架构，微服务，上云，大力传播这种架构理念的是AWS，阿里云及其关联企业或组织，哪怕是开源组织，赞助商也是他们。不是说微服务不好，而是要审视自身的需求，平衡好预算和组织能力。因为对于商业来说数字化转型花了钱就一定要是“成功”的，“来都来了，做也做了”也只能说它好，上车容易下车难，所以一定要提前想明白。这种问题在大公司比较突出。\n设备厂商的完美可靠性：通常提完美可靠性方案的话，都是设备厂商，因为可靠性最简单的就是“冗余”，说白了就是利用技术人员追求完美可靠性的心理，多卖一些设备，多赚一份钱，所以在技术架构上都打着一些旗号，也为甲方设计好了说辞。我承认作为乙方这是商业上的成功，也确实应该这样做。但最为甲方客户时，很容易过度投资。\n开源技术的成本：但天下没有免费的午餐，除了“商业驱动”，还有就是“请君如翁”式的沉没成本。利用开源解决你的所有问题，需要自己“搭积木”，比如Hadoop表面上给出了完美的开放性，生态，但如果想搭建一套完整的大数据平台，那么至少涉及5，6个开源组件，并且有很多复杂的技术细节和经验，一旦因为免费，你投入了时间和精力，像极了“爱情”，被沉没成本冲昏头脑。而往往这种大而全的架构都很中庸，对场景模糊，需求贪婪的甲方很容易中招。\n技术的阴谋论：因为各种商业目的，一些并不好的架构模式或实践也会包装成优秀实践，毕竟角度不同。哪怕角度相同，体质也不同。有的大公司通过分享复杂技术，完美架构方案，来进行人力和智力资源的对抗，最终必定大鱼吃小鱼。小鱼还得向大鱼求救，为大鱼买单，所以这些商业因素所影响的技术目的是很复杂的。\n感想 虽然说了这么多负面的东西，但技术的本源还是正向的，会长期推动生产力的进步。还是要鼓励拥抱变化，无畏学习。\n同时不要局限在技术上看架构，要从产品，组织，商业上多角度选择，还包括资源，人力，团队能力，商业合作，产品差异。\n刚工作时，一位架构师培训时说“架构是长出来”，现在来看颇有深意，“架构”长得好不好，除了人的辛勤栽培，还有土壤，阳光，温度\u0026hellip;\n技术上承认自己的不完美，接受妥协，擦亮双眼，辩证而全面的想，低成本而无畏的学和试。
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/anti-arch\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2021",
+        "dateCreated": "2021-08-02T01:00:00.00Z",
+        "datePublished": "2021-08-02T01:00:00.00Z",
+        "dateModified": "2021-08-02T01:00:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/anti-arch\/",
+        "wordCount" : "24",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>反架构</h1>
+      <p>软件架构可以说是软件开发的“政治正确”，不谈“高大上”的架构，不但得不到客户的信任，也无法在团队中获得话语权，今天就来“反”一下。</p>
+<p>架构设计本身就是个抽象过程，不但包含实践的方法和过程，还有抽象的理论和总结。而这个过程表象很容易掩盖本质，有时还可能是陷阱或骗局。</p>
+<p>我一直是个实用主义者，也就是相信架构设计是以需求为出发点，遵循最小投入最大产出的原则进行。所以我主要“反”的是两种：</p>
+<ul>
+<li>理想主义的架构</li>
+<li>商业包装的架构</li>
+</ul>
+<p>而很多坑都是在这两者之间纠缠，让你云里雾里。</p>
+<h2 id="理想主义架构">理想主义架构</h2>
+<p>可以认为是比较唯心的，偏离了实际情况，追求完美，追求内心的舒适。这种架构思路在非常优秀的程序员身上都能找到，是难以避免的人性问题。常见的一些情况</p>
+<ul>
+<li>
+<p>可靠性：谈及可靠性容忍不了单点错误，从各种可能性上全面考虑，假设大量出错场景并解决。过度设计通常会导致系统复杂，可维护性低，因可提高靠性本身的功能产生了不可靠的问题。</p>
+</li>
+<li>
+<p>可扩展性：过度追求设计上分离，分层，假设变化无处不在，通常会导致服务切分太细，维护工作量大，资源利用率低，性能下降。</p>
+</li>
+<li>
+<p>性能：追求性能的极致，会产生会系统和环境的依赖，导致可移植性低，模块耦合严重。</p>
+</li>
+<li>
+<p>理论深度：喜欢套用理论升华方法，本身是本末倒置的行为，但用在商业包装上却是合适的。是对外不对内的架构。</p>
+</li>
+</ul>
+<p>回过头来看，可以看到架构设计实际上很多时候是取舍，所以“什么都要的”的成年人想法是不实际的，根据具体场景，产品差异做好小孩子的选择。</p>
+<h2 id="商业包装的架构">商业包装的架构</h2>
+<p>理想主义常存在于追求完美的人性弱点里，而商业包装就是针对这种人性弱点所设计的有商业目的的架构，把程序员作为客户，包装出的架构或技术。它们有时不是为了解决问题，而是谋取更高的利益，鼓吹双赢，所以更加隐蔽。我们也思考一些例子</p>
+<ul>
+<li>
+<p>商业驱动的热门架构：比如云原生架构，微服务，上云，大力传播这种架构理念的是AWS，阿里云及其关联企业或组织，哪怕是开源组织，赞助商也是他们。不是说微服务不好，而是要审视自身的需求，平衡好预算和组织能力。因为对于商业来说数字化转型花了钱就一定要是“成功”的，“来都来了，做也做了”也只能说它好，上车容易下车难，所以一定要提前想明白。这种问题在大公司比较突出。</p>
+</li>
+<li>
+<p>设备厂商的完美可靠性：通常提完美可靠性方案的话，都是设备厂商，因为可靠性最简单的就是“冗余”，说白了就是利用技术人员追求完美可靠性的心理，多卖一些设备，多赚一份钱，所以在技术架构上都打着一些旗号，也为甲方设计好了说辞。我承认作为乙方这是商业上的成功，也确实应该这样做。但最为甲方客户时，很容易过度投资。</p>
+</li>
+<li>
+<p>开源技术的成本：但天下没有免费的午餐，除了“商业驱动”，还有就是“请君如翁”式的沉没成本。利用开源解决你的所有问题，需要自己“搭积木”，比如Hadoop表面上给出了完美的开放性，生态，但如果想搭建一套完整的大数据平台，那么至少涉及5，6个开源组件，并且有很多复杂的技术细节和经验，一旦因为免费，你投入了时间和精力，像极了“爱情”，被沉没成本冲昏头脑。而往往这种大而全的架构都很中庸，对场景模糊，需求贪婪的甲方很容易中招。</p>
+</li>
+<li>
+<p>技术的阴谋论：因为各种商业目的，一些并不好的架构模式或实践也会包装成优秀实践，毕竟角度不同。哪怕角度相同，体质也不同。有的大公司通过分享复杂技术，完美架构方案，来进行人力和智力资源的对抗，最终必定大鱼吃小鱼。小鱼还得向大鱼求救，为大鱼买单，所以这些商业因素所影响的技术目的是很复杂的。</p>
+</li>
+</ul>
+<h2 id="感想">感想</h2>
+<p>虽然说了这么多负面的东西，但技术的本源还是正向的，会长期推动生产力的进步。还是要鼓励拥抱变化，无畏学习。</p>
+<p>同时不要局限在技术上看架构，要从产品，组织，商业上多角度选择，还包括资源，人力，团队能力，商业合作，产品差异。</p>
+<p>刚工作时，一位架构师培训时说“架构是长出来”，现在来看颇有深意，“架构”长得好不好，除了人的辛勤栽培，还有土壤，阳光，温度&hellip;</p>
+<p>技术上承认自己的不完美，接受妥协，擦亮双眼，辩证而全面的想，低成本而无畏的学和试。</p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

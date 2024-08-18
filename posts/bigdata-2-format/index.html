@@ -1,0 +1,468 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        大数据(2)-数据处理-格式
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/bigdata-2-format/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="大数据(2)-数据处理-格式">
+  <meta name="twitter:description" content="数据的输入的原始存储格式，和内存中的组织形式，是决定数据处理性能的关键。
+格式的场景 所以大数据中很多技术是关于格式的，或新或老的一些技术，比如
+存储(on-disk)的格式：Parquet，ORC，Avro，CSV，JSON…
+通信(on-wire)的格式：Protobuf，Avro，JSON…
+计算(In-memory)的格式：Arrow
+共性来说，就是数据的组织形式，行式或列式，数据的编码/压缩格式，不同场景的话，各有所长。
+如最熟悉的CSV，JSON都是无压缩的字符串，JSON的结构化更适合阅读。
+Parquet，ORC都是列式，面向机器，因为计算过程往往是按列的，所以存储上按列可以减少随机访问，提高IO。
+Avro是行式的，因为有时列持久化需要等所有或一大波数据才能持久化一次，而按行更符合通信流，适合通信持久化。
+无论批处理还是流处理了，需要处理合适的输入的格式。流处理情况下大部分还是需要处理行式的，批处理则更适合列式。
+计算上还需要用列格式，所以流式处理上需要有一个行到列的反序列化，这会降低一定的吞吐。
+性能 or 扩展性 计算类型格式理论上是一个很私密的东西，和之前讨论的计算状态一样。如何很好的将计算（Stateless）与 格式分开是不容易的。俗称“存算分离”，分离清晰，可以快速横向扩展，有更好的可扩展性，但可能会使性能下降。这中间有个度需要结合自己的需求场景把握。
+提到性能，参考一下当前流行的计算组件的速度 https://h2oai.github.io/db-benchmark/
+除了Spark，Pandas这些耳熟能详的，我们看看前几名：
+Clickhouse是OLAP数据库，主场景是存算合一的数据库，比如交互式查询
+R语言的 data.table 主场景是科学计算
+Julia的Dataframe.jl 主场景是科学计算 https://dataframes.juliadata.org/stable/
+都在自己的计算场景下，也没有开放格式，使得内部处理和格式更紧密，更容易优化性能。
+Polars是基于Apache Arrow是目前一个面向计算的内存格式的项目，是一个Libary。Arrow是一个计算格式的Libary，目前很火。
+计算与格式 Hadoop MapReduce时代计算格式可以认为和持久化格式相同，中间结果都存储在HDFS中，所以内存的开销很小，也符合最早Hadoop的定位，整合“弱鸡”的计算能力。100%纯净的“存算分离”，但也足以可见，计算格式和持久化格式最初是一致的，这样的IO节省了格式之间的转换。
+但速度需求永远是大数据的刚性需求，用内存空间换时间的Spark，很快取代了MapReduce，其区别就是Spark在内存中定义计算，并可以对内存中的计算分布式交换（Shuffle），大大提升了计算性能。
+但Spark的Dataframe本身是封闭的与计算过程耦合紧密，不光Spark，各个组件都有优先自己场景的格式。大家很快意识到，格式和计算确实紧密，也就是格式一定程度决定了计算的速度，而数据应用的Python，Java程序员并不想自己再来一套这个。
+于是一个C&#43;&#43; Arrow项目诞生了，其定位是一个计算格式的通用库，统一计算格式，因为是C&#43;&#43;写的，性能自然又要高Java一个量级，本身又是库，所以提供了各种语言的接口，让大家专注于计算部分，然后对外提供FFI到各种组件。
+总结 格式上的选择也很多，存储容量，成本，IO，转换的开销，延迟都在不同的数据场景下有不同的偏爱。方案或者架构的本身就是不断做选择题，MAX（客户预算-产品成本）就是不断求解的过程。还是那句话，适合的才是最好的。尤其是大数据领域，大坑太多，请平衡好成本。">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/bigdata-2-format/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="大数据(2)-数据处理-格式">
+  <meta property="og:description" content="数据的输入的原始存储格式，和内存中的组织形式，是决定数据处理性能的关键。
+格式的场景 所以大数据中很多技术是关于格式的，或新或老的一些技术，比如
+存储(on-disk)的格式：Parquet，ORC，Avro，CSV，JSON…
+通信(on-wire)的格式：Protobuf，Avro，JSON…
+计算(In-memory)的格式：Arrow
+共性来说，就是数据的组织形式，行式或列式，数据的编码/压缩格式，不同场景的话，各有所长。
+如最熟悉的CSV，JSON都是无压缩的字符串，JSON的结构化更适合阅读。
+Parquet，ORC都是列式，面向机器，因为计算过程往往是按列的，所以存储上按列可以减少随机访问，提高IO。
+Avro是行式的，因为有时列持久化需要等所有或一大波数据才能持久化一次，而按行更符合通信流，适合通信持久化。
+无论批处理还是流处理了，需要处理合适的输入的格式。流处理情况下大部分还是需要处理行式的，批处理则更适合列式。
+计算上还需要用列格式，所以流式处理上需要有一个行到列的反序列化，这会降低一定的吞吐。
+性能 or 扩展性 计算类型格式理论上是一个很私密的东西，和之前讨论的计算状态一样。如何很好的将计算（Stateless）与 格式分开是不容易的。俗称“存算分离”，分离清晰，可以快速横向扩展，有更好的可扩展性，但可能会使性能下降。这中间有个度需要结合自己的需求场景把握。
+提到性能，参考一下当前流行的计算组件的速度 https://h2oai.github.io/db-benchmark/
+除了Spark，Pandas这些耳熟能详的，我们看看前几名：
+Clickhouse是OLAP数据库，主场景是存算合一的数据库，比如交互式查询
+R语言的 data.table 主场景是科学计算
+Julia的Dataframe.jl 主场景是科学计算 https://dataframes.juliadata.org/stable/
+都在自己的计算场景下，也没有开放格式，使得内部处理和格式更紧密，更容易优化性能。
+Polars是基于Apache Arrow是目前一个面向计算的内存格式的项目，是一个Libary。Arrow是一个计算格式的Libary，目前很火。
+计算与格式 Hadoop MapReduce时代计算格式可以认为和持久化格式相同，中间结果都存储在HDFS中，所以内存的开销很小，也符合最早Hadoop的定位，整合“弱鸡”的计算能力。100%纯净的“存算分离”，但也足以可见，计算格式和持久化格式最初是一致的，这样的IO节省了格式之间的转换。
+但速度需求永远是大数据的刚性需求，用内存空间换时间的Spark，很快取代了MapReduce，其区别就是Spark在内存中定义计算，并可以对内存中的计算分布式交换（Shuffle），大大提升了计算性能。
+但Spark的Dataframe本身是封闭的与计算过程耦合紧密，不光Spark，各个组件都有优先自己场景的格式。大家很快意识到，格式和计算确实紧密，也就是格式一定程度决定了计算的速度，而数据应用的Python，Java程序员并不想自己再来一套这个。
+于是一个C&#43;&#43; Arrow项目诞生了，其定位是一个计算格式的通用库，统一计算格式，因为是C&#43;&#43;写的，性能自然又要高Java一个量级，本身又是库，所以提供了各种语言的接口，让大家专注于计算部分，然后对外提供FFI到各种组件。
+总结 格式上的选择也很多，存储容量，成本，IO，转换的开销，延迟都在不同的数据场景下有不同的偏爱。方案或者架构的本身就是不断做选择题，MAX（客户预算-产品成本）就是不断求解的过程。还是那句话，适合的才是最好的。尤其是大数据领域，大坑太多，请平衡好成本。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-07-12T01:00:00+08:00">
+    <meta property="article:modified_time" content="2021-07-12T01:00:00+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "大数据(2)-数据处理-格式",
+        "headline": "大数据(2)-数据处理-格式",
+        "alternativeHeadline": "",
+        "description": "
+      
+        数据的输入的原始存储格式，和内存中的组织形式，是决定数据处理性能的关键。\n格式的场景 所以大数据中很多技术是关于格式的，或新或老的一些技术，比如\n存储(on-disk)的格式：Parquet，ORC，Avro，CSV，JSON\u0026hellip;\n通信(on-wire)的格式：Protobuf，Avro，JSON\u0026hellip;\n计算(In-memory)的格式：Arrow\n共性来说，就是数据的组织形式，行式或列式，数据的编码\/压缩格式，不同场景的话，各有所长。\n如最熟悉的CSV，JSON都是无压缩的字符串，JSON的结构化更适合阅读。\nParquet，ORC都是列式，面向机器，因为计算过程往往是按列的，所以存储上按列可以减少随机访问，提高IO。\nAvro是行式的，因为有时列持久化需要等所有或一大波数据才能持久化一次，而按行更符合通信流，适合通信持久化。\n无论批处理还是流处理了，需要处理合适的输入的格式。流处理情况下大部分还是需要处理行式的，批处理则更适合列式。\n计算上还需要用列格式，所以流式处理上需要有一个行到列的反序列化，这会降低一定的吞吐。\n性能 or 扩展性 计算类型格式理论上是一个很私密的东西，和之前讨论的计算状态一样。如何很好的将计算（Stateless）与 格式分开是不容易的。俗称“存算分离”，分离清晰，可以快速横向扩展，有更好的可扩展性，但可能会使性能下降。这中间有个度需要结合自己的需求场景把握。\n提到性能，参考一下当前流行的计算组件的速度 https:\/\/h2oai.github.io\/db-benchmark\/\n除了Spark，Pandas这些耳熟能详的，我们看看前几名：\nClickhouse是OLAP数据库，主场景是存算合一的数据库，比如交互式查询\nR语言的 data.table 主场景是科学计算\nJulia的Dataframe.jl 主场景是科学计算 https:\/\/dataframes.juliadata.org\/stable\/\n都在自己的计算场景下，也没有开放格式，使得内部处理和格式更紧密，更容易优化性能。\nPolars是基于Apache Arrow是目前一个面向计算的内存格式的项目，是一个Libary。Arrow是一个计算格式的Libary，目前很火。\n计算与格式 Hadoop MapReduce时代计算格式可以认为和持久化格式相同，中间结果都存储在HDFS中，所以内存的开销很小，也符合最早Hadoop的定位，整合“弱鸡”的计算能力。100%纯净的“存算分离”，但也足以可见，计算格式和持久化格式最初是一致的，这样的IO节省了格式之间的转换。\n但速度需求永远是大数据的刚性需求，用内存空间换时间的Spark，很快取代了MapReduce，其区别就是Spark在内存中定义计算，并可以对内存中的计算分布式交换（Shuffle），大大提升了计算性能。\n但Spark的Dataframe本身是封闭的与计算过程耦合紧密，不光Spark，各个组件都有优先自己场景的格式。大家很快意识到，格式和计算确实紧密，也就是格式一定程度决定了计算的速度，而数据应用的Python，Java程序员并不想自己再来一套这个。\n于是一个C\u002b\u002b Arrow项目诞生了，其定位是一个计算格式的通用库，统一计算格式，因为是C\u002b\u002b写的，性能自然又要高Java一个量级，本身又是库，所以提供了各种语言的接口，让大家专注于计算部分，然后对外提供FFI到各种组件。\n总结 格式上的选择也很多，存储容量，成本，IO，转换的开销，延迟都在不同的数据场景下有不同的偏爱。方案或者架构的本身就是不断做选择题，MAX（客户预算-产品成本）就是不断求解的过程。还是那句话，适合的才是最好的。尤其是大数据领域，大坑太多，请平衡好成本。
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/bigdata-2-format\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2021",
+        "dateCreated": "2021-07-12T01:00:00.00Z",
+        "datePublished": "2021-07-12T01:00:00.00Z",
+        "dateModified": "2021-07-12T01:00:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/bigdata-2-format\/",
+        "wordCount" : "39",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>大数据(2)-数据处理-格式</h1>
+      <p>数据的输入的原始存储格式，和内存中的组织形式，是决定数据处理性能的关键。</p>
+<p><img src="/img/big-data-1.png" alt="/img/big-data-1.png"></p>
+<h2 id="格式的场景">格式的场景</h2>
+<p>所以大数据中很多技术是关于格式的，或新或老的一些技术，比如</p>
+<p>存储(on-disk)的格式：Parquet，ORC，Avro，CSV，JSON&hellip;</p>
+<p>通信(on-wire)的格式：Protobuf，Avro，JSON&hellip;</p>
+<p>计算(In-memory)的格式：Arrow</p>
+<p>共性来说，就是数据的组织形式，行式或列式，数据的编码/压缩格式，不同场景的话，各有所长。</p>
+<p>如最熟悉的CSV，JSON都是无压缩的字符串，JSON的结构化更适合阅读。</p>
+<p>Parquet，ORC都是列式，面向机器，因为计算过程往往是按列的，所以存储上按列可以减少随机访问，提高IO。</p>
+<p>Avro是行式的，因为有时列持久化需要等所有或一大波数据才能持久化一次，而按行更符合通信流，适合通信持久化。</p>
+<p><img src="/img/big-data-2.png" alt="/img/big-data-2.png"></p>
+<p>无论批处理还是流处理了，需要处理合适的输入的格式。流处理情况下大部分还是需要处理行式的，批处理则更适合列式。</p>
+<p>计算上还需要用列格式，所以流式处理上需要有一个行到列的反序列化，这会降低一定的吞吐。</p>
+<h2 id="性能-or-扩展性">性能 or 扩展性</h2>
+<p>计算类型格式理论上是一个很私密的东西，和之前讨论的计算状态一样。如何很好的将计算（Stateless）与 格式分开是不容易的。俗称“存算分离”，分离清晰，可以快速横向扩展，有更好的可扩展性，但可能会使性能下降。这中间有个度需要结合自己的需求场景把握。</p>
+<p>提到性能，参考一下当前流行的计算组件的速度 <a href="https://h2oai.github.io/db-benchmark/">https://h2oai.github.io/db-benchmark/</a></p>
+<p>除了Spark，Pandas这些耳熟能详的，我们看看前几名：</p>
+<p>Clickhouse是OLAP数据库，主场景是存算合一的数据库，比如交互式查询</p>
+<p>R语言的 data.table 主场景是科学计算</p>
+<p>Julia的Dataframe.jl 主场景是科学计算  <a href="https://dataframes.juliadata.org/stable/">https://dataframes.juliadata.org/stable/</a></p>
+<p>都在自己的计算场景下，也没有开放格式，使得内部处理和格式更紧密，更容易优化性能。</p>
+<p>Polars是基于Apache Arrow是目前一个面向计算的内存格式的项目，是一个Libary。Arrow是一个计算格式的Libary，目前很火。</p>
+<h2 id="计算与格式">计算与格式</h2>
+<p>Hadoop MapReduce时代计算格式可以认为和持久化格式相同，中间结果都存储在HDFS中，所以内存的开销很小，也符合最早Hadoop的定位，整合“弱鸡”的计算能力。100%纯净的“存算分离”，但也足以可见，计算格式和持久化格式最初是一致的，这样的IO节省了格式之间的转换。</p>
+<p>但速度需求永远是大数据的刚性需求，用内存空间换时间的Spark，很快取代了MapReduce，其区别就是Spark在内存中定义计算，并可以对内存中的计算分布式交换（Shuffle），大大提升了计算性能。</p>
+<p>但Spark的Dataframe本身是封闭的与计算过程耦合紧密，不光Spark，各个组件都有优先自己场景的格式。大家很快意识到，格式和计算确实紧密，也就是格式一定程度决定了计算的速度，而数据应用的Python，Java程序员并不想自己再来一套这个。</p>
+<p>于是一个C++ Arrow项目诞生了，其定位是一个计算格式的通用库，统一计算格式，因为是C++写的，性能自然又要高Java一个量级，本身又是库，所以提供了各种语言的接口，让大家专注于计算部分，然后对外提供FFI到各种组件。</p>
+<h2 id="总结">总结</h2>
+<p>格式上的选择也很多，存储容量，成本，IO，转换的开销，延迟都在不同的数据场景下有不同的偏爱。方案或者架构的本身就是不断做选择题，MAX（客户预算-产品成本）就是不断求解的过程。还是那句话，适合的才是最好的。尤其是大数据领域，大坑太多，请平衡好成本。</p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

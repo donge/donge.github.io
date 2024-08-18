@@ -1,0 +1,476 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        大数据(1)-流式处理-状态
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/bigdata-1-state/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="大数据(1)-流式处理-状态">
+  <meta name="twitter:description" content="转行搞了三年大数据，计划写些的东西，对这个方向总结一下，包括架构，工具，格式，库等等。
+最近准备造轮子，就先从一些目前最常见的流式数据处理手段开始。
+Spark &amp; Flink Spark，Flink是最知名的通用数据处理工具，不限定场景，不限定数据量。支持分布式，支持自定义状态，灵活定义数据处理逻辑（执行计划）。
+当然缺点就是：人工参与程度大，速度慢，系统臃肿。
+缺点与优点是相互取舍的，因为本身就是通用平台，不能与业务场景过分绑定，所以很多功能在实际使用时是不需要的，比如只用20%功能，但也有80%的功能拖慢了速度。
+另外磁盘和网络IO，也是持久化，分布式必须的。
+调用方式：因为两者定位都是数据平台，都是异步的网络API，即使有SDK，也相当于客户端封装再异步调用。
+状态 Flink (https://flink.apache.org/) 举例，他官方描述就是 Stateful Computations over Data Streams
+顾名思义，有两个东西，一个是Data Stream，一个是Computation State，这个是任何流处理系统的共识抽象。
+最简单理解就是上图，流入一些数据A，B经过处理系统，数据会通过当前定义的函数或执行计划，改变内部存储的State（比如内置RocksDB），数据与State相互作用后，输出了C，D。
+基于这个抽象，思考几个简单的场景和问题：
+State与Function的关系：State是Computation State，所以顾名思义和计算函数Function是共生的。举个最简单的例子，我要做一个累加的状态，那么A，B，C进来，Function就是 &#43;&#43;，State就是存储 &#43;&#43; 结果的持久化内容。这样很容易理解吧。
+分离计算与计算对应的状态，其好处就是可以将计算并发（快），读写共享状态（慢），在处理海量数据时，更容易进行扩展，比如A，B在一个线程上相加，C，D在另外一个线程相加，然后State再加到一起，或者说每个线程都可以有个State，相加后，在处理合并State的的步骤。
+而具体用那种策略更好呢？其实就是一种执行计划，它是根据你定义的计算过程而制定的。甚至可以在计算过程中根据流入数据的情况进行动态调整。
+流式处理里什么事后不需要状态（Stateless），简单的格式转换，丢弃，没有信息的增加，对上线文无关，都可以不需要状态。通常不需要状态的，我理解是计算无关的，不是流式计算引擎的重点。
+Spark和Flink都内置了大量的计算函数和对应的State，一般来说只用内置计算函数时，对其状态是不太感知的。但作为通用计算引擎，提供自定义计算是必需功能，那此时也必定涉及到State的定义。
+通常我们使用的UDFs（User Defined Functions）就是无状态的（Stateless），只定义函数，不定义状态。
+而UDAFs（User Defined Aggregate Functions）就是要定义，在给定聚合和Key情况下，状态的变化。
+而更灵活的自定义聚合函数和State则还需要定义状态迁移介入的过程，即什么时候开始，什么时候结束。
+感想 如果你有幸在通用平台上钻研过自定义状态处理，你发现它是构建在一个通用框架上的扩展，你需要了解这个框架，而框架则为了考虑所有场景，所以将其抽象到一个爹妈都不认的高度。你需要将你的业务问题套进去，这个学习和试错成本并不低，有时甚至是一个本末倒置的过程。
+所以当你的业务是“杀鸡”问题时，切勿寻求“宰牛”方案，也不要轻信网上那些技术营销或大厂经验而投入Spark或Flink大坑。
+合适的永远是最好的。
+参考:
+Flink基本原理 https://flink.apache.org/flink-applications.html
+UDAFs https://spark.apache.org/docs/latest/sql-ref-functions-udf-aggregate.html
+Spark State https://spark.apache.org/docs/1.6.1/api/java/org/apache/spark/streaming/State.html
+Flink State https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/dev/datastream/fault-tolerance/state/">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/bigdata-1-state/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="大数据(1)-流式处理-状态">
+  <meta property="og:description" content="转行搞了三年大数据，计划写些的东西，对这个方向总结一下，包括架构，工具，格式，库等等。
+最近准备造轮子，就先从一些目前最常见的流式数据处理手段开始。
+Spark &amp; Flink Spark，Flink是最知名的通用数据处理工具，不限定场景，不限定数据量。支持分布式，支持自定义状态，灵活定义数据处理逻辑（执行计划）。
+当然缺点就是：人工参与程度大，速度慢，系统臃肿。
+缺点与优点是相互取舍的，因为本身就是通用平台，不能与业务场景过分绑定，所以很多功能在实际使用时是不需要的，比如只用20%功能，但也有80%的功能拖慢了速度。
+另外磁盘和网络IO，也是持久化，分布式必须的。
+调用方式：因为两者定位都是数据平台，都是异步的网络API，即使有SDK，也相当于客户端封装再异步调用。
+状态 Flink (https://flink.apache.org/) 举例，他官方描述就是 Stateful Computations over Data Streams
+顾名思义，有两个东西，一个是Data Stream，一个是Computation State，这个是任何流处理系统的共识抽象。
+最简单理解就是上图，流入一些数据A，B经过处理系统，数据会通过当前定义的函数或执行计划，改变内部存储的State（比如内置RocksDB），数据与State相互作用后，输出了C，D。
+基于这个抽象，思考几个简单的场景和问题：
+State与Function的关系：State是Computation State，所以顾名思义和计算函数Function是共生的。举个最简单的例子，我要做一个累加的状态，那么A，B，C进来，Function就是 &#43;&#43;，State就是存储 &#43;&#43; 结果的持久化内容。这样很容易理解吧。
+分离计算与计算对应的状态，其好处就是可以将计算并发（快），读写共享状态（慢），在处理海量数据时，更容易进行扩展，比如A，B在一个线程上相加，C，D在另外一个线程相加，然后State再加到一起，或者说每个线程都可以有个State，相加后，在处理合并State的的步骤。
+而具体用那种策略更好呢？其实就是一种执行计划，它是根据你定义的计算过程而制定的。甚至可以在计算过程中根据流入数据的情况进行动态调整。
+流式处理里什么事后不需要状态（Stateless），简单的格式转换，丢弃，没有信息的增加，对上线文无关，都可以不需要状态。通常不需要状态的，我理解是计算无关的，不是流式计算引擎的重点。
+Spark和Flink都内置了大量的计算函数和对应的State，一般来说只用内置计算函数时，对其状态是不太感知的。但作为通用计算引擎，提供自定义计算是必需功能，那此时也必定涉及到State的定义。
+通常我们使用的UDFs（User Defined Functions）就是无状态的（Stateless），只定义函数，不定义状态。
+而UDAFs（User Defined Aggregate Functions）就是要定义，在给定聚合和Key情况下，状态的变化。
+而更灵活的自定义聚合函数和State则还需要定义状态迁移介入的过程，即什么时候开始，什么时候结束。
+感想 如果你有幸在通用平台上钻研过自定义状态处理，你发现它是构建在一个通用框架上的扩展，你需要了解这个框架，而框架则为了考虑所有场景，所以将其抽象到一个爹妈都不认的高度。你需要将你的业务问题套进去，这个学习和试错成本并不低，有时甚至是一个本末倒置的过程。
+所以当你的业务是“杀鸡”问题时，切勿寻求“宰牛”方案，也不要轻信网上那些技术营销或大厂经验而投入Spark或Flink大坑。
+合适的永远是最好的。
+参考:
+Flink基本原理 https://flink.apache.org/flink-applications.html
+UDAFs https://spark.apache.org/docs/latest/sql-ref-functions-udf-aggregate.html
+Spark State https://spark.apache.org/docs/1.6.1/api/java/org/apache/spark/streaming/State.html
+Flink State https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/dev/datastream/fault-tolerance/state/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-06-23T01:00:00+08:00">
+    <meta property="article:modified_time" content="2021-06-23T01:00:00+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "大数据(1)-流式处理-状态",
+        "headline": "大数据(1)-流式处理-状态",
+        "alternativeHeadline": "",
+        "description": "
+      
+        转行搞了三年大数据，计划写些的东西，对这个方向总结一下，包括架构，工具，格式，库等等。\n最近准备造轮子，就先从一些目前最常见的流式数据处理手段开始。\nSpark \u0026amp; Flink Spark，Flink是最知名的通用数据处理工具，不限定场景，不限定数据量。支持分布式，支持自定义状态，灵活定义数据处理逻辑（执行计划）。\n当然缺点就是：人工参与程度大，速度慢，系统臃肿。\n缺点与优点是相互取舍的，因为本身就是通用平台，不能与业务场景过分绑定，所以很多功能在实际使用时是不需要的，比如只用20%功能，但也有80%的功能拖慢了速度。\n另外磁盘和网络IO，也是持久化，分布式必须的。\n调用方式：因为两者定位都是数据平台，都是异步的网络API，即使有SDK，也相当于客户端封装再异步调用。\n状态 Flink (https:\/\/flink.apache.org\/) 举例，他官方描述就是 Stateful Computations over Data Streams\n顾名思义，有两个东西，一个是Data Stream，一个是Computation State，这个是任何流处理系统的共识抽象。\n最简单理解就是上图，流入一些数据A，B经过处理系统，数据会通过当前定义的函数或执行计划，改变内部存储的State（比如内置RocksDB），数据与State相互作用后，输出了C，D。\n基于这个抽象，思考几个简单的场景和问题：\nState与Function的关系：State是Computation State，所以顾名思义和计算函数Function是共生的。举个最简单的例子，我要做一个累加的状态，那么A，B，C进来，Function就是 \u002b\u002b，State就是存储 \u002b\u002b 结果的持久化内容。这样很容易理解吧。\n分离计算与计算对应的状态，其好处就是可以将计算并发（快），读写共享状态（慢），在处理海量数据时，更容易进行扩展，比如A，B在一个线程上相加，C，D在另外一个线程相加，然后State再加到一起，或者说每个线程都可以有个State，相加后，在处理合并State的的步骤。\n而具体用那种策略更好呢？其实就是一种执行计划，它是根据你定义的计算过程而制定的。甚至可以在计算过程中根据流入数据的情况进行动态调整。\n流式处理里什么事后不需要状态（Stateless），简单的格式转换，丢弃，没有信息的增加，对上线文无关，都可以不需要状态。通常不需要状态的，我理解是计算无关的，不是流式计算引擎的重点。\nSpark和Flink都内置了大量的计算函数和对应的State，一般来说只用内置计算函数时，对其状态是不太感知的。但作为通用计算引擎，提供自定义计算是必需功能，那此时也必定涉及到State的定义。\n通常我们使用的UDFs（User Defined Functions）就是无状态的（Stateless），只定义函数，不定义状态。\n而UDAFs（User Defined Aggregate Functions）就是要定义，在给定聚合和Key情况下，状态的变化。\n而更灵活的自定义聚合函数和State则还需要定义状态迁移介入的过程，即什么时候开始，什么时候结束。\n感想 如果你有幸在通用平台上钻研过自定义状态处理，你发现它是构建在一个通用框架上的扩展，你需要了解这个框架，而框架则为了考虑所有场景，所以将其抽象到一个爹妈都不认的高度。你需要将你的业务问题套进去，这个学习和试错成本并不低，有时甚至是一个本末倒置的过程。\n所以当你的业务是“杀鸡”问题时，切勿寻求“宰牛”方案，也不要轻信网上那些技术营销或大厂经验而投入Spark或Flink大坑。\n合适的永远是最好的。\n参考:\nFlink基本原理 https:\/\/flink.apache.org\/flink-applications.html\nUDAFs https:\/\/spark.apache.org\/docs\/latest\/sql-ref-functions-udf-aggregate.html\nSpark State https:\/\/spark.apache.org\/docs\/1.6.1\/api\/java\/org\/apache\/spark\/streaming\/State.html\nFlink State https:\/\/ci.apache.org\/projects\/flink\/flink-docs-release-1.13\/docs\/dev\/datastream\/fault-tolerance\/state\/
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/bigdata-1-state\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2021",
+        "dateCreated": "2021-06-23T01:00:00.00Z",
+        "datePublished": "2021-06-23T01:00:00.00Z",
+        "dateModified": "2021-06-23T01:00:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/bigdata-1-state\/",
+        "wordCount" : "56",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>大数据(1)-流式处理-状态</h1>
+      <p>转行搞了三年大数据，计划写些的东西，对这个方向总结一下，包括架构，工具，格式，库等等。</p>
+<p>最近准备造轮子，就先从一些目前最常见的流式数据处理手段开始。</p>
+<h2 id="spark--flink">Spark &amp; Flink</h2>
+<p>Spark，Flink是最知名的通用数据处理工具，不限定场景，不限定数据量。支持分布式，支持自定义状态，灵活定义数据处理逻辑（执行计划）。</p>
+<p>当然缺点就是：人工参与程度大，速度慢，系统臃肿。</p>
+<p>缺点与优点是相互取舍的，因为本身就是通用平台，不能与业务场景过分绑定，所以很多功能在实际使用时是不需要的，比如只用20%功能，但也有80%的功能拖慢了速度。</p>
+<p>另外磁盘和网络IO，也是持久化，分布式必须的。</p>
+<p>调用方式：因为两者定位都是数据平台，都是异步的网络API，即使有SDK，也相当于客户端封装再异步调用。</p>
+<h2 id="状态">状态</h2>
+<p>Flink (<a href="https://flink.apache.org/">https://flink.apache.org/</a>) 举例，他官方描述就是 Stateful Computations over Data Streams</p>
+<p>顾名思义，有两个东西，一个是Data Stream，一个是Computation State，这个是任何流处理系统的共识抽象。</p>
+<p><img src="/img/flink-state.png" alt="/img/flink-state.png"></p>
+<p>最简单理解就是上图，流入一些数据A，B经过处理系统，数据会通过当前定义的函数或执行计划，改变内部存储的State（比如内置RocksDB），数据与State相互作用后，输出了C，D。</p>
+<p>基于这个抽象，思考几个简单的场景和问题：</p>
+<p>State与Function的关系：State是Computation State，所以顾名思义和计算函数Function是共生的。举个最简单的例子，我要做一个累加的状态，那么A，B，C进来，Function就是 ++，State就是存储 ++ 结果的持久化内容。这样很容易理解吧。</p>
+<p>分离计算与计算对应的状态，其好处就是可以将计算并发（快），读写共享状态（慢），在处理海量数据时，更容易进行扩展，比如A，B在一个线程上相加，C，D在另外一个线程相加，然后State再加到一起，或者说每个线程都可以有个State，相加后，在处理合并State的的步骤。</p>
+<p>而具体用那种策略更好呢？其实就是一种执行计划，它是根据你定义的计算过程而制定的。甚至可以在计算过程中根据流入数据的情况进行动态调整。</p>
+<p>流式处理里什么事后不需要状态（Stateless），简单的格式转换，丢弃，没有信息的增加，对上线文无关，都可以不需要状态。通常不需要状态的，我理解是计算无关的，不是流式计算引擎的重点。</p>
+<p><img src="/img/spark-state.png" alt="/img/spark-state.png"></p>
+<p>Spark和Flink都内置了大量的计算函数和对应的State，一般来说只用内置计算函数时，对其状态是不太感知的。但作为通用计算引擎，提供自定义计算是必需功能，那此时也必定涉及到State的定义。</p>
+<p>通常我们使用的UDFs（User Defined Functions）就是无状态的（Stateless），只定义函数，不定义状态。</p>
+<p>而UDAFs（User Defined Aggregate Functions）就是要定义，在给定聚合和Key情况下，状态的变化。</p>
+<p>而更灵活的自定义聚合函数和State则还需要定义状态迁移介入的过程，即什么时候开始，什么时候结束。</p>
+<h2 id="感想">感想</h2>
+<p>如果你有幸在通用平台上钻研过自定义状态处理，你发现它是构建在一个通用框架上的扩展，你需要了解这个框架，而框架则为了考虑所有场景，所以将其抽象到一个爹妈都不认的高度。你需要将你的业务问题套进去，这个学习和试错成本并不低，有时甚至是一个本末倒置的过程。</p>
+<p>所以当你的业务是“杀鸡”问题时，切勿寻求“宰牛”方案，也不要轻信网上那些技术营销或大厂经验而投入Spark或Flink大坑。</p>
+<p>合适的永远是最好的。</p>
+<p>参考:</p>
+<p>Flink基本原理 <a href="https://flink.apache.org/flink-applications.html">https://flink.apache.org/flink-applications.html</a></p>
+<p>UDAFs <a href="https://spark.apache.org/docs/latest/sql-ref-functions-udf-aggregate.html">https://spark.apache.org/docs/latest/sql-ref-functions-udf-aggregate.html</a></p>
+<p>Spark State <a href="https://spark.apache.org/docs/1.6.1/api/java/org/apache/spark/streaming/State.html">https://spark.apache.org/docs/1.6.1/api/java/org/apache/spark/streaming/State.html</a></p>
+<p>Flink State <a href="https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/dev/datastream/fault-tolerance/state/">https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/dev/datastream/fault-tolerance/state/</a></p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

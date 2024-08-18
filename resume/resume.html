@@ -1,0 +1,595 @@
+<!doctype html>
+<html>
+	<head>
+	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
+	
+	<title>Dongdong Yang</title>
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+	
+	<style type="text/css">
+	@import url(
+	https://fonts.googleapis.com/css?family=Lato:400,700
+);
+body {
+	background: #fff;
+	font-family: Lato, sans-serif;
+	margin: 0 0 80px;
+}
+a {
+	color: #2ecc71;
+}
+a:focus,
+a:hover {
+	color: #f1c40f;
+	text-decoration: none;
+}
+p {
+	line-height: 1.5;
+	margin: 0;
+}
+p + p {
+	margin-top: 10px;
+}
+h1,
+h2,
+h3,
+h4 {
+	margin-top: 0
+}
+section {
+	margin-top: 30px;
+}
+li {
+	line-height: 1.8;
+	list-style: none;
+}
+li:before {
+	content: "\f052";
+	float: left;
+	font: 13px Octicons;
+	margin-top: 6px;
+	margin-left: -20px;
+	opacity: .1;
+	position: absolute;
+}
+blockquote {
+	border-left: 5px solid #e7e9ec;
+	font-size: 14px;
+}
+em {
+	color: #95a5a6;
+	font-weight: normal;
+	font-style: normal;
+}
+h4 span:first-child {
+	color: #000;
+	font-weight: bold;
+}
+.container {
+	max-width: 750px;
+	padding: 0 30px;
+}
+.col-sm-6 {
+	margin-bottom: 10px;
+}
+.col-sm-12 h4 {
+	margin-top: 12px; 
+}
+.col-sm-12 + .col-sm-12 {
+	margin-top: 30px;
+}
+#header {
+	background: #f4f6f6;
+	padding: 50px 0;
+	margin-bottom: 30px;
+}
+#header h2 {
+	color: #95a5a6;
+	font-size: 24px;
+}
+#content h3 {
+	color: #f1c40f;
+	font-size: 26px;
+	margin-top: -4px;
+}
+#content aside {
+	text-align: right;
+	padding-right: 30px;
+}
+#profiles .network {
+	text-transform: capitalize;
+}
+#work .position,
+#volunteer .position {
+	font-weight: bold;
+	margin-bottom: 8px;
+}
+#education .area {
+	font-weight: bold;
+}
+#education .area:before {
+	content: "\f0d7";
+	font: 16px Octicons;
+	margin-right: 6px;
+}
+#education .studyType {
+	margin-left: 25px;
+}
+#awards .summary,
+#publications .summary {
+	margin-top: 8px;
+}
+#publications .website a:before {
+	content: attr(href);
+}
+
+@media (min-width: 480px) {
+	.strike-through {
+		border-top: 1px solid #f4f6f6;
+		height: 20px;
+		margin-top: 12px;
+		margin-bottom: -2px;
+		position: relative;
+	}
+	.strike-through span,
+	.strike-through a {
+		background: #fff;
+		position: absolute;
+	}
+	.strike-through span:first-child {
+		padding-right: 20px;
+		margin-top: -12px;
+	}
+	.strike-through span + span {
+		font-size: 14px;
+		margin-top: -10px;
+		padding-left: 20px;
+		right: 0;
+	}
+}
+@media (max-width: 768px) {
+	.col-sm-6:last-child {
+		margin-bottom: 0px;
+	}
+	#content aside {
+		margin-bottom: 20px;
+		padding-right: 0;
+		text-align: left;
+	}
+	#publications .website a:before {
+		content: "View publication";
+	}
+}
+@media (max-width: 480px) {
+	h1 {
+		font-size: 26px;
+	}
+	.date {
+		font-size: 14px;
+		margin-bottom: 5px;
+	}
+	.strike-through span:first-child {
+		margin-bottom: 7px;
+	}
+	.strike-through span {
+		display: block;
+	}	
+	#header {
+		margin-bottom: 10px;
+		padding: 40px 0;
+	}
+	#actions {
+		display: none;
+	}
+}
+
+	</style>
+	
+	</head>
+	<body>
+	
+	<header id="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9 col-sm-push-3">
+					<h1>
+						Dongdong Yang
+					</h1>
+					<h2>
+						Full Stack Engineer
+					</h2>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div id="content" class="container">
+
+	<section id="contact" class="row">
+		<aside class="col-sm-3">
+			<h3>Contact</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-6">
+				<strong>Email</strong>
+				<div class="email"><a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="bfdbd0d1d8daffdbd0d1d8da91d0cdd8">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></div>
+			</div>
+			<div class="col-sm-6">
+				<strong>Phone</strong>
+				<div class="phone">(86) 18601121116</div>
+			</div>
+			<div class="col-sm-6">
+				<strong>Website</strong>
+				<div class="website">
+					<a href="http://donge.org">http://donge.org</a>
+				</div>
+			</div>
+			</div>
+		</div>
+	</section>
+	<section id="about" class="row">
+		<aside class="col-sm-3">
+			<h3>About</h3>
+		</aside>
+		<div class="col-sm-9">
+			<p>Dongdong works in Beijing, has 9 years developer experience in network system and product, such as router, switch, firewall. With solid knowledge in C/C++ programming and debugging, embedded system development and TCP/IP. Beyond working time, I am a curious hacker, a quick learner. Loves new things, new technology, like try idea with programming, be good at web development, so my career target is to be a Full Stack Engineer from kernel to cloud.</p>
+		</div>
+	</section>
+	<section id="profiles" class="row">
+		<aside class="col-sm-3">
+			<h3>Profiles</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+				<div class="col-sm-6">
+					<strong class="network">
+						ReadMe
+					</strong>
+					<div class="username">
+						<div class="url">
+							<a href="http://www.donge.org/about/index.html">more about me</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<strong class="network">
+						LinkedIn
+					</strong>
+					<div class="username">
+						<div class="url">
+							<a href="http://www.linkedin.com/pub/dongdong-yang/53/254/809">more about work</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<strong class="network">
+						GitHub
+					</strong>
+					<div class="username">
+						<div class="url">
+							<a href="http://resume.github.io/?donge">id: donge</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<strong class="network">
+						WeChat
+					</strong>
+					<div class="username">
+							id: 2780224
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="work" class="row">
+		<aside class="col-sm-3">
+			<h3>Work</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span>Juniper Networks</span>
+					<span class="date">
+						2013-04-01 — now
+					</span>
+				</h4>
+				<div class="website pull-right">
+					<a href="http://www.juniper.net">http://www.juniper.net</a>
+				</div>
+				<div class="position">
+					Staff Engineer
+				</div>
+				<div class="summary">
+					<p>Juniper is a top network device provider, a strong challenger to Cisco. I worked in China Reseach &amp; Development department in sercuirty business.</p>
+				</div>
+				<h4>Highlights</h4>
+				<ul class="highlights">
+					<li class="bullet">As main developer to transfer enterprise product from Indian R&amp;D to China R&amp;D, and quickly build team and ramp-up in branch firewall knowledge</li>
+					<li class="bullet">Successfully won the confidence with sustaining team from Indian, got promotion recommendation from their mananger</li>
+					<li class="bullet">After stable in mataince, join in next-generation firewall design and development, works with U.S. team.</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span>Huawei</span>
+					<span class="date">
+						2006-07-01 — 2013-04-01
+					</span>
+				</h4>
+				<div class="website pull-right">
+					<a href="http://www.huawei.com">http://www.huawei.com</a>
+				</div>
+				<div class="position">
+					Senior Engineer
+				</div>
+				<div class="summary">
+					<p>Works in Huawei Beijing R&amp;D for nearly 7 years in network system platform. As a technical leader in team for 4 years, project leader for 1 years. Be responsible for module design, coding, patent etc.</p>
+				</div>
+				<h4>Highlights</h4>
+				<ul class="highlights">
+					<li class="bullet">Chief designer and developer in TRILL project, it&#x27;s a highlight feature in data-center switch, and got Beijing R&amp;D designer award in 2012</li>
+					<li class="bullet">As technical leader, publish 5 patents as author or co-author in network and system area</li>
+					<li class="bullet">Optimize and tuning performance of routes converage, win top1 result serval time in comparation test with competitor</li>
+					<li class="bullet">Kickout nearly 10 projects as project leader and developer in our team with high quality, refer the list in LinkedIn</li>
+					<li class="bullet">Be a mentor and tutor in knowledge ramp-up.</li>
+				</ul>
+			</div>
+			</div>
+		</div>
+	</section>
+
+	
+	<section id="education" class="row">
+		<aside class="col-sm-3">
+			<h3>Education</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span>Shenyang University of Teachnology</span>
+					<span class="date">
+						2002-07-01 — 2006-07-01
+					</span>
+				</h4>
+				<div class="area">
+					Computer Scenice and Engineering
+				</div>
+				<div class="studyType">
+					Bachelor
+				</div>
+				<h4>Courses</h4>
+				<ul class="courses">
+					<li>Got scholarship 3 times, all A grade in computer experiment course.</li>
+					<li>Startup computer association with roommates</li>
+					<li>Participated many programming competations online, like ACM/ICPC, Topcoder, Baidu Astar</li>
+				</ul>
+			</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	<section id="publications" class="row">
+		<aside class="col-sm-3">
+			<h3>Publications</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span>Method for switching multicast path and router</span>
+					<span class="date">
+						2012-10-17
+					</span>
+				</h4>
+				<div class="website pull-right">
+					<a href="http://worldwide.espacenet.com/publicationDetails/biblio?CC=CN&amp;NR=102739504A&amp;KC=A&amp;FT=D"></a>
+				</div>
+				<div class="publisher">
+					<em>Published by</em>
+					<strong>China CN102739504</strong>
+				</div>
+				<div class="summary">
+					<p></p>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span>ADDRESS RESOLUTION PROTOCOL (ARP) TABLE ENTRY CONFIGURATION METHOD AND DEVICE</span>
+					<span class="date">
+						2012-10-04
+					</span>
+				</h4>
+				<div class="website pull-right">
+					<a href="http://worldwide.espacenet.com/publicationDetails/biblio?CC=WO&amp;NR=2012130083A1&amp;KC=A1&amp;FT=D"></a>
+				</div>
+				<div class="publisher">
+					<em>Published by</em>
+					<strong>China WO2012130083 (A1)</strong>
+				</div>
+				<div class="summary">
+					<p></p>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span>Method and device for route backup</span>
+					<span class="date">
+						2013-06-26
+					</span>
+				</h4>
+				<div class="website pull-right">
+					<a href="http://worldwide.espacenet.com/publicationDetails/biblio?bcId=0&amp;return=true&amp;FT=D&amp;CC=WO&amp;NR=2012130083A1&amp;KC=A1"></a>
+				</div>
+				<div class="publisher">
+					<em>Published by</em>
+					<strong>China CN103179032 (A)</strong>
+				</div>
+				<div class="summary">
+					<p></p>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span>Method and equipment for establishing route table</span>
+					<span class="date">
+						2013-05-13
+					</span>
+				</h4>
+				<div class="website pull-right">
+					<a href="http://worldwide.espacenet.com/publicationDetails/biblio?FT=D&amp;date=20130501&amp;locale=en_EP&amp;CC=CN&amp;NR=103078798A&amp;KC=A&amp;ND=4"></a>
+				</div>
+				<div class="publisher">
+					<em>Published by</em>
+					<strong>China CN103078798 (A)</strong>
+				</div>
+				<div class="summary">
+					<p></p>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<h4 class="strike-through">
+					<span>Method of entry issued and controllers</span>
+					<span class="date">
+						2013-11-27
+					</span>
+				</h4>
+				<div class="website pull-right">
+					<a href="http://worldwide.espacenet.com/publicationDetails/biblio?FT=D&amp;date=20131127&amp;locale=en_EP&amp;CC=CN&amp;NR=103414644A&amp;KC=A&amp;ND=5"></a>
+				</div>
+				<div class="publisher">
+					<em>Published by</em>
+					<strong>China CN103414644 A</strong>
+				</div>
+				<div class="summary">
+					<p></p>
+				</div>
+			</div>
+			</div>
+		</div>
+	</section>
+	
+	<section id="skills" class="row">
+		<aside class="col-sm-3">
+			<h3>Skills</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>System Development</h4>
+				</div>
+				<ul class="keywords">
+					<li>C/C++</li>
+					<li>GDB</li>
+					<li>Linux</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Network Engineering</h4>
+				</div>
+				<ul class="keywords">
+					<li>IP/MPLS Routing Protocol</li>
+					<li>Ethernet Switching</li>
+					<li>Sercuity</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Web Development</h4>
+				</div>
+				<ul class="keywords">
+					<li>HTML</li>
+					<li>CSS</li>
+					<li>Javascript</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Others</h4>
+				</div>
+				<ul class="keywords">
+					<li>Golang, Webgo, Beego</li>
+					<li>Python, Django</li>
+					<li>JSON, MySQL, MangoDB</li>
+				</ul>
+			</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="languages" class="row">
+		<aside class="col-sm-3">
+			<h3>Languages</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-6">
+				<div class="language">
+					<strong>Chinese</strong>
+				</div>
+				<div class="fluency">
+					Native speaker
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="language">
+					<strong>English</strong>
+				</div>
+				<div class="fluency">
+					CET6, well writing and speaking
+				</div>
+			</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="interests" class="row">
+		<aside class="col-sm-3">
+			<h3>Interests</h3>
+		</aside>
+		<div class="col-sm-9">
+			<div class="row">
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Running</h4>
+				</div>
+				<ul class="keywords">
+					<li>10km / 58min</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>Digital Currency</h4>
+				</div>
+				<ul class="keywords">
+					<li>Bitcoin</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<div class="name">
+					<h4>3C Gargets</h4>
+				</div>
+				<ul class="keywords">
+					<li>Raspberry Pi</li>
+				</ul>
+			</div>
+			</div>
+		</div>
+	</section>
+	
+
+	</div>
+	
+	</body>
+</html>

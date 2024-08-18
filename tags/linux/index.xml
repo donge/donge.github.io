@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on 东冬の乱记</title>
+    <link>https://donge.org/tags/linux/</link>
+    <description>Recent content in Linux on 东冬の乱记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 19 Jun 2011 21:23:00 +0000</lastBuildDate><atom:link href="https://donge.org/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[亲笔]安装开源路由平台Quagga记</title>
+      <link>https://donge.org/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</link>
+      <pubDate>Sun, 19 Jun 2011 21:23:00 +0000</pubDate>
+      
+      <guid>https://donge.org/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</guid>
+      
+        <description>周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco。当前Quagga最新版本是0.99.18。可以前往http://www.quagga.net/获得。
+1. 安装编译运行系统 由于电脑是Windows，所以需要安装一个Linux编译环境，选择了DeepinLinux，一款国产优秀的面向桌面的Linux发行版，Ubuntu分支，轻量级界面还很漂亮。可以前往http://www.deepinlinux.com获得。由于平时无法脱离Windows，所以安装到虚拟机中，VMWare, VisualBox, WMLite随你选了，废话不说，这个过程略了。
+2. 配置Linux环境 GCC编译环境，make，autoconf，essential-lib，git都不能少啊，我不是Linux铁粉，所以都用apt-get搞定，少什么加什么，不行就google。当然在Windows使用Linux，可以配置好SSH，在Windows下访问，Linux虚拟机后台运行命令行即可。
+3. 获得Quagga代码分支 可以从网站下载源码包，当然如果有网络的话，可以直接git。 git clone git://code.quagga.net/quagga.git 下载到本地后，看一下说明文件。
+4. 安装Quagga 第一步使用bootstrap.sh检查一下编译环境。 缺少那些工具或者lib都会有提示，按照提示配置完成。 第二步configure编译选项，这个步骤自动的，可以加参数配置，手册中说明很详细。 configure也用于修改软件的功能，如支持IPv6，关闭某个协议等等。 第三步make, make install，编译安装，OK。
+5.运行Quagga 运行文件还是Zebra，不是Quagga，不要弄错了。有几个会出错的问题。 a. 如果遇到说zebra静态库找不到问题，可以将/usr/local/lib中的静态库cp到系统库中/lib快速解决，或者建立软链接，或者修改系统环境变量。 b.如果遇到说配置文件找不到(privs_init: could not lookup user quagga)。可以按如下操作，cp一个样例配置到配置中，再添加一下用户。
+cp -Rf /usr/local/etc/zebra.conf.sample /usr/local/etc/zebra.conf zebra -d -u root -g root 然后再zebra就作为守护进程启动了。
+6. 进入Quagga Zebra默认端口号2601，可以在/etc/services中修改，可以用telnet登陆，登陆密码是zebra。登陆后就可以使用了，如果你用过Cisco IOS，就不用我多说了，哈哈~~
+root@donge:~/quagga# telnet localhost 2601 Trying 127.0.0.1&amp;hellip; Connected to localhost. Escape character is &amp;lsquo;^]&amp;rsquo;.
+Hello, this is Quagga (version 0.</description>
+      
+    </item>
+    
+    <item>
+      <title>FW: syslog的编程和配置</title>
+      <link>https://donge.org/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Tue, 15 Mar 2011 16:25:40 +0000</pubDate>
+      
+      <guid>https://donge.org/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
+      
+        <description> </description>
+      
+    </item>
+    
+  </channel>
+</rss>

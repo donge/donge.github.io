@@ -1,0 +1,477 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        关于规则引擎的思考(1)
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/rule-engine-1/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="关于规则引擎的思考(1)">
+  <meta name="twitter:description" content="规则引擎是什么？ 先看一类文章，为什么要用规则引擎
+https://www.cnblogs.com/rjzheng/p/10996186.html https://www.jianshu.com/p/9b67ab434795
+先看一类文章，为什么不需要规则引擎
+https://www.yinwang.org/blog-cn/2017/05/25/dsl https://www.jianshu.com/p/d136a76e1c0d
+第一类的文章使用规则引擎相当于把 if else 数据化，复杂程度没有降低，只是转移了，为了规则引擎而规则引擎。
+由静态语言转向数据，可以热加载热更新，这才是真正的需求。
+而第二类文章所说复杂规则引擎，必然引入DSL，相当于一个冷门的语言，不但复杂度没降低，熟悉它的成本反而升高，得不偿失。仅为了热加载或解耦不如用脚本。
+规则引擎的功能是什么？ 假设一下：
+如果没有需求的限制，需要灵活的功能大而全的规则引擎，那么最后这个规则引擎就会变成Drools，甚至脚本语言。
+一种靠解析器执行的以决策树为主的东西。如果说因为Hard Code复杂，换成Drools的话，非程序员也无法使用Drools，所以规则引擎可以降低逻辑复杂度是一个悖论。
+那么，通常情况下，我们只需要一个脚本语言，Lua或者Python，这个语言可以完成热加载，有逻辑表达即可。
+再进一步说一下语言表达和规则表达的区别，规则主要是匹配逻辑，if else，即语言中的 “逻辑”（控制） 部分，程序语言中还有 “累加”（计算），“变量” （数据），看看是不是用得到。
+考虑完以上问题后：几个著名规则引擎 or DSL。
+ACL只用于包过滤：输入是网络包文，输出是一个动作
+SQL只用于数据操作和分析：输入是表达式，输出表达式结果
+eBPF: 算是引擎，DSL都算不上，汇编代码啊。
+TOML/YAML：连规则都算不上，DSL配置吧。
+我们回到在特定问题域，特定需求范围下探讨规则引擎 / DSL / 配置文件来驱动逻辑。
+规则引擎 is Nothing 所以“规则引擎”没有狭义的概念和实现，还是需要从需求考虑：
+是注重人机交互，提供交互UI，降低用户使用难度？
+还是为了数据驱动逻辑，分离数据与执行？
+还是为了热更新，热加载？
+还是只想碰“词”
+结论：“规则引擎”是抽象的功能需求，并不是一个具体的技术方案，更不是指导开发实现的特定方法。">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/rule-engine-1/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="关于规则引擎的思考(1)">
+  <meta property="og:description" content="规则引擎是什么？ 先看一类文章，为什么要用规则引擎
+https://www.cnblogs.com/rjzheng/p/10996186.html https://www.jianshu.com/p/9b67ab434795
+先看一类文章，为什么不需要规则引擎
+https://www.yinwang.org/blog-cn/2017/05/25/dsl https://www.jianshu.com/p/d136a76e1c0d
+第一类的文章使用规则引擎相当于把 if else 数据化，复杂程度没有降低，只是转移了，为了规则引擎而规则引擎。
+由静态语言转向数据，可以热加载热更新，这才是真正的需求。
+而第二类文章所说复杂规则引擎，必然引入DSL，相当于一个冷门的语言，不但复杂度没降低，熟悉它的成本反而升高，得不偿失。仅为了热加载或解耦不如用脚本。
+规则引擎的功能是什么？ 假设一下：
+如果没有需求的限制，需要灵活的功能大而全的规则引擎，那么最后这个规则引擎就会变成Drools，甚至脚本语言。
+一种靠解析器执行的以决策树为主的东西。如果说因为Hard Code复杂，换成Drools的话，非程序员也无法使用Drools，所以规则引擎可以降低逻辑复杂度是一个悖论。
+那么，通常情况下，我们只需要一个脚本语言，Lua或者Python，这个语言可以完成热加载，有逻辑表达即可。
+再进一步说一下语言表达和规则表达的区别，规则主要是匹配逻辑，if else，即语言中的 “逻辑”（控制） 部分，程序语言中还有 “累加”（计算），“变量” （数据），看看是不是用得到。
+考虑完以上问题后：几个著名规则引擎 or DSL。
+ACL只用于包过滤：输入是网络包文，输出是一个动作
+SQL只用于数据操作和分析：输入是表达式，输出表达式结果
+eBPF: 算是引擎，DSL都算不上，汇编代码啊。
+TOML/YAML：连规则都算不上，DSL配置吧。
+我们回到在特定问题域，特定需求范围下探讨规则引擎 / DSL / 配置文件来驱动逻辑。
+规则引擎 is Nothing 所以“规则引擎”没有狭义的概念和实现，还是需要从需求考虑：
+是注重人机交互，提供交互UI，降低用户使用难度？
+还是为了数据驱动逻辑，分离数据与执行？
+还是为了热更新，热加载？
+还是只想碰“词”
+结论：“规则引擎”是抽象的功能需求，并不是一个具体的技术方案，更不是指导开发实现的特定方法。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-07-23T16:31:11+08:00">
+    <meta property="article:modified_time" content="2020-07-23T16:31:11+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "关于规则引擎的思考(1)",
+        "headline": "关于规则引擎的思考(1)",
+        "alternativeHeadline": "",
+        "description": "
+      
+        规则引擎是什么？ 先看一类文章，为什么要用规则引擎\nhttps:\/\/www.cnblogs.com\/rjzheng\/p\/10996186.html https:\/\/www.jianshu.com\/p\/9b67ab434795\n先看一类文章，为什么不需要规则引擎\nhttps:\/\/www.yinwang.org\/blog-cn\/2017\/05\/25\/dsl https:\/\/www.jianshu.com\/p\/d136a76e1c0d\n第一类的文章使用规则引擎相当于把 if else 数据化，复杂程度没有降低，只是转移了，为了规则引擎而规则引擎。\n由静态语言转向数据，可以热加载热更新，这才是真正的需求。\n而第二类文章所说复杂规则引擎，必然引入DSL，相当于一个冷门的语言，不但复杂度没降低，熟悉它的成本反而升高，得不偿失。仅为了热加载或解耦不如用脚本。\n规则引擎的功能是什么？ 假设一下：\n如果没有需求的限制，需要灵活的功能大而全的规则引擎，那么最后这个规则引擎就会变成Drools，甚至脚本语言。\n一种靠解析器执行的以决策树为主的东西。如果说因为Hard Code复杂，换成Drools的话，非程序员也无法使用Drools，所以规则引擎可以降低逻辑复杂度是一个悖论。\n那么，通常情况下，我们只需要一个脚本语言，Lua或者Python，这个语言可以完成热加载，有逻辑表达即可。\n再进一步说一下语言表达和规则表达的区别，规则主要是匹配逻辑，if else，即语言中的 “逻辑”（控制） 部分，程序语言中还有 “累加”（计算），“变量” （数据），看看是不是用得到。\n考虑完以上问题后：几个著名规则引擎 or DSL。\nACL只用于包过滤：输入是网络包文，输出是一个动作\nSQL只用于数据操作和分析：输入是表达式，输出表达式结果\neBPF: 算是引擎，DSL都算不上，汇编代码啊。\nTOML\/YAML：连规则都算不上，DSL配置吧。\n我们回到在特定问题域，特定需求范围下探讨规则引擎 \/ DSL \/ 配置文件来驱动逻辑。\n规则引擎 is Nothing 所以“规则引擎”没有狭义的概念和实现，还是需要从需求考虑：\n是注重人机交互，提供交互UI，降低用户使用难度？\n还是为了数据驱动逻辑，分离数据与执行？\n还是为了热更新，热加载？\n还是只想碰“词”\n结论：“规则引擎”是抽象的功能需求，并不是一个具体的技术方案，更不是指导开发实现的特定方法。
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/rule-engine-1\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2020",
+        "dateCreated": "2020-07-23T16:31:11.00Z",
+        "datePublished": "2020-07-23T16:31:11.00Z",
+        "dateModified": "2020-07-23T16:31:11.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/rule-engine-1\/",
+        "wordCount" : "47",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>关于规则引擎的思考(1)</h1>
+      <h3 id="规则引擎是什么">规则引擎是什么？</h3>
+<p>先看一类文章，为什么要用规则引擎</p>
+<p><a href="https://www.cnblogs.com/rjzheng/p/10996186.html">https://www.cnblogs.com/rjzheng/p/10996186.html</a>
+<a href="https://www.jianshu.com/p/9b67ab434795">https://www.jianshu.com/p/9b67ab434795</a></p>
+<p>先看一类文章，为什么不需要规则引擎</p>
+<p><a href="https://www.yinwang.org/blog-cn/2017/05/25/dsl">https://www.yinwang.org/blog-cn/2017/05/25/dsl</a>
+<a href="https://www.jianshu.com/p/d136a76e1c0d">https://www.jianshu.com/p/d136a76e1c0d</a></p>
+<p>第一类的文章使用规则引擎相当于把 if else 数据化，复杂程度没有降低，只是转移了，为了规则引擎而规则引擎。</p>
+<p>由静态语言转向数据，可以热加载热更新，这才是真正的需求。</p>
+<p>而第二类文章所说复杂规则引擎，必然引入DSL，相当于一个冷门的语言，不但复杂度没降低，熟悉它的成本反而升高，得不偿失。仅为了热加载或解耦不如用脚本。</p>
+<h3 id="规则引擎的功能是什么">规则引擎的功能是什么？</h3>
+<p>假设一下：</p>
+<p>如果没有需求的限制，需要灵活的功能大而全的规则引擎，那么最后这个规则引擎就会变成Drools，甚至脚本语言。</p>
+<p>一种靠解析器执行的以决策树为主的东西。如果说因为Hard Code复杂，换成Drools的话，非程序员也无法使用Drools，所以规则引擎可以降低逻辑复杂度是一个悖论。</p>
+<p>那么，通常情况下，我们只需要一个脚本语言，Lua或者Python，这个语言可以完成热加载，有逻辑表达即可。</p>
+<p>再进一步说一下语言表达和规则表达的区别，规则主要是匹配逻辑，if else，即语言中的 “逻辑”（控制） 部分，程序语言中还有 “累加”（计算），“变量” （数据），看看是不是用得到。</p>
+<p>考虑完以上问题后：几个著名规则引擎 or DSL。</p>
+<ul>
+<li>
+<p>ACL只用于包过滤：输入是网络包文，输出是一个动作</p>
+</li>
+<li>
+<p>SQL只用于数据操作和分析：输入是表达式，输出表达式结果</p>
+</li>
+<li>
+<p>eBPF: 算是引擎，DSL都算不上，汇编代码啊。</p>
+</li>
+<li>
+<p>TOML/YAML：连规则都算不上，DSL配置吧。</p>
+</li>
+</ul>
+<p>我们回到在特定问题域，特定需求范围下探讨规则引擎 / DSL / 配置文件来驱动逻辑。</p>
+<h3 id="规则引擎-is-nothing">规则引擎 is Nothing</h3>
+<p>所以“规则引擎”没有狭义的概念和实现，还是需要从需求考虑：</p>
+<p>是注重人机交互，提供交互UI，降低用户使用难度？</p>
+<p>还是为了数据驱动逻辑，分离数据与执行？</p>
+<p>还是为了热更新，热加载？</p>
+<p>还是只想碰“词”</p>
+<p>结论：“规则引擎”是抽象的功能需求，并不是一个具体的技术方案，更不是指导开发实现的特定方法。</p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

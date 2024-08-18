@@ -1,0 +1,480 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        [亲笔]安装开源路由平台Quagga记
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="[亲笔]安装开源路由平台Quagga记">
+  <meta name="twitter:description" content="周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco。当前Quagga最新版本是0.99.18。可以前往http://www.quagga.net/获得。
+1. 安装编译运行系统 由于电脑是Windows，所以需要安装一个Linux编译环境，选择了DeepinLinux，一款国产优秀的面向桌面的Linux发行版，Ubuntu分支，轻量级界面还很漂亮。可以前往http://www.deepinlinux.com获得。由于平时无法脱离Windows，所以安装到虚拟机中，VMWare, VisualBox, WMLite随你选了，废话不说，这个过程略了。
+2. 配置Linux环境 GCC编译环境，make，autoconf，essential-lib，git都不能少啊，我不是Linux铁粉，所以都用apt-get搞定，少什么加什么，不行就google。当然在Windows使用Linux，可以配置好SSH，在Windows下访问，Linux虚拟机后台运行命令行即可。
+3. 获得Quagga代码分支 可以从网站下载源码包，当然如果有网络的话，可以直接git。 git clone git://code.quagga.net/quagga.git 下载到本地后，看一下说明文件。
+4. 安装Quagga 第一步使用bootstrap.sh检查一下编译环境。 缺少那些工具或者lib都会有提示，按照提示配置完成。 第二步configure编译选项，这个步骤自动的，可以加参数配置，手册中说明很详细。 configure也用于修改软件的功能，如支持IPv6，关闭某个协议等等。 第三步make, make install，编译安装，OK。
+5.运行Quagga 运行文件还是Zebra，不是Quagga，不要弄错了。有几个会出错的问题。 a. 如果遇到说zebra静态库找不到问题，可以将/usr/local/lib中的静态库cp到系统库中/lib快速解决，或者建立软链接，或者修改系统环境变量。 b.如果遇到说配置文件找不到(privs_init: could not lookup user quagga)。可以按如下操作，cp一个样例配置到配置中，再添加一下用户。
+cp -Rf /usr/local/etc/zebra.conf.sample /usr/local/etc/zebra.conf zebra -d -u root -g root 然后再zebra就作为守护进程启动了。
+6. 进入Quagga Zebra默认端口号2601，可以在/etc/services中修改，可以用telnet登陆，登陆密码是zebra。登陆后就可以使用了，如果你用过Cisco IOS，就不用我多说了，哈哈~~
+root@donge:~/quagga# telnet localhost 2601 Trying 127.0.0.1… Connected to localhost. Escape character is ‘^]’.
+Hello, this is Quagga (version 0.">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="[亲笔]安装开源路由平台Quagga记">
+  <meta property="og:description" content="周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco。当前Quagga最新版本是0.99.18。可以前往http://www.quagga.net/获得。
+1. 安装编译运行系统 由于电脑是Windows，所以需要安装一个Linux编译环境，选择了DeepinLinux，一款国产优秀的面向桌面的Linux发行版，Ubuntu分支，轻量级界面还很漂亮。可以前往http://www.deepinlinux.com获得。由于平时无法脱离Windows，所以安装到虚拟机中，VMWare, VisualBox, WMLite随你选了，废话不说，这个过程略了。
+2. 配置Linux环境 GCC编译环境，make，autoconf，essential-lib，git都不能少啊，我不是Linux铁粉，所以都用apt-get搞定，少什么加什么，不行就google。当然在Windows使用Linux，可以配置好SSH，在Windows下访问，Linux虚拟机后台运行命令行即可。
+3. 获得Quagga代码分支 可以从网站下载源码包，当然如果有网络的话，可以直接git。 git clone git://code.quagga.net/quagga.git 下载到本地后，看一下说明文件。
+4. 安装Quagga 第一步使用bootstrap.sh检查一下编译环境。 缺少那些工具或者lib都会有提示，按照提示配置完成。 第二步configure编译选项，这个步骤自动的，可以加参数配置，手册中说明很详细。 configure也用于修改软件的功能，如支持IPv6，关闭某个协议等等。 第三步make, make install，编译安装，OK。
+5.运行Quagga 运行文件还是Zebra，不是Quagga，不要弄错了。有几个会出错的问题。 a. 如果遇到说zebra静态库找不到问题，可以将/usr/local/lib中的静态库cp到系统库中/lib快速解决，或者建立软链接，或者修改系统环境变量。 b.如果遇到说配置文件找不到(privs_init: could not lookup user quagga)。可以按如下操作，cp一个样例配置到配置中，再添加一下用户。
+cp -Rf /usr/local/etc/zebra.conf.sample /usr/local/etc/zebra.conf zebra -d -u root -g root 然后再zebra就作为守护进程启动了。
+6. 进入Quagga Zebra默认端口号2601，可以在/etc/services中修改，可以用telnet登陆，登陆密码是zebra。登陆后就可以使用了，如果你用过Cisco IOS，就不用我多说了，哈哈~~
+root@donge:~/quagga# telnet localhost 2601 Trying 127.0.0.1… Connected to localhost. Escape character is ‘^]’.
+Hello, this is Quagga (version 0.">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2011-06-19T21:23:00+00:00">
+    <meta property="article:modified_time" content="2011-06-19T21:23:00+00:00">
+    <meta property="article:tag" content="Linux">
+    <meta property="article:tag" content="Quagga">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "[亲笔]安装开源路由平台Quagga记",
+        "headline": "[亲笔]安装开源路由平台Quagga记",
+        "alternativeHeadline": "",
+        "description": "
+      
+        周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco。当前Quagga最新版本是0.99.18。可以前往http:\/\/www.quagga.net\/获得。\n1. 安装编译运行系统 由于电脑是Windows，所以需要安装一个Linux编译环境，选择了DeepinLinux，一款国产优秀的面向桌面的Linux发行版，Ubuntu分支，轻量级界面还很漂亮。可以前往http:\/\/www.deepinlinux.com获得。由于平时无法脱离Windows，所以安装到虚拟机中，VMWare, VisualBox, WMLite随你选了，废话不说，这个过程略了。\n2. 配置Linux环境 GCC编译环境，make，autoconf，essential-lib，git都不能少啊，我不是Linux铁粉，所以都用apt-get搞定，少什么加什么，不行就google。当然在Windows使用Linux，可以配置好SSH，在Windows下访问，Linux虚拟机后台运行命令行即可。\n3. 获得Quagga代码分支 可以从网站下载源码包，当然如果有网络的话，可以直接git。 git clone git:\/\/code.quagga.net\/quagga.git 下载到本地后，看一下说明文件。\n4. 安装Quagga 第一步使用bootstrap.sh检查一下编译环境。 缺少那些工具或者lib都会有提示，按照提示配置完成。 第二步configure编译选项，这个步骤自动的，可以加参数配置，手册中说明很详细。 configure也用于修改软件的功能，如支持IPv6，关闭某个协议等等。 第三步make, make install，编译安装，OK。\n5.运行Quagga 运行文件还是Zebra，不是Quagga，不要弄错了。有几个会出错的问题。 a. 如果遇到说zebra静态库找不到问题，可以将\/usr\/local\/lib中的静态库cp到系统库中\/lib快速解决，或者建立软链接，或者修改系统环境变量。 b.如果遇到说配置文件找不到(privs_init: could not lookup user quagga)。可以按如下操作，cp一个样例配置到配置中，再添加一下用户。\ncp -Rf \/usr\/local\/etc\/zebra.conf.sample \/usr\/local\/etc\/zebra.conf zebra -d -u root -g root 然后再zebra就作为守护进程启动了。\n6. 进入Quagga Zebra默认端口号2601，可以在\/etc\/services中修改，可以用telnet登陆，登陆密码是zebra。登陆后就可以使用了，如果你用过Cisco IOS，就不用我多说了，哈哈~~\nroot@donge:~\/quagga# telnet localhost 2601 Trying 127.0.0.1\u0026hellip; Connected to localhost. Escape character is \u0026lsquo;^]\u0026rsquo;.\nHello, this is Quagga (version 0.
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2011",
+        "dateCreated": "2011-06-19T21:23:00.00Z",
+        "datePublished": "2011-06-19T21:23:00.00Z",
+        "dateModified": "2011-06-19T21:23:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0\/",
+        "wordCount" : "135",
+        "genre" : [ 
+      
+      "Network"
+
+    ],
+        "keywords" : [ 
+      
+      "Linux"
+
+    
+      
+        ,
+
+      
+      "quagga"
+
+    ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>[亲笔]安装开源路由平台Quagga记</h1>
+      <p>周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco。当前Quagga最新版本是0.99.18。可以前往<a href="http://www.quagga.net/">http://www.quagga.net/</a>获得。</p>
+<p>1. 安装编译运行系统
+由于电脑是Windows，所以需要安装一个Linux编译环境，选择了DeepinLinux，一款国产优秀的面向桌面的Linux发行版，Ubuntu分支，轻量级界面还很漂亮。可以前往<a href="http://www.deepinlinux.com">http://www.deepinlinux.com</a>获得。由于平时无法脱离Windows，所以安装到虚拟机中，VMWare, VisualBox, WMLite随你选了，废话不说，这个过程略了。</p>
+<p>2. 配置Linux环境
+GCC编译环境，make，autoconf，essential-lib，git都不能少啊，我不是Linux铁粉，所以都用apt-get搞定，少什么加什么，不行就google。当然在Windows使用Linux，可以配置好SSH，在Windows下访问，Linux虚拟机后台运行命令行即可。</p>
+<p>3. 获得Quagga代码分支
+可以从网站下载源码包，当然如果有网络的话，可以直接git。
+<code>git clone git://code.quagga.net/quagga.git </code>下载到本地后，看一下说明文件。</p>
+<p>4. 安装Quagga
+第一步使用bootstrap.sh检查一下编译环境。
+缺少那些工具或者lib都会有提示，按照提示配置完成。
+第二步configure编译选项，这个步骤自动的，可以加参数配置，手册中说明很详细。
+configure也用于修改软件的功能，如支持IPv6，关闭某个协议等等。
+第三步make, make install，编译安装，OK。</p>
+<p>5.运行Quagga
+运行文件还是Zebra，不是Quagga，不要弄错了。有几个会出错的问题。
+a. 如果遇到说zebra静态库找不到问题，可以将/usr/local/lib中的静态库cp到系统库中/lib快速解决，或者建立软链接，或者修改系统环境变量。
+b.如果遇到说配置文件找不到(privs_init: could not lookup user quagga)。可以按如下操作，cp一个样例配置到配置中，再添加一下用户。</p>
+<h1 id="cp--rf-usrlocaletczebraconfsample-usrlocaletczebraconf">cp -Rf /usr/local/etc/zebra.conf.sample /usr/local/etc/zebra.conf</h1>
+<h1 id="zebra--d--u-root--g-root">zebra -d -u root -g root</h1>
+<p>然后再zebra就作为守护进程启动了。</p>
+<p>6. 进入Quagga
+Zebra默认端口号2601，可以在/etc/services中修改，可以用telnet登陆，登陆密码是zebra。登陆后就可以使用了，如果你用过Cisco IOS，就不用我多说了，哈哈~~</p>
+<p><a href="mailto:root@donge:~/quagga">root@donge:~/quagga</a># telnet localhost 2601
+Trying 127.0.0.1&hellip;
+Connected to localhost.
+Escape character is &lsquo;^]&rsquo;.</p>
+<p>Hello, this is Quagga (version 0.99.18).
+Copyright 1996-2005 Kunihiro Ishiguro, et al.
+User Access Verification</p>
+<p>Password:
+Router&gt;
+Router&gt; show in
+Router&gt; show interface
+Interface eth0 is up, line protocol detection is disabled
+  index 2 metric 1 mtu 1500
+  flags: &lt;UP,BROADCAST,RUNNING,MULTICAST&gt;
+  HWaddr: 00:0c:29:6d:c3:f7
+  inet 192.168.128.128/24 broadcast 192.168.128.255
+  inet6 fe80::20c:29ff:fe6d:c3f7/64
+Interface lo is up, line protocol detection is disabled
+  index 1 metric 1 mtu 16436
+  flags: &lt;UP,LOOPBACK,RUNNING&gt;
+  inet 127.0.0.1/8
+  inet6 ::1/128</p>
+</div>
+    <div class="post__footer">
+      
+        <span><a class="category" href="/categories/network/">Network</a></span>
+
+
+      
+
+      
+        <span><a class="tag" href="/tags/linux/">Linux</a><a class="tag" href="/tags/quagga/">quagga</a></span>
+
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

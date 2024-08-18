@@ -1,0 +1,418 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        Rust为什么快？
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/2024-why-rust-fast/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Rust为什么快？">
+  <meta name="twitter:description" content="快在哪里? Rust很擅长JSON处理，serdes，各种RPC格式转换，正则表达式匹配处理，语法意义处理，parser。 基本没有对手，而在其他场景，大家相差不大。这是为什么？
+我猜想这绝对是Rust独特内存特性造成的。以上场景处理上需要对内存做比较零散的操作，比如一个消息块的大小，然后解析处理，完成后再处理下一块，只对处理中间状态有保持，无需一直持有所以消息在内存。
+这种零散的内存操作在Rust中会通过所有权机制优化到栈上完成，这相对其他语言减少很多堆内存分配与引用开销，还可以利用寄存器指令缓存。其他语言甚至没有机制优化到zero allocation或相同水平，go这种内存GC类语言就更吃亏。
+而对于大内存的处理语言都借助于内存池或Arena，减少栈开销，这种场景下并没有差距，GC也没关系。
+不快在哪里? 对于其他性能场景，如计算密集，编译型&gt;jit&gt;解释型，Rust并不突出，甚至在科学计算或训练时，计算被替换成了io，用什么语言都不关键了。
+io密集下的快，语言的调度，并发，事件机制，锁机制重要，用得对更重要。
+所以在不讨论Rust的内存安全vs开发效率时，Rust该用来干什么，而不是无脑rewrite，希望对大家有启发。
+脑洞 结束又想到一个脑洞，Rust这种特长很像LLM拥有很长的上下文（栈），而不需要用向量数据库查（堆）。未来计算体系结构如果有更大的栈，更多的寄存器空间，Rust的内存魔法也许会更强。">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/2024-why-rust-fast/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="Rust为什么快？">
+  <meta property="og:description" content="快在哪里? Rust很擅长JSON处理，serdes，各种RPC格式转换，正则表达式匹配处理，语法意义处理，parser。 基本没有对手，而在其他场景，大家相差不大。这是为什么？
+我猜想这绝对是Rust独特内存特性造成的。以上场景处理上需要对内存做比较零散的操作，比如一个消息块的大小，然后解析处理，完成后再处理下一块，只对处理中间状态有保持，无需一直持有所以消息在内存。
+这种零散的内存操作在Rust中会通过所有权机制优化到栈上完成，这相对其他语言减少很多堆内存分配与引用开销，还可以利用寄存器指令缓存。其他语言甚至没有机制优化到zero allocation或相同水平，go这种内存GC类语言就更吃亏。
+而对于大内存的处理语言都借助于内存池或Arena，减少栈开销，这种场景下并没有差距，GC也没关系。
+不快在哪里? 对于其他性能场景，如计算密集，编译型&gt;jit&gt;解释型，Rust并不突出，甚至在科学计算或训练时，计算被替换成了io，用什么语言都不关键了。
+io密集下的快，语言的调度，并发，事件机制，锁机制重要，用得对更重要。
+所以在不讨论Rust的内存安全vs开发效率时，Rust该用来干什么，而不是无脑rewrite，希望对大家有启发。
+脑洞 结束又想到一个脑洞，Rust这种特长很像LLM拥有很长的上下文（栈），而不需要用向量数据库查（堆）。未来计算体系结构如果有更大的栈，更多的寄存器空间，Rust的内存魔法也许会更强。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-06-04T01:00:00+08:00">
+    <meta property="article:modified_time" content="2024-06-04T01:00:00+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "Rust为什么快？",
+        "headline": "Rust为什么快？",
+        "alternativeHeadline": "",
+        "description": "
+      
+        快在哪里? Rust很擅长JSON处理，serdes，各种RPC格式转换，正则表达式匹配处理，语法意义处理，parser。 基本没有对手，而在其他场景，大家相差不大。这是为什么？\n我猜想这绝对是Rust独特内存特性造成的。以上场景处理上需要对内存做比较零散的操作，比如一个消息块的大小，然后解析处理，完成后再处理下一块，只对处理中间状态有保持，无需一直持有所以消息在内存。\n这种零散的内存操作在Rust中会通过所有权机制优化到栈上完成，这相对其他语言减少很多堆内存分配与引用开销，还可以利用寄存器指令缓存。其他语言甚至没有机制优化到zero allocation或相同水平，go这种内存GC类语言就更吃亏。\n而对于大内存的处理语言都借助于内存池或Arena，减少栈开销，这种场景下并没有差距，GC也没关系。\n不快在哪里? 对于其他性能场景，如计算密集，编译型\u0026gt;jit\u0026gt;解释型，Rust并不突出，甚至在科学计算或训练时，计算被替换成了io，用什么语言都不关键了。\nio密集下的快，语言的调度，并发，事件机制，锁机制重要，用得对更重要。\n所以在不讨论Rust的内存安全vs开发效率时，Rust该用来干什么，而不是无脑rewrite，希望对大家有启发。\n脑洞 结束又想到一个脑洞，Rust这种特长很像LLM拥有很长的上下文（栈），而不需要用向量数据库查（堆）。未来计算体系结构如果有更大的栈，更多的寄存器空间，Rust的内存魔法也许会更强。
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/2024-why-rust-fast\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2024",
+        "dateCreated": "2024-06-04T01:00:00.00Z",
+        "datePublished": "2024-06-04T01:00:00.00Z",
+        "dateModified": "2024-06-04T01:00:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/2024-why-rust-fast\/",
+        "wordCount" : "13",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>Rust为什么快？</h1>
+      <h2 id="快在哪里">快在哪里?</h2>
+<p>Rust很擅长JSON处理，serdes，各种RPC格式转换，正则表达式匹配处理，语法意义处理，parser。
+基本没有对手，而在其他场景，大家相差不大。这是为什么？</p>
+<p>我猜想这绝对是Rust独特内存特性造成的。以上场景处理上需要对内存做比较零散的操作，比如一个消息块的大小，然后解析处理，完成后再处理下一块，只对处理中间状态有保持，无需一直持有所以消息在内存。</p>
+<p>这种零散的内存操作在Rust中会通过所有权机制优化到栈上完成，这相对其他语言减少很多堆内存分配与引用开销，还可以利用寄存器指令缓存。其他语言甚至没有机制优化到zero allocation或相同水平，go这种内存GC类语言就更吃亏。</p>
+<p>而对于大内存的处理语言都借助于内存池或Arena，减少栈开销，这种场景下并没有差距，GC也没关系。</p>
+<h2 id="不快在哪里">不快在哪里?</h2>
+<p>对于其他性能场景，如计算密集，编译型&gt;jit&gt;解释型，Rust并不突出，甚至在科学计算或训练时，计算被替换成了io，用什么语言都不关键了。</p>
+<p>io密集下的快，语言的调度，并发，事件机制，锁机制重要，用得对更重要。</p>
+<p>所以在不讨论Rust的内存安全vs开发效率时，Rust该用来干什么，而不是无脑rewrite，希望对大家有启发。</p>
+<h2 id="脑洞">脑洞</h2>
+<p>结束又想到一个脑洞，Rust这种特长很像LLM拥有很长的上下文（栈），而不需要用向量数据库查（堆）。未来计算体系结构如果有更大的栈，更多的寄存器空间，Rust的内存魔法也许会更强。</p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

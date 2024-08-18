@@ -1,0 +1,492 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        [ZT]对下一代高端通信系统设计的七个展望
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="[ZT]对下一代高端通信系统设计的七个展望">
+  <meta name="twitter:description" content="转一篇陈首席的文章，慢慢理解一下~~
+高端通信系统设计从来就是一个困难的话题。一个优秀的系统设计往往决定了其竞争力和相应的生命周期。
+本文试图阐述笔者对下一代高端通信系统设计的一些展望。抛豆腐引砖块，其目的是通过读者的评论，使得美军，共军，国军，伪军等的知识和经验可以共享。使得Open Source的精神发扬光大。
+1。 LDF Rule（Legacy Decides Future） 系统都是演变的，而非设计的。一个好的系统设计必须首先满足对历史系统，历史代码的演进路标。否则，就是在做Science，而非Engineering。这方面最大的挑战就是在哪个release去掉哪些历史遗留问题。改良的代价一定是小于革命。
+在这个第一重要的法则里，要求的是系统设计师必须了解细节。需要能进能出［想歪了的同学请自己惩罚一下自己邪恶的心灵］。要的是能bottom up。然后在bottom up的基础上，进行top down的设计。缺一不可。只能bottom inside，是一个单纯的工程师；只能top through就是一个玩胶片的大忽悠。
+2。 CDMD Convergence Rule （Control Plane，Data Plane，Management Plane and Debug Plane Convergence） 这个rule类似与我大宋气功中的一句经典法则：人身无处不丹田。啥意思呢？ 控制平面，数据平面，管理平面，调试平面都将是一个逻辑的概念，而非一个物理的实体，例如控制平面卡，数据平面卡。。。
+上述的各个Plane都是你中有我，我中有你。［想歪了的同学请自己惩罚一下自己邪恶的心灵］。
+在任何一个环节都需要有相应的逻辑部分。整体系统的任何一个平面是通过分布在系统各个环节中的子平面来共同构成的。
+这方面最大的挑战是：系统架构师必须对分布式系统的设计非常过敏，sorry，敏感。
+在分布式系统设计中，一个最重要的理论悖论是： 在分布式系统中，在任何时刻，在任何一个节点上，是无法知道当时的全局状态的。
+这是啥意思呢？
+就是，除了上帝，你在一个时刻点Ti，是不可能知道Ti时刻系统其他信息的。你能知道的信息只能是T（i＋Delta）。这个Delta就是通信开销所带来的。
+大白话就是，杨小姐（杨贵妃），从理论上，Y从来就没有吃过新鲜的荔枝，no matter驿道上的马儿跑的有多快。
+在这个分布式天生的死穴问题上，带来的问题是最多的。
+作为系统架构师，必须对时序逻辑（Temporal Logic）有所掌握。Otherwise, 系统设计一定是漏洞十出。
+另外，分布式系统的nature决定了任何全局算法的优化一定不是最优的，而是次优的。 在CDMD Convergence的设计基础上，一个很大的演变就是：C，D，M，D的计算资源的自适应（Adaptive）的调配。而非静态的划分。
+要充分利用计算池的模型，Processing on Demand。
+3。CTP（Close To Port） Rule 计算或者存储能力一定要离端口（Port）近。越远，越歇火。 当官是要离党中央近。做系统是要离Traffic近。
+这里的一个设计Case study 是：要充分利用系统中线卡，处理卡，I/O卡上的计算能力。这些计算能力是离端口最近的，对Traffic而言，是Local Bus的距离，而非Interconnect的长途跋涉。
+计算是分布的。分布计算的集合就是系统的总体计算和（或）处理能力。
+4。 CCNUMA Adoption Rule CCNUMA一定会被广泛的用在将来的高端通信系统中。
+只有CCNUMA的应用，才能达到分布式技术的同时，又能支持历史系统，CDMD的融合和Close to Port的法则。
+在CCNUMA系统设计中，必须对Memory的分布非常敏感。跨Interconnect，例如QPI，的过分存取，一定是带来硬伤。
+系统架构师必须对Cache，L1，L2，和L3和ccNUMA－Interconnect，例如QPI等一些知识有足够的积累和实战能力。否则，很难把握CCNUMA系统。">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="[ZT]对下一代高端通信系统设计的七个展望">
+  <meta property="og:description" content="转一篇陈首席的文章，慢慢理解一下~~
+高端通信系统设计从来就是一个困难的话题。一个优秀的系统设计往往决定了其竞争力和相应的生命周期。
+本文试图阐述笔者对下一代高端通信系统设计的一些展望。抛豆腐引砖块，其目的是通过读者的评论，使得美军，共军，国军，伪军等的知识和经验可以共享。使得Open Source的精神发扬光大。
+1。 LDF Rule（Legacy Decides Future） 系统都是演变的，而非设计的。一个好的系统设计必须首先满足对历史系统，历史代码的演进路标。否则，就是在做Science，而非Engineering。这方面最大的挑战就是在哪个release去掉哪些历史遗留问题。改良的代价一定是小于革命。
+在这个第一重要的法则里，要求的是系统设计师必须了解细节。需要能进能出［想歪了的同学请自己惩罚一下自己邪恶的心灵］。要的是能bottom up。然后在bottom up的基础上，进行top down的设计。缺一不可。只能bottom inside，是一个单纯的工程师；只能top through就是一个玩胶片的大忽悠。
+2。 CDMD Convergence Rule （Control Plane，Data Plane，Management Plane and Debug Plane Convergence） 这个rule类似与我大宋气功中的一句经典法则：人身无处不丹田。啥意思呢？ 控制平面，数据平面，管理平面，调试平面都将是一个逻辑的概念，而非一个物理的实体，例如控制平面卡，数据平面卡。。。
+上述的各个Plane都是你中有我，我中有你。［想歪了的同学请自己惩罚一下自己邪恶的心灵］。
+在任何一个环节都需要有相应的逻辑部分。整体系统的任何一个平面是通过分布在系统各个环节中的子平面来共同构成的。
+这方面最大的挑战是：系统架构师必须对分布式系统的设计非常过敏，sorry，敏感。
+在分布式系统设计中，一个最重要的理论悖论是： 在分布式系统中，在任何时刻，在任何一个节点上，是无法知道当时的全局状态的。
+这是啥意思呢？
+就是，除了上帝，你在一个时刻点Ti，是不可能知道Ti时刻系统其他信息的。你能知道的信息只能是T（i＋Delta）。这个Delta就是通信开销所带来的。
+大白话就是，杨小姐（杨贵妃），从理论上，Y从来就没有吃过新鲜的荔枝，no matter驿道上的马儿跑的有多快。
+在这个分布式天生的死穴问题上，带来的问题是最多的。
+作为系统架构师，必须对时序逻辑（Temporal Logic）有所掌握。Otherwise, 系统设计一定是漏洞十出。
+另外，分布式系统的nature决定了任何全局算法的优化一定不是最优的，而是次优的。 在CDMD Convergence的设计基础上，一个很大的演变就是：C，D，M，D的计算资源的自适应（Adaptive）的调配。而非静态的划分。
+要充分利用计算池的模型，Processing on Demand。
+3。CTP（Close To Port） Rule 计算或者存储能力一定要离端口（Port）近。越远，越歇火。 当官是要离党中央近。做系统是要离Traffic近。
+这里的一个设计Case study 是：要充分利用系统中线卡，处理卡，I/O卡上的计算能力。这些计算能力是离端口最近的，对Traffic而言，是Local Bus的距离，而非Interconnect的长途跋涉。
+计算是分布的。分布计算的集合就是系统的总体计算和（或）处理能力。
+4。 CCNUMA Adoption Rule CCNUMA一定会被广泛的用在将来的高端通信系统中。
+只有CCNUMA的应用，才能达到分布式技术的同时，又能支持历史系统，CDMD的融合和Close to Port的法则。
+在CCNUMA系统设计中，必须对Memory的分布非常敏感。跨Interconnect，例如QPI，的过分存取，一定是带来硬伤。
+系统架构师必须对Cache，L1，L2，和L3和ccNUMA－Interconnect，例如QPI等一些知识有足够的积累和实战能力。否则，很难把握CCNUMA系统。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2011-06-17T00:13:59+00:00">
+    <meta property="article:modified_time" content="2011-06-17T00:13:59+00:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "[ZT]对下一代高端通信系统设计的七个展望",
+        "headline": "[ZT]对下一代高端通信系统设计的七个展望",
+        "alternativeHeadline": "",
+        "description": "
+      
+        转一篇陈首席的文章，慢慢理解一下~~\n高端通信系统设计从来就是一个困难的话题。一个优秀的系统设计往往决定了其竞争力和相应的生命周期。\n本文试图阐述笔者对下一代高端通信系统设计的一些展望。抛豆腐引砖块，其目的是通过读者的评论，使得美军，共军，国军，伪军等的知识和经验可以共享。使得Open Source的精神发扬光大。\n1。 LDF Rule（Legacy Decides Future） 系统都是演变的，而非设计的。一个好的系统设计必须首先满足对历史系统，历史代码的演进路标。否则，就是在做Science，而非Engineering。这方面最大的挑战就是在哪个release去掉哪些历史遗留问题。改良的代价一定是小于革命。\n在这个第一重要的法则里，要求的是系统设计师必须了解细节。需要能进能出［想歪了的同学请自己惩罚一下自己邪恶的心灵］。要的是能bottom up。然后在bottom up的基础上，进行top down的设计。缺一不可。只能bottom inside，是一个单纯的工程师；只能top through就是一个玩胶片的大忽悠。\n2。 CDMD Convergence Rule （Control Plane，Data Plane，Management Plane and Debug Plane Convergence） 这个rule类似与我大宋气功中的一句经典法则：人身无处不丹田。啥意思呢？ 控制平面，数据平面，管理平面，调试平面都将是一个逻辑的概念，而非一个物理的实体，例如控制平面卡，数据平面卡。。。\n上述的各个Plane都是你中有我，我中有你。［想歪了的同学请自己惩罚一下自己邪恶的心灵］。\n在任何一个环节都需要有相应的逻辑部分。整体系统的任何一个平面是通过分布在系统各个环节中的子平面来共同构成的。\n这方面最大的挑战是：系统架构师必须对分布式系统的设计非常过敏，sorry，敏感。\n在分布式系统设计中，一个最重要的理论悖论是： 在分布式系统中，在任何时刻，在任何一个节点上，是无法知道当时的全局状态的。\n这是啥意思呢？\n就是，除了上帝，你在一个时刻点T\u001fi，是不可能知道Ti时刻系统其他信息的。你能知道的信息只能是T（i＋Delta）。这个Delta就是通信开销所带来的。\n大白话就是，杨小姐（杨贵妃），从理论上，Y从来就没有吃过新鲜的荔枝，no matter驿道上的马儿跑的有多快。\n在这个分布式天生的死穴问题上，带来的问题是最多的。\n作为系统架构师，必须对时序逻辑（Temporal Logic）有所掌握。Otherwise, 系统设计一定是漏洞十出。\n另外，分布式系统的nature决定了任何全局算法的优化一定不是最优的，而是次优的。 在CDMD Convergence的设计基础上，一个很大的演变就是：C，D，M，D的计算资源的自适应（Adaptive）的调配。而非静态的划分。\n要充分利用计算池的模型，Processing on Demand。\n3。CTP（Close To Port） Rule 计算或者存储能力一定要离端口（Port）近。越远，越歇火。 当官是要离党中央近。做系统是要离Traffic近。\n这里的一个设计Case study 是：要充分利用系统中线卡，处理卡，I\/O卡上的计算能力。这些计算能力是离端口最近的，对Traffic而言，是Local Bus的距离，而非Interconnect的长途跋涉。\n计算是分布的。分布计算的集合就是系统的总体计算和（或）处理能力。\n4。 CCNUMA Adoption Rule CCNUMA一定会被广泛的用在将来的高端通信系统中。\n只有CCNUMA的应用，才能达到分布式技术的同时，又能支持历史系统，CDMD的融合和Close to Port的法则。\n在CCNUMA系统设计中，必须对Memory的分布非常敏感。跨Interconnect，例如QPI，的过分存取，一定是带来硬伤。\n系统架构师必须对Cache，L1，L2，和L3和ccNUMA－Interconnect，例如QPI等一些知识有足够的积累和实战能力。否则，很难把握CCNUMA系统。
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2011",
+        "dateCreated": "2011-06-17T00:13:59.00Z",
+        "datePublished": "2011-06-17T00:13:59.00Z",
+        "dateModified": "2011-06-17T00:13:59.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B\/",
+        "wordCount" : "103",
+        "genre" : [ 
+      
+      "Network"
+
+    ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>[ZT]对下一代高端通信系统设计的七个展望</h1>
+      <p>转一篇陈首席的文章，慢慢理解一下~~</p>
+<p>高端通信系统设计从来就是一个困难的话题。一个优秀的系统设计往往决定了其竞争力和相应的生命周期。</p>
+<p>本文试图阐述笔者对下一代高端通信系统设计的一些展望。抛豆腐引砖块，其目的是通过读者的评论，使得美军，共军，国军，伪军等的知识和经验可以共享。使得Open Source的精神发扬光大。</p>
+<p><strong>1。 LDF Rule（Legacy Decides Future）</strong>
+系统都是演变的，而非设计的。一个好的系统设计必须首先满足对历史系统，历史代码的演进路标。否则，就是在做Science，而非Engineering。这方面最大的挑战就是在哪个release去掉哪些历史遗留问题。改良的代价一定是小于革命。</p>
+<p>在这个第一重要的法则里，要求的是系统设计师必须了解细节。需要能进能出［想歪了的同学请自己惩罚一下自己邪恶的心灵］。要的是能bottom up。然后在bottom up的基础上，进行top down的设计。缺一不可。只能bottom inside，是一个单纯的工程师；只能top through就是一个玩胶片的大忽悠。</p>
+<p><strong>2。 CDMD Convergence Rule</strong>
+（Control Plane，Data Plane，Management Plane and Debug Plane Convergence）
+这个rule类似与我大宋气功中的一句经典法则：人身无处不丹田。啥意思呢？
+控制平面，数据平面，管理平面，调试平面都将是一个逻辑的概念，而非一个物理的实体，例如控制平面卡，数据平面卡。。。</p>
+<p>上述的各个Plane都是你中有我，我中有你。［想歪了的同学请自己惩罚一下自己邪恶的心灵］。</p>
+<p>在任何一个环节都需要有相应的逻辑部分。整体系统的任何一个平面是通过分布在系统各个环节中的子平面来共同构成的。</p>
+<p>这方面最大的挑战是：系统架构师必须对分布式系统的设计非常过敏，sorry，敏感。</p>
+<p>在分布式系统设计中，一个最重要的理论悖论是： 在分布式系统中，在任何时刻，在任何一个节点上，是无法知道当时的全局状态的。</p>
+<p>这是啥意思呢？</p>
+<p>就是，除了上帝，你在一个时刻点Ti，是不可能知道Ti时刻系统其他信息的。你能知道的信息只能是T（i＋Delta）。这个Delta就是通信开销所带来的。</p>
+<p>大白话就是，杨小姐（杨贵妃），从理论上，Y从来就没有吃过新鲜的荔枝，no matter驿道上的马儿跑的有多快。</p>
+<p>在这个分布式天生的死穴问题上，带来的问题是最多的。</p>
+<p>作为系统架构师，必须对时序逻辑（Temporal Logic）有所掌握。Otherwise, 系统设计一定是漏洞十出。</p>
+<p>另外，分布式系统的nature决定了任何全局算法的优化一定不是最优的，而是次优的。
+在CDMD Convergence的设计基础上，一个很大的演变就是：C，D，M，D的计算资源的自适应（Adaptive）的调配。而非静态的划分。</p>
+<p>要充分利用计算池的模型，Processing on Demand。</p>
+<p><strong>3。CTP（Close To Port） Rule</strong>
+计算或者存储能力一定要离端口（Port）近。越远，越歇火。 当官是要离党中央近。做系统是要离Traffic近。</p>
+<p>这里的一个设计Case study 是：要充分利用系统中线卡，处理卡，I/O卡上的计算能力。这些计算能力是离端口最近的，对Traffic而言，是Local Bus的距离，而非Interconnect的长途跋涉。</p>
+<p>计算是分布的。分布计算的集合就是系统的总体计算和（或）处理能力。</p>
+<p><strong>4。 CCNUMA Adoption Rule</strong>
+CCNUMA一定会被广泛的用在将来的高端通信系统中。</p>
+<p>只有CCNUMA的应用，才能达到分布式技术的同时，又能支持历史系统，CDMD的融合和Close to Port的法则。</p>
+<p>在CCNUMA系统设计中，必须对Memory的分布非常敏感。跨Interconnect，例如QPI，的过分存取，一定是带来硬伤。</p>
+<p>系统架构师必须对Cache，L1，L2，和L3和ccNUMA－Interconnect，例如QPI等一些知识有足够的积累和实战能力。否则，很难把握CCNUMA系统。</p>
+<p><strong>5。 Hybrid Model Rule</strong>
+ASIC，FPGA等等不会消亡。消亡的是你革命的心。任何设计都是一个性价比的折衷。
+天下没有最美丽的女子；只有最适合你的女人。
+在这个设计法则方面，要各位主要ASIC或者FPGA上的控制CPU的计算能力的浪费。
+在CCNUMA的基础上，所有的CPU的整合就是一个CPU。所不同的是处理的数据可以不同而已。</p>
+<p><strong>6。 MapReduce Rule</strong></p>
+<p>经典的并行计算的MIMD模型应该被广泛的应用。</p>
+<p>多个计算流形成一个计算池；
+多个数据流形成一个数据池。</p>
+<p>MapReduce不应该只是Loosely Coupled Distributed Computing的宠儿，例如Google，Facebook。</p>
+<p>MapReduce的思想精髓应该，而且也会被广泛的应用在高端通信系统（Tightly Coupled Distributed Computing）的设计上。</p>
+<p>**7。 x86＋ zero－overhead Linux **
+x86＋Linux的在通信系统中一定会得到广泛的应用。从而使得通信系统能够迅速的实现，更为重要的是，支持大量的3rd party的应用。</p>
+<p>任何不adopt Linux／Unix的力量都是错误的。历史的将来会证明这一点。。。</p>
+<p>应用决定一切。 Linux的强大中的强大就是无数的应用。</p>
+</div>
+    <div class="post__footer">
+      
+        <span><a class="category" href="/categories/network/">Network</a></span>
+
+
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

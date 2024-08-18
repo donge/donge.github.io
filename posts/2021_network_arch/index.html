@@ -1,0 +1,505 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        2021网络系统流行架构
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/2021_network_arch/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="2021网络系统流行架构">
+  <meta name="twitter:description" content="2021年了，看看网络系统的流行架构。
+系统的质量属性要满足客户需求，所以架构的第一出发点也是需求。
+有偏好的需求构成场景，架构的取舍就是基于应用场景的偏好。
+网络系统在管道的位置，大致分为两类：
+傻快型：内容无感知，以交换和路由为主。如各种交换机，路由器等设备，主要靠硬件。 纯软件实现上的需求主要是牺牲一些硬件的高性能，换取管理和维护的方便和统一，如SDN，NFV。
+目前为了融合硬件与软件，一般都采用x86的架构配合高速可编程的NIC和转发芯片（如支持P4）。
+以获得性能与管理的双重优势。
+但本质还是矛盾，硬件的特殊化就会带来管理的特殊化，具体问题需要具体讨论解决，不展开。
+智慧型：内容感知，以业务驱动的负载均衡和网关系统为主。如负载均衡，API网关等，主要靠软件。 今天重点说一下2021年软件上的流行架构。
+因为两种类型没有明显分界，但内容感知程度是有的，业务驱动的网络系统在互联网行业需求很大。
+所以网络基础架构软件化不仅仅是管理统一的问题，还有具体业务的问题很难在通用设备上完美解决。
+软件实现虽然性能不行，但其灵活性和对硬件的解偶带来的收益是大于性能收益的，其横向扩展能力也弥补了全局性能。收益主要体现在迭代迅速（需求满足的速度），硬件统一，部署灵活，运维简单。所以暂时将引入硬件解决单点性能问题作为第二考虑的因素。
+我们一层一层来说。
+eBPF - Passthrough 2021年eBPF打底应该没有争议吧，对比以eBPF实现的XDP与DPDK，结合我们刚说过的问题。DPDK还是有Intel，DPDK网卡的硬件约束。而eBPF系统约束更小，Kernel &gt; 4.8即可。虽然性能稍微弱一些，但可以在纯Linux运行，可以灵活在用户态和内核态对接，需求迭代速度也远高与DPDK。所以软件上做傻快型可以选DPDK，但智慧型XDP更适合。
+以此为基础的项目有k8s网络组件Cilium，Facebook的业务负载均衡Katran。
+Cilium - Network 迭代和硬件说完了，我们看下部署，部署上：盒子，私有系统，各种云。对应也就是Metal，VM，容器等。因为有了eBPF的约束，没有操作系统的Rare Metal就不在讨论范围内，它更适合傻快的方案。
+各种部署下都能运行的网络就是用户态网络。XDP只要是内核满足的Linux，Cilium已经证明了和容器结合，DPDK更费劲。所以还是eBPF更有优势。以此为基础的软件系统，可以安装在任意Linux，VM，Docker上，实现各种环境的架构统一。
+未来网络层应该还会有其他XDP的用户协议栈方案，如果不需要路由交换的网络功能，可直接与应用结合，如Katran。
+Envoy - Gateway Cilium解决网络的问题，路由交换，简单策略。但业务感知还需要灵活的网关，关于网关的选择我之前也研究过。
+https://donge.org/posts/envoy-vs-traefik/
+这里网络如果选择了Cilium（主要是容器场景），那么结合最好的还是Envoy，Evony在四层进行业务感知，进行业务层面的路由和网关，有强大的策略配置驱动和插件机制，也是快速迭代的优选。
+这里虽然拿了一个K8S中CNI的图，但Cilium也可以仅作为有网络路由功能的用户态协议栈使用，也可以省略。
+Golang - Plugins 采用通用网关驱动特定业务，插件或二次开发是绕不过的，平衡性能与迭代速度，Golang比C&#43;&#43;，Lua，JavaScript，Rust都稍微占一些优势。因为开发效率和不俗的性能。Envoy是C&#43;&#43;，有开发门槛，但插件系统较为完善，Cilium是Golang。
+WASM插件也是强有力的方案，只是今年来看还优点早，得不偿失。而且和Golang也不冲突，Envoy同时也支持WASM和LUA。
+但只要不是天天变化的逻辑，Golang中庸的综合实例还是略胜一点。
+未来Rust with WASM很有想象力。
+全家福 为什么叫2021流行架构，因为过几年也许还有更好的选择，就如同XDP对比DPDK的优势，顺应了一些DPDK出生时没有的潮流，比如容器化。
+最后祭出这张原创全家福，欢迎抄袭。
+以此为基础，可以快速满足大部分的网络系统，包括业务路由（负载均衡），WAF，API网关，单点认证，日志，QoS，跟踪系统等。并可部署与单机，私有化，混合云环境等无硬件依赖环境。
+性能虽然在第二梯队，但XDP，Golang这样的选择也是第二梯队的王者。而网络性能的热点更可能会在IO，并发（锁），加解密/压缩反压缩（计算），而他们的解决方案从来不是哪种语言，有机会再探讨。
+P.S. K3S是轻量级K8S，适用于小系统部署。
+参考文档：
+http://arthurchiao.art/blog/transparent-chaos-testing-with-envoy-cilium-ebpf-zh/
+https://gitlab.com/gitlab-org/gitlab/-/issues/205129
+https://github.com/zoidbergwill/awesome-ebpf">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/2021_network_arch/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="2021网络系统流行架构">
+  <meta property="og:description" content="2021年了，看看网络系统的流行架构。
+系统的质量属性要满足客户需求，所以架构的第一出发点也是需求。
+有偏好的需求构成场景，架构的取舍就是基于应用场景的偏好。
+网络系统在管道的位置，大致分为两类：
+傻快型：内容无感知，以交换和路由为主。如各种交换机，路由器等设备，主要靠硬件。 纯软件实现上的需求主要是牺牲一些硬件的高性能，换取管理和维护的方便和统一，如SDN，NFV。
+目前为了融合硬件与软件，一般都采用x86的架构配合高速可编程的NIC和转发芯片（如支持P4）。
+以获得性能与管理的双重优势。
+但本质还是矛盾，硬件的特殊化就会带来管理的特殊化，具体问题需要具体讨论解决，不展开。
+智慧型：内容感知，以业务驱动的负载均衡和网关系统为主。如负载均衡，API网关等，主要靠软件。 今天重点说一下2021年软件上的流行架构。
+因为两种类型没有明显分界，但内容感知程度是有的，业务驱动的网络系统在互联网行业需求很大。
+所以网络基础架构软件化不仅仅是管理统一的问题，还有具体业务的问题很难在通用设备上完美解决。
+软件实现虽然性能不行，但其灵活性和对硬件的解偶带来的收益是大于性能收益的，其横向扩展能力也弥补了全局性能。收益主要体现在迭代迅速（需求满足的速度），硬件统一，部署灵活，运维简单。所以暂时将引入硬件解决单点性能问题作为第二考虑的因素。
+我们一层一层来说。
+eBPF - Passthrough 2021年eBPF打底应该没有争议吧，对比以eBPF实现的XDP与DPDK，结合我们刚说过的问题。DPDK还是有Intel，DPDK网卡的硬件约束。而eBPF系统约束更小，Kernel &gt; 4.8即可。虽然性能稍微弱一些，但可以在纯Linux运行，可以灵活在用户态和内核态对接，需求迭代速度也远高与DPDK。所以软件上做傻快型可以选DPDK，但智慧型XDP更适合。
+以此为基础的项目有k8s网络组件Cilium，Facebook的业务负载均衡Katran。
+Cilium - Network 迭代和硬件说完了，我们看下部署，部署上：盒子，私有系统，各种云。对应也就是Metal，VM，容器等。因为有了eBPF的约束，没有操作系统的Rare Metal就不在讨论范围内，它更适合傻快的方案。
+各种部署下都能运行的网络就是用户态网络。XDP只要是内核满足的Linux，Cilium已经证明了和容器结合，DPDK更费劲。所以还是eBPF更有优势。以此为基础的软件系统，可以安装在任意Linux，VM，Docker上，实现各种环境的架构统一。
+未来网络层应该还会有其他XDP的用户协议栈方案，如果不需要路由交换的网络功能，可直接与应用结合，如Katran。
+Envoy - Gateway Cilium解决网络的问题，路由交换，简单策略。但业务感知还需要灵活的网关，关于网关的选择我之前也研究过。
+https://donge.org/posts/envoy-vs-traefik/
+这里网络如果选择了Cilium（主要是容器场景），那么结合最好的还是Envoy，Evony在四层进行业务感知，进行业务层面的路由和网关，有强大的策略配置驱动和插件机制，也是快速迭代的优选。
+这里虽然拿了一个K8S中CNI的图，但Cilium也可以仅作为有网络路由功能的用户态协议栈使用，也可以省略。
+Golang - Plugins 采用通用网关驱动特定业务，插件或二次开发是绕不过的，平衡性能与迭代速度，Golang比C&#43;&#43;，Lua，JavaScript，Rust都稍微占一些优势。因为开发效率和不俗的性能。Envoy是C&#43;&#43;，有开发门槛，但插件系统较为完善，Cilium是Golang。
+WASM插件也是强有力的方案，只是今年来看还优点早，得不偿失。而且和Golang也不冲突，Envoy同时也支持WASM和LUA。
+但只要不是天天变化的逻辑，Golang中庸的综合实例还是略胜一点。
+未来Rust with WASM很有想象力。
+全家福 为什么叫2021流行架构，因为过几年也许还有更好的选择，就如同XDP对比DPDK的优势，顺应了一些DPDK出生时没有的潮流，比如容器化。
+最后祭出这张原创全家福，欢迎抄袭。
+以此为基础，可以快速满足大部分的网络系统，包括业务路由（负载均衡），WAF，API网关，单点认证，日志，QoS，跟踪系统等。并可部署与单机，私有化，混合云环境等无硬件依赖环境。
+性能虽然在第二梯队，但XDP，Golang这样的选择也是第二梯队的王者。而网络性能的热点更可能会在IO，并发（锁），加解密/压缩反压缩（计算），而他们的解决方案从来不是哪种语言，有机会再探讨。
+P.S. K3S是轻量级K8S，适用于小系统部署。
+参考文档：
+http://arthurchiao.art/blog/transparent-chaos-testing-with-envoy-cilium-ebpf-zh/
+https://gitlab.com/gitlab-org/gitlab/-/issues/205129
+https://github.com/zoidbergwill/awesome-ebpf">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-03-08T01:00:00+08:00">
+    <meta property="article:modified_time" content="2021-03-08T01:00:00+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "2021网络系统流行架构",
+        "headline": "2021网络系统流行架构",
+        "alternativeHeadline": "",
+        "description": "
+      
+        2021年了，看看网络系统的流行架构。\n系统的质量属性要满足客户需求，所以架构的第一出发点也是需求。\n有偏好的需求构成场景，架构的取舍就是基于应用场景的偏好。\n网络系统在管道的位置，大致分为两类：\n傻快型：内容无感知，以交换和路由为主。如各种交换机，路由器等设备，主要靠硬件。 纯软件实现上的需求主要是牺牲一些硬件的高性能，换取管理和维护的方便和统一，如SDN，NFV。\n目前为了融合硬件与软件，一般都采用x86的架构配合高速可编程的NIC和转发芯片（如支持P4）。\n以获得性能与管理的双重优势。\n但本质还是矛盾，硬件的特殊化就会带来管理的特殊化，具体问题需要具体讨论解决，不展开。\n智慧型：内容感知，以业务驱动的负载均衡和网关系统为主。如负载均衡，API网关等，主要靠软件。 今天重点说一下2021年软件上的流行架构。\n因为两种类型没有明显分界，但内容感知程度是有的，业务驱动的网络系统在互联网行业需求很大。\n所以网络基础架构软件化不仅仅是管理统一的问题，还有具体业务的问题很难在通用设备上完美解决。\n软件实现虽然性能不行，但其灵活性和对硬件的解偶带来的收益是大于性能收益的，其横向扩展能力也弥补了全局性能。收益主要体现在迭代迅速（需求满足的速度），硬件统一，部署灵活，运维简单。所以暂时将引入硬件解决单点性能问题作为第二考虑的因素。\n我们一层一层来说。\neBPF - Passthrough 2021年eBPF打底应该没有争议吧，对比以eBPF实现的XDP与DPDK，结合我们刚说过的问题。DPDK还是有Intel，DPDK网卡的硬件约束。而eBPF系统约束更小，Kernel \u0026gt; 4.8即可。虽然性能稍微弱一些，但可以在纯Linux运行，可以灵活在用户态和内核态对接，需求迭代速度也远高与DPDK。所以软件上做傻快型可以选DPDK，但智慧型XDP更适合。\n以此为基础的项目有k8s网络组件Cilium，Facebook的业务负载均衡Katran。\nCilium - Network 迭代和硬件说完了，我们看下部署，部署上：盒子，私有系统，各种云。对应也就是Metal，VM，容器等。因为有了eBPF的约束，没有操作系统的Rare Metal就不在讨论范围内，它更适合傻快的方案。\n各种部署下都能运行的网络就是用户态网络。XDP只要是内核满足的Linux，Cilium已经证明了和容器结合，DPDK更费劲。所以还是eBPF更有优势。以此为基础的软件系统，可以安装在任意Linux，VM，Docker上，实现各种环境的架构统一。\n未来网络层应该还会有其他XDP的用户协议栈方案，如果不需要路由交换的网络功能，可直接与应用结合，如Katran。\nEnvoy - Gateway Cilium解决网络的问题，路由交换，简单策略。但业务感知还需要灵活的网关，关于网关的选择我之前也研究过。\nhttps:\/\/donge.org\/posts\/envoy-vs-traefik\/\n这里网络如果选择了Cilium（主要是容器场景），那么结合最好的还是Envoy，Evony在四层进行业务感知，进行业务层面的路由和网关，有强大的策略配置驱动和插件机制，也是快速迭代的优选。\n这里虽然拿了一个K8S中CNI的图，但Cilium也可以仅作为有网络路由功能的用户态协议栈使用，也可以省略。\nGolang - Plugins 采用通用网关驱动特定业务，插件或二次开发是绕不过的，平衡性能与迭代速度，Golang比C\u002b\u002b，Lua，JavaScript，Rust都稍微占一些优势。因为开发效率和不俗的性能。Envoy是C\u002b\u002b，有开发门槛，但插件系统较为完善，Cilium是Golang。\nWASM插件也是强有力的方案，只是今年来看还优点早，得不偿失。而且和Golang也不冲突，Envoy同时也支持WASM和LUA。\n但只要不是天天变化的逻辑，Golang中庸的综合实例还是略胜一点。\n未来Rust with WASM很有想象力。\n全家福 为什么叫2021流行架构，因为过几年也许还有更好的选择，就如同XDP对比DPDK的优势，顺应了一些DPDK出生时没有的潮流，比如容器化。\n最后祭出这张原创全家福，欢迎抄袭。\n以此为基础，可以快速满足大部分的网络系统，包括业务路由（负载均衡），WAF，API网关，单点认证，日志，QoS，跟踪系统等。并可部署与单机，私有化，混合云环境等无硬件依赖环境。\n性能虽然在第二梯队，但XDP，Golang这样的选择也是第二梯队的王者。而网络性能的热点更可能会在IO，并发（锁），加解密\/压缩反压缩（计算），而他们的解决方案从来不是哪种语言，有机会再探讨。\nP.S. K3S是轻量级K8S，适用于小系统部署。\n参考文档：\nhttp:\/\/arthurchiao.art\/blog\/transparent-chaos-testing-with-envoy-cilium-ebpf-zh\/\nhttps:\/\/gitlab.com\/gitlab-org\/gitlab\/-\/issues\/205129\nhttps:\/\/github.com\/zoidbergwill\/awesome-ebpf
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/2021_network_arch\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2021",
+        "dateCreated": "2021-03-08T01:00:00.00Z",
+        "datePublished": "2021-03-08T01:00:00.00Z",
+        "dateModified": "2021-03-08T01:00:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/2021_network_arch\/",
+        "wordCount" : "56",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>2021网络系统流行架构</h1>
+      <p>2021年了，看看网络系统的流行架构。</p>
+<p>系统的质量属性要满足客户需求，所以架构的第一出发点也是需求。</p>
+<p>有偏好的需求构成场景，架构的取舍就是基于应用场景的偏好。</p>
+<p>网络系统在管道的位置，大致分为两类：</p>
+<h4 id="傻快型内容无感知以交换和路由为主如各种交换机路由器等设备主要靠硬件">傻快型：内容无感知，以交换和路由为主。如各种交换机，路由器等设备，主要靠硬件。</h4>
+<p>纯软件实现上的需求主要是牺牲一些硬件的高性能，换取管理和维护的方便和统一，如SDN，NFV。</p>
+<p>目前为了融合硬件与软件，一般都采用x86的架构配合高速可编程的NIC和转发芯片（如支持P4）。</p>
+<p>以获得性能与管理的双重优势。</p>
+<p>但本质还是矛盾，硬件的特殊化就会带来管理的特殊化，具体问题需要具体讨论解决，不展开。</p>
+<h4 id="智慧型内容感知以业务驱动的负载均衡和网关系统为主如负载均衡api网关等主要靠软件">智慧型：内容感知，以业务驱动的负载均衡和网关系统为主。如负载均衡，API网关等，主要靠软件。</h4>
+<p>今天重点说一下2021年软件上的流行架构。</p>
+<p>因为两种类型没有明显分界，但内容感知程度是有的，业务驱动的网络系统在互联网行业需求很大。</p>
+<p>所以网络基础架构软件化不仅仅是管理统一的问题，还有具体业务的问题很难在通用设备上完美解决。</p>
+<p>软件实现虽然性能不行，但其灵活性和对硬件的解偶带来的收益是大于性能收益的，其横向扩展能力也弥补了全局性能。收益主要体现在迭代迅速（需求满足的速度），硬件统一，部署灵活，运维简单。所以暂时将引入硬件解决单点性能问题作为第二考虑的因素。</p>
+<p>我们一层一层来说。</p>
+<h3 id="ebpf---passthrough">eBPF - Passthrough</h3>
+<p><img src="/img/ebpf.png" alt="/img/ebpf.png"></p>
+<p>2021年eBPF打底应该没有争议吧，对比以eBPF实现的XDP与DPDK，结合我们刚说过的问题。DPDK还是有Intel，DPDK网卡的硬件约束。而eBPF系统约束更小，Kernel &gt; 4.8即可。虽然性能稍微弱一些，但可以在纯Linux运行，可以灵活在用户态和内核态对接，需求迭代速度也远高与DPDK。所以软件上做傻快型可以选DPDK，但智慧型XDP更适合。</p>
+<p>以此为基础的项目有k8s网络组件Cilium，Facebook的业务负载均衡Katran。</p>
+<h3 id="cilium---network">Cilium - Network</h3>
+<p>迭代和硬件说完了，我们看下部署，部署上：盒子，私有系统，各种云。对应也就是Metal，VM，容器等。因为有了eBPF的约束，没有操作系统的Rare Metal就不在讨论范围内，它更适合傻快的方案。</p>
+<p>各种部署下都能运行的网络就是用户态网络。XDP只要是内核满足的Linux，Cilium已经证明了和容器结合，DPDK更费劲。所以还是eBPF更有优势。以此为基础的软件系统，可以安装在任意Linux，VM，Docker上，实现各种环境的架构统一。</p>
+<p>未来网络层应该还会有其他XDP的用户协议栈方案，如果不需要路由交换的网络功能，可直接与应用结合，如Katran。</p>
+<h3 id="envoy---gateway">Envoy - Gateway</h3>
+<p>Cilium解决网络的问题，路由交换，简单策略。但业务感知还需要灵活的网关，关于网关的选择我之前也研究过。</p>
+<p><a href="https://donge.org/posts/envoy-vs-traefik/">https://donge.org/posts/envoy-vs-traefik/</a></p>
+<p>这里网络如果选择了Cilium（主要是容器场景），那么结合最好的还是Envoy，Evony在四层进行业务感知，进行业务层面的路由和网关，有强大的策略配置驱动和插件机制，也是快速迭代的优选。</p>
+<p>这里虽然拿了一个K8S中CNI的图，但Cilium也可以仅作为有网络路由功能的用户态协议栈使用，也可以省略。</p>
+<p><img src="/img/cilium_envoy.png" alt="/img/cilium_envoy.png"></p>
+<h3 id="golang---plugins">Golang - Plugins</h3>
+<p>采用通用网关驱动特定业务，插件或二次开发是绕不过的，平衡性能与迭代速度，Golang比C++，Lua，JavaScript，Rust都稍微占一些优势。因为开发效率和不俗的性能。Envoy是C++，有开发门槛，但插件系统较为完善，Cilium是Golang。</p>
+<p>WASM插件也是强有力的方案，只是今年来看还优点早，得不偿失。而且和Golang也不冲突，Envoy同时也支持WASM和LUA。</p>
+<p>但只要不是天天变化的逻辑，Golang中庸的综合实例还是略胜一点。</p>
+<p>未来Rust with WASM很有想象力。</p>
+<h3 id="全家福">全家福</h3>
+<p>为什么叫2021流行架构，因为过几年也许还有更好的选择，就如同XDP对比DPDK的优势，顺应了一些DPDK出生时没有的潮流，比如容器化。</p>
+<p>最后祭出这张原创全家福，欢迎抄袭。</p>
+<p><img src="/img/2021_network_arch.png" alt="/img/2021_network_arch.png"></p>
+<p>以此为基础，可以快速满足大部分的网络系统，包括业务路由（负载均衡），WAF，API网关，单点认证，日志，QoS，跟踪系统等。并可部署与单机，私有化，混合云环境等无硬件依赖环境。</p>
+<p>性能虽然在第二梯队，但XDP，Golang这样的选择也是第二梯队的王者。而网络性能的热点更可能会在IO，并发（锁），加解密/压缩反压缩（计算），而他们的解决方案从来不是哪种语言，有机会再探讨。</p>
+<p>P.S. K3S是轻量级K8S，适用于小系统部署。</p>
+<p>参考文档：</p>
+<p><a href="http://arthurchiao.art/blog/transparent-chaos-testing-with-envoy-cilium-ebpf-zh/">http://arthurchiao.art/blog/transparent-chaos-testing-with-envoy-cilium-ebpf-zh/</a></p>
+<p><a href="https://gitlab.com/gitlab-org/gitlab/-/issues/205129">https://gitlab.com/gitlab-org/gitlab/-/issues/205129</a></p>
+<p><a href="https://github.com/zoidbergwill/awesome-ebpf">https://github.com/zoidbergwill/awesome-ebpf</a></p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

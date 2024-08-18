@@ -1,0 +1,511 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        FW: OSPF NSSA白皮书
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/nssa/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FW: OSPF NSSA白皮书">
+  <meta name="twitter:description" content="NSSA原理简介
+众所周知，OSPF路由协议是目前因特网中应用最为广泛一种IGP，而NSSA则是在该协议发展过程中产生的一种新的属性，她的英文全称是&#34;not-so-stubby&#34; area，一个充满了幽默味道的名字。要想了解该属性的特征，我们先从路由协议的发展历程讲起。
+1.2 从D-V算法到链路状态算法
+RIP作为最古老的动态路由协议，使用D-V算法来计算路由。由于当时的网络环境非常简单，所以RIP协议的设计思想也是简洁为本，只求完成最基本的功能。这样在RIP应用于大型拓扑复杂的网络时，就会出现效率不高、收敛慢、路由自环等问题。其中尤以路由自环的危害最大。此时必须有新的路由协议来适应日益复杂的网络，而且新的路由协议必须要解决RIP遇到的所有问题。由于D-V算法对网络的理解是基于“平面的”——在运行RIP协议的路由器眼中，网络仅仅是由一个个直连的邻居和一条条由邻居通告的路由组成。这样在网络拓扑变化时难免会导致计算错误，产生自环。为了彻底解决这个问题，一种全新的算法——链路状态算法应运而生。该算法从“立体”的角度来看待网络，每一台路由器都理解全局网络的拓扑结构，并依据此来计算路由，由于每台路由器对网络的整体情况“一切尽在掌握”，所以自环的问题被这彻底的解决。
+1.3 OSPF协议与区域
+基于链路状态算法的OSPF协议虽然彻底的解决了路由自环问题，但这种算法本身也有很多固有的缺陷：
+耗费更多内存资源：每台路由器都必须保存整个网络的拓扑结构（以LSDB的形态）
+耗费更多CPU资源：该算法的路由计算使用SPF算法，较D-V算法要复杂的多。
+计算更为频繁：只要网络中有任何一台路由器的拓扑发生变化，就会导致网络中所有的路由器进行SPF计算，而且每台路由器都是将SPF算法重新执行一遍，以便找出变化的路由。
+而且，无论是D-V算法还是链路状态的路由协议都存在如下缺陷：
+没有从协议本身反映出网络的层次结构。因为实际应用中的一个网络是由各种级别的路由器组成的，有核心层的骨干路由器、汇聚层的高端路由器、接入层的低端路由器。这些路由器承担的任务不同，处理性能也不一样。但在路由协议中，所有的路由器都要完成几乎是相同的工作：发送已知的路由给邻居路由器，根据从邻居路由器获得的路由信息计算本地路由表。虽然每台路由器的接口数量不同，但最终计算得来的路由表的规模基本是一样的。
+为了彻底解决上述问题，OSPF提出了区域的概念（AREA），区域是将所有运行OSPF 的路由器人为的分成不同的组，以区域ID来标示。在区域内路由计算的方法不变，由于划分区域之后，每个区域内的路由器不会很多，所有上述缺陷表现得并不严重，带来的后果可以忽略不计。而在区域之间计算路由时采用D-V算法，这样三个缺点就被成功的规避了。实际上区域概念的提出意义远不只这些，在划分为区域之后：
+网络的拓扑结构就与路由协议之间存在了一种对应关系，核心和高端的路由器由于处理能力强，可以规划在骨干区域之中。因为骨干区域的路由器要承担更多的路由计算任务。
+每个单独的区域实际上就是一个独立于网络中其他区域的系统，可以在不同的区域中试行不同的路由策略，使组网规划更为灵活方便。
+实际上OSPF 协议在当今的网络中广为流行，不是因为她使用了无环路的链路状态算法，而是因为她提出了区域的概念！
+1.4 STUB区域
+STUB区域就是一个对区域概念的最典型的应用。STUB区域的设计思想在于：在划分了区域之后，非骨干区域中的路由器对于区域外的路由，一定要通过ABR（区域边界路由器）来转发，或者说对于区域内的路由器来说ABR是一个通往外部世界的必经之路。既然如此，对于区域内的路由器来说，就没有必要知道通往外部世界的详细的路由了，代之以由ABR向该区域发布一条缺省路由来指导报文的发送。这样在区域内的路由器中就只有为数不多的区域内路由和一条指向ABR的缺省路由。而且无论区域外的路由如何变化，都不会影响到区域内路由器的路由表。由于区域内的路由器通常是由一些处理能力有限的低端路由器组成，所以处于STUB区域内的这些低端设备既不需要保存庞大的路由表，也不需要经常性的进行路由计算。有了STUB属性之后，网络的规划更符合实际的设备特点。
+以上描述的只是STUB区域的设计思想，在协议文本中，对STUB区域的精确定义是：STUB区域一定是非骨干区域和非转换区域（可以配置虚连接的区域），并且在该区域中不可传递Type 5类型的LSA。 因为协议的设计者认为路由表中的绝大部分路由均是来自自治系统外部的引入的路由。（由于OSPF是链路状态算法的路由协议，LSA就是用来描述网络拓扑结构的一种数据结构。在OSPF 中将LSA分为5类：type1、2两种用来描述区域内的路由信息；type3用来描述区域间的路由信息；type4、5用来描述自治系统外部的路由信息。）OSPF链路状态公布LSA类型5定义了到达外部网络的路由，它并不泛洪到STUB区域。连接到STUB区域的ABR为外部网络发送一个缺省路由（0.0.0.0）到STUB区域。这允许STUB区域
+内部的某个路由器将报文转发到一个目的网络，而该网络并没有出现在s t u b区域路由器的路由表中。对于那些在自己的路由表中没有找到的网络报文， s t u b区域路由器将其转发到ABR路由器，而该ABR路由器已发送0.0.0.0 LSA
+需要注意的是定义中对于过滤TYPE5类型的LSA使用的描述语言是“不可传递”，这就意味着不仅区域外的ASE（自治系统外部）路由无法传递到STUB 区域中，同时STUB区域内部的ASE路由也无法传递到本区域之外。换一句更通俗的话来描述：STUB区域内的路由器都不可引入任何外部的路由（包括静态路由）。
+这样的定义未免太过严厉了。因为在实际的组网中，并不是所有的设备都会运行OSPF协议。例如：用户拨号上网时使用的接入服务器就需要连接路由器上因特网，但通常接入服务器上并不支持（也不需要）OSPF协议，而是通过配置静态路由实现路由功能。很多时候ISP为了保密或易于管理的需要，在连接用户侧的路由器时使用静态路由。总之：在一个网络中所有的路由器上都配置OSPF，而不使用静态路由的情况几乎是不存在的。——也就是说STUB区域的适用条件也是不存在的。
+1.5 NSSA区域
+STUB区域虽然为合理的规划网络描绘了美好的前景，但她在实际的组网中又不具备可操作性，未免遗憾。但此时的OSPF协议已经基本成型，不可能再做大的修改。为了弥补缺陷，协议设计者提出了一种新的概念NSSA，并且作为OSPF协议的一种扩展属性单独在RFC 1587中描述。
+NSSA需要完成如下任务：
+自治系统外的ASE路由不可以进入到NSSA区域中，但是NSSA区域内的路由器引入的ASE路由可以在NSSA中传播并发送到区域之外。即：取消了STUB关于ASE的双向传播的限制（区域外的进不来，区域里的也出不去），改为单向限制（区域外的进不来，区域里的能出去）。
+由于是作为OSPF标准协议的一种扩展属性，应尽量减少与不支持该属性的路由器协调工作时的冲突和兼容性问题。
+为了解决ASE单向传递的问题，NSSA中重新定义了一种LSA——Type 7类型的LSA，作为区域内的路由器引入外部路由时使用，该类型的LSA除了类型标识与Type 5不相同之外，其它内容基本一样。这样区域内的路由器就可以通过LSA的类型来判断是否该路由来自本区域内。但由于Type 7类的LSA是新定义的，对于不支持NSSA属性的路由器无法识别，所以协议规定：在NSSA的ABR上将NSSA内部产生的Type 7类型的LSA转化为Type 5类型的LSA再发布出去，并同时更改LSA的发布者为ABR自己。这样NSSA区域外的路由器就可以完全不用支持该属性。
+从上述描述可以看出：在NSSA区域内的所有路由器必须支持该属性（包括NSSA的ABR），而自治系统中的其他路由器则不需要。
+由于NSSA是由STUB区域的概念改进得来，所以她的名字叫做： “not-so-stubby” area ，本意是：不是那么STUB的区域。
+第2章 NSSA相关配置
+NSSA的原理不复杂，配置更简单，相关命令只有一条：
+[Router-ospf]
+area area-id nssa [ default-route-advertise ] [ no-import-route ] [ no-summary ]">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/nssa/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="FW: OSPF NSSA白皮书">
+  <meta property="og:description" content="NSSA原理简介
+众所周知，OSPF路由协议是目前因特网中应用最为广泛一种IGP，而NSSA则是在该协议发展过程中产生的一种新的属性，她的英文全称是&#34;not-so-stubby&#34; area，一个充满了幽默味道的名字。要想了解该属性的特征，我们先从路由协议的发展历程讲起。
+1.2 从D-V算法到链路状态算法
+RIP作为最古老的动态路由协议，使用D-V算法来计算路由。由于当时的网络环境非常简单，所以RIP协议的设计思想也是简洁为本，只求完成最基本的功能。这样在RIP应用于大型拓扑复杂的网络时，就会出现效率不高、收敛慢、路由自环等问题。其中尤以路由自环的危害最大。此时必须有新的路由协议来适应日益复杂的网络，而且新的路由协议必须要解决RIP遇到的所有问题。由于D-V算法对网络的理解是基于“平面的”——在运行RIP协议的路由器眼中，网络仅仅是由一个个直连的邻居和一条条由邻居通告的路由组成。这样在网络拓扑变化时难免会导致计算错误，产生自环。为了彻底解决这个问题，一种全新的算法——链路状态算法应运而生。该算法从“立体”的角度来看待网络，每一台路由器都理解全局网络的拓扑结构，并依据此来计算路由，由于每台路由器对网络的整体情况“一切尽在掌握”，所以自环的问题被这彻底的解决。
+1.3 OSPF协议与区域
+基于链路状态算法的OSPF协议虽然彻底的解决了路由自环问题，但这种算法本身也有很多固有的缺陷：
+耗费更多内存资源：每台路由器都必须保存整个网络的拓扑结构（以LSDB的形态）
+耗费更多CPU资源：该算法的路由计算使用SPF算法，较D-V算法要复杂的多。
+计算更为频繁：只要网络中有任何一台路由器的拓扑发生变化，就会导致网络中所有的路由器进行SPF计算，而且每台路由器都是将SPF算法重新执行一遍，以便找出变化的路由。
+而且，无论是D-V算法还是链路状态的路由协议都存在如下缺陷：
+没有从协议本身反映出网络的层次结构。因为实际应用中的一个网络是由各种级别的路由器组成的，有核心层的骨干路由器、汇聚层的高端路由器、接入层的低端路由器。这些路由器承担的任务不同，处理性能也不一样。但在路由协议中，所有的路由器都要完成几乎是相同的工作：发送已知的路由给邻居路由器，根据从邻居路由器获得的路由信息计算本地路由表。虽然每台路由器的接口数量不同，但最终计算得来的路由表的规模基本是一样的。
+为了彻底解决上述问题，OSPF提出了区域的概念（AREA），区域是将所有运行OSPF 的路由器人为的分成不同的组，以区域ID来标示。在区域内路由计算的方法不变，由于划分区域之后，每个区域内的路由器不会很多，所有上述缺陷表现得并不严重，带来的后果可以忽略不计。而在区域之间计算路由时采用D-V算法，这样三个缺点就被成功的规避了。实际上区域概念的提出意义远不只这些，在划分为区域之后：
+网络的拓扑结构就与路由协议之间存在了一种对应关系，核心和高端的路由器由于处理能力强，可以规划在骨干区域之中。因为骨干区域的路由器要承担更多的路由计算任务。
+每个单独的区域实际上就是一个独立于网络中其他区域的系统，可以在不同的区域中试行不同的路由策略，使组网规划更为灵活方便。
+实际上OSPF 协议在当今的网络中广为流行，不是因为她使用了无环路的链路状态算法，而是因为她提出了区域的概念！
+1.4 STUB区域
+STUB区域就是一个对区域概念的最典型的应用。STUB区域的设计思想在于：在划分了区域之后，非骨干区域中的路由器对于区域外的路由，一定要通过ABR（区域边界路由器）来转发，或者说对于区域内的路由器来说ABR是一个通往外部世界的必经之路。既然如此，对于区域内的路由器来说，就没有必要知道通往外部世界的详细的路由了，代之以由ABR向该区域发布一条缺省路由来指导报文的发送。这样在区域内的路由器中就只有为数不多的区域内路由和一条指向ABR的缺省路由。而且无论区域外的路由如何变化，都不会影响到区域内路由器的路由表。由于区域内的路由器通常是由一些处理能力有限的低端路由器组成，所以处于STUB区域内的这些低端设备既不需要保存庞大的路由表，也不需要经常性的进行路由计算。有了STUB属性之后，网络的规划更符合实际的设备特点。
+以上描述的只是STUB区域的设计思想，在协议文本中，对STUB区域的精确定义是：STUB区域一定是非骨干区域和非转换区域（可以配置虚连接的区域），并且在该区域中不可传递Type 5类型的LSA。 因为协议的设计者认为路由表中的绝大部分路由均是来自自治系统外部的引入的路由。（由于OSPF是链路状态算法的路由协议，LSA就是用来描述网络拓扑结构的一种数据结构。在OSPF 中将LSA分为5类：type1、2两种用来描述区域内的路由信息；type3用来描述区域间的路由信息；type4、5用来描述自治系统外部的路由信息。）OSPF链路状态公布LSA类型5定义了到达外部网络的路由，它并不泛洪到STUB区域。连接到STUB区域的ABR为外部网络发送一个缺省路由（0.0.0.0）到STUB区域。这允许STUB区域
+内部的某个路由器将报文转发到一个目的网络，而该网络并没有出现在s t u b区域路由器的路由表中。对于那些在自己的路由表中没有找到的网络报文， s t u b区域路由器将其转发到ABR路由器，而该ABR路由器已发送0.0.0.0 LSA
+需要注意的是定义中对于过滤TYPE5类型的LSA使用的描述语言是“不可传递”，这就意味着不仅区域外的ASE（自治系统外部）路由无法传递到STUB 区域中，同时STUB区域内部的ASE路由也无法传递到本区域之外。换一句更通俗的话来描述：STUB区域内的路由器都不可引入任何外部的路由（包括静态路由）。
+这样的定义未免太过严厉了。因为在实际的组网中，并不是所有的设备都会运行OSPF协议。例如：用户拨号上网时使用的接入服务器就需要连接路由器上因特网，但通常接入服务器上并不支持（也不需要）OSPF协议，而是通过配置静态路由实现路由功能。很多时候ISP为了保密或易于管理的需要，在连接用户侧的路由器时使用静态路由。总之：在一个网络中所有的路由器上都配置OSPF，而不使用静态路由的情况几乎是不存在的。——也就是说STUB区域的适用条件也是不存在的。
+1.5 NSSA区域
+STUB区域虽然为合理的规划网络描绘了美好的前景，但她在实际的组网中又不具备可操作性，未免遗憾。但此时的OSPF协议已经基本成型，不可能再做大的修改。为了弥补缺陷，协议设计者提出了一种新的概念NSSA，并且作为OSPF协议的一种扩展属性单独在RFC 1587中描述。
+NSSA需要完成如下任务：
+自治系统外的ASE路由不可以进入到NSSA区域中，但是NSSA区域内的路由器引入的ASE路由可以在NSSA中传播并发送到区域之外。即：取消了STUB关于ASE的双向传播的限制（区域外的进不来，区域里的也出不去），改为单向限制（区域外的进不来，区域里的能出去）。
+由于是作为OSPF标准协议的一种扩展属性，应尽量减少与不支持该属性的路由器协调工作时的冲突和兼容性问题。
+为了解决ASE单向传递的问题，NSSA中重新定义了一种LSA——Type 7类型的LSA，作为区域内的路由器引入外部路由时使用，该类型的LSA除了类型标识与Type 5不相同之外，其它内容基本一样。这样区域内的路由器就可以通过LSA的类型来判断是否该路由来自本区域内。但由于Type 7类的LSA是新定义的，对于不支持NSSA属性的路由器无法识别，所以协议规定：在NSSA的ABR上将NSSA内部产生的Type 7类型的LSA转化为Type 5类型的LSA再发布出去，并同时更改LSA的发布者为ABR自己。这样NSSA区域外的路由器就可以完全不用支持该属性。
+从上述描述可以看出：在NSSA区域内的所有路由器必须支持该属性（包括NSSA的ABR），而自治系统中的其他路由器则不需要。
+由于NSSA是由STUB区域的概念改进得来，所以她的名字叫做： “not-so-stubby” area ，本意是：不是那么STUB的区域。
+第2章 NSSA相关配置
+NSSA的原理不复杂，配置更简单，相关命令只有一条：
+[Router-ospf]
+area area-id nssa [ default-route-advertise ] [ no-import-route ] [ no-summary ]">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2011-03-15T15:49:39+00:00">
+    <meta property="article:modified_time" content="2011-03-15T15:49:39+00:00">
+    <meta property="article:tag" content="NSSA">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "FW: OSPF NSSA白皮书",
+        "headline": "FW: OSPF NSSA白皮书",
+        "alternativeHeadline": "",
+        "description": "
+      
+        NSSA原理简介\n众所周知，OSPF路由协议是目前因特网中应用最为广泛一种IGP，而NSSA则是在该协议发展过程中产生的一种新的属性，她的英文全称是\u0026quot;not-so-stubby\u0026quot; area，一个充满了幽默味道的名字。要想了解该属性的特征，我们先从路由协议的发展历程讲起。\n1.2 从D-V算法到链路状态算法\nRIP作为最古老的动态路由协议，使用D-V算法来计算路由。由于当时的网络环境非常简单，所以RIP协议的设计思想也是简洁为本，只求完成最基本的功能。这样在RIP应用于大型拓扑复杂的网络时，就会出现效率不高、收敛慢、路由自环等问题。其中尤以路由自环的危害最大。此时必须有新的路由协议来适应日益复杂的网络，而且新的路由协议必须要解决RIP遇到的所有问题。由于D-V算法对网络的理解是基于“平面的”——在运行RIP协议的路由器眼中，网络仅仅是由一个个直连的邻居和一条条由邻居通告的路由组成。这样在网络拓扑变化时难免会导致计算错误，产生自环。为了彻底解决这个问题，一种全新的算法——链路状态算法应运而生。该算法从“立体”的角度来看待网络，每一台路由器都理解全局网络的拓扑结构，并依据此来计算路由，由于每台路由器对网络的整体情况“一切尽在掌握”，所以自环的问题被这彻底的解决。\n1.3 OSPF协议与区域\n基于链路状态算法的OSPF协议虽然彻底的解决了路由自环问题，但这种算法本身也有很多固有的缺陷：\n耗费更多内存资源：每台路由器都必须保存整个网络的拓扑结构（以LSDB的形态）\n耗费更多CPU资源：该算法的路由计算使用SPF算法，较D-V算法要复杂的多。\n计算更为频繁：只要网络中有任何一台路由器的拓扑发生变化，就会导致网络中所有的路由器进行SPF计算，而且每台路由器都是将SPF算法重新执行一遍，以便找出变化的路由。\n而且，无论是D-V算法还是链路状态的路由协议都存在如下缺陷：\n没有从协议本身反映出网络的层次结构。因为实际应用中的一个网络是由各种级别的路由器组成的，有核心层的骨干路由器、汇聚层的高端路由器、接入层的低端路由器。这些路由器承担的任务不同，处理性能也不一样。但在路由协议中，所有的路由器都要完成几乎是相同的工作：发送已知的路由给邻居路由器，根据从邻居路由器获得的路由信息计算本地路由表。虽然每台路由器的接口数量不同，但最终计算得来的路由表的规模基本是一样的。\n为了彻底解决上述问题，OSPF提出了区域的概念（AREA），区域是将所有运行OSPF 的路由器人为的分成不同的组，以区域ID来标示。在区域内路由计算的方法不变，由于划分区域之后，每个区域内的路由器不会很多，所有上述缺陷表现得并不严重，带来的后果可以忽略不计。而在区域之间计算路由时采用D-V算法，这样三个缺点就被成功的规避了。实际上区域概念的提出意义远不只这些，在划分为区域之后：\n网络的拓扑结构就与路由协议之间存在了一种对应关系，核心和高端的路由器由于处理能力强，可以规划在骨干区域之中。因为骨干区域的路由器要承担更多的路由计算任务。\n每个单独的区域实际上就是一个独立于网络中其他区域的系统，可以在不同的区域中试行不同的路由策略，使组网规划更为灵活方便。\n实际上OSPF 协议在当今的网络中广为流行，不是因为她使用了无环路的链路状态算法，而是因为她提出了区域的概念！\n1.4 STUB区域\nSTUB区域就是一个对区域概念的最典型的应用。STUB区域的设计思想在于：在划分了区域之后，非骨干区域中的路由器对于区域外的路由，一定要通过ABR（区域边界路由器）来转发，或者说对于区域内的路由器来说ABR是一个通往外部世界的必经之路。既然如此，对于区域内的路由器来说，就没有必要知道通往外部世界的详细的路由了，代之以由ABR向该区域发布一条缺省路由来指导报文的发送。这样在区域内的路由器中就只有为数不多的区域内路由和一条指向ABR的缺省路由。而且无论区域外的路由如何变化，都不会影响到区域内路由器的路由表。由于区域内的路由器通常是由一些处理能力有限的低端路由器组成，所以处于STUB区域内的这些低端设备既不需要保存庞大的路由表，也不需要经常性的进行路由计算。有了STUB属性之后，网络的规划更符合实际的设备特点。\n以上描述的只是STUB区域的设计思想，在协议文本中，对STUB区域的精确定义是：STUB区域一定是非骨干区域和非转换区域（可以配置虚连接的区域），并且在该区域中不可传递Type 5类型的LSA。 因为协议的设计者认为路由表中的绝大部分路由均是来自自治系统外部的引入的路由。（由于OSPF是链路状态算法的路由协议，LSA就是用来描述网络拓扑结构的一种数据结构。在OSPF 中将LSA分为5类：type1、2两种用来描述区域内的路由信息；type3用来描述区域间的路由信息；type4、5用来描述自治系统外部的路由信息。）OSPF链路状态公布LSA类型5定义了到达外部网络的路由，它并不泛洪到STUB区域。连接到STUB区域的ABR为外部网络发送一个缺省路由（0.0.0.0）到STUB区域。这允许STUB区域\n内部的某个路由器将报文转发到一个目的网络，而该网络并没有出现在s t u b区域路由器的路由表中。对于那些在自己的路由表中没有找到的网络报文， s t u b区域路由器将其转发到ABR路由器，而该ABR路由器已发送0.0.0.0 LSA\n需要注意的是定义中对于过滤TYPE5类型的LSA使用的描述语言是“不可传递”，这就意味着不仅区域外的ASE（自治系统外部）路由无法传递到STUB 区域中，同时STUB区域内部的ASE路由也无法传递到本区域之外。换一句更通俗的话来描述：STUB区域内的路由器都不可引入任何外部的路由（包括静态路由）。\n这样的定义未免太过严厉了。因为在实际的组网中，并不是所有的设备都会运行OSPF协议。例如：用户拨号上网时使用的接入服务器就需要连接路由器上因特网，但通常接入服务器上并不支持（也不需要）OSPF协议，而是通过配置静态路由实现路由功能。很多时候ISP为了保密或易于管理的需要，在连接用户侧的路由器时使用静态路由。总之：在一个网络中所有的路由器上都配置OSPF，而不使用静态路由的情况几乎是不存在的。——也就是说STUB区域的适用条件也是不存在的。\n1.5 NSSA区域\nSTUB区域虽然为合理的规划网络描绘了美好的前景，但她在实际的组网中又不具备可操作性，未免遗憾。但此时的OSPF协议已经基本成型，不可能再做大的修改。为了弥补缺陷，协议设计者提出了一种新的概念NSSA，并且作为OSPF协议的一种扩展属性单独在RFC 1587中描述。\nNSSA需要完成如下任务：\n自治系统外的ASE路由不可以进入到NSSA区域中，但是NSSA区域内的路由器引入的ASE路由可以在NSSA中传播并发送到区域之外。即：取消了STUB关于ASE的双向传播的限制（区域外的进不来，区域里的也出不去），改为单向限制（区域外的进不来，区域里的能出去）。\n由于是作为OSPF标准协议的一种扩展属性，应尽量减少与不支持该属性的路由器协调工作时的冲突和兼容性问题。\n为了解决ASE单向传递的问题，NSSA中重新定义了一种LSA——Type 7类型的LSA，作为区域内的路由器引入外部路由时使用，该类型的LSA除了类型标识与Type 5不相同之外，其它内容基本一样。这样区域内的路由器就可以通过LSA的类型来判断是否该路由来自本区域内。但由于Type 7类的LSA是新定义的，对于不支持NSSA属性的路由器无法识别，所以协议规定：在NSSA的ABR上将NSSA内部产生的Type 7类型的LSA转化为Type 5类型的LSA再发布出去，并同时更改LSA的发布者为ABR自己。这样NSSA区域外的路由器就可以完全不用支持该属性。\n从上述描述可以看出：在NSSA区域内的所有路由器必须支持该属性（包括NSSA的ABR），而自治系统中的其他路由器则不需要。\n由于NSSA是由STUB区域的概念改进得来，所以她的名字叫做： \u0026ldquo;not-so-stubby\u0026rdquo; area ，本意是：不是那么STUB的区域。\n第2章 NSSA相关配置\nNSSA的原理不复杂，配置更简单，相关命令只有一条：\n[Router-ospf]\narea area-id nssa [ default-route-advertise ] [ no-import-route ] [ no-summary ]
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/nssa\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2011",
+        "dateCreated": "2011-03-15T15:49:39.00Z",
+        "datePublished": "2011-03-15T15:49:39.00Z",
+        "dateModified": "2011-03-15T15:49:39.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/nssa\/",
+        "wordCount" : "85",
+        "genre" : [ 
+      
+      "Network"
+
+    ],
+        "keywords" : [ 
+      
+      "NSSA"
+
+    ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>FW: OSPF NSSA白皮书</h1>
+      <p>NSSA原理简介</p>
+<p>　　众所周知，OSPF路由协议是目前因特网中应用最为广泛一种IGP，而NSSA则是在该协议发展过程中产生的一种新的属性，她的英文全称是&quot;not-so-stubby&quot; area，一个充满了幽默味道的名字。要想了解该属性的特征，我们先从路由协议的发展历程讲起。</p>
+<p>　　1.2 从D-V算法到链路状态算法</p>
+<p>　　RIP作为最古老的动态路由协议，使用D-V算法来计算路由。由于当时的网络环境非常简单，所以RIP协议的设计思想也是简洁为本，只求完成最基本的功能。这样在RIP应用于大型拓扑复杂的网络时，就会出现效率不高、收敛慢、路由自环等问题。其中尤以路由自环的危害最大。此时必须有新的路由协议来适应日益复杂的网络，而且新的路由协议必须要解决RIP遇到的所有问题。由于D-V算法对网络的理解是基于“平面的”——在运行RIP协议的路由器眼中，网络仅仅是由一个个直连的邻居和一条条由邻居通告的路由组成。这样在网络拓扑变化时难免会导致计算错误，产生自环。为了彻底解决这个问题，一种全新的算法——链路状态算法应运而生。该算法从“立体”的角度来看待网络，每一台路由器都理解全局网络的拓扑结构，并依据此来计算路由，由于每台路由器对网络的整体情况“一切尽在掌握”，所以自环的问题被这彻底的解决。</p>
+<p>　　1.3 OSPF协议与区域</p>
+<p>　　基于链路状态算法的OSPF协议虽然彻底的解决了路由自环问题，但这种算法本身也有很多固有的缺陷：</p>
+<p>　　耗费更多内存资源：每台路由器都必须保存整个网络的拓扑结构（以LSDB的形态）</p>
+<p>　　耗费更多CPU资源：该算法的路由计算使用SPF算法，较D-V算法要复杂的多。</p>
+<p>　　计算更为频繁：只要网络中有任何一台路由器的拓扑发生变化，就会导致网络中所有的路由器进行SPF计算，而且每台路由器都是将SPF算法重新执行一遍，以便找出变化的路由。</p>
+<p>　　而且，无论是D-V算法还是链路状态的路由协议都存在如下缺陷：</p>
+<p>　　没有从协议本身反映出网络的层次结构。因为实际应用中的一个网络是由各种级别的路由器组成的，有核心层的骨干路由器、汇聚层的高端路由器、接入层的低端路由器。这些路由器承担的任务不同，处理性能也不一样。但在路由协议中，所有的路由器都要完成几乎是相同的工作：发送已知的路由给邻居路由器，根据从邻居路由器获得的路由信息计算本地路由表。虽然每台路由器的接口数量不同，但最终计算得来的路由表的规模基本是一样的。</p>
+<p>　　为了彻底解决上述问题，OSPF提出了区域的概念（AREA），区域是将所有运行OSPF 的路由器人为的分成不同的组，以区域ID来标示。在区域内路由计算的方法不变，由于划分区域之后，每个区域内的路由器不会很多，所有上述缺陷表现得并不严重，带来的后果可以忽略不计。而在区域之间计算路由时采用D-V算法，这样三个缺点就被成功的规避了。实际上区域概念的提出意义远不只这些，在划分为区域之后：</p>
+<p>　　网络的拓扑结构就与路由协议之间存在了一种对应关系，核心和高端的路由器由于处理能力强，可以规划在骨干区域之中。因为骨干区域的路由器要承担更多的路由计算任务。</p>
+<p>　　每个单独的区域实际上就是一个独立于网络中其他区域的系统，可以在不同的区域中试行不同的路由策略，使组网规划更为灵活方便。</p>
+<p>　　实际上OSPF 协议在当今的网络中广为流行，不是因为她使用了无环路的链路状态算法，而是因为她提出了区域的概念！</p>
+<p>　　1.4 STUB区域</p>
+<p>　　STUB区域就是一个对区域概念的最典型的应用。STUB区域的设计思想在于：在划分了区域之后，非骨干区域中的路由器对于区域外的路由，一定要通过ABR（区域边界路由器）来转发，或者说对于区域内的路由器来说ABR是一个通往外部世界的必经之路。既然如此，对于区域内的路由器来说，就没有必要知道通往外部世界的详细的路由了，代之以由ABR向该区域发布一条<a href="http://baike.baidu.com/view/543317.htm">缺省路由</a>来指导报文的发送。这样在区域内的路由器中就只有为数不多的区域内路由和一条指向ABR的缺省路由。而且无论区域外的路由如何变化，都不会影响到区域内路由器的路由表。由于区域内的路由器通常是由一些处理能力有限的低端路由器组成，所以处于STUB区域内的这些低端设备既不需要保存庞大的路由表，也不需要经常性的进行路由计算。有了STUB属性之后，网络的规划更符合实际的设备特点。</p>
+<p>　　以上描述的只是STUB区域的设计思想，在协议文本中，对STUB区域的精确定义是：STUB区域一定是非骨干区域和非转换区域（可以配置虚连接的区域），并且在该区域中不可传递Type 5类型的LSA。 因为协议的设计者认为路由表中的绝大部分路由均是来自自治系统外部的引入的路由。（由于OSPF是链路状态算法的路由协议，LSA就是用来描述网络拓扑结构的一种数据结构。在OSPF 中将LSA分为5类：type1、2两种用来描述区域内的路由信息；type3用来描述区域间的路由信息；type4、5用来描述自治系统外部的路由信息。）OSPF链路状态公布LSA类型5定义了到达外部网络的路由，它并不泛洪到STUB区域。连接到STUB区域的ABR为外部网络发送一个缺省路由（0.0.0.0）到STUB区域。这允许STUB区域</p>
+<p>　　内部的某个路由器将报文转发到一个目的网络，而该网络并没有出现在s t u b区域路由器的路由表中。对于那些在自己的路由表中没有找到的网络报文， s t u b区域路由器将其转发到ABR路由器，而该ABR路由器已发送0.0.0.0 LSA</p>
+<p>　　需要注意的是定义中对于过滤TYPE5类型的LSA使用的描述语言是“不可传递”，这就意味着不仅区域外的ASE（自治系统外部）路由无法传递到STUB 区域中，同时STUB区域内部的ASE路由也无法传递到本区域之外。换一句更通俗的话来描述：STUB区域内的路由器都不可引入任何外部的路由（包括静态路由）。</p>
+<p>　　这样的定义未免太过严厉了。因为在实际的组网中，并不是所有的设备都会运行OSPF协议。例如：用户拨号上网时使用的接入服务器就需要连接路由器上因特网，但通常接入服务器上并不支持（也不需要）OSPF协议，而是通过配置静态路由实现路由功能。很多时候ISP为了保密或易于管理的需要，在连接用户侧的路由器时使用静态路由。总之：在一个网络中所有的路由器上都配置OSPF，而不使用静态路由的情况几乎是不存在的。——也就是说STUB区域的适用条件也是不存在的。</p>
+<p>　　1.5 NSSA区域</p>
+<p>　　STUB区域虽然为合理的规划网络描绘了美好的前景，但她在实际的组网中又不具备可操作性，未免遗憾。但此时的OSPF协议已经基本成型，不可能再做大的修改。为了弥补缺陷，协议设计者提出了一种新的概念NSSA，并且作为OSPF协议的一种扩展属性单独在RFC 1587中描述。</p>
+<p>　　NSSA需要完成如下任务：</p>
+<p>　　自治系统外的ASE路由不可以进入到NSSA区域中，但是NSSA区域内的路由器引入的ASE路由可以在NSSA中传播并发送到区域之外。即：取消了STUB关于ASE的双向传播的限制（区域外的进不来，区域里的也出不去），改为单向限制（区域外的进不来，区域里的能出去）。</p>
+<p>　　由于是作为OSPF标准协议的一种扩展属性，应尽量减少与不支持该属性的路由器协调工作时的冲突和兼容性问题。</p>
+<p>　　为了解决ASE单向传递的问题，NSSA中重新定义了一种LSA——Type 7类型的LSA，作为区域内的路由器引入外部路由时使用，该类型的LSA除了类型标识与Type 5不相同之外，其它内容基本一样。这样区域内的路由器就可以通过LSA的类型来判断是否该路由来自本区域内。但由于Type 7类的LSA是新定义的，对于不支持NSSA属性的路由器无法识别，所以协议规定：在NSSA的ABR上将NSSA内部产生的Type 7类型的LSA转化为Type 5类型的LSA再发布出去，并同时更改LSA的发布者为ABR自己。这样NSSA区域外的路由器就可以完全不用支持该属性。</p>
+<p>　　从上述描述可以看出：在NSSA区域内的所有路由器必须支持该属性（包括NSSA的ABR），而自治系统中的其他路由器则不需要。</p>
+<p>　　由于NSSA是由STUB区域的概念改进得来，所以她的名字叫做： &ldquo;not-so-stubby&rdquo; area ，本意是：不是那么STUB的区域。</p>
+<p>　　第2章 NSSA相关配置</p>
+<p>　　NSSA的原理不复杂，配置更简单，相关命令只有一条：</p>
+<p>　　[Router-ospf]</p>
+<p>　　area area-id nssa [ default-route-advertise ] [ no-import-route ] [ no-summary ]</p>
+<p>　　area-id：是需要配置成NSSA的区域的区域号。“[]”内的参数只有在该路由器是ABR时才会生效。</p>
+<p>　　关键字default-route-advertise用来产生缺省的Type-7 LSA，应用了该参数后，在ABR上无论路由表中是否存在缺省路由0.0.0.0，都会产生Type-7 LSA缺省路由；而在ASBR上当路由表中存在缺省路由0.0.0.0，才会产生Type-7 LSA缺省路由。</p>
+<p>　　关键字no-import-route用在ASBR上，使得OSPF通过import-route命令引入的路由不被通告到NSSA区域。如果NSSA的路由器既是ASBR也是ABR，一般选用该参数选项。</p>
+<p>　　为了进一步减少发送到NSSA区域中的链路状态发布（LSA）的数量，可以在ABR上配置no-summary属性，禁止ABR向NSSA区域内发送summary_net LSAs（Type-3 LSA）。配置该参数后，ABR会将Type3类型的LSA也过滤掉，即：NSSA区域中也不会出现区域间路由，路由表进一步精简。既然有缺省路由，那么其他指向区域外的具体路由都是没有必要的了。该参数推荐配置。</p>
+<p>　　即：如果路由器只是一台区域内路由器，只需配置area area-id nssa即可。如果是ABR，根据实际需要，选择添加三个可选参数。</p>
+</div>
+    <div class="post__footer">
+      
+        <span><a class="category" href="/categories/network/">Network</a></span>
+
+
+      
+
+      
+        <span><a class="tag" href="/tags/nssa/">NSSA</a></span>
+
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

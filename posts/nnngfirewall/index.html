@@ -1,0 +1,573 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        下下下一代防火墙关键技术漫谈
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/nnngfirewall/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="下下下一代防火墙关键技术漫谈">
+  <meta name="twitter:description" content="防火墙到底几代了？ Siri：“抱歉，很难回答你的问题”。
+防火墙虽然是个网络设备，但其功能不需要与其他防火墙之间互联互通，所以没有“互联”标准化的诞生。
+防火墙是在一个L2/L3网络设备基础上叠加不同的功能的软件系统，“功能”的标准化最后只停留在了“营销话术”，“第三方认证评级”，“市场调查机构”，“等保国标”的手上。
+但有一点不可否认，相对上一代，下一代防火墙其实是“下一层”防火墙，将对网络流量的认知深入一层。
+如果说ACL，五元祖的防火墙规则是第一代，那么相当于3层，网络层。
+其下一代，状态防火墙可以认知TCP三次握手，位于4-5层，传输和会话层。
+再下一代，UTM防病毒等认知到了应用数据，位于6-7层，应用层。
+那下下下一代呢，已经超出网络的层次了，那么合理的推论就是在，在以上几代都检查不出来的情况下，认知对用户业务的威胁。
+所以下下下一代算是目前看到防火墙的终极形态了。
+如何理解针对业务的威胁？ 这个看起来是个玄学，因为这个层面上已经没有了协议的约束，所以是道“主观题”，还是文科的。
+“主观题”在市场营销上可谓随意发挥，各种危机案例，骇人场景，人工智能，深度学习都上了。
+但真正的工程角度，还是要把文科“主观题”转化给理科的“证明题”。
+如何证明这道题目呢？既然我们知道主观因素很多，那么人的因素增加大，理解业务的深度和广度增大了。我们需要
+更加深入灵活的规则
+更深更广的数据支撑
+更全面及时的情报
+更智能的分析逻辑
+所以最终这题关键考点“数据分析”。翻译成“人话”就是“找规律，找不同”。
+比如：张三总是半夜访问，和正常人不同。李四像个机器人，每天都是固定模式读图。
+工程与技术如何选择？ 大数据分析，机器学习，深度学习技术在过去10年有了一次越迁，技术层出不穷，但落地到安全场景是否合适？
+抛开市场营销不说，只谈干货。安全领域需求是主要分类“正常”与“不正常”的问题。
+深度学习：基于神经网络技术，用于自然语言理解，图形图像视频识别，语音识别场景，其都是人的感官模拟。 看过一些论文将网络流特征弄成图片，然后做图像学习，感觉明显画蛇添足。虽然用了深度学习，其效果比传统机器学习还差。
+目前我才疏学浅，还没认知到基于流量的安全领域使用深度学习的必要场景，而且人因素最大，算力资源要求也最大。
+(补充: NPL可用于URL参数注入分析场景)
+机器学习/大数据分析：相比统计规则，机器学习相当于在一定公式下进行最优解查找，找到最合适的参数。方法也很多。 但也都需要“训练”过程，这个过程在防火墙设备中进行目前还不是很适合，因为需要人指导，但训练后的模型进行“预测”完全可以在防火墙中进行。
+目前我觉得决策树及其衍生模型，包括随机森林，GBDT均适用于实时预测，可以使用的工程框架如 XGBoost 的 C&#43;&#43; 版本。
+其可行性论文网上已经有很多。
+关键技术指标在哪里？ 首先防火墙都是以性能指标为参照，实现相同功能下以硬件代价小（成本）性能高为竞争力。
+除了算法的领先，需要在架构上领先。无论使用机器学习，还是统计规则，都要在比过去大几个数量级的数据下提取特征为基础的。
+也就是“数据量”与“计算速度”还有“灵活性”的能力要超过上一代。而这三者关系却是互斥的，需要做减法。
+既然是“数据分析”是关键，我们看看现在有的技术Hadoop生态，显然可以处理大数据量，但是速度慢，成本高。
+后起之秀 Spark / Flink 解决速度问题，但还是基于Hadoop生态，是一个通用框架，灵活性上更好，性能还是太慢。
+而下下下一代防火墙被限定在一个固定输入的“数据分析”系统下，显然灵活性可以牺牲一些，数据量也可以牺牲一些，但速度绝对不能妥协，因为防火墙是嵌入在关键路径上的。
+首先需要一个通用的深度解析引擎，能灵活将业务字段从流量中提取，显然当代防火墙都已经具备。
+然后需要一个通用的计算分析引擎，能够缓存大量的关键数据，然后根据规则进行计算。
+基于状态管理的流计算分析 首先这个不是新东西，做过状态防火墙的都知道，流表(Flow Session Table)就是基于流或会话关系的状态管理。
+从会话产生，状态变迁到结束的过程，需要符合一定规律，这个规律是网络协议定义的，所有的检查都是基于这个状态进行叠加的。
+对应到业务风险就是对业务状态的管理，一般来说正常人在线完成一个业务的平均值为30分钟以内。所以通常这个数据量只需要1个小时即可解决90%的场景，数据量的问题被减掉了。
+然后是会话的key，在业务安全层面上，可以使用传统的IP，FlowId，但更需要使用的是AppId，UserId，DeviceId，SessionId这种业务维度的key，这是一个开放字段，但不会超过10种，需要通用支持，也就是从报文任意位置解析出来的字段，都可以作为这个状态的key。
+业务中也可以同时有很多key的状态，需要进行聚合（AGG）关联（JOIN）或合并（UNION）。
+第二个不确定就是规律，这个业务规律是无法事先定义的，没有协议，只能事后分析产生，所以机器学习和人工分析在这里需要能指导这个规律，具体不展开讲。
+这个状态管理的计算也就是速度与灵活性的取舍，比如还是流表状态管理，这个显然是针对3层流量定制的状态管理，所以速度快。
+但业务层面没法牺牲字段和计算表达的灵活性了，所以这里的功能和一个Flink CEP系统相似。（已经不少安全公司在云安全上使用了）
+https://ci.apache.org/projects/flink/flink-docs-stable/dev/libs/cep.html
+其底层就是一个通用的状态计算决定的，这个通用状态可以抽象定义为 &lt;key, state, ttl&gt;
+摘抄 Spark 中的一段代码，看起来就是这么回事，Flink中也是类似的的，所有大数据流计算都相似，但速度一定不会快了，">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/nnngfirewall/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="下下下一代防火墙关键技术漫谈">
+  <meta property="og:description" content="防火墙到底几代了？ Siri：“抱歉，很难回答你的问题”。
+防火墙虽然是个网络设备，但其功能不需要与其他防火墙之间互联互通，所以没有“互联”标准化的诞生。
+防火墙是在一个L2/L3网络设备基础上叠加不同的功能的软件系统，“功能”的标准化最后只停留在了“营销话术”，“第三方认证评级”，“市场调查机构”，“等保国标”的手上。
+但有一点不可否认，相对上一代，下一代防火墙其实是“下一层”防火墙，将对网络流量的认知深入一层。
+如果说ACL，五元祖的防火墙规则是第一代，那么相当于3层，网络层。
+其下一代，状态防火墙可以认知TCP三次握手，位于4-5层，传输和会话层。
+再下一代，UTM防病毒等认知到了应用数据，位于6-7层，应用层。
+那下下下一代呢，已经超出网络的层次了，那么合理的推论就是在，在以上几代都检查不出来的情况下，认知对用户业务的威胁。
+所以下下下一代算是目前看到防火墙的终极形态了。
+如何理解针对业务的威胁？ 这个看起来是个玄学，因为这个层面上已经没有了协议的约束，所以是道“主观题”，还是文科的。
+“主观题”在市场营销上可谓随意发挥，各种危机案例，骇人场景，人工智能，深度学习都上了。
+但真正的工程角度，还是要把文科“主观题”转化给理科的“证明题”。
+如何证明这道题目呢？既然我们知道主观因素很多，那么人的因素增加大，理解业务的深度和广度增大了。我们需要
+更加深入灵活的规则
+更深更广的数据支撑
+更全面及时的情报
+更智能的分析逻辑
+所以最终这题关键考点“数据分析”。翻译成“人话”就是“找规律，找不同”。
+比如：张三总是半夜访问，和正常人不同。李四像个机器人，每天都是固定模式读图。
+工程与技术如何选择？ 大数据分析，机器学习，深度学习技术在过去10年有了一次越迁，技术层出不穷，但落地到安全场景是否合适？
+抛开市场营销不说，只谈干货。安全领域需求是主要分类“正常”与“不正常”的问题。
+深度学习：基于神经网络技术，用于自然语言理解，图形图像视频识别，语音识别场景，其都是人的感官模拟。 看过一些论文将网络流特征弄成图片，然后做图像学习，感觉明显画蛇添足。虽然用了深度学习，其效果比传统机器学习还差。
+目前我才疏学浅，还没认知到基于流量的安全领域使用深度学习的必要场景，而且人因素最大，算力资源要求也最大。
+(补充: NPL可用于URL参数注入分析场景)
+机器学习/大数据分析：相比统计规则，机器学习相当于在一定公式下进行最优解查找，找到最合适的参数。方法也很多。 但也都需要“训练”过程，这个过程在防火墙设备中进行目前还不是很适合，因为需要人指导，但训练后的模型进行“预测”完全可以在防火墙中进行。
+目前我觉得决策树及其衍生模型，包括随机森林，GBDT均适用于实时预测，可以使用的工程框架如 XGBoost 的 C&#43;&#43; 版本。
+其可行性论文网上已经有很多。
+关键技术指标在哪里？ 首先防火墙都是以性能指标为参照，实现相同功能下以硬件代价小（成本）性能高为竞争力。
+除了算法的领先，需要在架构上领先。无论使用机器学习，还是统计规则，都要在比过去大几个数量级的数据下提取特征为基础的。
+也就是“数据量”与“计算速度”还有“灵活性”的能力要超过上一代。而这三者关系却是互斥的，需要做减法。
+既然是“数据分析”是关键，我们看看现在有的技术Hadoop生态，显然可以处理大数据量，但是速度慢，成本高。
+后起之秀 Spark / Flink 解决速度问题，但还是基于Hadoop生态，是一个通用框架，灵活性上更好，性能还是太慢。
+而下下下一代防火墙被限定在一个固定输入的“数据分析”系统下，显然灵活性可以牺牲一些，数据量也可以牺牲一些，但速度绝对不能妥协，因为防火墙是嵌入在关键路径上的。
+首先需要一个通用的深度解析引擎，能灵活将业务字段从流量中提取，显然当代防火墙都已经具备。
+然后需要一个通用的计算分析引擎，能够缓存大量的关键数据，然后根据规则进行计算。
+基于状态管理的流计算分析 首先这个不是新东西，做过状态防火墙的都知道，流表(Flow Session Table)就是基于流或会话关系的状态管理。
+从会话产生，状态变迁到结束的过程，需要符合一定规律，这个规律是网络协议定义的，所有的检查都是基于这个状态进行叠加的。
+对应到业务风险就是对业务状态的管理，一般来说正常人在线完成一个业务的平均值为30分钟以内。所以通常这个数据量只需要1个小时即可解决90%的场景，数据量的问题被减掉了。
+然后是会话的key，在业务安全层面上，可以使用传统的IP，FlowId，但更需要使用的是AppId，UserId，DeviceId，SessionId这种业务维度的key，这是一个开放字段，但不会超过10种，需要通用支持，也就是从报文任意位置解析出来的字段，都可以作为这个状态的key。
+业务中也可以同时有很多key的状态，需要进行聚合（AGG）关联（JOIN）或合并（UNION）。
+第二个不确定就是规律，这个业务规律是无法事先定义的，没有协议，只能事后分析产生，所以机器学习和人工分析在这里需要能指导这个规律，具体不展开讲。
+这个状态管理的计算也就是速度与灵活性的取舍，比如还是流表状态管理，这个显然是针对3层流量定制的状态管理，所以速度快。
+但业务层面没法牺牲字段和计算表达的灵活性了，所以这里的功能和一个Flink CEP系统相似。（已经不少安全公司在云安全上使用了）
+https://ci.apache.org/projects/flink/flink-docs-stable/dev/libs/cep.html
+其底层就是一个通用的状态计算决定的，这个通用状态可以抽象定义为 &lt;key, state, ttl&gt;
+摘抄 Spark 中的一段代码，看起来就是这么回事，Flink中也是类似的的，所有大数据流计算都相似，但速度一定不会快了，">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-08-20T16:31:11+08:00">
+    <meta property="article:modified_time" content="2020-08-20T16:31:11+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "下下下一代防火墙关键技术漫谈",
+        "headline": "下下下一代防火墙关键技术漫谈",
+        "alternativeHeadline": "",
+        "description": "
+      
+        防火墙到底几代了？ Siri：“抱歉，很难回答你的问题”。\n防火墙虽然是个网络设备，但其功能不需要与其他防火墙之间互联互通，所以没有“互联”标准化的诞生。\n防火墙是在一个L2\/L3网络设备基础上叠加不同的功能的软件系统，“功能”的标准化最后只停留在了“营销话术”，“第三方认证评级”，“市场调查机构”，“等保国标”的手上。\n但有一点不可否认，相对上一代，下一代防火墙其实是“下一层”防火墙，将对网络流量的认知深入一层。\n如果说ACL，五元祖的防火墙规则是第一代，那么相当于3层，网络层。\n其下一代，状态防火墙可以认知TCP三次握手，位于4-5层，传输和会话层。\n再下一代，UTM防病毒等认知到了应用数据，位于6-7层，应用层。\n那下下下一代呢，已经超出网络的层次了，那么合理的推论就是在，在以上几代都检查不出来的情况下，认知对用户业务的威胁。\n所以下下下一代算是目前看到防火墙的终极形态了。\n如何理解针对业务的威胁？ 这个看起来是个玄学，因为这个层面上已经没有了协议的约束，所以是道“主观题”，还是文科的。\n“主观题”在市场营销上可谓随意发挥，各种危机案例，骇人场景，人工智能，深度学习都上了。\n但真正的工程角度，还是要把文科“主观题”转化给理科的“证明题”。\n如何证明这道题目呢？既然我们知道主观因素很多，那么人的因素增加大，理解业务的深度和广度增大了。我们需要\n更加深入灵活的规则\n更深更广的数据支撑\n更全面及时的情报\n更智能的分析逻辑\n所以最终这题关键考点“数据分析”。翻译成“人话”就是“找规律，找不同”。\n比如：张三总是半夜访问，和正常人不同。李四像个机器人，每天都是固定模式读图。\n工程与技术如何选择？ 大数据分析，机器学习，深度学习技术在过去10年有了一次越迁，技术层出不穷，但落地到安全场景是否合适？\n抛开市场营销不说，只谈干货。安全领域需求是主要分类“正常”与“不正常”的问题。\n深度学习：基于神经网络技术，用于自然语言理解，图形图像视频识别，语音识别场景，其都是人的感官模拟。 看过一些论文将网络流特征弄成图片，然后做图像学习，感觉明显画蛇添足。虽然用了深度学习，其效果比传统机器学习还差。\n目前我才疏学浅，还没认知到基于流量的安全领域使用深度学习的必要场景，而且人因素最大，算力资源要求也最大。\n(补充: NPL可用于URL参数注入分析场景)\n机器学习\/大数据分析：相比统计规则，机器学习相当于在一定公式下进行最优解查找，找到最合适的参数。方法也很多。 但也都需要“训练”过程，这个过程在防火墙设备中进行目前还不是很适合，因为需要人指导，但训练后的模型进行“预测”完全可以在防火墙中进行。\n目前我觉得决策树及其衍生模型，包括随机森林，GBDT均适用于实时预测，可以使用的工程框架如 XGBoost 的 C\u002b\u002b 版本。\n其可行性论文网上已经有很多。\n关键技术指标在哪里？ 首先防火墙都是以性能指标为参照，实现相同功能下以硬件代价小（成本）性能高为竞争力。\n除了算法的领先，需要在架构上领先。无论使用机器学习，还是统计规则，都要在比过去大几个数量级的数据下提取特征为基础的。\n也就是“数据量”与“计算速度”还有“灵活性”的能力要超过上一代。而这三者关系却是互斥的，需要做减法。\n既然是“数据分析”是关键，我们看看现在有的技术Hadoop生态，显然可以处理大数据量，但是速度慢，成本高。\n后起之秀 Spark \/ Flink 解决速度问题，但还是基于Hadoop生态，是一个通用框架，灵活性上更好，性能还是太慢。\n而下下下一代防火墙被限定在一个固定输入的“数据分析”系统下，显然灵活性可以牺牲一些，数据量也可以牺牲一些，但速度绝对不能妥协，因为防火墙是嵌入在关键路径上的。\n首先需要一个通用的深度解析引擎，能灵活将业务字段从流量中提取，显然当代防火墙都已经具备。\n然后需要一个通用的计算分析引擎，能够缓存大量的关键数据，然后根据规则进行计算。\n基于状态管理的流计算分析 首先这个不是新东西，做过状态防火墙的都知道，流表(Flow Session Table)就是基于流或会话关系的状态管理。\n从会话产生，状态变迁到结束的过程，需要符合一定规律，这个规律是网络协议定义的，所有的检查都是基于这个状态进行叠加的。\n对应到业务风险就是对业务状态的管理，一般来说正常人在线完成一个业务的平均值为30分钟以内。所以通常这个数据量只需要1个小时即可解决90%的场景，数据量的问题被减掉了。\n然后是会话的key，在业务安全层面上，可以使用传统的IP，FlowId，但更需要使用的是AppId，UserId，DeviceId，SessionId这种业务维度的key，这是一个开放字段，但不会超过10种，需要通用支持，也就是从报文任意位置解析出来的字段，都可以作为这个状态的key。\n业务中也可以同时有很多key的状态，需要进行聚合（AGG）关联（JOIN）或合并（UNION）。\n第二个不确定就是规律，这个业务规律是无法事先定义的，没有协议，只能事后分析产生，所以机器学习和人工分析在这里需要能指导这个规律，具体不展开讲。\n这个状态管理的计算也就是速度与灵活性的取舍，比如还是流表状态管理，这个显然是针对3层流量定制的状态管理，所以速度快。\n但业务层面没法牺牲字段和计算表达的灵活性了，所以这里的功能和一个Flink CEP系统相似。（已经不少安全公司在云安全上使用了）\nhttps:\/\/ci.apache.org\/projects\/flink\/flink-docs-stable\/dev\/libs\/cep.html\n其底层就是一个通用的状态计算决定的，这个通用状态可以抽象定义为 \u0026lt;key, state, ttl\u0026gt;\n摘抄 Spark 中的一段代码，看起来就是这么回事，Flink中也是类似的的，所有大数据流计算都相似，但速度一定不会快了，
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/nnngfirewall\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2020",
+        "dateCreated": "2020-08-20T16:31:11.00Z",
+        "datePublished": "2020-08-20T16:31:11.00Z",
+        "dateModified": "2020-08-20T16:31:11.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/nnngfirewall\/",
+        "wordCount" : "169",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>下下下一代防火墙关键技术漫谈</h1>
+      <h3 id="防火墙到底几代了">防火墙到底几代了？</h3>
+<p>Siri：“抱歉，很难回答你的问题”。</p>
+<p>防火墙虽然是个网络设备，但其功能不需要与其他防火墙之间互联互通，所以没有“互联”标准化的诞生。</p>
+<p>防火墙是在一个L2/L3网络设备基础上叠加不同的功能的软件系统，“功能”的标准化最后只停留在了“营销话术”，“第三方认证评级”，“市场调查机构”，“等保国标”的手上。</p>
+<p>但有一点不可否认，相对上一代，下一代防火墙其实是“下一层”防火墙，将对网络流量的认知深入一层。</p>
+<p>如果说ACL，五元祖的防火墙规则是第一代，那么相当于3层，网络层。</p>
+<p>其下一代，状态防火墙可以认知TCP三次握手，位于4-5层，传输和会话层。</p>
+<p>再下一代，UTM防病毒等认知到了应用数据，位于6-7层，应用层。</p>
+<p>那下下下一代呢，已经超出网络的层次了，那么合理的推论就是在，在以上几代都检查不出来的情况下，认知对用户业务的威胁。</p>
+<p>所以下下下一代算是目前看到防火墙的终极形态了。</p>
+<h3 id="如何理解针对业务的威胁">如何理解针对业务的威胁？</h3>
+<p>这个看起来是个玄学，因为这个层面上已经没有了协议的约束，所以是道“主观题”，还是文科的。</p>
+<p>“主观题”在市场营销上可谓随意发挥，各种危机案例，骇人场景，人工智能，深度学习都上了。</p>
+<p>但真正的工程角度，还是要把文科“主观题”转化给理科的“证明题”。</p>
+<p>如何证明这道题目呢？既然我们知道主观因素很多，那么人的因素增加大，理解业务的深度和广度增大了。我们需要</p>
+<ul>
+<li>
+<p>更加深入灵活的规则</p>
+</li>
+<li>
+<p>更深更广的数据支撑</p>
+</li>
+<li>
+<p>更全面及时的情报</p>
+</li>
+<li>
+<p>更智能的分析逻辑</p>
+</li>
+</ul>
+<p>所以最终这题关键考点“数据分析”。翻译成“人话”就是“找规律，找不同”。</p>
+<p>比如：张三总是半夜访问，和正常人不同。李四像个机器人，每天都是固定模式读图。</p>
+<h3 id="工程与技术如何选择">工程与技术如何选择？</h3>
+<p>大数据分析，机器学习，深度学习技术在过去10年有了一次越迁，技术层出不穷，但落地到安全场景是否合适？</p>
+<p>抛开市场营销不说，只谈干货。安全领域需求是主要分类“正常”与“不正常”的问题。</p>
+<ul>
+<li>深度学习：基于神经网络技术，用于自然语言理解，图形图像视频识别，语音识别场景，其都是人的感官模拟。</li>
+</ul>
+<p>看过一些论文将网络流特征弄成图片，然后做图像学习，感觉明显画蛇添足。虽然用了深度学习，其效果比传统机器学习还差。</p>
+<p>目前我才疏学浅，还没认知到基于流量的安全领域使用深度学习的必要场景，而且人因素最大，算力资源要求也最大。</p>
+<p>(补充: NPL可用于URL参数注入分析场景)</p>
+<ul>
+<li>机器学习/大数据分析：相比统计规则，机器学习相当于在一定公式下进行最优解查找，找到最合适的参数。方法也很多。</li>
+</ul>
+<p>但也都需要“训练”过程，这个过程在防火墙设备中进行目前还不是很适合，因为需要人指导，但训练后的模型进行“预测”完全可以在防火墙中进行。</p>
+<p>目前我觉得决策树及其衍生模型，包括随机森林，GBDT均适用于实时预测，可以使用的工程框架如 XGBoost 的 C++ 版本。</p>
+<p>其可行性论文网上已经有很多。</p>
+<h3 id="关键技术指标在哪里">关键技术指标在哪里？</h3>
+<p>首先防火墙都是以性能指标为参照，实现相同功能下以硬件代价小（成本）性能高为竞争力。</p>
+<p>除了算法的领先，需要在架构上领先。无论使用机器学习，还是统计规则，都要在比过去大几个数量级的数据下提取特征为基础的。</p>
+<p>也就是“数据量”与“计算速度”还有“灵活性”的能力要超过上一代。而这三者关系却是互斥的，需要做减法。</p>
+<p>既然是“数据分析”是关键，我们看看现在有的技术Hadoop生态，显然可以处理大数据量，但是速度慢，成本高。</p>
+<p>后起之秀 Spark / Flink 解决速度问题，但还是基于Hadoop生态，是一个通用框架，灵活性上更好，性能还是太慢。</p>
+<p>而下下下一代防火墙被限定在一个固定输入的“数据分析”系统下，显然灵活性可以牺牲一些，数据量也可以牺牲一些，但速度绝对不能妥协，因为防火墙是嵌入在关键路径上的。</p>
+<p>首先需要一个通用的深度解析引擎，能灵活将业务字段从流量中提取，显然当代防火墙都已经具备。</p>
+<p>然后需要一个通用的计算分析引擎，能够缓存大量的关键数据，然后根据规则进行计算。</p>
+<h3 id="基于状态管理的流计算分析">基于状态管理的流计算分析</h3>
+<p>首先这个不是新东西，做过状态防火墙的都知道，流表(Flow Session Table)就是基于流或会话关系的状态管理。</p>
+<p>从会话产生，状态变迁到结束的过程，需要符合一定规律，这个规律是网络协议定义的，所有的检查都是基于这个状态进行叠加的。</p>
+<p>对应到业务风险就是对业务状态的管理，一般来说正常人在线完成一个业务的平均值为30分钟以内。所以通常这个数据量只需要1个小时即可解决90%的场景，数据量的问题被减掉了。</p>
+<p>然后是会话的key，在业务安全层面上，可以使用传统的IP，FlowId，但更需要使用的是AppId，UserId，DeviceId，SessionId这种业务维度的key，这是一个开放字段，但不会超过10种，需要通用支持，也就是从报文任意位置解析出来的字段，都可以作为这个状态的key。</p>
+<p>业务中也可以同时有很多key的状态，需要进行聚合（AGG）关联（JOIN）或合并（UNION）。</p>
+<p>第二个不确定就是规律，这个业务规律是无法事先定义的，没有协议，只能事后分析产生，所以机器学习和人工分析在这里需要能指导这个规律，具体不展开讲。</p>
+<p>这个状态管理的计算也就是速度与灵活性的取舍，比如还是流表状态管理，这个显然是针对3层流量定制的状态管理，所以速度快。</p>
+<p>但业务层面没法牺牲字段和计算表达的灵活性了，所以这里的功能和一个Flink CEP系统相似。（已经不少安全公司在云安全上使用了）</p>
+<p><a href="https://ci.apache.org/projects/flink/flink-docs-stable/dev/libs/cep.html">https://ci.apache.org/projects/flink/flink-docs-stable/dev/libs/cep.html</a></p>
+<p>其底层就是一个通用的状态计算决定的，这个通用状态可以抽象定义为 &lt;key, state, ttl&gt;</p>
+<p>摘抄 Spark 中的一段代码，看起来就是这么回事，Flink中也是类似的的，所有大数据流计算都相似，但速度一定不会快了，</p>
+<pre tabindex="0"><code>    // A mapping function that maintains an integer state and returns a String
+    def mappingFunction(key: String, value: Option[Int], state: State[Int]): Option[String] = {
+      // Check if state exists
+      if (state.exists) {
+        val existingState = state.get  // Get the existing state
+        val shouldRemove = ...         // Decide whether to remove the state
+        if (shouldRemove) {
+          state.remove()     // Remove the state
+        } else {
+          val newState = ...
+          state.update(newState)    // Set the new state
+        }
+      } else {
+        val initialState = ...
+        state.update(initialState)  // Set the initial state
+      }
+      ... // return something
+    }
+</code></pre><p>但有一些场景我们还可以减法，比如分布式，故障恢复场景，还有Exactly Once等情况都是通用框架下的问题，但在防火墙安全领域的数据分析下是可以简化的。</p>
+<p>还有语言实现层面，甚至硬件加速的方案，可以优化，尽量使单节点性能大幅提升，以我的经验，现在的硬件能力是可以支撑的。</p>
+<p>我认为将一个通用流计算框架裁剪移植到防火墙里，也许是下下下一代防火墙上绕不开的关键特性，甚至是最关键特性。</p>
+<h3 id="最后">最后</h3>
+<p>当然系统还有许多细节，比如状态存储的设计，灵活状态规则的定义，多状态表下决策的统一，柔性的处置机制，修正机制等等。</p>
+<p>一个未来的产品，还有很多未来的因素，由于才疏学浅，可能一叶障目，仅出于最近几年的所学所思，供探讨。</p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

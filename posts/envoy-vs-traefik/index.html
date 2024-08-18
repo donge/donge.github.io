@@ -1,0 +1,494 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        Envoy VS Traefik
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/envoy-vs-traefik/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Envoy VS Traefik">
+  <meta name="twitter:description" content="云原生场景，产生了很多的Edge Router，Load balance，API Gate Way，Proxy等组件。
+最近研究了一下，分享几个喜欢的项目，它们大致分为两类：
+Gateway为主：Kong，Krakend Proxy为主：Envoy，Traefik 但两类没有实际功能的边界，Proxy为主，一般要支持在L4，Gateway为主，支持在L7即可。
+Proxy主要位置是中间，可以做sidecar，Gateway在服务endpoint前面。
+再比如传统的HAProxy就是Proxy，Nginx就偏Gateway。
+这个概念和数据通信网络的Core Router和Edge/Service Router是差不多的，Edge Router是感知服务的，理论上功能更多，Data Plane基本一样，Control Plane功能更丰富而已。
+所以Gateway一般是一个Control Plane &#43; Data Plane，比如Kong的Data Plane就是OpenResty。
+使用Envoy作为Data Plane的Control Plane有Solo.io（Istio族下）。
+从需求角度，我有几个偏好：
+高性能：C&#43;&#43;，Rust，Golang还可以，其他语言就别Data Plane了 高扩展：必须支持插件，动态(如LuaJIT)或者静态(链接库)。 独立：Serverless，无依赖，无状态，单daemon，最好自带UI。 小而美：其实和上面几个也是一个意思，最好带简单Control Plane，但要节制。 功能性能上，需要看场景。我关注在差异上，也就是高扩展与独立。
+Envoy：C&#43;&#43;原生性能没得说，线程模型比Nginx还先进，水平扩展，所有配置均支持动态接口。最吸引我的是WASM的插件机制，逻辑上WASM可以编译到原生水平，还有很好的容器属性。只要push/pull就能增加插件进行使用。 Traefik在今年上半年选型时，我很看好，独立，2.0开始支持L4，与Swarm，K8S结合都很好，性能也与Nginx不相上下，但配置动态还自带UI，可惜当时不支持插件，惜败。没想到从2.3开始支持golang的动态链接库和golang代码解析执行两种（Dev Mode），实验阶段。 Kong/OpenResty：Nginx性能没的说，Lua动态没得说，Kong增加了控制平面的动态能力，差就差在Kong是几个东西组合的，大而全，但不小也不美，配置部署都麻烦。 Krakend：这个是个欧洲公司，小众，golang，插件支持Lua与Golang，性能说是比Kong高，有很技术后发优势，小而美，自带UI。但生态上还是和几个大哥差太多了，怕半路夭折了，长期观望。 Envoy VS Traefik
+C&#43;&#43; VS Golang WASM插件 VS Golang插件 小而聚(无控制) VS 小而全(自带UI） Envoy WASM插件：
+https://github.com/envoyproxy/envoy/tree/master/examples/wasm-cc
+BodyRewrite的流程，弄了一遍，总体不算太痛苦，哭在写C&#43;&#43;上比较烦，当前还支持Rust，所以不算缺点。
+本身插件是WASM文件，如果支持容器，还需要一些繁琐的步骤。据说性能目前还不行。可以先用Lua。
+这里是Hub的生态，还比较冷清
+https://docs.solo.io/web-assembly-hub/latest
+Traefik插件：
+https://github.com/traefik/plugindemo
+Golang的开发成本更低，写起来比较快，动态性上差点。
+Plugins的生态更冷清。
+https://pilot.traefik.io/plugins
+虽然在插件概念上，大家都各用奇招。但插件需求还是比较高级的开发者需求，普通用户不一定用到。
+我关注的其他功能
+gRPC：都支持。 状态：虽说Proxy无状态的，但状态是我的特殊需求，比如RateLimit如何实现，分布式下如何存储状态，效率如何。两者实现默认都是无状态的，不能集群全局RateLimit。Envoy给了一种gRPC实现有状态的实现的例子。 数据收集：Traefik比较弱，主要是文本输出Access，Envoy更加灵活可以将日志通过gPRC protobuf输出。 总结">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/envoy-vs-traefik/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="Envoy VS Traefik">
+  <meta property="og:description" content="云原生场景，产生了很多的Edge Router，Load balance，API Gate Way，Proxy等组件。
+最近研究了一下，分享几个喜欢的项目，它们大致分为两类：
+Gateway为主：Kong，Krakend Proxy为主：Envoy，Traefik 但两类没有实际功能的边界，Proxy为主，一般要支持在L4，Gateway为主，支持在L7即可。
+Proxy主要位置是中间，可以做sidecar，Gateway在服务endpoint前面。
+再比如传统的HAProxy就是Proxy，Nginx就偏Gateway。
+这个概念和数据通信网络的Core Router和Edge/Service Router是差不多的，Edge Router是感知服务的，理论上功能更多，Data Plane基本一样，Control Plane功能更丰富而已。
+所以Gateway一般是一个Control Plane &#43; Data Plane，比如Kong的Data Plane就是OpenResty。
+使用Envoy作为Data Plane的Control Plane有Solo.io（Istio族下）。
+从需求角度，我有几个偏好：
+高性能：C&#43;&#43;，Rust，Golang还可以，其他语言就别Data Plane了 高扩展：必须支持插件，动态(如LuaJIT)或者静态(链接库)。 独立：Serverless，无依赖，无状态，单daemon，最好自带UI。 小而美：其实和上面几个也是一个意思，最好带简单Control Plane，但要节制。 功能性能上，需要看场景。我关注在差异上，也就是高扩展与独立。
+Envoy：C&#43;&#43;原生性能没得说，线程模型比Nginx还先进，水平扩展，所有配置均支持动态接口。最吸引我的是WASM的插件机制，逻辑上WASM可以编译到原生水平，还有很好的容器属性。只要push/pull就能增加插件进行使用。 Traefik在今年上半年选型时，我很看好，独立，2.0开始支持L4，与Swarm，K8S结合都很好，性能也与Nginx不相上下，但配置动态还自带UI，可惜当时不支持插件，惜败。没想到从2.3开始支持golang的动态链接库和golang代码解析执行两种（Dev Mode），实验阶段。 Kong/OpenResty：Nginx性能没的说，Lua动态没得说，Kong增加了控制平面的动态能力，差就差在Kong是几个东西组合的，大而全，但不小也不美，配置部署都麻烦。 Krakend：这个是个欧洲公司，小众，golang，插件支持Lua与Golang，性能说是比Kong高，有很技术后发优势，小而美，自带UI。但生态上还是和几个大哥差太多了，怕半路夭折了，长期观望。 Envoy VS Traefik
+C&#43;&#43; VS Golang WASM插件 VS Golang插件 小而聚(无控制) VS 小而全(自带UI） Envoy WASM插件：
+https://github.com/envoyproxy/envoy/tree/master/examples/wasm-cc
+BodyRewrite的流程，弄了一遍，总体不算太痛苦，哭在写C&#43;&#43;上比较烦，当前还支持Rust，所以不算缺点。
+本身插件是WASM文件，如果支持容器，还需要一些繁琐的步骤。据说性能目前还不行。可以先用Lua。
+这里是Hub的生态，还比较冷清
+https://docs.solo.io/web-assembly-hub/latest
+Traefik插件：
+https://github.com/traefik/plugindemo
+Golang的开发成本更低，写起来比较快，动态性上差点。
+Plugins的生态更冷清。
+https://pilot.traefik.io/plugins
+虽然在插件概念上，大家都各用奇招。但插件需求还是比较高级的开发者需求，普通用户不一定用到。
+我关注的其他功能
+gRPC：都支持。 状态：虽说Proxy无状态的，但状态是我的特殊需求，比如RateLimit如何实现，分布式下如何存储状态，效率如何。两者实现默认都是无状态的，不能集群全局RateLimit。Envoy给了一种gRPC实现有状态的实现的例子。 数据收集：Traefik比较弱，主要是文本输出Access，Envoy更加灵活可以将日志通过gPRC protobuf输出。 总结">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-11-06T01:00:00+08:00">
+    <meta property="article:modified_time" content="2020-11-06T01:00:00+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "Envoy VS Traefik",
+        "headline": "Envoy VS Traefik",
+        "alternativeHeadline": "",
+        "description": "
+      
+        云原生场景，产生了很多的Edge Router，Load balance，API Gate Way，Proxy等组件。\n最近研究了一下，分享几个喜欢的项目，它们大致分为两类：\nGateway为主：Kong，Krakend Proxy为主：Envoy，Traefik 但两类没有实际功能的边界，Proxy为主，一般要支持在L4，Gateway为主，支持在L7即可。\nProxy主要位置是中间，可以做sidecar，Gateway在服务endpoint前面。\n再比如传统的HAProxy就是Proxy，Nginx就偏Gateway。\n这个概念和数据通信网络的Core Router和Edge\/Service Router是差不多的，Edge Router是感知服务的，理论上功能更多，Data Plane基本一样，Control Plane功能更丰富而已。\n所以Gateway一般是一个Control Plane \u002b Data Plane，比如Kong的Data Plane就是OpenResty。\n使用Envoy作为Data Plane的Control Plane有Solo.io（Istio族下）。\n从需求角度，我有几个偏好：\n高性能：C\u002b\u002b，Rust，Golang还可以，其他语言就别Data Plane了 高扩展：必须支持插件，动态(如LuaJIT)或者静态(链接库)。 独立：Serverless，无依赖，无状态，单daemon，最好自带UI。 小而美：其实和上面几个也是一个意思，最好带简单Control Plane，但要节制。 功能性能上，需要看场景。我关注在差异上，也就是高扩展与独立。\nEnvoy：C\u002b\u002b原生性能没得说，线程模型比Nginx还先进，水平扩展，所有配置均支持动态接口。最吸引我的是WASM的插件机制，逻辑上WASM可以编译到原生水平，还有很好的容器属性。只要push\/pull就能增加插件进行使用。 Traefik在今年上半年选型时，我很看好，独立，2.0开始支持L4，与Swarm，K8S结合都很好，性能也与Nginx不相上下，但配置动态还自带UI，可惜当时不支持插件，惜败。没想到从2.3开始支持golang的动态链接库和golang代码解析执行两种（Dev Mode），实验阶段。 Kong\/OpenResty：Nginx性能没的说，Lua动态没得说，Kong增加了控制平面的动态能力，差就差在Kong是几个东西组合的，大而全，但不小也不美，配置部署都麻烦。 Krakend：这个是个欧洲公司，小众，golang，插件支持Lua与Golang，性能说是比Kong高，有很技术后发优势，小而美，自带UI。但生态上还是和几个大哥差太多了，怕半路夭折了，长期观望。 Envoy VS Traefik\nC\u002b\u002b VS Golang WASM插件 VS Golang插件 小而聚(无控制) VS 小而全(自带UI） Envoy WASM插件：\nhttps:\/\/github.com\/envoyproxy\/envoy\/tree\/master\/examples\/wasm-cc\nBodyRewrite的流程，弄了一遍，总体不算太痛苦，哭在写C\u002b\u002b上比较烦，当前还支持Rust，所以不算缺点。\n本身插件是WASM文件，如果支持容器，还需要一些繁琐的步骤。据说性能目前还不行。可以先用Lua。\n这里是Hub的生态，还比较冷清\nhttps:\/\/docs.solo.io\/web-assembly-hub\/latest\nTraefik插件：\nhttps:\/\/github.com\/traefik\/plugindemo\nGolang的开发成本更低，写起来比较快，动态性上差点。\nPlugins的生态更冷清。\nhttps:\/\/pilot.traefik.io\/plugins\n虽然在插件概念上，大家都各用奇招。但插件需求还是比较高级的开发者需求，普通用户不一定用到。\n我关注的其他功能\ngRPC：都支持。 状态：虽说Proxy无状态的，但状态是我的特殊需求，比如RateLimit如何实现，分布式下如何存储状态，效率如何。两者实现默认都是无状态的，不能集群全局RateLimit。Envoy给了一种gRPC实现有状态的实现的例子。 数据收集：Traefik比较弱，主要是文本输出Access，Envoy更加灵活可以将日志通过gPRC protobuf输出。 总结
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/envoy-vs-traefik\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2020",
+        "dateCreated": "2020-11-06T01:00:00.00Z",
+        "datePublished": "2020-11-06T01:00:00.00Z",
+        "dateModified": "2020-11-06T01:00:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/envoy-vs-traefik\/",
+        "wordCount" : "76",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>Envoy vs Traefik</h1>
+      <p>云原生场景，产生了很多的Edge Router，Load balance，API Gate Way，Proxy等组件。</p>
+<p>最近研究了一下，分享几个喜欢的项目，它们大致分为两类：</p>
+<ul>
+<li>Gateway为主：Kong，Krakend</li>
+<li>Proxy为主：Envoy，Traefik</li>
+</ul>
+<p>但两类没有实际功能的边界，Proxy为主，一般要支持在L4，Gateway为主，支持在L7即可。</p>
+<p>Proxy主要位置是中间，可以做sidecar，Gateway在服务endpoint前面。</p>
+<p>再比如传统的HAProxy就是Proxy，Nginx就偏Gateway。</p>
+<p>这个概念和数据通信网络的Core Router和Edge/Service Router是差不多的，Edge Router是感知服务的，理论上功能更多，Data Plane基本一样，Control Plane功能更丰富而已。</p>
+<p>所以Gateway一般是一个Control Plane + Data Plane，比如Kong的Data Plane就是OpenResty。</p>
+<p>使用Envoy作为Data Plane的Control Plane有Solo.io（Istio族下）。</p>
+<p>从需求角度，我有几个偏好：</p>
+<ul>
+<li>高性能：C++，Rust，Golang还可以，其他语言就别Data Plane了</li>
+<li>高扩展：必须支持插件，动态(如LuaJIT)或者静态(链接库)。</li>
+<li>独立：Serverless，无依赖，无状态，单daemon，最好自带UI。</li>
+<li>小而美：其实和上面几个也是一个意思，最好带简单Control Plane，但要节制。</li>
+</ul>
+<p>功能性能上，需要看场景。我关注在差异上，也就是高扩展与独立。</p>
+<ul>
+<li>Envoy：C++原生性能没得说，线程模型比Nginx还先进，水平扩展，所有配置均支持动态接口。最吸引我的是WASM的插件机制，逻辑上WASM可以编译到原生水平，还有很好的容器属性。只要push/pull就能增加插件进行使用。</li>
+<li>Traefik在今年上半年选型时，我很看好，独立，2.0开始支持L4，与Swarm，K8S结合都很好，性能也与Nginx不相上下，但配置动态还自带UI，可惜当时不支持插件，惜败。没想到从2.3开始支持golang的动态链接库和golang代码解析执行两种（Dev Mode），实验阶段。</li>
+<li>Kong/OpenResty：Nginx性能没的说，Lua动态没得说，Kong增加了控制平面的动态能力，差就差在Kong是几个东西组合的，大而全，但不小也不美，配置部署都麻烦。</li>
+<li>Krakend：这个是个欧洲公司，小众，golang，插件支持Lua与Golang，性能说是比Kong高，有很技术后发优势，小而美，自带UI。但生态上还是和几个大哥差太多了，怕半路夭折了，长期观望。</li>
+</ul>
+<p>Envoy VS Traefik</p>
+<ul>
+<li>C++ VS Golang</li>
+<li>WASM插件 VS Golang插件</li>
+<li>小而聚(无控制) VS 小而全(自带UI）</li>
+</ul>
+<p>Envoy WASM插件：</p>
+<p><a href="https://github.com/envoyproxy/envoy/tree/master/examples/wasm-cc">https://github.com/envoyproxy/envoy/tree/master/examples/wasm-cc</a></p>
+<p>BodyRewrite的流程，弄了一遍，总体不算太痛苦，哭在写C++上比较烦，当前还支持Rust，所以不算缺点。</p>
+<p>本身插件是WASM文件，如果支持容器，还需要一些繁琐的步骤。据说性能目前还不行。可以先用Lua。</p>
+<p>这里是Hub的生态，还比较冷清</p>
+<p><a href="https://webassemblyhub.io/">https://docs.solo.io/web-assembly-hub/latest</a></p>
+<p>Traefik插件：</p>
+<p><a href="https://github.com/traefik/plugindemo">https://github.com/traefik/plugindemo</a></p>
+<p>Golang的开发成本更低，写起来比较快，动态性上差点。</p>
+<p>Plugins的生态更冷清。</p>
+<p><a href="https://pilot.traefik.io/plugins">https://pilot.traefik.io/plugins</a></p>
+<p>虽然在插件概念上，大家都各用奇招。但插件需求还是比较高级的开发者需求，普通用户不一定用到。</p>
+<p>我关注的其他功能</p>
+<ul>
+<li>gRPC：都支持。</li>
+<li>状态：虽说Proxy无状态的，但状态是我的特殊需求，比如RateLimit如何实现，分布式下如何存储状态，效率如何。两者实现默认都是无状态的，不能集群全局RateLimit。Envoy给了一种gRPC实现有状态的实现的例子。</li>
+<li>数据收集：Traefik比较弱，主要是文本输出Access，Envoy更加灵活可以将日志通过gPRC protobuf输出。</li>
+</ul>
+<p>总结</p>
+<p>Envoy的门槛更高，定位更有想象力，聚焦Data Plane，CloudNative的网红。</p>
+<p>Traefik自带Control，上手快速，功能不花哨，就和它的Sologan一样 “Just Works“。</p>
+<p>各有优劣，不相上下，持续关注吧。</p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2024
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>
