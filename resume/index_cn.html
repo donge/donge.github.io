@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>杨东冬的简历</title>
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
+<link rel="stylesheet" type="text/css" media="all" href="style/style.css">
+<link rel="stylesheet" type="text/css" media="all" href="style/responsive.css">
+<style>
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --header-bg: #f5f5f5;
+    --section-bg: #ffffff;
+    --border-color: #e0e0e0;
+  }
+
+  body.light {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  body.light .site_header {
+    background-color: var(--header-bg);
+  }
+
+  body.light .section {
+    background-color: var(--section-bg);
+    border: 1px solid var(--border-color);
+  }
+
+  body.light .section_title {
+    color: var(--text-color);
+  }
+
+  .theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  .theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+  }
+
+  .theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .light-icon, .dark-icon {
+    font-size: 20px;
+  }
+
+  body.dark .light-icon {
+    display: none;
+  }
+
+  body.light .dark-icon {
+    display: none;
+  }
+</style>
+<!--[if lt IE 9]>
+	<script src="js/html5.js" type="text/javascript"></script>
+<![endif]-->
+</head>
+<body class="home blog dark">
+<div class="switherHead"></div>
+<div class="theme-switcher">
+  <button id="theme-toggle" class="theme-toggle">
+    <span class="light-icon">☀️</span>
+    <span class="dark-icon">🌙</span>
+  </button>
+</div>
+<div class="colored">
+  <div class="blue"></div>
+  <div class="aqua"></div>
+  <div class="green"></div>
+  <div class="yellow"></div>
+  <div class="red"></div>
+</div>
+<div class="hfeed site" id="page">
+  <header role="banner" class="site_header" id="header">
+    <div class="social_links">
+      <ul>
+        <li class="rss"><a href="mailto:donge@donge.org" target="_blank" title="邮箱">邮箱</a></li>
+        <li class="fb"><a href="https://www.facebook.com/dongdong.yang.33" target="_blank" title="Facebook">Facebook</a></li>
+        <li class="tw"><a href="http://www.weibo.com/23donge" target="_blank" title="微博">微博</a></li>
+        <li class="gplus"><a href="https://github.com/donge" target="_blank" title="GitHub">GitHub</a></li>
+        <li class="lnkd"><a href="https://www.linkedin.com/in/donge" target="_blank" title="领英">领英</a></li>
+      </ul>
+    </div>
+  </header>
+  <div id="main" >
+    <div class="content_area" id="primary">
+      <div role="main" class="site_content" id="content">
+        <section class="section profile_section first odd" id="profile"> <a id="blog_page_link" href="http://donge.org"><span class="icon-pencil icon"></span><span class="label">博客</span></a>
+          <div class="section_header profile_section_header opened">
+            <h2 class="section_title profile_section_title vis"><a href="#"><span class="icon icon-user"></span><span class="section_name">个人简介</span></a><span class="section_icon"></span></h2>
+            <div id="profile_header">
+              <div id="profile_user">
+                <div id="profile_photo"><img src="./images/dongdong.jpg" alt="杨东冬" /></div>
+                <div id="profile_name_area">
+                  <div id="profile_name">
+                    <h1 id="profile_title"><span class="firstname">杨</span><span class="lastname">东冬</span></h1>
+                    <h4 id="profile_position">软件工程经理 / 高性能系统架构师</h4>
+                  </div>
+                </div>
+              </div>
+              <div id="profile_data">
+                <div class="profile_row name"> <span class="th">姓名：</span><span class="td"> 杨东冬</span> </div>
+                <div class="profile_row birth"> <span class="th">出生日期：</span><span class="td"> 1983年11月</span> </div>
+                <div class="profile_row address"> <span class="th">地址：</span><span class="td"> 北京亚运村</span> </div>
+                <div class="profile_row phone"> <span class="th">电话：</span><span class="td"> 18601121116</span> </div>
+                <div class="profile_row email"> <span class="th">邮箱：</span><a href="mailto:donge@donge.org"><span class="td">donge@donge.org</span></a></div>
+                <div class="profile_row website"> <span class="th">网站：</span><span class="td"><a target="_blank" href="http://donge.org">http://donge.org</a></span> </div>
+              </div>
+            </div>
+          </div>
+          <div class="section_body profile_section_body">
+            <div class="proile_body">19年高性能网络系统和产品软件开发经验，专注于以太网交换、路由和安全解决方案。精通C、Golang编程和调试。在IP/MPLS、以太网协议和数据中心网络方面具有专业造诣。在高性能软件设计和架构方面经验丰富。<br>
+            同时也是一名全栈软件工程师，专注于构建可扩展和高效的系统。热衷于解决复杂的技术挑战，推动网络技术创新。<br>
+            这是我的博客 <a target='_blank' href="http://donge.org">http://donge.org</a> 和 Github: <a target='_blank' href="https://github.com/donge">https://github.com/donge</a>(近年均commit 1500+次)
+          </div>
+        </section>
+        <div id="mainpage_accordion_area">
+
+          <!-- RESUME -->
+          <section class="section resume_section even" id="resume">
+            <div id="resume_buttons"> <a target="_blank" id="resume_link" href="dongdong_white.pdf"><span class="label">打印</span><span class="icon-print icon"></span></a> <a target="_blank" id="resume_link_download" href="dongdong_black.pdf"><span class="label">下载</span><span class="icon-download icon"></span></a> </div>
+            <div class="section_header resume_section_header opened">
+              <h2 class="section_title resume_section_title"><a href="#"><span class="icon icon-align-left"></span><span class="section_name">简历</span></a><span class="section_icon"></span></h2>
+            </div>
+            <div class="section_body resume_section_body">
+              <div class="sidebar resume_sidebar">
+                <aside class="widget widget_skills">
+                  <h3 class="widget_title">编程技能</h3>
+                  <div class="widget_inner style_1">
+                    <div class="skills_row odd first"><span class="caption">C</span><span class="progressbar"><span data-process="95%" class="progress blue"><span class="value">95%</span></span></span></div>
+                    <div class="skills_row even"><span class="caption">Golang</span><span class="progressbar"><span data-process="90%" class="progress aqua"><span class="value">90%</span></span></span></div>
+                    <div class="skills_row odd"><span class="caption">SQL</span><span class="progressbar"><span data-process="80%" class="progress green"><span class="value">80%</span></span></span></div>
+                    <div class="skills_row even"><span class="caption">Python</span><span class="progressbar"><span data-process="70%" class="progress yellow"><span class="value">70%</span></span></span></div>
+                    <div class="skills_row odd"><span class="caption">Javascript</span><span class="progressbar"><span data-process="60%" class="progress red"><span class="value">60%</span></span></span></div>
+                  </div>
+                </aside>
+                <aside class="widget widget_skills">
+                  <h3 class="widget_title">网络技能</h3>
+                  <div class="widget_inner style_2">
+                    <div class="skills_row odd"><span class="legend blue"></span><span class="caption">ISIS/OSPF/BGP/LDP/PIM</span></div>
+                    <div class="skills_row even"><span class="legend aqua"></span><span class="caption">Security Flow</span></div>
+                    <div class="skills_row odd"><span class="legend green"></span><span class="caption">MPLS/L3VPN/VPLS/QoS</span></div>
+                    <div class="skills_row even"><span class="legend yellow"></span><span class="caption">数据中心/TRILL</span></div>
+                    <div class="skills_row odd"><span class="legend red"></span><span class="caption">SDN/NFV</span></div>
+                    <div class="svg"> <svg xmlns="http://www.w3.org/2000/svg" class="piechart">
+                      <path d="M66,66 L130,66  A64,64 0 0,1 57,129 z" fill="#327ea3"></path>
+                      <path d="M66,66 L57, 129 A64,64 0 0,1 2,60 z" fill="#4ca5d0"></path>
+                      <path d="M66,66 L2,  60  A64,64 0 0,1 34,11 z" fill="#6ca338"></path>
+                      <path d="M66,66 L34, 11  A64,64 0 0,1 103,14 z" fill="#ffbc38"></path>
+                      <path d="M66,66 L103,14  A64,64 0 0,1 130,66 z" fill="#e82c0c"></path>
+                      <circle cx="66" cy="66" r="40" fill="#ffffff"></circle>
+                      </svg> </div>
+                  </div>
+                </aside>
+                <aside class="widget widget_skills" >
+                  <h3 class="widget_title">工具技能</h3>
+                  <div class="widget_inner style_3">
+                    <div class="skills_row odd first"><span class="caption">Linux</span><span class="progressbar"><span data-process="95%" class="progress aqua"></span></span></div>
+                    <div class="skills_row even"><span class="caption">GDB</span><span class="progressbar"><span data-process="75%" class="progress green"></span></span></div>
+                    <div class="skills_row odd"><span class="caption">Docker</span><span class="progressbar"><span data-process="80%" class="progress blue"></span></span></div>
+                    <div class="skills_row odd"><span class="caption">Clickhouse</span><span class="progressbar"><span data-process="90%" class="progress yellow"></span></span></div>
+                    <div class="skills_row odd"><span class="caption">Spark</span><span class="progressbar"><span data-process="70%" class="progress red"></span></span></div>
+                  </div>
+                </aside>
+              </div>
+              <div class="wrapper resume_wrapper">
+                <div class="category resume_category resume_category_1 first even">
+                  <div class="category_header resume_category_header">
+                    <h3 class="category_title"><span class="category_title_icon aqua"></span>工作经历</h3>
+                  </div>
+                  <div class="category_body resume_category_body">
+                    <article class="post resume_post resume_post_1 first even">
+                      <div class="post_header resume_post_header">
+                        <div class="resume_period"> <span class="period_from">2018.4</span> - <span class="period_to period_present">至今</span> </div>
+                        <h4 class="post_title"><span class="post_title_icon aqua"></span><a target="_blank" href="http://www.juniper.net">Servicewall.ai</a></h4>
+                        <h5 class="post_subtitle">创始工程师 / 架构师</h5>
+                      </div>
+                      <div class="post_body resume_post_body">
+                        <p>从0到1设计和构建产品。该产品基于软件，专注于服务和API级别的安全，利用数据和AI分析客户服务中的风险。<br>
+                       软件主要使用Golang技术栈和Docker部署。可以通过多个实例进行扩展，包括基础设施组件。<br>
+                       利用多个开源项目缩短开发周期，包括Nginx、Clickhouse、Spark、Redis、Kafka、Cube.js等。</p>
+                       我领导了一个12人的研发团队，我们赢得了100多个客户，收入超过1500万。</p>
+                      </div>
+                    </article>
+                    <article class="post resume_post resume_post_2 odd">
+                    <div class="post_header resume_post_header">
+                        <div class="resume_period"> <span class="period_from">2013.4</span> - <span class="period_to ">2018.4</span> </div>
+                        <h4 class="post_title"><span class="post_title_icon aqua"></span><a target="_blank" href="http://www.juniper.net">Juniper Networks</a></h4>
+                        <h5 class="post_subtitle">软件工程经理</h5>
+                      </div>
+                      <div class="post_body resume_post_body">
+                        <p>作为SRX平台团队经理，负责CPU/BSP、驱动、内核、网络栈和转发引擎在<a target="_blank" href="http://www.juniper.net/us/en/products-services/security/srx-series/">SRX防火墙</a>上的开发。<br>
+                        平台团队与不同地区的团队合作，支持功能设计、bug修复和客户支持。<br>
+                        我们的团队获得了印度和总部的积极反馈，我在2013年至2016年间从MTS4晋升为Staff再到Manager。<br>
+                       该产品同时支持硬件和虚拟化解决方案，采用统一的软件架构，提供高性能低成本的产品，我们的功能包括IP/MPLS路由和转发、流量策略和整形、内核、驱动和BSP维护。</p>
+                      </div>
+                    </article>
+                            <article class="post resume_post resume_post_2 odd">
+                      <div class="post_header resume_post_header">
+                        <div class="resume_period"> <span class="period_from">2006.7</span> - <span class="period_to">2013.3</span> </div>
+                        <h4 class="post_title"><span class="post_title_icon aqua"></span><a target="_blank" href="http://www.huawei.com">华为</a></h4>
+                        <h5 class="post_subtitle">高级软件工程师</h5>
+                      </div>
+                      <div class="post_body resume_post_body">
+                        <p>在华为北京研发中心工作了近7年，专注于网络系统平台，特别是以太网交换和路由技术。作为团队技术负责人4年，项目负责人1年，负责模块设计、编码和专利等工作。<br>
+                        作为TRILL项目的首席设计师和开发者，这是数据中心交换机的亮点功能，并在2012年获得北京研发设计奖。<br>
+                        作为技术负责人，作为作者或共同作者发表了5项网络和系统领域的专利。<br>
+                        优化和调整路由收敛性能，在多次与竞争对手的对比测试中获得第一名。<br>
+                        作为项目负责人和开发者，在团队中高质量地完成了近10个项目，详情请参考LinkedIn。<br>
+                        担任知识提升的导师和培训师。</p>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- .category_body -->
+                </div>
+                <!-- .category -->
+                <div class="category resume_category resume_category_2 odd">
+                  <div class="category_header resume_category_header">
+                    <h3 class="category_title"><span class="category_title_icon green"></span>教育背景</h3>
+                  </div>
+                  <div class="category_body resume_category_body">
+                    <article class="post resume_post resume_post_1 first even">
+                      <div class="post_header resume_post_header">
+                        <div class="resume_period"> <span class="period_from">2002</span> - <span class="period_to">2006</span> </div>
+                        <h4 class="post_title"><span class="post_title_icon green"></span><a target="_blank" href="http://www.sut.edu.cn/">沈阳工业大学</a></h4>
+                        <h5 class="post_subtitle">计算机科学与技术</h5>
+                      </div>
+                      <div class="post_body resume_post_body">
+                        <p>获得3次奖学金，计算机实验课程全部A级。<br>
+                       与室友共同创办计算机协会。<br>
+                       参与多个在线编程竞赛，如ACM/ICPC、Topcoder、百度之星(全国300强)。</p>
+                      </div>
+                    </article>
+                  </div>
+                  <!-- /category_body -->
+                </div>
+                <!-- /category -->
+              </div>
+              <!-- /wrapper -->
+            </div>
+            <!-- /section_body -->
+          </section>
+          <!-- /RESUME-->
+
+          <!-- PORTFOLIO -->
+          <section class="section portfolio_section odd" id="portfolio">
+            <div class="section_header portfolio_section_header">
+              <h2 class="section_title portfolio_section_title"><a href="#"><span class="icon icon-briefcase"></span><span class="section_name">项目</span></a><span class="section_icon"></span></h2>
+            </div>
+            <div class="section_body portfolio_section_body">
+              <div class="portfolio_wrapper">
+                <ul id="portfolio_iso_filters">
+                  <li><a class="current" data-filter="*" href="#">全部</a></li>
+                  <li><a data-filter=".category_3" href="#">Servicewall</a></li>
+                  <li><a data-filter=".category_4" href="#">Juniper</a></li>
+                  <li><a data-filter=".category_6" href="#">华为</a></li>
+                  <li><a data-filter=".category_5" href="#">个人</a></li>
+                  <li><a data-filter=".category_7" href="#">专利</a></li>
+                </ul>
+                <div class="portfolio_items">
+                	                  <article class="post portfolio_post portfolio_post_1 first even category_3">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Beautiful-young-woman-jumping-15095405.jpg"> <span class="overlay"></span> <span class="link-icon"></span> API安全平台 </a> 云原生分布式HTTP代理和安全网关，使用机器学习实时分析HTTP头部和内容。</div>
+                    <h5 class="post_subtitle">Servicewall.ai</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_1 first even category_4">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Beautiful-young-woman-jumping-15095405.jpg"> <span class="overlay"></span> <span class="link-icon"></span> Daybreak </a> 面向云服务的新SRX软件架构。控制平面OS在嵌套VM中运行，安全服务在X86/Linux上使用DPDK运行。提供与硬件设备相同的服务，但全部在虚拟机中运行。</div>
+                    <h5 class="post_subtitle">Juniper</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_2 odd category_4">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Cheerful-red-haired-girl-15330950.jpg"> <span class="overlay"></span> <span class="link-icon"></span> Forge </a> 基于X86的安全平台，使用VT-x、KVM/QEMU。为提高数据路径性能，利用DPDK、SRIOV、VirtIO工具。</div>
+                    <h4 class="post_title"><a target="_blank" href="http://www.juniper.net/us/en/products-services/security/srx-series/srx1500/">Forge - SRX1500</a></h4>
+                    <h5 class="post_subtitle">Juniper</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_3 even category_4">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-beautiful-young-woman-in-bikin-43332169.jpg"> <span class="overlay"></span> <span class="link-icon"></span> 分支SRX </a> 分支SRX面向企业市场，SRX平台从桌面型到2U机箱，采用MIPS架构。集成了JUNOS和ScreenOS。提供完整的安全功能：流、路由、NAT、Screen、ALG、VPN、UTM、IDP。</div>
+                    <h4 class="post_title"><a target="_blank" href="http://www.juniper.net/us/en/products-services/security/srx-series/srx300/">分支SRX - SRX300</a></h4>
+                    <h5 class="post_subtitle">Juniper</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_4 odd category_6">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="http://www.donge.org/project/"> <span class="overlay"></span> <span class="link-icon"></span> wFilter</a> wFilter是一个迷你全栈个人项目，用于高性能地阻止包含数据库中关键词的网页，使用Aho-Corasick字符串匹配和DPDK。前端使用"MEAN"（MongoDB、ExpressJS、AngularJS、Node.js）</div>
+                    <h4 class="post_title"><a href="https://github.com/donge/wfilter">https://github.com/donge/wfilter</a></h4>
+                    <h5 class="post_subtitle">个人</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_5 even category_6">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="http://www.donge.org/project/"> <span class="overlay"></span> <span class="link-icon"></span> 比特币自动交易机器人</a> 先用Python开发，后用Golang重写，部署在树莓派上，根据最新价格和策略自动进行交易。可以通过手机随时随地进行参数配置。实现了前5大比特币交易网站的API。</div>
+                    <h4 class="post_title"><a href="https://github.com/donge/xiaoshaozi">https://github.com/donge/xiaoshaozi</a></h4>
+                    <h5 class="post_subtitle">个人</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_6 odd category_6">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-christmas-girl-young-beautifu-38594893.jpg"> <span class="overlay"></span> <span class="link-icon"></span> 磁盘使用可视化 </a> 使用d3.js可视化磁盘使用情况，数据通过shell脚本获取。</div>
+                    <h4 class="post_title"><a href="https://github.com/donge/duv">https://github.com/donge/duv </a></h4>
+                    <h5 class="post_subtitle">个人</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_7 even category_5">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-art-exhibition-28071347d.jpg"> <span class="overlay"></span> <span class="link-icon"></span> TRILL </a> 作为设计负责人，领导TRILL协议需求分析、架构和模块设计，推动TRILL整体设计并参与开发过程，这是华为CloudEngine系列交换机产品的关键功能。</div>
+                    <h4 class="post_title"><a target="_blank" href="http://support.huawei.com/enterprise/docinforeader.action?contentId=DOC1000043097&partNo=10012">TRILL白皮书</a></h4>
+                    <h5 class="post_subtitle">华为</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_8 odd category_5">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-sensual-elegant-young-woman-in-34273394.jpg"> <span class="overlay"></span> <span class="link-icon"></span> IP FRR </a> 负责IP FRR设计。作为项目负责人，负责项目技术研究、设计、后期开发和实施工作。作为开发项目经理，负责项目规划、跟踪和项目交付。</div>
+                    <h5 class="post_subtitle">华为</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_9 even category_5">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Sexy-woman-wearing-red-dress-36516409.jpg"> <span class="overlay"></span> <span class="link-icon"></span> 不间断路由 </a> VRP NSR原型项目负责人，负责组织原型项目技术讨论、原型开发计划、方案和决策工作。在后续项目开发中担任首席开发者。</div>
+                    <h5 class="post_subtitle">华为</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_10 odd category_7">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="http://www.google.co.jp/patents/CN103414644A?cl=en"> <span class="overlay"></span> <span class="link-icon"></span> CN103414644 A </a> 条目发布和控制器方法</div>
+                    <h4 class="post_title"><a href="portfolio.html">专利6</a></h4>
+                    <h5 class="post_subtitle">专利</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_11 even category_7">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="http://worldwide.espacenet.com/publicationDetails/biblio?FT=D&date=20130626&DB=worldwide.espacenet.com&locale=en_EP&CC=CN&NR=103179032A&KC=A&ND=4"> <span class="overlay"></span> <span class="link-icon"></span> CN103179032 (A) </a> 路由备份方法和设备</div>
+                    <h4 class="post_title"><a href="portfolio.html">专利5</a></h4>
+                    <h5 class="post_subtitle">专利</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_12 odd category_7">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="http://worldwide.espacenet.com/publicationDetails/biblio?CC=WO&NR=2012130083A1&KC=A1&FT=D"> <span class="overlay"></span> <span class="link-icon"></span> WO2012130083 (A1) </a> 地址解析协议（ARP）表项配置方法和设备</div>
+                    <h4 class="post_title"><a href="portfolio.html">专利4</a></h4>
+                    <h5 class="post_subtitle">专利</h5>
+                  </article>
+                 <article class="post portfolio_post portfolio_post_13 even category_7">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Female-tennis-player-7140367.jpg"> <span class="overlay"></span> <span class="link-icon"></span> CN102739504 </a> 组播路径切换方法和路由器</div>
+                    <h4 class="post_title"><a href="portfolio.html">专利3</a></h4>
+                    <h5 class="post_subtitle">专利</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_14 odd category_7">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Freedom-happy-free-couple-in-31838090.jpg"> <span class="overlay"></span> <span class="link-icon"></span> CN103078798 (A) </a> 路由表建立方法和设备</div>
+                    <h4 class="post_title"><a href="portfolio.html">专利2</a></h4>
+                    <h5 class="post_subtitle">专利</h5>
+                  </article>
+                </div>
+                <div class="portfolio_iso_pages">
+                  <ul id="portfolio_iso_pages">
+                  </ul>
+                  <div id="portfolio_iso_pages_2"> 第 <span id="portfolio_iso_pages_current">1</span> 页，共 <span id="portfolio_iso_pages_total"></span> 页 </div>
+                </div>
+              </div>
+            </div>
+            <!-- .section_body -->
+          </section>
+          <!-- /PORTFOLIO -->
+
+          <!-- CONTACTS -->
+          <section class="section contact_section even" id="contact">
+            <div class="section_header contact_section_header">
+              <h2 class="section_title contact_section_title"><a href="#"><span class="icon icon-envelope-alt"></span><span class="section_name">联系方式</span></a><span class="section_icon"></span></h2>
+            </div>
+            <div class="section_body contact_section_body">
+              <div id="googlemap_data">
+                <div id="sc_googlemap" style="width:100%;height:294px;" class="sc_googlemap"></div>
+                <div class="add_info">
+                  <div class="profile_row header"> 联系信息 </div>
+                  <div class="profile_row address"> <span class="th">地址</span><span class="td"></span> </div>
+                  <div class="profile_row phone"> <span class="th">电话</span><span class="td"></span> </div>
+                  <div class="profile_row email"> <span class="th">邮箱</span><span class="td"></span> </div>
+                  <div class="profile_row website"> <span class="th">网站</span><span class="td"></span> </div>
+                </div>
+              </div>
+              <div class="sidebar contact_sidebar">
+                <aside class="widget widget_qrcode_vcard" id="qrcode-vcard-widget-2">
+                  <h3 class="widget_title">电子名片</h3>
+                  <div class="widget_inner">
+                    <div class="qrcode"></div>
+                  </div>
+                </aside>
+              </div>
+              <div class="contact_form">
+                <div class="contact_form_data">
+                  <div class="sc_contact_form">
+                    <h3 class="title">保持联系</h3>
+                    <form action="include/sendmail.php" method="post">
+                      <div class="field">
+                        <label class="required" for="sc_contact_form_username">姓名</label>
+                        <input type="text" name="username" id="sc_contact_form_username" />
+                      </div>
+                      <div class="field">
+                        <label class="required" for="sc_contact_form_email">邮箱</label>
+                        <input type="text" name="email" id="sc_contact_form_email" />
+                      </div>
+                      <div class="field message">
+                        <label class="required" for="sc_contact_form_message">留言</label>
+                        <textarea name="message" id="sc_contact_form_message"></textarea>
+                      </div>
+                      <div class="button"> <a class="enter" href="#"><span>提交</span></a> </div>
+                    </form>
+                    <div class="result sc_infobox"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- .section_body -->
+          </section>
+          <!-- /CONTACT -->
+        </div>
+        <!-- #mainpage_accordion_area -->
+      </div>
+      <!-- #content -->
+    </div>
+    <!-- #primary -->
+  </div>
+  <!-- #main -->
+
+  <footer role="contentinfo" class="site_footer" id="footer">
+    <div class="footer_copyright"> donge.org &copy; 2025 版权所有 </div>
+  </footer>
+</div>
+<!-- #page -->
+
+<!-- connect js -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.tools.custom.js"></script>
+<script type="text/javascript" src="js/jquery.flexslider.min.js"></script>
+<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" src="js/jquery.isotope.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/mediaelement.min.js"></script>
+<script type="text/javascript" src="js/jquery.qrcode-0.6.0.min.js"></script>
+<script type="text/javascript" src="js/jquery.easing.js"></script>
+<script type="text/javascript" src="js/jquery.reject.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="js/lib.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    
+    // 检查本地存储中的主题设置
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      body.classList.remove('dark');
+      body.classList.add('light');
+    }
+    
+    themeToggle.addEventListener('click', function() {
+      if (body.classList.contains('dark')) {
+        body.classList.remove('dark');
+        body.classList.add('light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light');
+        body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  });
+</script>
+</body>
+</html> 

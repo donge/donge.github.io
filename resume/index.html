@@ -7,12 +7,78 @@
 <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
 <link rel="stylesheet" type="text/css" media="all" href="style/style.css">
 <link rel="stylesheet" type="text/css" media="all" href="style/responsive.css">
+<style>
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --header-bg: #f5f5f5;
+    --section-bg: #ffffff;
+    --border-color: #e0e0e0;
+  }
+
+  body.light {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  body.light .site_header {
+    background-color: var(--header-bg);
+  }
+
+  body.light .section {
+    background-color: var(--section-bg);
+    border: 1px solid var(--border-color);
+  }
+
+  body.light .section_title {
+    color: var(--text-color);
+  }
+
+  .theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  .theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+  }
+
+  .theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .light-icon, .dark-icon {
+    font-size: 20px;
+  }
+
+  body.dark .light-icon {
+    display: none;
+  }
+
+  body.light .dark-icon {
+    display: none;
+  }
+</style>
 <!--[if lt IE 9]>
 	<script src="js/html5.js" type="text/javascript"></script>
 <![endif]-->
 </head>
 <body class="home blog dark">
 <div class="switherHead"></div>
+<div class="theme-switcher">
+  <button id="theme-toggle" class="theme-toggle">
+    <span class="light-icon">☀️</span>
+    <span class="dark-icon">🌙</span>
+  </button>
+</div>
 <div class="colored">
   <div class="blue"></div>
   <div class="aqua"></div>
@@ -59,9 +125,9 @@
             </div>
           </div>
           <div class="section_body profile_section_body">
-            <div class="proile_body">15 years of software development experience in the high-performance network system and products, e.g. router, firewall. Solid skill in C, Golang programming and debugging, An expert in IP/MPLS and ethernet protocols. Good at data engineering and common data analysis. Experienced still on high-performance software design and architect.<br>
-            I am also a full-stack software engineer. Willing to try some idea or solve the hard problem with my skill and experience.<br>
-            Here is my blog with some posts <a target='_blank' href="http://donge.org">http://donge.org</a> (Chinese) and Github: <a target='_blank' href="https://github.com/donge">https://github.com/donge</a>
+            <div class="proile_body">19 years of software development experience in high-performance network systems and products, with deep expertise in Ethernet switching, routing, and security solutions. Solid skills in C, Golang programming and debugging. An expert in IP/MPLS, Ethernet protocols, and data center networking. Extensive experience in high-performance software design and architecture, particularly in Ethernet switching platforms.<br>
+            I am also a full-stack software engineer with a strong focus on building scalable and efficient systems. Passionate about solving complex technical challenges and driving innovation in network technologies.<br>
+            Here is my blog with some posts <a target='_blank' href="http://donge.org">http://donge.org</a> (Chinese) and Github: <a target='_blank' href="https://github.com/donge">https://github.com/donge</a> (commit 1500+ times in recent years average)
           </div>
         </section>
         <div id="mainpage_accordion_area">
@@ -127,10 +193,10 @@
                         <h5 class="post_subtitle">Founding Engineer / Architect</h5>
                       </div>
                       <div class="post_body resume_post_body">
-                        <p>Design and build the product from 0 to 1. The product is software-based, focus on service level security, leverage big data and machine learning to analyze the risk in customed service. <br>
-                       The software is mainly Golang stack with docker deployment. it can be scaled out with multiple instances include infrastructure components.<br>
-                       Leverage many open-source projects to shorten the development cycle, include Nginx, Clickhouse, Spark, Redis, Kafka, Cube.js...</p>
-                     With the architect, we win and support many customer case with a small team, and grows very fast.</p>
+                        <p>Design and build the product from 0 to 1. The product is software-based, focusing on service & API level security, leveraging data and AI to analyze risks in customer services. <br>
+                       The software is mainly Golang stack with Docker deployment. It can be scaled out with multiple instances including infrastructure components.<br>
+                       Leverage many open-source projects to shorten the development cycle, including Nginx, Clickhouse, Spark, Redis, Kafka, Cube.js...</p>
+                     I led a 12 people R&D team, and we win 100+ customers with 15,000k+ revenue.</p>
                       </div>
                     </article>
                     <article class="post resume_post resume_post_2 odd">
@@ -140,10 +206,10 @@
                         <h5 class="post_subtitle">Software Engineering Manager</h5>
                       </div>
                       <div class="post_body resume_post_body">
-                        <p>As manager of SRX platform team, owns CPU/BSP, Driver, Kernel, Network stack, Forwarding engine on <a target="_blank" href="http://www.juniper.net/us/en/products-services/security/srx-series/">SRX firewall</a>.<br>
-                         The platform team works across different geo teams to support feature design, bugs fix, and customer support.<br>
-                         Our team gets very positive feedback from India and the headquarters. and I am promoted as manager from MTS4, Staff, Manager from 2013 to 2016.<br>
-                       The product has hardware-based and virtualization-based, with unified software architecture to deliver high-performance low-cost product, our features include, IP/MPLS Routing and Forwarding, Traffic Policer and Shaping, Kernel, Driver, and BSP maintenance.</p>
+                        <p>As manager of SRX platform team, responsible for CPU/BSP, Driver, Kernel, Network stack, and Forwarding engine on <a target="_blank" href="http://www.juniper.net/us/en/products-services/security/srx-series/">SRX firewall</a>.<br>
+                         The platform team works across different geo teams to support feature design, bug fixes, and customer support.<br>
+                         Our team received very positive feedback from India and headquarters, and I was promoted from MTS4 to Staff to Manager from 2013 to 2016.<br>
+                        The product has both hardware-based and virtualization-based solutions, with unified software architecture to deliver high-performance low-cost products. Our features include IP/MPLS Routing and Forwarding, Traffic Policer and Shaping, Kernel, Driver, and BSP maintenance.</p>
                       </div>
                     </article>
                             <article class="post resume_post resume_post_2 odd">
@@ -153,12 +219,12 @@
                         <h5 class="post_subtitle">Senior Software Engineer</h5>
                       </div>
                       <div class="post_body resume_post_body">
-                        <p>Works in Huawei Beijing R&D for nearly 7 years in network system platform. As a technical leader in the team for 4 years, project leader for 1 year. Be responsible for module design, coding, patent etc.<br>
-                        Chief designer and developer in TRILL project, its a highlight feature in data-center switch, and got Beijing R&D designer award in 2012.<br>
-                        As technical leader, publish 5 patents as author or co-author in network and system area.<br>
-                        Optimize and tuning performance of routes coverage, win top1 result serval time in a comparison test with the competitor.<br>
-                        Kickout nearly 10 projects as project leader and developer in our team with high quality, refer to the details in LinkedIn.<br>
-                        Be a mentor and tutor in knowledge ramp-up.</p>
+                        <p>Worked in Huawei Beijing R&D for nearly 7 years in network system platform, with focus on Ethernet switching and routing technologies. As a technical leader in the team for 4 years and project leader for 1 year, responsible for module design, coding, and patents.<br>
+                         Chief designer and developer in TRILL project, a highlight feature in data-center switching, and received Beijing R&D designer award in 2012.<br>
+                         As technical leader, published 5 patents as author or co-author in network and system areas.<br>
+                         Optimized and tuned performance of route convergence, winning top results several times in comparison tests with competitors.<br>
+                         Successfully delivered nearly 10 projects as project leader and developer in our team with high quality, refer to the details in LinkedIn.<br>
+                         Served as a mentor and tutor in knowledge ramp-up.</p>
                       </div>
                     </article>
                   </div>
@@ -380,5 +446,30 @@
 <script type="text/javascript" src="js/jquery.reject.js"></script>
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/lib.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    
+    // 检查本地存储中的主题设置
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      body.classList.remove('dark');
+      body.classList.add('light');
+    }
+    
+    themeToggle.addEventListener('click', function() {
+      if (body.classList.contains('dark')) {
+        body.classList.remove('dark');
+        body.classList.add('light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light');
+        body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  });
+</script>
 </body>
 </html>
