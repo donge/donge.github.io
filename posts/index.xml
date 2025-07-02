@@ -6,7 +6,32 @@
     <description>Recent content in Posts on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 07 Feb 2025 01:00:00 +0800</lastBuildDate><atom:link href="https://donge.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 02 Jul 2025 01:00:00 +0800</lastBuildDate><atom:link href="https://donge.org/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从GGUF到TensorRT：一文读懂AI模型文件的江湖</title>
+      <link>https://donge.org/posts/2025-module-format/</link>
+      <pubDate>Wed, 02 Jul 2025 01:00:00 +0800</pubDate>
+      
+      <guid>https://donge.org/posts/2025-module-format/</guid>
+      
+        <description>在人工智能的世界里，我们每天都在与“模型”打交道。但模型并非虚无缥缈，它最终以文件的形式存在于我们的硬盘上。当你从Hugging Face下载一个模型，或者准备将训练好的成果部署到生产环境时，你会遇到.gguf, .onnx, .pb, .pt, .safetensors 等五花八门的扩展名。
+这些文件格式究竟有何不同？为什么有些适合在你的MacBook上本地运行，有些则是云端大规模部署的利器？选择正确的模型格式，对于模型的性能、可移植性和开发效率至关重要。
+今天，就让我们深入探索AI模型的“文件江湖”，揭开这些主流格式的神秘面纱。
+各路豪杰：主流模型格式巡礼 每种模型格式都有其独特的使命和适用场景，就像江湖中的门派，各有各的独门绝技。
+1. GGUF (本地化大模型的亲民派) GGUF (Georgi Gerganov Universal Format) 是近年来随着llama.cpp项目声名鹊起的格式。它专为在消费级硬件（尤其是CPU）上高效运行大语言模型（LLM）而生。
+核心特点：
+一体化单文件： 将模型权重、架构信息、甚至分词器（Tokenizer）都打包在一个文件中，分发和使用极其方便。 为量化而生： 原生支持多种先进的量化技术（如4位、8位整数量化），能将巨大的模型压缩到消费级设备内存可容纳的大小。 快速加载： 采用内存映射（mmap）技术，无需读取整个文件即可开始加载模型，启动速度极快。 独门绝技： 在不依赖昂贵GPU的情况下，让普通电脑也能流畅运行大语言模型，是LLM本地化部署当之无愧的王者。
+适用场景： 个人开发者、研究者在本地PC、Mac上进行模型推理；资源有限的边缘设备部署。
+2. ONNX (模型世界的“世界语”) ONNX (Open Neural Network Exchange) 是一个开放的、跨平台的标准，旨在成为不同深度学习框架之间的“通用翻译器”。它由微软、Meta等巨头联合推出，目标是解决框架碎片化带来的模型迁移难题。
+核心特点：
+互操作性 (Interoperability)： 你可以在PyTorch中训练模型，导出为ONNX，然后轻松地在TensorFlow、TensorRT、或Windows ML等环境中运行。 硬件加速： ONNX Runtime等推理引擎可以针对特定硬件（Intel CPU, NVIDIA GPU, ARM NPU等）进行深度优化，充分释放硬件潜能。 生态系统丰富： 拥有庞大的工具链，支持模型可视化、转换和验证。 独门绝技： 打破框架壁垒，一次训练，处处部署。
+适用场景： 需要将模型部署到多样化硬件环境的企业；多团队使用不同技术栈协作的项目。
+3. TensorFlow SavedModel (生产环境的“重装甲”) SavedModel 是 TensorFlow 生态系统的官方标准格式。它不仅仅是权重，而是一个包含模型完整计算图、权重、资产（如词汇表）和部署签名的自包含目录。
+核心特点：
+完整与健壮： 保存了运行模型所需的一切，与语言无关。一个在Python中训练的SavedModel可以无缝地被Java或C++加载。 无缝生态集成： 与 TensorFlow Serving（用于大规模部署）、TensorFlow Lite（用于移动端）和 TensorFlow.</description>
+      
+    </item>
+    
     <item>
       <title>《模型大学的文理之争》——DeepSeek R1与GPT-4o的成长日记</title>
       <link>https://donge.org/posts/deepseek/</link>

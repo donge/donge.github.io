@@ -1,0 +1,604 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        从GGUF到TensorRT：一文读懂AI模型文件的江湖
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/2025-module-format/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="从GGUF到TensorRT：一文读懂AI模型文件的江湖">
+  <meta name="twitter:description" content="在人工智能的世界里，我们每天都在与“模型”打交道。但模型并非虚无缥缈，它最终以文件的形式存在于我们的硬盘上。当你从Hugging Face下载一个模型，或者准备将训练好的成果部署到生产环境时，你会遇到.gguf, .onnx, .pb, .pt, .safetensors 等五花八门的扩展名。
+这些文件格式究竟有何不同？为什么有些适合在你的MacBook上本地运行，有些则是云端大规模部署的利器？选择正确的模型格式，对于模型的性能、可移植性和开发效率至关重要。
+今天，就让我们深入探索AI模型的“文件江湖”，揭开这些主流格式的神秘面纱。
+各路豪杰：主流模型格式巡礼 每种模型格式都有其独特的使命和适用场景，就像江湖中的门派，各有各的独门绝技。
+1. GGUF (本地化大模型的亲民派) GGUF (Georgi Gerganov Universal Format) 是近年来随着llama.cpp项目声名鹊起的格式。它专为在消费级硬件（尤其是CPU）上高效运行大语言模型（LLM）而生。
+核心特点：
+一体化单文件： 将模型权重、架构信息、甚至分词器（Tokenizer）都打包在一个文件中，分发和使用极其方便。 为量化而生： 原生支持多种先进的量化技术（如4位、8位整数量化），能将巨大的模型压缩到消费级设备内存可容纳的大小。 快速加载： 采用内存映射（mmap）技术，无需读取整个文件即可开始加载模型，启动速度极快。 独门绝技： 在不依赖昂贵GPU的情况下，让普通电脑也能流畅运行大语言模型，是LLM本地化部署当之无愧的王者。
+适用场景： 个人开发者、研究者在本地PC、Mac上进行模型推理；资源有限的边缘设备部署。
+2. ONNX (模型世界的“世界语”) ONNX (Open Neural Network Exchange) 是一个开放的、跨平台的标准，旨在成为不同深度学习框架之间的“通用翻译器”。它由微软、Meta等巨头联合推出，目标是解决框架碎片化带来的模型迁移难题。
+核心特点：
+互操作性 (Interoperability)： 你可以在PyTorch中训练模型，导出为ONNX，然后轻松地在TensorFlow、TensorRT、或Windows ML等环境中运行。 硬件加速： ONNX Runtime等推理引擎可以针对特定硬件（Intel CPU, NVIDIA GPU, ARM NPU等）进行深度优化，充分释放硬件潜能。 生态系统丰富： 拥有庞大的工具链，支持模型可视化、转换和验证。 独门绝技： 打破框架壁垒，一次训练，处处部署。
+适用场景： 需要将模型部署到多样化硬件环境的企业；多团队使用不同技术栈协作的项目。
+3. TensorFlow SavedModel (生产环境的“重装甲”) SavedModel 是 TensorFlow 生态系统的官方标准格式。它不仅仅是权重，而是一个包含模型完整计算图、权重、资产（如词汇表）和部署签名的自包含目录。
+核心特点：
+完整与健壮： 保存了运行模型所需的一切，与语言无关。一个在Python中训练的SavedModel可以无缝地被Java或C&#43;&#43;加载。 无缝生态集成： 与 TensorFlow Serving（用于大规模部署）、TensorFlow Lite（用于移动端）和 TensorFlow.">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/2025-module-format/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="从GGUF到TensorRT：一文读懂AI模型文件的江湖">
+  <meta property="og:description" content="在人工智能的世界里，我们每天都在与“模型”打交道。但模型并非虚无缥缈，它最终以文件的形式存在于我们的硬盘上。当你从Hugging Face下载一个模型，或者准备将训练好的成果部署到生产环境时，你会遇到.gguf, .onnx, .pb, .pt, .safetensors 等五花八门的扩展名。
+这些文件格式究竟有何不同？为什么有些适合在你的MacBook上本地运行，有些则是云端大规模部署的利器？选择正确的模型格式，对于模型的性能、可移植性和开发效率至关重要。
+今天，就让我们深入探索AI模型的“文件江湖”，揭开这些主流格式的神秘面纱。
+各路豪杰：主流模型格式巡礼 每种模型格式都有其独特的使命和适用场景，就像江湖中的门派，各有各的独门绝技。
+1. GGUF (本地化大模型的亲民派) GGUF (Georgi Gerganov Universal Format) 是近年来随着llama.cpp项目声名鹊起的格式。它专为在消费级硬件（尤其是CPU）上高效运行大语言模型（LLM）而生。
+核心特点：
+一体化单文件： 将模型权重、架构信息、甚至分词器（Tokenizer）都打包在一个文件中，分发和使用极其方便。 为量化而生： 原生支持多种先进的量化技术（如4位、8位整数量化），能将巨大的模型压缩到消费级设备内存可容纳的大小。 快速加载： 采用内存映射（mmap）技术，无需读取整个文件即可开始加载模型，启动速度极快。 独门绝技： 在不依赖昂贵GPU的情况下，让普通电脑也能流畅运行大语言模型，是LLM本地化部署当之无愧的王者。
+适用场景： 个人开发者、研究者在本地PC、Mac上进行模型推理；资源有限的边缘设备部署。
+2. ONNX (模型世界的“世界语”) ONNX (Open Neural Network Exchange) 是一个开放的、跨平台的标准，旨在成为不同深度学习框架之间的“通用翻译器”。它由微软、Meta等巨头联合推出，目标是解决框架碎片化带来的模型迁移难题。
+核心特点：
+互操作性 (Interoperability)： 你可以在PyTorch中训练模型，导出为ONNX，然后轻松地在TensorFlow、TensorRT、或Windows ML等环境中运行。 硬件加速： ONNX Runtime等推理引擎可以针对特定硬件（Intel CPU, NVIDIA GPU, ARM NPU等）进行深度优化，充分释放硬件潜能。 生态系统丰富： 拥有庞大的工具链，支持模型可视化、转换和验证。 独门绝技： 打破框架壁垒，一次训练，处处部署。
+适用场景： 需要将模型部署到多样化硬件环境的企业；多团队使用不同技术栈协作的项目。
+3. TensorFlow SavedModel (生产环境的“重装甲”) SavedModel 是 TensorFlow 生态系统的官方标准格式。它不仅仅是权重，而是一个包含模型完整计算图、权重、资产（如词汇表）和部署签名的自包含目录。
+核心特点：
+完整与健壮： 保存了运行模型所需的一切，与语言无关。一个在Python中训练的SavedModel可以无缝地被Java或C&#43;&#43;加载。 无缝生态集成： 与 TensorFlow Serving（用于大规模部署）、TensorFlow Lite（用于移动端）和 TensorFlow.">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-02T01:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-02T01:00:00+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "从GGUF到TensorRT：一文读懂AI模型文件的江湖",
+        "headline": "从GGUF到TensorRT：一文读懂AI模型文件的江湖",
+        "alternativeHeadline": "",
+        "description": "
+      
+        在人工智能的世界里，我们每天都在与“模型”打交道。但模型并非虚无缥缈，它最终以文件的形式存在于我们的硬盘上。当你从Hugging Face下载一个模型，或者准备将训练好的成果部署到生产环境时，你会遇到.gguf, .onnx, .pb, .pt, .safetensors 等五花八门的扩展名。\n这些文件格式究竟有何不同？为什么有些适合在你的MacBook上本地运行，有些则是云端大规模部署的利器？选择正确的模型格式，对于模型的性能、可移植性和开发效率至关重要。\n今天，就让我们深入探索AI模型的“文件江湖”，揭开这些主流格式的神秘面纱。\n各路豪杰：主流模型格式巡礼 每种模型格式都有其独特的使命和适用场景，就像江湖中的门派，各有各的独门绝技。\n1. GGUF (本地化大模型的亲民派) GGUF (Georgi Gerganov Universal Format) 是近年来随着llama.cpp项目声名鹊起的格式。它专为在消费级硬件（尤其是CPU）上高效运行大语言模型（LLM）而生。\n核心特点：\n一体化单文件： 将模型权重、架构信息、甚至分词器（Tokenizer）都打包在一个文件中，分发和使用极其方便。 为量化而生： 原生支持多种先进的量化技术（如4位、8位整数量化），能将巨大的模型压缩到消费级设备内存可容纳的大小。 快速加载： 采用内存映射（mmap）技术，无需读取整个文件即可开始加载模型，启动速度极快。 独门绝技： 在不依赖昂贵GPU的情况下，让普通电脑也能流畅运行大语言模型，是LLM本地化部署当之无愧的王者。\n适用场景： 个人开发者、研究者在本地PC、Mac上进行模型推理；资源有限的边缘设备部署。\n2. ONNX (模型世界的“世界语”) ONNX (Open Neural Network Exchange) 是一个开放的、跨平台的标准，旨在成为不同深度学习框架之间的“通用翻译器”。它由微软、Meta等巨头联合推出，目标是解决框架碎片化带来的模型迁移难题。\n核心特点：\n互操作性 (Interoperability)： 你可以在PyTorch中训练模型，导出为ONNX，然后轻松地在TensorFlow、TensorRT、或Windows ML等环境中运行。 硬件加速： ONNX Runtime等推理引擎可以针对特定硬件（Intel CPU, NVIDIA GPU, ARM NPU等）进行深度优化，充分释放硬件潜能。 生态系统丰富： 拥有庞大的工具链，支持模型可视化、转换和验证。 独门绝技： 打破框架壁垒，一次训练，处处部署。\n适用场景： 需要将模型部署到多样化硬件环境的企业；多团队使用不同技术栈协作的项目。\n3. TensorFlow SavedModel (生产环境的“重装甲”) SavedModel 是 TensorFlow 生态系统的官方标准格式。它不仅仅是权重，而是一个包含模型完整计算图、权重、资产（如词汇表）和部署签名的自包含目录。\n核心特点：\n完整与健壮： 保存了运行模型所需的一切，与语言无关。一个在Python中训练的SavedModel可以无缝地被Java或C\u002b\u002b加载。 无缝生态集成： 与 TensorFlow Serving（用于大规模部署）、TensorFlow Lite（用于移动端）和 TensorFlow.
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/2025-module-format\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2025",
+        "dateCreated": "2025-07-02T01:00:00.00Z",
+        "datePublished": "2025-07-02T01:00:00.00Z",
+        "dateModified": "2025-07-02T01:00:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/2025-module-format\/",
+        "wordCount" : "211",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2025
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>从GGUF到TensorRT：一文读懂AI模型文件的江湖</h1>
+      <p>在人工智能的世界里，我们每天都在与“模型”打交道。但模型并非虚无缥缈，它最终以文件的形式存在于我们的硬盘上。当你从Hugging Face下载一个模型，或者准备将训练好的成果部署到生产环境时，你会遇到<code>.gguf</code>, <code>.onnx</code>, <code>.pb</code>, <code>.pt</code>, <code>.safetensors</code> 等五花八门的扩展名。</p>
+<p>这些文件格式究竟有何不同？为什么有些适合在你的MacBook上本地运行，有些则是云端大规模部署的利器？选择正确的模型格式，对于模型的性能、可移植性和开发效率至关重要。</p>
+<p>今天，就让我们深入探索AI模型的“文件江湖”，揭开这些主流格式的神秘面纱。</p>
+<h2 id="各路豪杰主流模型格式巡礼">各路豪杰：主流模型格式巡礼</h2>
+<p>每种模型格式都有其独特的使命和适用场景，就像江湖中的门派，各有各的独门绝技。</p>
+<h3 id="1-gguf-本地化大模型的亲民派">1. GGUF (本地化大模型的亲民派)</h3>
+<p>GGUF (Georgi Gerganov Universal Format) 是近年来随着<code>llama.cpp</code>项目声名鹊起的格式。它专为在消费级硬件（尤其是CPU）上高效运行大语言模型（LLM）而生。</p>
+<ul>
+<li>
+<p><strong>核心特点：</strong></p>
+<ul>
+<li><strong>一体化单文件：</strong> 将模型权重、架构信息、甚至分词器（Tokenizer）都打包在一个文件中，分发和使用极其方便。</li>
+<li><strong>为量化而生：</strong> 原生支持多种先进的量化技术（如4位、8位整数量化），能将巨大的模型压缩到消费级设备内存可容纳的大小。</li>
+<li><strong>快速加载：</strong> 采用内存映射（mmap）技术，无需读取整个文件即可开始加载模型，启动速度极快。</li>
+</ul>
+</li>
+<li>
+<p><strong>独门绝技：</strong> 在不依赖昂贵GPU的情况下，让普通电脑也能流畅运行大语言模型，是LLM本地化部署当之无愧的王者。</p>
+</li>
+<li>
+<p><strong>适用场景：</strong> 个人开发者、研究者在本地PC、Mac上进行模型推理；资源有限的边缘设备部署。</p>
+</li>
+</ul>
+<h3 id="2-onnx-模型世界的世界语">2. ONNX (模型世界的“世界语”)</h3>
+<p>ONNX (Open Neural Network Exchange) 是一个开放的、跨平台的标准，旨在成为不同深度学习框架之间的“通用翻译器”。它由微软、Meta等巨头联合推出，目标是解决框架碎片化带来的模型迁移难题。</p>
+<ul>
+<li>
+<p><strong>核心特点：</strong></p>
+<ul>
+<li><strong>互操作性 (Interoperability)：</strong> 你可以在PyTorch中训练模型，导出为ONNX，然后轻松地在TensorFlow、TensorRT、或Windows ML等环境中运行。</li>
+<li><strong>硬件加速：</strong> ONNX Runtime等推理引擎可以针对特定硬件（Intel CPU, NVIDIA GPU, ARM NPU等）进行深度优化，充分释放硬件潜能。</li>
+<li><strong>生态系统丰富：</strong> 拥有庞大的工具链，支持模型可视化、转换和验证。</li>
+</ul>
+</li>
+<li>
+<p><strong>独门绝技：</strong> 打破框架壁垒，一次训练，处处部署。</p>
+</li>
+<li>
+<p><strong>适用场景：</strong> 需要将模型部署到多样化硬件环境的企业；多团队使用不同技术栈协作的项目。</p>
+</li>
+</ul>
+<h3 id="3-tensorflow-savedmodel-生产环境的重装甲">3. TensorFlow SavedModel (生产环境的“重装甲”)</h3>
+<p>SavedModel 是 TensorFlow 生态系统的官方标准格式。它不仅仅是权重，而是一个包含模型完整计算图、权重、资产（如词汇表）和部署签名的自包含目录。</p>
+<ul>
+<li>
+<p><strong>核心特点：</strong></p>
+<ul>
+<li><strong>完整与健壮：</strong> 保存了运行模型所需的一切，与语言无关。一个在Python中训练的SavedModel可以无缝地被Java或C++加载。</li>
+<li><strong>无缝生态集成：</strong> 与 TensorFlow Serving（用于大规模部署）、TensorFlow Lite（用于移动端）和 TensorFlow.js（用于浏览器）完美集成。</li>
+<li><strong>为生产而生：</strong> 设计上就考虑了版本控制、多服务签名等生产环境所需的功能。</li>
+</ul>
+</li>
+<li>
+<p><strong>独门绝技：</strong> 在TensorFlow全家桶内提供从训练到大规模、高可用性部署的一站式丝滑体验。</p>
+</li>
+<li>
+<p><strong>适用场景：</strong> 使用TensorFlow进行开发，并计划通过TF Serving进行云端或服务器生产部署的严肃场景。</p>
+</li>
+</ul>
+<h3 id="4-pytorch-原生格式-pthpt--torchscript-研究者的瑞士军刀">4. PyTorch 原生格式 (.pth/.pt &amp; TorchScript) (研究者的“瑞士军刀”)</h3>
+<p>PyTorch 以其灵活性和Pythonic的风格深受研究者喜爱，其原生格式也体现了这一点。</p>
+<ul>
+<li>
+<p><strong>.pth 或 .pt：</strong></p>
+<ul>
+<li>通常使用Python的pickle模块来序列化模型对象。最常见的做法是只保存模型的权重字典 (state_dict)，而不是整个模型实例。这样做更轻量、更灵活，也更安全。</li>
+<li>非常适合快速的研究迭代、模型保存与加载。</li>
+</ul>
+</li>
+<li>
+<p><strong>TorchScript：</strong></p>
+<ul>
+<li>为了弥补Python在部署时的性能和依赖问题，PyTorch推出了TorchScript。它能将PyTorch模型编译成一个静态的、可在非Python环境中（如C++）运行的图表示。</li>
+<li>是PyTorch模型从研究走向部署的关键桥梁。</li>
+</ul>
+</li>
+<li>
+<p><strong>独门绝技：</strong> 在研究阶段提供极致的灵活性，同时通过TorchScript提供通往高性能部署的路径。</p>
+</li>
+<li>
+<p><strong>适用场景：</strong> 学术研究、模型原型设计。部署时通常会转换为TorchScript或ONNX。</p>
+</li>
+</ul>
+<h3 id="5-hugging-face-格式-safetensors-社区共享的集装箱">5. Hugging Face 格式 (safetensors) (社区共享的“集装箱”)</h3>
+<p>这与其说是一种单一格式，不如说是一套由Hugging Face推广的、用于分发和共享模型的标准化目录结构。</p>
+<ul>
+<li>
+<p><strong>核心特点：</strong></p>
+<ul>
+<li><strong>组件化结构：</strong> 一个模型通常由多个文件构成，如config.json（模型配置）、tokenizer.json（分词器配置）以及最重要的权重文件。</li>
+<li><strong>SafeTensors：</strong> Hugging Face正在力推的.safetensors是新一代权重存储格式。相比基于pickle的.bin文件，它更安全（杜绝了恶意代码执行风险）且加载速度更快，特别是对于大型模型。</li>
+<li><strong>易用性：</strong> transformers库的from_pretrained()一行代码即可从Hub自动下载所有组件并无缝加载，极大降低了模型使用门槛。</li>
+</ul>
+</li>
+<li>
+<p><strong>独门绝技：</strong> 定义了NLP和多模态领域的模型分发标准，让全球开发者能轻松共享和使用最前沿的模型。</p>
+</li>
+<li>
+<p><strong>适用场景：</strong> 开源模型的发布、分享和下载。几乎所有SOTA模型都会在Hugging Face Hub上以这种形式提供。</p>
+</li>
+</ul>
+<h3 id="6-tensorrt-engine-为nvidia-gpu而生的速度之魔">6. TensorRT Engine (为NVIDIA GPU而生的“速度之魔”)</h3>
+<p>TensorRT Engine 不是一个通用的交换格式，而是模型在NVIDIA GPU上部署的最终形态。</p>
+<ul>
+<li>
+<p><strong>核心特点：</strong></p>
+<ul>
+<li><strong>极致性能优化：</strong> TensorRT会获取一个模型（通常是ONNX格式），然后进行一系列“魔改”，包括层融合、精度优化（FP16/INT8）、硬件内核自动调整等，生成一个高度优化的推理引擎。</li>
+<li><strong>硬件绑定：</strong> 生成的Engine文件与特定的GPU型号和TensorRT版本深度绑定，不具备跨平台能力。换一块GPU或升级驱动，都可能需要重新生成。</li>
+<li><strong>纯推理专用：</strong> 这是纯粹的部署格式，无法用于训练或微调。</li>
+</ul>
+</li>
+<li>
+<p><strong>独门绝技：</strong> 在NVIDIA GPU上压榨出模型的最后一滴性能，实现最低延迟和最高吞吐量。</p>
+</li>
+<li>
+<p><strong>适用场景：</strong> 对推理性能有极致要求的生产环境，如实时推荐系统、自动驾驶、AI视频分析等。</p>
+</li>
+</ul>
+<h2 id="快速对比一张图看懂江湖格局">快速对比：一张图看懂江湖格局</h2>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>主要用途</th>
+<th>核心优势</th>
+<th>主要限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GGUF</td>
+<td>消费级硬件本地推理</td>
+<td>单文件、内存高效、CPU友好</td>
+<td>生态相对新，主要围绕llama.cpp</td>
+</tr>
+<tr>
+<td>ONNX</td>
+<td>跨框架模型交换与部署</td>
+<td>极强的互操作性，硬件支持广泛</td>
+<td>需要转换步骤，可能存在算子不兼容问题</td>
+</tr>
+<tr>
+<td>SavedModel</td>
+<td>TensorFlow生态生产部署</td>
+<td>完整自包含，与TF生态无缝集成</td>
+<td>主要限于TensorFlow生态系统</td>
+</tr>
+<tr>
+<td>PyTorch (.pth)</td>
+<td>PyTorch研发与训练</td>
+<td>灵活，与Python紧密结合，迭代快</td>
+<td>pickle格式存在安全和可移植性风险</td>
+</tr>
+<tr>
+<td>Hugging Face (safetensors)</td>
+<td>社区模型分发与共享</td>
+<td>安全、易用，生态系统庞大</td>
+<td>依赖其transformers库作为标准接口</td>
+</tr>
+<tr>
+<td>TensorRT Engine</td>
+<td>NVIDIA GPU高性能推理</td>
+<td>极致的推理性能</td>
+<td>硬件和平台强绑定，无移植性</td>
+</tr>
+</tbody>
+</table>
+<h2 id="典型路径一个模型的江湖之旅">典型路径：一个模型的“江湖之旅”</h2>
+<p>在真实世界中，一个模型从诞生到应用，往往会经历多种格式的转变：</p>
+<ol>
+<li><strong>训练阶段 (PyTorch):</strong> 研究员使用PyTorch进行模型原型设计和训练，将权重保存为.pth文件。</li>
+<li><strong>分享与开源 (Hugging Face):</strong> 模型训练完成后，打包成Hugging Face格式（包含config.json和model.safetensors），上传到Hugging Face Hub与社区共享。</li>
+<li><strong>标准化 (ONNX):</strong> 企业A从Hub下载了模型，为了在不同的内部系统中使用，先将其转换为通用的ONNX格式。</li>
+<li><strong>部署阶段 (TensorRT &amp; GGUF):</strong>
+<ul>
+<li><strong>云端服务：</strong> 对于需要处理海量请求的在线API，团队将ONNX模型进一步编译为TensorRT Engine，部署在NVIDIA A100 GPU服务器上以获得极致性能。</li>
+<li><strong>本地应用：</strong> 同时，为了开发一个桌面AI助手，另一个团队将该模型转换为GGUF格式，使其可以在普通用户的笔记本电脑上离线运行。</li>
+</ul>
+</li>
+</ol>
+<h2 id="结语">结语</h2>
+<p>模型文件的世界没有“银弹”，只有最适合的“兵器”。从GGUF的普惠亲民，到TensorRT的性能巅峰，每种格式都在AI技术落地的不同环节扮演着不可或缺的角色。</p>
+<p>理解它们的差异，就如同掌握了不同兵器的特性。作为行走在AI江湖的开发者，只有熟悉这些工具，才能在面对不同场景时，游刃有余地为你的模型选择最合适的“佩剑”，让它发挥出最大的威力。</p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2025
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>
