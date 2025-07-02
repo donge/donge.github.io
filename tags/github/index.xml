@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Github on 东冬の乱记</title>
-    <link>http://localhost:1313/tags/github/</link>
+    <link>https://donge.org/tags/github/</link>
     <description>Recent content in Github on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 16 Sep 2012 14:02:38 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Sep 2012 14:02:38 +0000</lastBuildDate><atom:link href="https://donge.org/tags/github/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>用GitHub开始整理过去十几年Hack过的代码</title>
-      <link>http://localhost:1313/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
+      <link>https://donge.org/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
       <pubDate>Sun, 16 Sep 2012 14:02:38 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
+      <guid>https://donge.org/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
       
         <description>周末终于可以休息和有一点自己的时间，用GitHub来给自己整理一个Code回忆录。
 从上初中开始到现在16年，除了学校交作业，上班工作写的代码，还写过或者更多是改过无数的代码，各种语言，各种网站，各种创意，回头看看很是有趣。

@@ -1,0 +1,515 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        GGUF 原理图：从文件到AI思考的全过程
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/2025-gguf-inspector/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GGUF 原理图：从文件到AI思考的全过程">
+  <meta name="twitter:description" content="我们已经成功地使用 gguf-inspector 工具窥探了 Qwen3-0.6B-Q8_0.gguf 文件的内部。我们看到了文件头、看到了 general.architecture: “qwen3” 这样的元数据，还看到了一长串像 blk.0.attn_q.weight 这样的张量列表。
+但这些静态的数据是如何“活”过来，变成一个能与你对话的AI的呢？
+让我们用一个形象的比喻开始：GGUF 文件就像一个高度优化的宜家家具（AI模型）的完整包装盒。
+元数据 (Metadata)：就是那本详细的安装说明书。它告诉你这个家具叫什么名字 (general.name)，是什么风格 (general.architecture)，有多少个抽屉 (qwen3.block_count) 等等。
+张量信息 (Tensor Info)：是包装盒里的零件清单。它精确地列出了：“A号螺丝 (token_embd.weight) 有多大”、“B号面板 (blk.0.attn_norm.weight) 在哪里”等等。
+张量数据 (Tensor Data)：就是那些用塑料袋分装好的、实实在在的螺丝、面板和木榫。
+而模型推理（Inference），就是你（或者说，llama.cpp 这样的推理程序）打开这个包装盒，严格按照说明书（元数据），使用零件清单（张量信息）来找到对应的零件（张量数据），一步步把家具组装起来并让它工作的过程。
+第一部分：静态视角 - GGUF 文件布局 首先，我们回顾一下这个“包装盒”的内部结构。它在硬盘上是这样线性排列的：
+&#43;--------------------------------&#43; | 文件头 (Header) | &lt;-- 身份标识和目录 | (Magic, Version, Counts) | &#43;--------------------------------&#43; | 元数据 (Metadata) | &lt;-- “安装说明书” | (Key-Value Pairs) | (例如: general.architecture, tokenizer.ggml.tokens) &#43;--------------------------------&#43; | 张量信息 (Tensor Info) | &lt;-- “零件清单” | (Tensor Name, Shape, Type, Offset) | (例如: blk.">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/2025-gguf-inspector/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="GGUF 原理图：从文件到AI思考的全过程">
+  <meta property="og:description" content="我们已经成功地使用 gguf-inspector 工具窥探了 Qwen3-0.6B-Q8_0.gguf 文件的内部。我们看到了文件头、看到了 general.architecture: “qwen3” 这样的元数据，还看到了一长串像 blk.0.attn_q.weight 这样的张量列表。
+但这些静态的数据是如何“活”过来，变成一个能与你对话的AI的呢？
+让我们用一个形象的比喻开始：GGUF 文件就像一个高度优化的宜家家具（AI模型）的完整包装盒。
+元数据 (Metadata)：就是那本详细的安装说明书。它告诉你这个家具叫什么名字 (general.name)，是什么风格 (general.architecture)，有多少个抽屉 (qwen3.block_count) 等等。
+张量信息 (Tensor Info)：是包装盒里的零件清单。它精确地列出了：“A号螺丝 (token_embd.weight) 有多大”、“B号面板 (blk.0.attn_norm.weight) 在哪里”等等。
+张量数据 (Tensor Data)：就是那些用塑料袋分装好的、实实在在的螺丝、面板和木榫。
+而模型推理（Inference），就是你（或者说，llama.cpp 这样的推理程序）打开这个包装盒，严格按照说明书（元数据），使用零件清单（张量信息）来找到对应的零件（张量数据），一步步把家具组装起来并让它工作的过程。
+第一部分：静态视角 - GGUF 文件布局 首先，我们回顾一下这个“包装盒”的内部结构。它在硬盘上是这样线性排列的：
+&#43;--------------------------------&#43; | 文件头 (Header) | &lt;-- 身份标识和目录 | (Magic, Version, Counts) | &#43;--------------------------------&#43; | 元数据 (Metadata) | &lt;-- “安装说明书” | (Key-Value Pairs) | (例如: general.architecture, tokenizer.ggml.tokens) &#43;--------------------------------&#43; | 张量信息 (Tensor Info) | &lt;-- “零件清单” | (Tensor Name, Shape, Type, Offset) | (例如: blk.">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-02T02:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-02T02:00:00+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "GGUF 原理图：从文件到AI思考的全过程",
+        "headline": "GGUF 原理图：从文件到AI思考的全过程",
+        "alternativeHeadline": "",
+        "description": "
+      
+        我们已经成功地使用 gguf-inspector 工具窥探了 Qwen3-0.6B-Q8_0.gguf 文件的内部。我们看到了文件头、看到了 general.architecture: \u0026ldquo;qwen3\u0026rdquo; 这样的元数据，还看到了一长串像 blk.0.attn_q.weight 这样的张量列表。\n但这些静态的数据是如何“活”过来，变成一个能与你对话的AI的呢？\n让我们用一个形象的比喻开始：GGUF 文件就像一个高度优化的宜家家具（AI模型）的完整包装盒。\n元数据 (Metadata)：就是那本详细的安装说明书。它告诉你这个家具叫什么名字 (general.name)，是什么风格 (general.architecture)，有多少个抽屉 (qwen3.block_count) 等等。\n张量信息 (Tensor Info)：是包装盒里的零件清单。它精确地列出了：“A号螺丝 (token_embd.weight) 有多大”、“B号面板 (blk.0.attn_norm.weight) 在哪里”等等。\n张量数据 (Tensor Data)：就是那些用塑料袋分装好的、实实在在的螺丝、面板和木榫。\n而模型推理（Inference），就是你（或者说，llama.cpp 这样的推理程序）打开这个包装盒，严格按照说明书（元数据），使用零件清单（张量信息）来找到对应的零件（张量数据），一步步把家具组装起来并让它工作的过程。\n第一部分：静态视角 - GGUF 文件布局 首先，我们回顾一下这个“包装盒”的内部结构。它在硬盘上是这样线性排列的：\n\u002b--------------------------------\u002b | 文件头 (Header) | \u0026lt;-- 身份标识和目录 | (Magic, Version, Counts) | \u002b--------------------------------\u002b | 元数据 (Metadata) | \u0026lt;-- “安装说明书” | (Key-Value Pairs) | (例如: general.architecture, tokenizer.ggml.tokens) \u002b--------------------------------\u002b | 张量信息 (Tensor Info) | \u0026lt;-- “零件清单” | (Tensor Name, Shape, Type, Offset) | (例如: blk.
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/2025-gguf-inspector\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2025",
+        "dateCreated": "2025-07-02T02:00:00.00Z",
+        "datePublished": "2025-07-02T02:00:00.00Z",
+        "dateModified": "2025-07-02T02:00:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/2025-gguf-inspector\/",
+        "wordCount" : "517",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2025
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>GGUF 原理图：从文件到AI思考的全过程</h1>
+      <p>我们已经成功地使用 gguf-inspector 工具窥探了 Qwen3-0.6B-Q8_0.gguf 文件的内部。我们看到了文件头、看到了 general.architecture: &ldquo;qwen3&rdquo; 这样的元数据，还看到了一长串像 blk.0.attn_q.weight 这样的张量列表。</p>
+<p>但这些静态的数据是如何“活”过来，变成一个能与你对话的AI的呢？</p>
+<p>让我们用一个形象的比喻开始：GGUF 文件就像一个高度优化的宜家家具（AI模型）的完整包装盒。</p>
+<blockquote>
+<p><strong>元数据 (Metadata)</strong>：就是那本详细的安装说明书。它告诉你这个家具叫什么名字 (general.name)，是什么风格 (general.architecture)，有多少个抽屉 (qwen3.block_count) 等等。</p>
+<p><strong>张量信息 (Tensor Info)</strong>：是包装盒里的零件清单。它精确地列出了：“A号螺丝 (token_embd.weight) 有多大”、“B号面板 (blk.0.attn_norm.weight) 在哪里”等等。</p>
+<p><strong>张量数据 (Tensor Data)</strong>：就是那些用塑料袋分装好的、实实在在的螺丝、面板和木榫。</p>
+</blockquote>
+<p>而模型推理（Inference），就是你（或者说，llama.cpp 这样的推理程序）打开这个包装盒，严格按照说明书（元数据），使用零件清单（张量信息）来找到对应的零件（张量数据），一步步把家具组装起来并让它工作的过程。</p>
+<hr>
+<h2 id="第一部分静态视角---gguf-文件布局">第一部分：静态视角 - GGUF 文件布局</h2>
+<p>首先，我们回顾一下这个“包装盒”的内部结构。它在硬盘上是这样线性排列的：</p>
+<pre tabindex="0"><code>+--------------------------------+
+|      文件头 (Header)           |  &lt;-- 身份标识和目录
+| (Magic, Version, Counts)       |
++--------------------------------+
+|      元数据 (Metadata)         |  &lt;-- “安装说明书”
+| (Key-Value Pairs)              |  (例如: general.architecture, tokenizer.ggml.tokens)
++--------------------------------+
+|      张量信息 (Tensor Info)    |  &lt;-- “零件清单”
+| (Tensor Name, Shape, Type, Offset) |  (例如: blk.0.attn_q.weight 的描述)
++--------------------------------+
+|      对齐填充 (Padding)        |  &lt;-- 确保性能的细节
++--------------------------------+
+|                                |
+|      张量数据 (Tensor Data)    |  &lt;-- 真正的“零件”
+|      (巨大的二进制权重)        |
+|                                |
++--------------------------------+
+</code></pre><p>我们的 gguf-inspector 工具之所以快，就是因为它只读取了上面三个小部分，然后就停止了。</p>
+<hr>
+<h2 id="第二部分动态视角---gpt-模型推理流程">第二部分：动态视角 - GPT 模型推理流程</h2>
+<p>现在，我们忘记文件，只看一个像 Qwen3 这样的 Transformer 模型是如何“思考”的。这个过程可以简化为以下几个步骤：</p>
+<ol>
+<li><strong>输入 (Prompt)</strong>: 用户输入一句话，例如 &ldquo;你好&rdquo;。</li>
+<li><strong>分词 (Tokenization)</strong>: 模型查阅它的“字典”，将 &ldquo;你好&rdquo; 转换成一串数字ID，比如 [151644, 872, 151645]。</li>
+<li><strong>嵌入 (Embedding)</strong>: 模型将每个数字ID转换成一个高维向量（可以想象成一个包含很多数字的列表）。这个向量代表了该词元在模型“语义空间”中的初始位置。</li>
+<li><strong>Transformer 层处理 (循环)</strong>: 向量流依次通过模型的所有核心处理层（在你的文件里，就是从 blk.0 到 blk.27）。在每一层，向量都会经历两个关键的子步骤：
+<ul>
+<li><strong>自注意力 (Self-Attention)</strong>: 这是模型的核心。在这一步，每个词元的向量会“环顾四周”，与其他所有词元的向量进行信息交换和加权。这让模型理解词与词之间的关系（例如，“苹果”在“我吃苹果”和“苹果公司”中的含义不同）。</li>
+<li><strong>前馈网络 (Feed-Forward Network, FFN)</strong>: 在上一步理解了上下文关系后，FFN 对每个向量进行一次独立的、更深层次的“思考”和信息加工。</li>
+</ul>
+</li>
+<li><strong>输出 (Prediction)</strong>: 经过所有层的处理后，我们得到最终的向量。模型用这个向量来预测下一个最可能出现的词元。它会输出一个包含所有几万个词元概率的列表，概率最高的那个（比如 &ldquo;世界&rdquo; 对应的ID）就是模型的回答。然后，这个新生成的词元会被加到输入序列的末尾，整个过程再循环一次，直到生成完整的回答。</li>
+</ol>
+<hr>
+<h2 id="第三部分连接gguf-文件如何驱动推理过程">第三部分：连接！GGUF 文件如何驱动推理过程</h2>
+<p>现在，让我们把宜家包装盒和家具组装过程联系起来。下面这张图展示了推理程序是如何根据 GGUF 文件的内容来执行上述流程的。</p>
+<pre tabindex="0"><code>+==================================================+      +=====================================================+
+| GGUF 文件 (Qwen3-0.6B-Q8_0.gguf)                 |      | 模型推理过程 (在内存中动态执行)                     |
++==================================================+      +=====================================================+
+|                                                  |      |                                                     |
+| [元数据]                                         |      |  1. 输入: &#34;你好&#34;                                    |
+| tokenizer.ggml.model: &#34;gpt2&#34;                     |      |     |                                                 |
+| tokenizer.ggml.tokens: [Array of 151936 items]   |-----&gt;|  2. 分词器 (Tokenizer)                              |
+| tokenizer.ggml.eos_token_id: 151645              |      |     | (使用元数据中的词汇表和规则)                  |
+| ...                                              |      |     V                                                 |
+|                                                  |      |    [151644, 872, 151645]                            |
+|--------------------------------------------------|      |     |                                                 |
+|                                                  |      |     |                                                 |
+| [张量]                                           |      |     |                                                 |
+| token_embd.weight (Q8_0, [1024, 151936])         |-----&gt;|  3. 嵌入层 (Embedding Layer)                        |
+|                                                  |      |     | (查找ID对应的权重向量)                        |
+|--------------------------------------------------|      |     V                                                 |
+|                                                  |      |    [向量1, 向量2, 向量3]                             |
+| [张量]                                           |      |     |                                                 |
+| blk.0.attn_norm.weight (F32, [1024])             |--+   |     |                                                 |
+| blk.0.attn_q.weight (Q8_0, [1024, 2048])         |--+--&gt;|  4. Transformer Block 0 (blk.0)                     |
+| blk.0.attn_k.weight (Q8_0, [1024, 1024])         |--+   |     |                                                 |
+| blk.0.attn_v.weight (Q8_0, [1024, 1024])         |--+   |     |-- a. 自注意力 (Self-Attention)                |
+| blk.0.attn_output.weight (Q8_0, [2048, 1024])    |--+   |     |     (使用 attn_q, attn_k, attn_v 等权重)      |
+| blk.0.ffn_norm.weight (F32, [1024])              |--+   |     |                                                 |
+| blk.0.ffn_gate.weight (Q8_0, [1024, 3072])       |--+   |     |-- b. 前馈网络 (Feed-Forward Network)          |
+| blk.0.ffn_up.weight (Q8_0, [1024, 3072])         |--+   |     |     (使用 ffn_gate, ffn_up, ffn_down 权重)    |
+| blk.0.ffn_down.weight (Q8_0, [3072, 1024])       |--+   |     |                                                 |
+|                                                  |      |     V                                                 |
+| ... (blk.1 到 blk.26 的权重, 过程重复) ...       |-----&gt;|  ... (数据流经 blk.1, blk.2 ... blk.26) ...         |
+|                                                  |      |     |                                                 |
+| [张量]                                           |      |     |                                                 |
+| blk.27.attn_q.weight ...                         |-----&gt;|  ... Transformer Block 27 (blk.27) ...              |
+| blk.27.ffn_up.weight ...                         |      |     V                                                 |
+|                                                  |      |    [最终处理后的向量]                               |
+|--------------------------------------------------|      |     |                                                 |
+|                                                  |      |     |                                                 |
+| [张量]                                           |      |     |                                                 |
+| output_norm.weight (F32, [1024])                 |--+   |  5. 输出层 (Output Layer)                           |
+| token_embd.weight (通常与输出层共享权重)         |--+--&gt;|     | (使用 output_norm 和 token_embd 权重计算概率) |
+|                                                  |      |     V                                                 |
+|                                                  |      |    [对所有151936个词元的概率分布]                    |
+|                                                  |      |     |                                                 |
+|                                                  |      |  6. 预测: &#34;世界&#34; (概率最高)                         |
++--------------------------------------------------+      +-----------------------------------------------------+
+</code></pre><p><strong>图解说明：</strong></p>
+<ul>
+<li>启动分词：当推理开始，程序首先查找元数据中的 tokenizer.ggml.* 条目。它用 tokens 数组作为字典，将 &ldquo;你好&rdquo; 映射成数字ID。</li>
+<li>加载嵌入权重：程序根据张量信息找到 token_embd.weight，这是一个巨大的矩阵。它用上一步得到的数字ID作为“行号”，从这个矩阵中“抽取”出对应的向量。</li>
+<li>进入处理循环：
+<ul>
+<li>当数据流进入第0个 Transformer 块时，程序会加载所有名字以 blk.0. 开头的张量。</li>
+<li>blk.0.attn_q.weight、blk.0.attn_k.weight 等权重被用于执行自注意力计算。</li>
+<li>blk.0.ffn_gate.weight、blk.t.ffn_up.weight 等权重被用于执行前馈网络计算。</li>
+<li>这个过程会重复28次（因为你的模型 qwen3.block_count 是28），每次都使用对应层级的权重（blk.1.<em>, blk.2.</em>&hellip;）。</li>
+</ul>
+</li>
+<li>最终预测：当数据流过所有28层后，程序加载 output_norm.weight 对最终的向量进行归一化，然后通常会再次使用 token_embd.weight（权重共享技术）来计算出每个词元的最终概率，并选出概率最高的那个作为输出。</li>
+</ul>
+<p>希望这份结合了文件布局、推理流程和具体数据映射的原理图，能帮助你彻底理解 GGUF 文件是如何驱动一个AI模型进行思考的！</p>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2025
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>IT on 东冬の乱记</title>
-    <link>http://localhost:1313/categories/it/</link>
+    <link>https://donge.org/categories/it/</link>
     <description>Recent content in IT on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 09 Sep 2012 06:41:59 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/it/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Sep 2012 06:41:59 +0000</lastBuildDate><atom:link href="https://donge.org/categories/it/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FW：LinkedIn用一幅图告诉你：工程师最想去的10家硅谷创业公司</title>
-      <link>http://localhost:1313/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</link>
+      <link>https://donge.org/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</link>
       <pubDate>Sun, 09 Sep 2012 06:41:59 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</guid>
+      <guid>https://donge.org/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</guid>
       
         <description>donge: 最近很是迷茫，没有方向，来看看湾区工程师们的方向吧，哈哈~~明了了吧。
 旧金山湾区，包括整个硅谷，到处都是天才级别的软件工程师。但即使如此，对于创业公司来说，能否吸引最好的工程师仍然是企业成败关键的因素之一。而最火爆最有前景的创业公司，往往也就能吸引最多天才工程师的加入。
@@ -24,10 +24,10 @@
     
     <item>
       <title>无人关注的，纯洁的，正经的个人博客也被黑了！</title>
-      <link>http://localhost:1313/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</link>
+      <link>https://donge.org/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</link>
       <pubDate>Sun, 19 Feb 2012 19:41:53 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</guid>
+      <guid>https://donge.org/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</guid>
       
         <description>我的博客被黑客黑了，看样子是阿拉伯国家的友人，在无聊的日子里为大家带来了一丝欢乐~~
 阿拉伯的兄弟真是闲的蛋疼啊，几百年也不写一次的博客，你也能攻击。
@@ -41,10 +41,10 @@ to 点点：开复投的项目，我还是很热衷的用户，绑定后帮你�
     
     <item>
       <title>FW: 为程序员量身定制的12个目标</title>
-      <link>http://localhost:1313/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</link>
+      <link>https://donge.org/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</link>
       <pubDate>Sun, 15 Jan 2012 22:14:54 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</guid>
+      <guid>https://donge.org/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</guid>
       
         <description>对程序员们来说挑战自我非常重要，要么不断创新，要么技术停滞不前。新年伊始，我整理了12个月的目标，每个目标都是对技术或个人能力的挑战，而且可以年复一年循环使用。
 01. 变得有耐心
@@ -100,10 +100,10 @@ Racket、 Haskell、Scala、Erlang、Clojure、SML/NJOCaml、Squeak、Prolog、
     
     <item>
       <title>FW: 为什么程序员的社会地位不高？</title>
-      <link>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</link>
+      <link>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</link>
       <pubDate>Mon, 02 Jan 2012 10:40:26 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</guid>
+      <guid>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</guid>
       
         <description>新闻来源:oschina 到目前为止，在过去60年中在世界排名前20的国家中，没有哪条街是以程序员或者计算机科学家的名字命名的。没有任何一个世界主要城市拥有程序员或者计算机科学家的雕像。
 没有程序员或者计算机科学家获得过总统奖章（Presidential Medal）或者国会金质奖章（Congressional Gold Medal）。
@@ -136,10 +136,10 @@ Racket、 Haskell、Scala、Erlang、Clojure、SML/NJOCaml、Squeak、Prolog、
     
     <item>
       <title>FW: 为什么项目经理拿的钱比程序员多？</title>
-      <link>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</link>
+      <link>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</link>
       <pubDate>Mon, 21 Nov 2011 22:21:35 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</guid>
+      <guid>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</guid>
       
         <description>新闻来源:开源中国 偶然在programmers.stackexchange.com上看到了这个有趣的问题，有人问：既然普遍认为编程是比较难的工作，为什么业务分析人员和项目经理们会拿比程序员更多的薪水？虽然大多数的时候程序员都被发现是最晚离开公司的人，可那些家伙的工作却能拿更多的报酬，为什么会这样?
 回答的人很多，但似乎只有一个是比较合情合理的，它是从经济学原理的角度分析的这个问题。
@@ -154,10 +154,10 @@ Racket、 Haskell、Scala、Erlang、Clojure、SML/NJOCaml、Squeak、Prolog、
     
     <item>
       <title>Stay hungry, stay foolish.</title>
-      <link>http://localhost:1313/posts/stay-hungry-stay-foolish/</link>
+      <link>https://donge.org/posts/stay-hungry-stay-foolish/</link>
       <pubDate>Sun, 28 Aug 2011 22:18:14 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/stay-hungry-stay-foolish/</guid>
+      <guid>https://donge.org/posts/stay-hungry-stay-foolish/</guid>
       
         <description>Fllow your hearts.</description>
       
@@ -165,10 +165,10 @@ Racket、 Haskell、Scala、Erlang、Clojure、SML/NJOCaml、Squeak、Prolog、
     
     <item>
       <title>赠送Google&#43;邀请，要的RE</title>
-      <link>http://localhost:1313/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</link>
+      <link>https://donge.org/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</link>
       <pubDate>Fri, 12 Aug 2011 22:41:45 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</guid>
+      <guid>https://donge.org/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</guid>
       
         <description>想体验一下Google+的圈子，发现一个认识的人都没有。谁需要邀请，回复Email，先来先得：）</description>
       
@@ -176,10 +176,10 @@ Racket、 Haskell、Scala、Erlang、Clojure、SML/NJOCaml、Squeak、Prolog、
     
     <item>
       <title>回顾暴雪的20年</title>
-      <link>http://localhost:1313/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</link>
+      <link>https://donge.org/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</link>
       <pubDate>Mon, 21 Mar 2011 15:23:58 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</guid>
+      <guid>https://donge.org/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</guid>
       
         <description>一口气看完了，暴雪的20年，梦想和奋斗，创业励志片。</description>
       

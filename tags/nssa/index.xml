@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>NSSA on 东冬の乱记</title>
-    <link>http://localhost:1313/tags/nssa/</link>
+    <link>https://donge.org/tags/nssa/</link>
     <description>Recent content in NSSA on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 15 Mar 2011 15:49:39 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/nssa/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 15 Mar 2011 15:49:39 +0000</lastBuildDate><atom:link href="https://donge.org/tags/nssa/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FW: OSPF NSSA白皮书</title>
-      <link>http://localhost:1313/posts/nssa/</link>
+      <link>https://donge.org/posts/nssa/</link>
       <pubDate>Tue, 15 Mar 2011 15:49:39 +0000</pubDate>
       
-      <guid>http://localhost:1313/posts/nssa/</guid>
+      <guid>https://donge.org/posts/nssa/</guid>
       
         <description>NSSA原理简介
 众所周知，OSPF路由协议是目前因特网中应用最为广泛一种IGP，而NSSA则是在该协议发展过程中产生的一种新的属性，她的英文全称是&amp;quot;not-so-stubby&amp;quot; area，一个充满了幽默味道的名字。要想了解该属性的特征，我们先从路由协议的发展历程讲起。
