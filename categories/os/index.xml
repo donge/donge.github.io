@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>OS on 东冬の乱记</title>
-    <link>https://donge.org/categories/os/</link>
+    <link>http://localhost:1313/categories/os/</link>
     <description>Recent content in OS on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 20 Mar 2011 09:13:37 +0000</lastBuildDate><atom:link href="https://donge.org/categories/os/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Mar 2011 09:13:37 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/os/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FW: 对程序员最具影响的书</title>
-      <link>https://donge.org/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</link>
+      <link>http://localhost:1313/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</link>
       <pubDate>Sun, 20 Mar 2011 09:13:37 +0000</pubDate>
       
-      <guid>https://donge.org/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</guid>
+      <guid>http://localhost:1313/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</guid>
       
         <description>http://stackoverflow.com/questions/1711/what-is-the-single-most-influential-book-every-programmer-should-read?tab=votes#tab-top
 国外知名网站 stackoverflow 上有一个问题调查： 哪本书是对程序员最有影响、每个程序员都该阅读的书？， 这个调查已历时两年，目前为止吸引了 153,432 人访问，读者共推荐出了 478 本书(还在增加)，其中最火的一本书《Code Complete》被顶了 1333 次。
@@ -32,10 +32,10 @@
     
     <item>
       <title>FW: syslog的编程和配置</title>
-      <link>https://donge.org/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
+      <link>http://localhost:1313/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Tue, 15 Mar 2011 16:25:40 +0000</pubDate>
       
-      <guid>https://donge.org/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
+      <guid>http://localhost:1313/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
       
         <description> </description>
       

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on 东冬の乱记</title>
-    <link>https://donge.org/tags/linux/</link>
+    <link>http://localhost:1313/tags/linux/</link>
     <description>Recent content in Linux on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 19 Jun 2011 21:23:00 +0000</lastBuildDate><atom:link href="https://donge.org/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Jun 2011 21:23:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[亲笔]安装开源路由平台Quagga记</title>
-      <link>https://donge.org/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</link>
+      <link>http://localhost:1313/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</link>
       <pubDate>Sun, 19 Jun 2011 21:23:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</guid>
+      <guid>http://localhost:1313/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</guid>
       
         <description>周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco。当前Quagga最新版本是0.99.18。可以前往http://www.quagga.net/获得。
 1. 安装编译运行系统 由于电脑是Windows，所以需要安装一个Linux编译环境，选择了DeepinLinux，一款国产优秀的面向桌面的Linux发行版，Ubuntu分支，轻量级界面还很漂亮。可以前往http://www.deepinlinux.com获得。由于平时无法脱离Windows，所以安装到虚拟机中，VMWare, VisualBox, WMLite随你选了，废话不说，这个过程略了。
@@ -29,10 +29,10 @@ Hello, this is Quagga (version 0.</description>
     
     <item>
       <title>FW: syslog的编程和配置</title>
-      <link>https://donge.org/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
+      <link>http://localhost:1313/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Tue, 15 Mar 2011 16:25:40 +0000</pubDate>
       
-      <guid>https://donge.org/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
+      <guid>http://localhost:1313/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
       
         <description> </description>
       

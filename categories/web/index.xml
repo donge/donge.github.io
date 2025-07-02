@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Web on 东冬の乱记</title>
-    <link>https://donge.org/categories/web/</link>
+    <link>http://localhost:1313/categories/web/</link>
     <description>Recent content in Web on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 16 Sep 2012 14:02:38 +0000</lastBuildDate><atom:link href="https://donge.org/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Sep 2012 14:02:38 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/web/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>用GitHub开始整理过去十几年Hack过的代码</title>
-      <link>https://donge.org/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
+      <link>http://localhost:1313/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
       <pubDate>Sun, 16 Sep 2012 14:02:38 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
+      <guid>http://localhost:1313/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
       
         <description>周末终于可以休息和有一点自己的时间，用GitHub来给自己整理一个Code回忆录。
 从上初中开始到现在16年，除了学校交作业，上班工作写的代码，还写过或者更多是改过无数的代码，各种语言，各种网站，各种创意，回头看看很是有趣。
@@ -23,10 +23,10 @@ https://github.com/donge/donge.git</description>
     
     <item>
       <title>开始使用移动客户端WordPress</title>
-      <link>https://donge.org/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</link>
+      <link>http://localhost:1313/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</link>
       <pubDate>Sun, 26 Aug 2012 01:38:02 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</guid>
+      <guid>http://localhost:1313/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</guid>
       
         <description>这篇是用android app推送的blog。 使用xml-rpc的协议与http交互，不过估计和netconf类似，这种多用户接口的安全性是不太让人放心的。希望不会被黑第三次。</description>
       

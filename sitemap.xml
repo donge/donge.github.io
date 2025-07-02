@@ -2,208 +2,210 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://donge.org/posts/</loc>
+    <loc>http://localhost:1313/posts/</loc>
     <lastmod>2025-07-02T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/</loc>
+    <loc>http://localhost:1313/</loc>
     <lastmod>2025-07-02T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/2025-module-format/</loc>
+    <loc>http://localhost:1313/posts/2025-module-format/</loc>
     <lastmod>2025-07-02T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/deepseek/</loc>
+    <loc>http://localhost:1313/posts/deepseek/</loc>
     <lastmod>2025-02-07T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/2024-api-transformer/</loc>
+    <loc>http://localhost:1313/posts/2024-api-transformer/</loc>
     <lastmod>2024-08-18T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/2024-why-rust-fast/</loc>
+    <loc>http://localhost:1313/posts/2024-why-rust-fast/</loc>
     <lastmod>2024-06-04T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/anti-arch/</loc>
+    <loc>http://localhost:1313/posts/anti-arch/</loc>
     <lastmod>2021-08-02T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/bigdata-2-format/</loc>
+    <loc>http://localhost:1313/posts/bigdata-2-format/</loc>
     <lastmod>2021-07-12T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/bigdata-1-state/</loc>
+    <loc>http://localhost:1313/posts/bigdata-1-state/</loc>
     <lastmod>2021-06-23T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/2021_network_arch/</loc>
+    <loc>http://localhost:1313/posts/2021_network_arch/</loc>
     <lastmod>2021-03-08T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/anti-bot/</loc>
+    <loc>http://localhost:1313/posts/anti-bot/</loc>
     <lastmod>2021-01-16T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/envoy-vs-traefik/</loc>
+    <loc>http://localhost:1313/posts/envoy-vs-traefik/</loc>
     <lastmod>2020-11-06T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/death-of-software/</loc>
+    <loc>http://localhost:1313/posts/death-of-software/</loc>
     <lastmod>2020-09-03T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/nnngfirewall/</loc>
+    <loc>http://localhost:1313/posts/nnngfirewall/</loc>
     <lastmod>2020-08-20T16:31:11+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/servicewall/</loc>
+    <loc>http://localhost:1313/posts/servicewall/</loc>
     <lastmod>2020-08-05T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/rule-engine-3/</loc>
+    <loc>http://localhost:1313/posts/rule-engine-3/</loc>
     <lastmod>2020-07-29T01:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/rule-engine-2/</loc>
+    <loc>http://localhost:1313/posts/rule-engine-2/</loc>
     <lastmod>2020-07-29T00:00:00+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/rule-engine-1/</loc>
+    <loc>http://localhost:1313/posts/rule-engine-1/</loc>
     <lastmod>2020-07-23T16:31:11+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/hello-world-3/</loc>
+    <loc>http://localhost:1313/posts/hello-world-3/</loc>
     <lastmod>2020-07-23T15:48:11+08:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/xiaoshaozi/</loc>
+    <loc>http://localhost:1313/posts/xiaoshaozi/</loc>
     <lastmod>2015-12-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/hello-world/</loc>
+    <loc>http://localhost:1313/posts/hello-world/</loc>
     <lastmod>2015-04-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/revenge/</loc>
+    <loc>http://localhost:1313/posts/revenge/</loc>
     <lastmod>2014-08-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/anniversary/</loc>
+    <loc>http://localhost:1313/posts/anniversary/</loc>
     <lastmod>2014-04-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/quant-first-feeling/</loc>
+    <loc>http://localhost:1313/posts/quant-first-feeling/</loc>
     <lastmod>2014-02-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/front-end-year/</loc>
+    <loc>http://localhost:1313/posts/front-end-year/</loc>
     <lastmod>2014-02-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/update-about-me/</loc>
+    <loc>http://localhost:1313/posts/update-about-me/</loc>
     <lastmod>2014-01-26T23:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/hello-golang/</loc>
+    <loc>http://localhost:1313/posts/hello-golang/</loc>
     <lastmod>2014-01-12T21:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/2014-new-year/</loc>
+    <loc>http://localhost:1313/posts/2014-new-year/</loc>
     <lastmod>2014-01-01T22:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/it-hero/</loc>
+    <loc>http://localhost:1313/posts/it-hero/</loc>
     <lastmod>2013-12-24T23:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/left-huawei/</loc>
+    <loc>http://localhost:1313/posts/left-huawei/</loc>
     <lastmod>2013-12-15T17:58:45+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E8%BD%AC-%E5%8F%B2%E4%B8%8A%E6%9C%80%E7%BB%8F%E5%85%B8%E7%9A%84linux%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/</loc>
+    <loc>http://localhost:1313/posts/%E8%BD%AC-%E5%8F%B2%E4%B8%8A%E6%9C%80%E7%BB%8F%E5%85%B8%E7%9A%84linux%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/</loc>
     <lastmod>2013-01-07T15:07:55+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
     <lastmod>2013-01-07T15:07:55+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/</loc>
+    <loc>http://localhost:1313/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/</loc>
     <lastmod>2013-01-07T15:07:55+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/tags/github/</loc>
+    <loc>http://localhost:1313/tags/github/</loc>
     <lastmod>2012-09-16T14:02:38+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2012-09-16T14:02:38+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/categories/web/</loc>
+    <loc>http://localhost:1313/categories/web/</loc>
     <lastmod>2012-09-16T14:02:38+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</loc>
+    <loc>http://localhost:1313/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</loc>
     <lastmod>2012-09-16T14:02:38+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</loc>
+    <loc>http://localhost:1313/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</loc>
     <lastmod>2012-09-09T06:41:59+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/categories/it/</loc>
+    <loc>http://localhost:1313/categories/it/</loc>
     <lastmod>2012-09-09T06:41:59+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</loc>
+    <loc>http://localhost:1313/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</loc>
     <lastmod>2012-08-26T01:38:02+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</loc>
+    <loc>http://localhost:1313/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</loc>
     <lastmod>2012-02-19T19:41:53+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</loc>
+    <loc>http://localhost:1313/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</loc>
     <lastmod>2012-01-15T22:14:54+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</loc>
+    <loc>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</loc>
     <lastmod>2012-01-02T10:40:26+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/categories/motion/</loc>
+    <loc>http://localhost:1313/categories/motion/</loc>
     <lastmod>2011-12-30T22:30:36+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E6%88%91%E5%8F%B8%E6%9C%89%E6%89%8D%E7%9A%84%E5%B9%B4%E4%BC%9A%E7%89%87%E6%88%90%E7%A0%94%E9%A3%8E%E4%BA%91/</loc>
+    <loc>http://localhost:1313/posts/%E6%88%91%E5%8F%B8%E6%9C%89%E6%89%8D%E7%9A%84%E5%B9%B4%E4%BC%9A%E7%89%87%E6%88%90%E7%A0%94%E9%A3%8E%E4%BA%91/</loc>
     <lastmod>2011-12-30T22:30:36+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</loc>
+    <loc>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</loc>
     <lastmod>2011-11-21T22:21:35+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E6%88%91%E7%BB%93%E5%A9%9A%E4%BA%86/</loc>
+    <loc>http://localhost:1313/posts/%E6%88%91%E7%BB%93%E5%A9%9A%E4%BA%86/</loc>
     <lastmod>2011-10-23T22:31:23+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/stay-hungry-stay-foolish/</loc>
+    <loc>http://localhost:1313/posts/stay-hungry-stay-foolish/</loc>
     <lastmod>2011-08-28T22:18:14+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E8%B0%83%E6%95%B4%E5%BF%83%E6%80%81%E5%81%9A%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AC%A2%E7%9A%84/</loc>
+    <loc>http://localhost:1313/posts/%E8%B0%83%E6%95%B4%E5%BF%83%E6%80%81%E5%81%9A%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AC%A2%E7%9A%84/</loc>
     <lastmod>2011-08-28T15:03:26+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</loc>
+    <loc>http://localhost:1313/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</loc>
     <lastmod>2011-08-12T22:41:45+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E7%BA%A2%E9%A2%86%E5%B7%BE/</loc>
+    <loc>http://localhost:1313/posts/%E7%BA%A2%E9%A2%86%E5%B7%BE/</loc>
     <lastmod>2011-08-03T23:22:03+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/tom%E7%8C%AB%E7%9A%84%E5%AE%B6%E5%9C%A8%E4%B8%9C%E5%8C%97/</loc>
+    <loc>http://localhost:1313/posts/tom%E7%8C%AB%E7%9A%84%E5%AE%B6%E5%9C%A8%E4%B8%9C%E5%8C%97/</loc>
     <lastmod>2011-07-23T17:16:23+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/categories/network/</loc>
+    <loc>http://localhost:1313/categories/network/</loc>
     <lastmod>2011-07-19T00:17:38+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E7%B2%BE%E8%AF%BBtrill%E5%8D%8F%E8%AE%AE/</loc>
+    <loc>http://localhost:1313/posts/%E7%B2%BE%E8%AF%BBtrill%E5%8D%8F%E8%AE%AE/</loc>
     <lastmod>2011-07-19T00:17:38+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</loc>
+    <loc>http://localhost:1313/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</loc>
     <lastmod>2011-06-19T21:23:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/tags/linux/</loc>
+    <loc>http://localhost:1313/tags/linux/</loc>
     <lastmod>2011-06-19T21:23:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/tags/quagga/</loc>
+    <loc>http://localhost:1313/tags/quagga/</loc>
     <lastmod>2011-06-19T21:23:00+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B/</loc>
+    <loc>http://localhost:1313/posts/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B/</loc>
     <lastmod>2011-06-17T00:13:59+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E4%BA%BA%E7%94%9F%E4%BA%94%E5%8D%81%E5%B9%B4%E5%A6%82%E6%A2%A6%E5%8F%88%E4%BC%BC%E5%B9%BB%E6%9C%89%E7%94%9F%E6%96%B9%E6%9C%89%E6%AD%BB%E5%A3%AE%E5%A3%AB%E4%BD%95%E6%89%80/</loc>
+    <loc>http://localhost:1313/posts/%E4%BA%BA%E7%94%9F%E4%BA%94%E5%8D%81%E5%B9%B4%E5%A6%82%E6%A2%A6%E5%8F%88%E4%BC%BC%E5%B9%BB%E6%9C%89%E7%94%9F%E6%96%B9%E6%9C%89%E6%AD%BB%E5%A3%AE%E5%A3%AB%E4%BD%95%E6%89%80/</loc>
     <lastmod>2011-06-12T15:23:47+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/hello-world-2/</loc>
+    <loc>http://localhost:1313/posts/hello-world-2/</loc>
     <lastmod>2011-06-04T09:18:10+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</loc>
+    <loc>http://localhost:1313/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</loc>
     <lastmod>2011-03-21T15:23:58+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</loc>
+    <loc>http://localhost:1313/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</loc>
     <lastmod>2011-03-20T09:13:37+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/categories/os/</loc>
+    <loc>http://localhost:1313/categories/os/</loc>
     <lastmod>2011-03-20T09:13:37+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</loc>
+    <loc>http://localhost:1313/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2011-03-15T16:25:40+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/nssa/</loc>
+    <loc>http://localhost:1313/posts/nssa/</loc>
     <lastmod>2011-03-15T15:49:39+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/tags/nssa/</loc>
+    <loc>http://localhost:1313/tags/nssa/</loc>
     <lastmod>2011-03-15T15:49:39+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/tags/donge.org/</loc>
+    <loc>http://localhost:1313/tags/donge.org/</loc>
     <lastmod>2011-03-13T15:46:34+00:00</lastmod>
   </url><url>
-    <loc>https://donge.org/posts/%E5%8D%9A%E5%AE%A2%E5%8F%88%E9%87%8D%E6%96%B0%E5%BC%80%E5%BC%A0%E4%BA%86%E5%93%88%E5%93%88/</loc>
+    <loc>http://localhost:1313/posts/%E5%8D%9A%E5%AE%A2%E5%8F%88%E9%87%8D%E6%96%B0%E5%BC%80%E5%BC%A0%E4%BA%86%E5%93%88%E5%93%88/</loc>
     <lastmod>2011-03-13T15:46:34+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/2025-gguf/</loc>
   </url>
 </urlset>

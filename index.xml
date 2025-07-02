@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>东冬の乱记</title>
-    <link>https://donge.org/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on 东冬の乱记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 02 Jul 2025 01:00:00 +0800</lastBuildDate><atom:link href="https://donge.org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 02 Jul 2025 01:00:00 +0800</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>从GGUF到TensorRT：一文读懂AI模型文件的江湖</title>
-      <link>https://donge.org/posts/2025-module-format/</link>
+      <link>http://localhost:1313/posts/2025-module-format/</link>
       <pubDate>Wed, 02 Jul 2025 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/2025-module-format/</guid>
+      <guid>http://localhost:1313/posts/2025-module-format/</guid>
       
         <description>在人工智能的世界里，我们每天都在与“模型”打交道。但模型并非虚无缥缈，它最终以文件的形式存在于我们的硬盘上。当你从Hugging Face下载一个模型，或者准备将训练好的成果部署到生产环境时，你会遇到.gguf, .onnx, .pb, .pt, .safetensors 等五花八门的扩展名。
 这些文件格式究竟有何不同？为什么有些适合在你的MacBook上本地运行，有些则是云端大规模部署的利器？选择正确的模型格式，对于模型的性能、可移植性和开发效率至关重要。
@@ -33,11 +33,32 @@
     </item>
     
     <item>
+      <title>深度解析GGUF：为高效推理而生的终极格式</title>
+      <link>http://localhost:1313/posts/2025-gguf/</link>
+      <pubDate>Wed, 02 Jul 2025 01:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2025-gguf/</guid>
+      
+        <description>GGUF (Georgi Gerganov Universal Format) 的核心设计哲学可以概括为：“一个文件，包含运行一个大语言模型所需的一切，并为快速、低内存加载而极致优化”。
+想象一下，它就像一个为AI模型量身定做的智能“压缩包”，里面不仅有数据，还有一份详细的“说明书”和“组装图”，让推理程序（如 llama.cpp）能够以最高效的方式快速读取和使用它。
+下面，我们按照文件从头到尾的顺序，逐字节地拆解其内部结构。
+一、 GGUF 的文件结构：四段式设计 一个GGUF文件由四个连续的部分组成：
+文件头 (Header): 文件的身份标识和“目录”。 元数据 (Metadata): 模型的“说明书”，记录了架构、分词器等一切信息。 张量信息 (Tensor Info): 模型权重的“索引”，描述了每个权重块的尺寸、类型和位置。 张量数据 (Tensor Data): 模型真正的“大脑”，即所有权重的二进制数据。 让我们逐一深入。
+1. 文件头 (gguf_header) 这是文件最开始的一小段固定结构，它告诉解析器关于这个文件的基本信息。
+字段 类型 描述 magic uint32_t 魔数。固定为 0x46554747，即ASCII码中的 &amp;ldquo;GGUF&amp;rdquo;。程序读取文件前4个字节，如果不是这个值，就说明它不是一个有效的GGUF文件。 version uint32_t 版本号。GGUF格式本身也会迭代。版本号让解析器知道如何正确处理后续内容。例如，V2版本可能比V1支持了新的元数据类型。 tensor_count uint64_t 张量数量。文件中包含多少个独立的权重张量。解析器根据这个数字来读取后续的“张量信息”部分。 metadata_kv_count uint64_t 元数据键值对数量。文件中包含多少条元数据。解析器根据这个数字来读取“元数据”部分。 这个文件头非常简洁，提供了最关键的引导信息，让解析器可以立刻知道接下来要循环读取多少次元数据和张量信息。
+2. 元数据 (metadata_kv) - GGUF 的灵魂 这是GGUF格式最具扩展性和信息量的部分。它是一个键值对（Key-Value）列表，存储了关于模型的一切非权重信息。
+结构
+它由 metadata_kv_count 个键值对连续排列而成。每个键值对的结构是：
+Key (键): 一个字符串，用于描述信息的名称。 命名约定: 采用点分法 . 来创建有层次的命名空间，例如 llama.context_length 和 tokenizer.</description>
+      
+    </item>
+    
+    <item>
       <title>《模型大学的文理之争》——DeepSeek R1与GPT-4o的成长日记</title>
-      <link>https://donge.org/posts/deepseek/</link>
+      <link>http://localhost:1313/posts/deepseek/</link>
       <pubDate>Fri, 07 Feb 2025 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/deepseek/</guid>
+      <guid>http://localhost:1313/posts/deepseek/</guid>
       
         <description>第一章：入学考试（基座模型差异） 术语辞典
 基座模型 = 大学新生基础素质 MoE架构 = 专家混合学院 🧪 理科生R1手持&amp;quot;DeepSeek V3&amp;quot;录取通知书踏入MoE架构的智慧殿堂。这里的教学方式宛如专家会诊——遇到数学难题时调用「数理教授」子网络，编程挑战时唤醒「代码专家」模块。这种稀疏激活机制就像选择性使用大脑区域，既保证多任务处理能力，又节省认知能耗。
@@ -60,10 +81,10 @@ token消耗 = 工作能耗 🔬 R1在数学研究所面试时，现场推导出�
     
     <item>
       <title>基于Transformer异常序列实时检测</title>
-      <link>https://donge.org/posts/2024-api-transformer/</link>
+      <link>http://localhost:1313/posts/2024-api-transformer/</link>
       <pubDate>Sun, 18 Aug 2024 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/2024-api-transformer/</guid>
+      <guid>http://localhost:1313/posts/2024-api-transformer/</guid>
       
         <description>最近在Transformer-based场景下的异常检测读了一些论文，但目前这个领域还没看到特别工程化的内容，这是其中一篇比较新的。
 Few-Shot API Attack Detection - Overcoming DataScarcity with GAN-Inspired Learning https://arxiv.org/pdf/2405.11258
@@ -78,10 +99,10 @@ Few-Shot API Attack Detection - Overcoming DataScarcity with GAN-Inspired Learni
     
     <item>
       <title>Rust为什么快？</title>
-      <link>https://donge.org/posts/2024-why-rust-fast/</link>
+      <link>http://localhost:1313/posts/2024-why-rust-fast/</link>
       <pubDate>Tue, 04 Jun 2024 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/2024-why-rust-fast/</guid>
+      <guid>http://localhost:1313/posts/2024-why-rust-fast/</guid>
       
         <description>快在哪里? Rust很擅长JSON处理，serdes，各种RPC格式转换，正则表达式匹配处理，语法意义处理，parser。 基本没有对手，而在其他场景，大家相差不大。这是为什么？
 我猜想这绝对是Rust独特内存特性造成的。以上场景处理上需要对内存做比较零散的操作，比如一个消息块的大小，然后解析处理，完成后再处理下一块，只对处理中间状态有保持，无需一直持有所以消息在内存。
@@ -96,10 +117,10 @@ io密集下的快，语言的调度，并发，事件机制，锁机制重要，
     
     <item>
       <title>反架构</title>
-      <link>https://donge.org/posts/anti-arch/</link>
+      <link>http://localhost:1313/posts/anti-arch/</link>
       <pubDate>Mon, 02 Aug 2021 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/anti-arch/</guid>
+      <guid>http://localhost:1313/posts/anti-arch/</guid>
       
         <description>软件架构可以说是软件开发的“政治正确”，不谈“高大上”的架构，不但得不到客户的信任，也无法在团队中获得话语权，今天就来“反”一下。
 架构设计本身就是个抽象过程，不但包含实践的方法和过程，还有抽象的理论和总结。而这个过程表象很容易掩盖本质，有时还可能是陷阱或骗局。
@@ -125,10 +146,10 @@ io密集下的快，语言的调度，并发，事件机制，锁机制重要，
     
     <item>
       <title>大数据(2)-数据处理-格式</title>
-      <link>https://donge.org/posts/bigdata-2-format/</link>
+      <link>http://localhost:1313/posts/bigdata-2-format/</link>
       <pubDate>Mon, 12 Jul 2021 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/bigdata-2-format/</guid>
+      <guid>http://localhost:1313/posts/bigdata-2-format/</guid>
       
         <description>数据的输入的原始存储格式，和内存中的组织形式，是决定数据处理性能的关键。
 格式的场景 所以大数据中很多技术是关于格式的，或新或老的一些技术，比如
@@ -159,10 +180,10 @@ Polars是基于Apache Arrow是目前一个面向计算的内存格式的项目�
     
     <item>
       <title>大数据(1)-流式处理-状态</title>
-      <link>https://donge.org/posts/bigdata-1-state/</link>
+      <link>http://localhost:1313/posts/bigdata-1-state/</link>
       <pubDate>Wed, 23 Jun 2021 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/bigdata-1-state/</guid>
+      <guid>http://localhost:1313/posts/bigdata-1-state/</guid>
       
         <description>转行搞了三年大数据，计划写些的东西，对这个方向总结一下，包括架构，工具，格式，库等等。
 最近准备造轮子，就先从一些目前最常见的流式数据处理手段开始。
@@ -196,10 +217,10 @@ Flink State https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/de
     
     <item>
       <title>2021网络系统流行架构</title>
-      <link>https://donge.org/posts/2021_network_arch/</link>
+      <link>http://localhost:1313/posts/2021_network_arch/</link>
       <pubDate>Mon, 08 Mar 2021 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/2021_network_arch/</guid>
+      <guid>http://localhost:1313/posts/2021_network_arch/</guid>
       
         <description>2021年了，看看网络系统的流行架构。
 系统的质量属性要满足客户需求，所以架构的第一出发点也是需求。
@@ -241,10 +262,10 @@ https://github.com/zoidbergwill/awesome-ebpf</description>
     
     <item>
       <title>爬虫的钳形攻势</title>
-      <link>https://donge.org/posts/anti-bot/</link>
+      <link>http://localhost:1313/posts/anti-bot/</link>
       <pubDate>Sat, 16 Jan 2021 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/anti-bot/</guid>
+      <guid>http://localhost:1313/posts/anti-bot/</guid>
       
         <description>爬虫的起源 先科普一下，这里说的“爬虫”是指网络爬虫，起源于互联网早期的搜索引擎。为了自动完成网页信息收集的工作被创造出来。
 爬虫诞生后，虽然看起来非主流，却实质上是互联网应用最重要技术之一。除了我们熟知的谷歌，百度爬虫这些老牌，新起之秀今日头条，点评美团，去哪儿，58等等互联网巨头都是以爬虫为基础搭建的信息聚合平台，同时也拥有经验丰富的爬虫团队。
@@ -275,10 +296,10 @@ dongdong@servicewall.ai</description>
     
     <item>
       <title>Envoy VS Traefik</title>
-      <link>https://donge.org/posts/envoy-vs-traefik/</link>
+      <link>http://localhost:1313/posts/envoy-vs-traefik/</link>
       <pubDate>Fri, 06 Nov 2020 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/envoy-vs-traefik/</guid>
+      <guid>http://localhost:1313/posts/envoy-vs-traefik/</guid>
       
         <description>云原生场景，产生了很多的Edge Router，Load balance，API Gate Way，Proxy等组件。
 最近研究了一下，分享几个喜欢的项目，它们大致分为两类：
@@ -310,10 +331,10 @@ gRPC：都支持。 状态：虽说Proxy无状态的，但状态是我的特殊�
     
     <item>
       <title>软件的生死</title>
-      <link>https://donge.org/posts/death-of-software/</link>
+      <link>http://localhost:1313/posts/death-of-software/</link>
       <pubDate>Thu, 03 Sep 2020 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/death-of-software/</guid>
+      <guid>http://localhost:1313/posts/death-of-software/</guid>
       
         <description>软件是有生命的，最终走向EOL。
 那如何定义软件的“衰老”呢？ 是功能不够用，满足不了需求？还是功能太多，架构太复杂，无法维护呢？
@@ -343,10 +364,10 @@ gRPC：都支持。 状态：虽说Proxy无状态的，但状态是我的特殊�
     
     <item>
       <title>下下下一代防火墙关键技术漫谈</title>
-      <link>https://donge.org/posts/nnngfirewall/</link>
+      <link>http://localhost:1313/posts/nnngfirewall/</link>
       <pubDate>Thu, 20 Aug 2020 16:31:11 +0800</pubDate>
       
-      <guid>https://donge.org/posts/nnngfirewall/</guid>
+      <guid>http://localhost:1313/posts/nnngfirewall/</guid>
       
         <description>防火墙到底几代了？ Siri：“抱歉，很难回答你的问题”。
 防火墙虽然是个网络设备，但其功能不需要与其他防火墙之间互联互通，所以没有“互联”标准化的诞生。
@@ -399,10 +420,10 @@ https://ci.apache.org/projects/flink/flink-docs-stable/dev/libs/cep.html
     
     <item>
       <title>Servicewall是“疫苗”公司？NO</title>
-      <link>https://donge.org/posts/servicewall/</link>
+      <link>http://localhost:1313/posts/servicewall/</link>
       <pubDate>Wed, 05 Aug 2020 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/servicewall/</guid>
+      <guid>http://localhost:1313/posts/servicewall/</guid>
       
         <description>Servicewall是家什么公司？ 公司成立于2018年5月，并获得了由北极光等著名VC联合投资，公司创始团队由来自美国 Netscreen、American Express 等知名企业的专家组成。Servicewall结合设备指纹，数据加密，大数据，人工智能等技术致力于为中国客户提供专业化的在线反欺诈服务。
 解决什么问题？ 从需求角度就是解决这个决策树上的问题，把业务风险识别出来，并提供有效的消除方案。
@@ -432,10 +453,10 @@ https://ci.apache.org/projects/flink/flink-docs-stable/dev/libs/cep.html
     
     <item>
       <title>关于规则引擎的思考(3)</title>
-      <link>https://donge.org/posts/rule-engine-3/</link>
+      <link>http://localhost:1313/posts/rule-engine-3/</link>
       <pubDate>Wed, 29 Jul 2020 01:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/rule-engine-3/</guid>
+      <guid>http://localhost:1313/posts/rule-engine-3/</guid>
       
         <description>做一个安全风控的引擎，用规则配置，需要能够自反馈。所以也不是一个简单的规则引擎。
 也就是实时引擎 + 离线引擎两个部分。或者说是 数据平面 + 控制平面也行。
@@ -457,10 +478,10 @@ https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.ht
     
     <item>
       <title>关于规则引擎的思考(2)</title>
-      <link>https://donge.org/posts/rule-engine-2/</link>
+      <link>http://localhost:1313/posts/rule-engine-2/</link>
       <pubDate>Wed, 29 Jul 2020 00:00:00 +0800</pubDate>
       
-      <guid>https://donge.org/posts/rule-engine-2/</guid>
+      <guid>http://localhost:1313/posts/rule-engine-2/</guid>
       
         <description>规则 &amp;amp; 引擎 规则引擎字面隐含的需求：
 规则：简单人能读懂的条件
@@ -478,10 +499,10 @@ router#show access-list Extended IP access list test permit ip host 2.2.2.2 host
     
     <item>
       <title>关于规则引擎的思考(1)</title>
-      <link>https://donge.org/posts/rule-engine-1/</link>
+      <link>http://localhost:1313/posts/rule-engine-1/</link>
       <pubDate>Thu, 23 Jul 2020 16:31:11 +0800</pubDate>
       
-      <guid>https://donge.org/posts/rule-engine-1/</guid>
+      <guid>http://localhost:1313/posts/rule-engine-1/</guid>
       
         <description>规则引擎是什么？ 先看一类文章，为什么要用规则引擎
 https://www.cnblogs.com/rjzheng/p/10996186.html https://www.jianshu.com/p/9b67ab434795
@@ -512,10 +533,10 @@ TOML/YAML：连规则都算不上，DSL配置吧。
     
     <item>
       <title>Hugo 分割线</title>
-      <link>https://donge.org/posts/hello-world-3/</link>
+      <link>http://localhost:1313/posts/hello-world-3/</link>
       <pubDate>Thu, 23 Jul 2020 15:48:11 +0800</pubDate>
       
-      <guid>https://donge.org/posts/hello-world-3/</guid>
+      <guid>http://localhost:1313/posts/hello-world-3/</guid>
       
         <description>Hugo &amp;lt;- Hexo3 &amp;lt;- Hexo2 &amp;lt;- WordPress &amp;lt;- Micolog GAE</description>
       
@@ -523,10 +544,10 @@ TOML/YAML：连规则都算不上，DSL配置吧。
     
     <item>
       <title>简易Bitcoin自动交易框架 - XIAOSHAOZI</title>
-      <link>https://donge.org/posts/xiaoshaozi/</link>
+      <link>http://localhost:1313/posts/xiaoshaozi/</link>
       <pubDate>Mon, 07 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/xiaoshaozi/</guid>
+      <guid>http://localhost:1313/posts/xiaoshaozi/</guid>
       
         <description>这个简单的程序是我去年初写的，那时Bitcoin刚开始流行，Golang也刚刚开始流行。一方面为了学习一下量化交易是否真的可以赚钱，另外也练习一下用Golang写点能运行的东西。
 那为什么现在拿出来？这周五去车库咖啡参加了一个量化交易平台Startup举办的讲座，当然是半广告性质的。创始人最初的想法也是来自于Bitcoin，当然做的东西嘛，我也没觉得太好(当然至少比我的强)。另外最近Bitcoin涨势也不错，估计也有人感兴趣。当然还有就是去年因为硬盘意外，这些没来得及保存的代码今天才从我的生产机上弄下来，也不是最新版本了。
@@ -538,10 +559,10 @@ GitHub: https://github.com/donge/xiaoshaozi</description>
     
     <item>
       <title>恢复了博客</title>
-      <link>https://donge.org/posts/hello-world/</link>
+      <link>http://localhost:1313/posts/hello-world/</link>
       <pubDate>Tue, 14 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/hello-world/</guid>
+      <guid>http://localhost:1313/posts/hello-world/</guid>
       
         <description>自从去年因为安装黑苹果导致全硬盘格式化，整个人都不好了。很久没coding，也没有写博客。 因为很多数据没有了，也恢复不了，一度放弃。最近鼓起勇气用html2markdown恢复了所有的文章，也趁机更新到Hexo 3.0。 这段时间发生的很多事情也没有记录下来，希望再次开始能继续过去的热情，不断提升，加油。</description>
       
@@ -549,10 +570,10 @@ GitHub: https://github.com/donge/xiaoshaozi</description>
     
     <item>
       <title>程序员复仇记</title>
-      <link>https://donge.org/posts/revenge/</link>
+      <link>http://localhost:1313/posts/revenge/</link>
       <pubDate>Wed, 20 Aug 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/revenge/</guid>
+      <guid>http://localhost:1313/posts/revenge/</guid>
       
         <description>故事开始前，先声明一下，此文不是技术文，前端猿勿鄙视之。
 故事是这样开始的…
@@ -590,10 +611,10 @@ Bingo，页面可以打开了。
     
     <item>
       <title>周年记</title>
-      <link>https://donge.org/posts/anniversary/</link>
+      <link>http://localhost:1313/posts/anniversary/</link>
       <pubDate>Tue, 29 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/anniversary/</guid>
+      <guid>http://localhost:1313/posts/anniversary/</guid>
       
         <description>两个多月没码字了，在写作这个事情上，我算得上是个懒人。或者是没有灵感的人，感觉灵感是一种冲动，我每每想写点什么的时候，都是看到了或想到了不好的东西。嘴里骂不出来，想给丫写上一笔，说白了还是愤青型，对事的，对人的。但等我有时间写的时候，想想这样多不好，胸襟狭小，不符合我的气质，还是算了吧。不过我回看我的微博评论，感觉也还不那么阳光。
 不过估计人的个性如此，也许很难改了（又找借口了）。这周是我在J工作一年整的日子，我想说说这一年的变化，为自己总结，也为宣泄一点情感。
@@ -613,10 +634,10 @@ P.S.自己又读了一遍，相当不通顺，没写多少，错别字多，病�
     
     <item>
       <title>量化交易初感悟</title>
-      <link>https://donge.org/posts/quant-first-feeling/</link>
+      <link>http://localhost:1313/posts/quant-first-feeling/</link>
       <pubDate>Sun, 16 Feb 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/quant-first-feeling/</guid>
+      <guid>http://localhost:1313/posts/quant-first-feeling/</guid>
       
         <description>量化交易，也称算法交易或自动交易等等，就是利用数值分析，概率统计，通过计算机建模，自动完成交易。Wiki 我是一个程序员，又是一个投资爱好者，当遇到Bitcoin时，我意识它给我提供了一个了解和实践量化交易的机会。 自己摸索了一段时间，有一些不成熟的感悟，希望如果有大牛看到，务必提点一下。
 友情提示: 投资有风险，量化也有风险，Bitcoin风险更大，本文不形成任何投资建议
@@ -631,10 +652,10 @@ P.S.自己又读了一遍，相当不通顺，没写多少，错别字多，病�
     
     <item>
       <title>马年，码农的年</title>
-      <link>https://donge.org/posts/front-end-year/</link>
+      <link>http://localhost:1313/posts/front-end-year/</link>
       <pubDate>Sun, 09 Feb 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/front-end-year/</guid>
+      <guid>http://localhost:1313/posts/front-end-year/</guid>
       
         <description>长假真的很短，这就过完了，Golang也没怎么写，即将接手的工作也丢到脑后。 吃吃喝喝，晃晃忽忽…结果就做前端页面花了点时间，也做得很糙。 想成为full stack hacker不易啊，先做一个copyer吧：）
 Bitcoin Slides 为了准备下一次的Free Talk，尝试了一下T神推荐的reveal.js来做slides。 But草稿起得好丑啊…完全没有美感… 作为Bitcoin的脑残粉，鼓吹Bitcoin是天职，写了一个介绍Bitcoin的slides。 Bitcoin Briefly
@@ -647,10 +668,10 @@ Bitcoin Robot 把Bitcoin Robot原型又稍微改善了一下，用web.go加了�
     
     <item>
       <title>扒了一个Timeline的简历</title>
-      <link>https://donge.org/posts/update-about-me/</link>
+      <link>http://localhost:1313/posts/update-about-me/</link>
       <pubDate>Sun, 26 Jan 2014 23:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/update-about-me/</guid>
+      <guid>http://localhost:1313/posts/update-about-me/</guid>
       
         <description>这周有点忙碌，没有更新博客，盗版了一个全英文的个人简历让大家感受一下&amp;hellip;
 猛击这里，内有福利，如有雷同，纯属抄袭</description>
@@ -659,10 +680,10 @@ Bitcoin Robot 把Bitcoin Robot原型又稍微改善了一下，用web.go加了�
     
     <item>
       <title>Go是一门和谐的语言</title>
-      <link>https://donge.org/posts/hello-golang/</link>
+      <link>http://localhost:1313/posts/hello-golang/</link>
       <pubDate>Sun, 12 Jan 2014 21:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/hello-golang/</guid>
+      <guid>http://localhost:1313/posts/hello-golang/</guid>
       
         <description>这周T神问我了一个问题，如果用Golang开发防火墙设备软件，你会有什么担心？ 我无脑便答没什么可担心的，其实这个问题我自己问过自己，并在我的“无脑”中简单推导过几次。Go可以用在哪里？
 于是我按直觉上大致再捋了一下，软件粗分为两种：系统软件，应用软件。
@@ -681,10 +702,10 @@ P.S. 关于这丑陋的贴图 是这周我的Bitcoin自动交易机器人(绰号
     
     <item>
       <title>2014你来了，我在哪里？</title>
-      <link>https://donge.org/posts/2014-new-year/</link>
+      <link>http://localhost:1313/posts/2014-new-year/</link>
       <pubDate>Wed, 01 Jan 2014 22:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/2014-new-year/</guid>
+      <guid>http://localhost:1313/posts/2014-new-year/</guid>
       
         <description>新年来了，大家快乐：） 回顾2013 一. 圆了勺子出国旅游的心愿，去了泰国，很棒。我又因公去印度一次，英语还是不行。 二. 终于迈出了勇敢的一步，或者说是胆小的一步。怕猝死，离开了华为，一波三折。 三. 开始学习理财，今年收益3%左右，比较挫。开始关注比特币，变成了脑残粉，参加了几次小会。心得：远离中国股市。 四. 新的工作环境很好，压力不大，这里遇到一位牛人，令人钦佩。跟他学习了很多互联网开发的东西，很兴奋。 五. 身体健康程度有好转，但有发福趋势，锻炼还没跟上。没读书，是个文盲。
 展望2014 一. 计划至少出国旅游两次，已定清明去马来。下半年去越南，韩国，或者港台。 二. 工作上继续保持，争取全面了解防火墙，成为一个合格的路由器，交换机，防火墙三栖研发工程师。 三. 做对冲理财，90%保守，10%激进。跟进虚拟货币系统的发展，建立稍微像样的自动交易系统。目标收益10%。 四. 学习一门新语言Go，用Go写一个Web项目。争取让别人觉得你会C/C++, Python, Go。顺便了解nodejs, erlang。 五. 体重保持130以内，锻炼超过2013。争取读上两本书，多和朋友交流，多写博客，让自己看起来有点文化，不呆板。
@@ -696,10 +717,10 @@ requests是人性的http库，Web开发，杀人越货必备。 http://docs.pyth
     
     <item>
       <title>IT英雄榜</title>
-      <link>https://donge.org/posts/it-hero/</link>
+      <link>http://localhost:1313/posts/it-hero/</link>
       <pubDate>Tue, 24 Dec 2013 23:00:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/it-hero/</guid>
+      <guid>http://localhost:1313/posts/it-hero/</guid>
       
         <description>搞IT的人总有一个很坏的毛病，就是觉得自己牛逼，别人傻蛋。 今天突然冒出一个想法，我很想知道中国最顶尖的程序员到底什么水平，搞一个程序员排行榜如何呢？ 但实际上是IT行业是一个很细节的行业，很难说谁比谁的技艺更高。所以想分出个第一第二，那真的是开玩笑。 但确实有这样一群人，他们在自己的领域登封造级，或练就一身绝学，或威名远播，那我就随便点评一下我知道的武林高手们。
 天下武功无快不破 - 楼天城 ID: ACRush 生年: 1986年 清华博，人送“教主”，玩过算法竞赛的人无人不知他的大名。从全国奥赛开始，到ACM/ICPC，Topcoder，Baidu Astar等等比赛斩获无数奖项。之前那篇博客中描写的“10分钟800行，无错编译，一次通过”就是关于他的传说。我上大学那年北大ACM站的AC数量排行第一的就是他，无疑现实了他ID的王者风范，ACRush！
@@ -716,10 +737,10 @@ TBD - YOU 当然，这个名单是不固定的，因为还有很多我一时记�
     
     <item>
       <title>我为什么放弃治疗？</title>
-      <link>https://donge.org/posts/left-huawei/</link>
+      <link>http://localhost:1313/posts/left-huawei/</link>
       <pubDate>Sun, 15 Dec 2013 17:58:45 +0000</pubDate>
       
-      <guid>https://donge.org/posts/left-huawei/</guid>
+      <guid>http://localhost:1313/posts/left-huawei/</guid>
       
         <description>从下定决心离开华为的那天到今天，刚好一年整。 现在知乎上流行晒“我为什么从XX离职”的话题，很有意思，不如我也说两句。
 http://www.zhihu.com/question/22038145 Q: 你为什么从豆瓣离职？ A: 作为一个程序员，从来不加班，让我觉得很空虚
@@ -743,10 +764,10 @@ p.s. 附离职绝笔, 你们感受一下: 从2006年的邮件开始回忆你们&
     
     <item>
       <title>[转] 史上最经典的Linux内核学习方法论</title>
-      <link>https://donge.org/posts/%E8%BD%AC-%E5%8F%B2%E4%B8%8A%E6%9C%80%E7%BB%8F%E5%85%B8%E7%9A%84linux%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/</link>
+      <link>http://localhost:1313/posts/%E8%BD%AC-%E5%8F%B2%E4%B8%8A%E6%9C%80%E7%BB%8F%E5%85%B8%E7%9A%84linux%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/</link>
       <pubDate>Mon, 07 Jan 2013 15:07:55 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E8%BD%AC-%E5%8F%B2%E4%B8%8A%E6%9C%80%E7%BB%8F%E5%85%B8%E7%9A%84linux%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/</guid>
+      <guid>http://localhost:1313/posts/%E8%BD%AC-%E5%8F%B2%E4%B8%8A%E6%9C%80%E7%BB%8F%E5%85%B8%E7%9A%84linux%E5%86%85%E6%A0%B8%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/</guid>
       
         <description>待到山花烂漫时，还是那些经典在微笑。
 有关内核的书籍可以用汗牛充栋来形容，不过只有一些经典的神作经住了考验。首先是5本久经考验的神作(个人概括为“2+1+2”，第一个2是指2本全面讲 解内核的书，中间的1指1本讲解驱动开发的书，后面的2则指2本有关内核具体子系统的书，你是否想到了某某广告里三个人突然站起单臂齐举高呼“1比1 比 1”的场景?)。
@@ -776,10 +797,10 @@ Linux最大的一个优势就是它有一个紧密团结了众多使用者和开
     
     <item>
       <title>用GitHub开始整理过去十几年Hack过的代码</title>
-      <link>https://donge.org/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
+      <link>http://localhost:1313/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</link>
       <pubDate>Sun, 16 Sep 2012 14:02:38 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
+      <guid>http://localhost:1313/posts/%E7%94%A8github%E5%BC%80%E5%A7%8B%E6%95%B4%E7%90%86%E8%BF%87%E5%8E%BB%E5%8D%81%E5%87%A0%E5%B9%B4hack%E8%BF%87%E7%9A%84%E4%BB%A3%E7%A0%81/</guid>
       
         <description>周末终于可以休息和有一点自己的时间，用GitHub来给自己整理一个Code回忆录。
 从上初中开始到现在16年，除了学校交作业，上班工作写的代码，还写过或者更多是改过无数的代码，各种语言，各种网站，各种创意，回头看看很是有趣。
@@ -790,10 +811,10 @@ https://github.com/donge/donge.git</description>
     
     <item>
       <title>FW：LinkedIn用一幅图告诉你：工程师最想去的10家硅谷创业公司</title>
-      <link>https://donge.org/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</link>
+      <link>http://localhost:1313/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</link>
       <pubDate>Sun, 09 Sep 2012 06:41:59 +0000</pubDate>
       
-      <guid>https://donge.org/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</guid>
+      <guid>http://localhost:1313/posts/fwlinkedin%E7%94%A8%E4%B8%80%E5%B9%85%E5%9B%BE%E5%91%8A%E8%AF%89%E4%BD%A0%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%9C%80%E6%83%B3%E5%8E%BB%E7%9A%8410%E5%AE%B6%E7%A1%85%E8%B0%B7%E5%88%9B/</guid>
       
         <description>donge: 最近很是迷茫，没有方向，来看看湾区工程师们的方向吧，哈哈~~明了了吧。
 旧金山湾区，包括整个硅谷，到处都是天才级别的软件工程师。但即使如此，对于创业公司来说，能否吸引最好的工程师仍然是企业成败关键的因素之一。而最火爆最有前景的创业公司，往往也就能吸引最多天才工程师的加入。
@@ -805,10 +826,10 @@ https://github.com/donge/donge.git</description>
     
     <item>
       <title>开始使用移动客户端WordPress</title>
-      <link>https://donge.org/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</link>
+      <link>http://localhost:1313/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</link>
       <pubDate>Sun, 26 Aug 2012 01:38:02 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</guid>
+      <guid>http://localhost:1313/posts/%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8%E7%A7%BB%E5%8A%A8%E5%AE%A2%E6%88%B7%E7%AB%AFwordpress/</guid>
       
         <description>这篇是用android app推送的blog。 使用xml-rpc的协议与http交互，不过估计和netconf类似，这种多用户接口的安全性是不太让人放心的。希望不会被黑第三次。</description>
       
@@ -816,10 +837,10 @@ https://github.com/donge/donge.git</description>
     
     <item>
       <title>无人关注的，纯洁的，正经的个人博客也被黑了！</title>
-      <link>https://donge.org/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</link>
+      <link>http://localhost:1313/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</link>
       <pubDate>Sun, 19 Feb 2012 19:41:53 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</guid>
+      <guid>http://localhost:1313/posts/%E6%97%A0%E4%BA%BA%E5%85%B3%E6%B3%A8%E7%9A%84%E7%BA%AF%E6%B4%81%E7%9A%84%E6%AD%A3%E7%BB%8F%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B9%9F%E8%A2%AB%E9%BB%91%E4%BA%86/</guid>
       
         <description>我的博客被黑客黑了，看样子是阿拉伯国家的友人，在无聊的日子里为大家带来了一丝欢乐~~
 阿拉伯的兄弟真是闲的蛋疼啊，几百年也不写一次的博客，你也能攻击。
@@ -833,10 +854,10 @@ to 点点：开复投的项目，我还是很热衷的用户，绑定后帮你�
     
     <item>
       <title>FW: 为程序员量身定制的12个目标</title>
-      <link>https://donge.org/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</link>
+      <link>http://localhost:1313/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</link>
       <pubDate>Sun, 15 Jan 2012 22:14:54 +0000</pubDate>
       
-      <guid>https://donge.org/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</guid>
+      <guid>http://localhost:1313/posts/fw-%E4%B8%BA%E7%A8%8B%E5%BA%8F%E5%91%98%E9%87%8F%E8%BA%AB%E5%AE%9A%E5%88%B6%E7%9A%8412%E4%B8%AA%E7%9B%AE%E6%A0%87/</guid>
       
         <description>对程序员们来说挑战自我非常重要，要么不断创新，要么技术停滞不前。新年伊始，我整理了12个月的目标，每个目标都是对技术或个人能力的挑战，而且可以年复一年循环使用。
 01. 变得有耐心
@@ -892,10 +913,10 @@ Racket、 Haskell、Scala、Erlang、Clojure、SML/NJOCaml、Squeak、Prolog、
     
     <item>
       <title>FW: 为什么程序员的社会地位不高？</title>
-      <link>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</link>
+      <link>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</link>
       <pubDate>Mon, 02 Jan 2012 10:40:26 +0000</pubDate>
       
-      <guid>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</guid>
+      <guid>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%9C%B0%E4%BD%8D%E4%B8%8D%E9%AB%98/</guid>
       
         <description>新闻来源:oschina 到目前为止，在过去60年中在世界排名前20的国家中，没有哪条街是以程序员或者计算机科学家的名字命名的。没有任何一个世界主要城市拥有程序员或者计算机科学家的雕像。
 没有程序员或者计算机科学家获得过总统奖章（Presidential Medal）或者国会金质奖章（Congressional Gold Medal）。
@@ -928,10 +949,10 @@ Racket、 Haskell、Scala、Erlang、Clojure、SML/NJOCaml、Squeak、Prolog、
     
     <item>
       <title>我司有才的年会片，成研风云</title>
-      <link>https://donge.org/posts/%E6%88%91%E5%8F%B8%E6%9C%89%E6%89%8D%E7%9A%84%E5%B9%B4%E4%BC%9A%E7%89%87%E6%88%90%E7%A0%94%E9%A3%8E%E4%BA%91/</link>
+      <link>http://localhost:1313/posts/%E6%88%91%E5%8F%B8%E6%9C%89%E6%89%8D%E7%9A%84%E5%B9%B4%E4%BC%9A%E7%89%87%E6%88%90%E7%A0%94%E9%A3%8E%E4%BA%91/</link>
       <pubDate>Fri, 30 Dec 2011 22:30:36 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E6%88%91%E5%8F%B8%E6%9C%89%E6%89%8D%E7%9A%84%E5%B9%B4%E4%BC%9A%E7%89%87%E6%88%90%E7%A0%94%E9%A3%8E%E4%BA%91/</guid>
+      <guid>http://localhost:1313/posts/%E6%88%91%E5%8F%B8%E6%9C%89%E6%89%8D%E7%9A%84%E5%B9%B4%E4%BC%9A%E7%89%87%E6%88%90%E7%A0%94%E9%A3%8E%E4%BA%91/</guid>
       
         <description>很吊哦~~</description>
       
@@ -939,10 +960,10 @@ Racket、 Haskell、Scala、Erlang、Clojure、SML/NJOCaml、Squeak、Prolog、
     
     <item>
       <title>FW: 为什么项目经理拿的钱比程序员多？</title>
-      <link>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</link>
+      <link>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</link>
       <pubDate>Mon, 21 Nov 2011 22:21:35 +0000</pubDate>
       
-      <guid>https://donge.org/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</guid>
+      <guid>http://localhost:1313/posts/fw-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86%E6%8B%BF%E7%9A%84%E9%92%B1%E6%AF%94%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A4%9A/</guid>
       
         <description>新闻来源:开源中国 偶然在programmers.stackexchange.com上看到了这个有趣的问题，有人问：既然普遍认为编程是比较难的工作，为什么业务分析人员和项目经理们会拿比程序员更多的薪水？虽然大多数的时候程序员都被发现是最晚离开公司的人，可那些家伙的工作却能拿更多的报酬，为什么会这样?
 回答的人很多，但似乎只有一个是比较合情合理的，它是从经济学原理的角度分析的这个问题。
@@ -957,10 +978,10 @@ Racket、 Haskell、Scala、Erlang、Clojure、SML/NJOCaml、Squeak、Prolog、
     
     <item>
       <title>我结婚了</title>
-      <link>https://donge.org/posts/%E6%88%91%E7%BB%93%E5%A9%9A%E4%BA%86/</link>
+      <link>http://localhost:1313/posts/%E6%88%91%E7%BB%93%E5%A9%9A%E4%BA%86/</link>
       <pubDate>Sun, 23 Oct 2011 22:31:23 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E6%88%91%E7%BB%93%E5%A9%9A%E4%BA%86/</guid>
+      <guid>http://localhost:1313/posts/%E6%88%91%E7%BB%93%E5%A9%9A%E4%BA%86/</guid>
       
         <description>所有我认识的人和认识我的人，感谢你们在我的世界中出现。
 This is the moment, 我结婚了~
@@ -971,10 +992,10 @@ This is the moment, 我结婚了~
     
     <item>
       <title>Stay hungry, stay foolish.</title>
-      <link>https://donge.org/posts/stay-hungry-stay-foolish/</link>
+      <link>http://localhost:1313/posts/stay-hungry-stay-foolish/</link>
       <pubDate>Sun, 28 Aug 2011 22:18:14 +0000</pubDate>
       
-      <guid>https://donge.org/posts/stay-hungry-stay-foolish/</guid>
+      <guid>http://localhost:1313/posts/stay-hungry-stay-foolish/</guid>
       
         <description>Fllow your hearts.</description>
       
@@ -982,10 +1003,10 @@ This is the moment, 我结婚了~
     
     <item>
       <title>调整心态，做自己喜欢的</title>
-      <link>https://donge.org/posts/%E8%B0%83%E6%95%B4%E5%BF%83%E6%80%81%E5%81%9A%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AC%A2%E7%9A%84/</link>
+      <link>http://localhost:1313/posts/%E8%B0%83%E6%95%B4%E5%BF%83%E6%80%81%E5%81%9A%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AC%A2%E7%9A%84/</link>
       <pubDate>Sun, 28 Aug 2011 15:03:26 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E8%B0%83%E6%95%B4%E5%BF%83%E6%80%81%E5%81%9A%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AC%A2%E7%9A%84/</guid>
+      <guid>http://localhost:1313/posts/%E8%B0%83%E6%95%B4%E5%BF%83%E6%80%81%E5%81%9A%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AC%A2%E7%9A%84/</guid>
       
         <description>最近很忙，工作和生活都很忙，当然很多时间花在了工作上。但反省了一下，效果不好。工作上效果期待得太高，然而这并不是我应该追求的东西。应该做自己喜欢的东西，用自己的方式。不能因为环境恶劣而让自己的价值观随环境恶化。稳住~~
 ps: &amp;ldquo;认真你就输了&amp;rdquo;&amp;hellip;</description>
@@ -994,10 +1015,10 @@ ps: &amp;ldquo;认真你就输了&amp;rdquo;&amp;hellip;</description>
     
     <item>
       <title>赠送Google&#43;邀请，要的RE</title>
-      <link>https://donge.org/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</link>
+      <link>http://localhost:1313/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</link>
       <pubDate>Fri, 12 Aug 2011 22:41:45 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</guid>
+      <guid>http://localhost:1313/posts/%E8%B5%A0%E9%80%81google%E9%82%80%E8%AF%B7%E8%A6%81%E7%9A%84re/</guid>
       
         <description>想体验一下Google+的圈子，发现一个认识的人都没有。谁需要邀请，回复Email，先来先得：）</description>
       
@@ -1005,10 +1026,10 @@ ps: &amp;ldquo;认真你就输了&amp;rdquo;&amp;hellip;</description>
     
     <item>
       <title>红领巾</title>
-      <link>https://donge.org/posts/%E7%BA%A2%E9%A2%86%E5%B7%BE/</link>
+      <link>http://localhost:1313/posts/%E7%BA%A2%E9%A2%86%E5%B7%BE/</link>
       <pubDate>Wed, 03 Aug 2011 23:22:03 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E7%BA%A2%E9%A2%86%E5%B7%BE/</guid>
+      <guid>http://localhost:1313/posts/%E7%BA%A2%E9%A2%86%E5%B7%BE/</guid>
       
         <description>少先队员也是需要后台的。</description>
       
@@ -1016,10 +1037,10 @@ ps: &amp;ldquo;认真你就输了&amp;rdquo;&amp;hellip;</description>
     
     <item>
       <title>Tom猫的家在东北</title>
-      <link>https://donge.org/posts/tom%E7%8C%AB%E7%9A%84%E5%AE%B6%E5%9C%A8%E4%B8%9C%E5%8C%97/</link>
+      <link>http://localhost:1313/posts/tom%E7%8C%AB%E7%9A%84%E5%AE%B6%E5%9C%A8%E4%B8%9C%E5%8C%97/</link>
       <pubDate>Sat, 23 Jul 2011 17:16:23 +0000</pubDate>
       
-      <guid>https://donge.org/posts/tom%E7%8C%AB%E7%9A%84%E5%AE%B6%E5%9C%A8%E4%B8%9C%E5%8C%97/</guid>
+      <guid>http://localhost:1313/posts/tom%E7%8C%AB%E7%9A%84%E5%AE%B6%E5%9C%A8%E4%B8%9C%E5%8C%97/</guid>
       
         <description>有一种Tom猫来自东北~~</description>
       
@@ -1027,10 +1048,10 @@ ps: &amp;ldquo;认真你就输了&amp;rdquo;&amp;hellip;</description>
     
     <item>
       <title>精读TRILL协议</title>
-      <link>https://donge.org/posts/%E7%B2%BE%E8%AF%BBtrill%E5%8D%8F%E8%AE%AE/</link>
+      <link>http://localhost:1313/posts/%E7%B2%BE%E8%AF%BBtrill%E5%8D%8F%E8%AE%AE/</link>
       <pubDate>Tue, 19 Jul 2011 00:17:38 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E7%B2%BE%E8%AF%BBtrill%E5%8D%8F%E8%AE%AE/</guid>
+      <guid>http://localhost:1313/posts/%E7%B2%BE%E8%AF%BBtrill%E5%8D%8F%E8%AE%AE/</guid>
       
         <description>精读TRILL协议
 **4.4 TRILL-Hello协议 **http://donge.org/?page_id=9231
@@ -1040,10 +1061,10 @@ ps: &amp;ldquo;认真你就输了&amp;rdquo;&amp;hellip;</description>
     
     <item>
       <title>[亲笔]安装开源路由平台Quagga记</title>
-      <link>https://donge.org/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</link>
+      <link>http://localhost:1313/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</link>
       <pubDate>Sun, 19 Jun 2011 21:23:00 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</guid>
+      <guid>http://localhost:1313/posts/%E5%AE%89%E8%A3%85%E5%BC%80%E6%BA%90%E8%B7%AF%E7%94%B1%E5%B9%B3%E5%8F%B0quagga%E8%AE%B0/</guid>
       
         <description>周末闲来无聊，准备学习一下Linux知识，索性想起了开源的路由系统Quagga，Quagga是为数不多的开源路由系统，源自Zebra（Zebra是斑马，Quagga是野驴，猜想也是一路的），Zebra大家可能还有人用过，不过早在N年前就没人维护了，Quagga支持主流的路由协议包括RIP, OSPF, ISIS, BGP等等，支持TE，支持IPv6，对于学习路由完全足够了，命令行界面克隆Cisco。当前Quagga最新版本是0.99.18。可以前往http://www.quagga.net/获得。
 1. 安装编译运行系统 由于电脑是Windows，所以需要安装一个Linux编译环境，选择了DeepinLinux，一款国产优秀的面向桌面的Linux发行版，Ubuntu分支，轻量级界面还很漂亮。可以前往http://www.deepinlinux.com获得。由于平时无法脱离Windows，所以安装到虚拟机中，VMWare, VisualBox, WMLite随你选了，废话不说，这个过程略了。
@@ -1060,10 +1081,10 @@ Hello, this is Quagga (version 0.</description>
     
     <item>
       <title>[ZT]对下一代高端通信系统设计的七个展望</title>
-      <link>https://donge.org/posts/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B/</link>
+      <link>http://localhost:1313/posts/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B/</link>
       <pubDate>Fri, 17 Jun 2011 00:13:59 +0000</pubDate>
       
-      <guid>https://donge.org/posts/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B/</guid>
+      <guid>http://localhost:1313/posts/zt%E5%AF%B9%E4%B8%8B%E4%B8%80%E4%BB%A3%E9%AB%98%E7%AB%AF%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%95%E6%9C%9B/</guid>
       
         <description>转一篇陈首席的文章，慢慢理解一下~~
 高端通信系统设计从来就是一个困难的话题。一个优秀的系统设计往往决定了其竞争力和相应的生命周期。
@@ -1094,10 +1115,10 @@ Hello, this is Quagga (version 0.</description>
     
     <item>
       <title>人生五十年，如梦又似幻。有生方有死，壮士何所憾。</title>
-      <link>https://donge.org/posts/%E4%BA%BA%E7%94%9F%E4%BA%94%E5%8D%81%E5%B9%B4%E5%A6%82%E6%A2%A6%E5%8F%88%E4%BC%BC%E5%B9%BB%E6%9C%89%E7%94%9F%E6%96%B9%E6%9C%89%E6%AD%BB%E5%A3%AE%E5%A3%AB%E4%BD%95%E6%89%80/</link>
+      <link>http://localhost:1313/posts/%E4%BA%BA%E7%94%9F%E4%BA%94%E5%8D%81%E5%B9%B4%E5%A6%82%E6%A2%A6%E5%8F%88%E4%BC%BC%E5%B9%BB%E6%9C%89%E7%94%9F%E6%96%B9%E6%9C%89%E6%AD%BB%E5%A3%AE%E5%A3%AB%E4%BD%95%E6%89%80/</link>
       <pubDate>Sun, 12 Jun 2011 15:23:47 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E4%BA%BA%E7%94%9F%E4%BA%94%E5%8D%81%E5%B9%B4%E5%A6%82%E6%A2%A6%E5%8F%88%E4%BC%BC%E5%B9%BB%E6%9C%89%E7%94%9F%E6%96%B9%E6%9C%89%E6%AD%BB%E5%A3%AE%E5%A3%AB%E4%BD%95%E6%89%80/</guid>
+      <guid>http://localhost:1313/posts/%E4%BA%BA%E7%94%9F%E4%BA%94%E5%8D%81%E5%B9%B4%E5%A6%82%E6%A2%A6%E5%8F%88%E4%BC%BC%E5%B9%BB%E6%9C%89%E7%94%9F%E6%96%B9%E6%9C%89%E6%AD%BB%E5%A3%AE%E5%A3%AB%E4%BD%95%E6%89%80/</guid>
       
         <description>连续奋战了10天的《信长之野望13：天道》，终于统一了日本，顺便连续强度测试了一下新的笔记本。 虽然是快30的人了，每每遇到光荣出的新游戏，都会从头到尾玩一遍。虽然每款游戏不一定经典于世，但作为光荣的粉丝，每款都爱。回想上初中13岁时，从《太阁立志传一》一直玩到现在的NB13，都一直有着同样的激情，令人难忘~~
 太阁立志传一，经典中的经典，不知陪我度过了多少日夜，每当想起，还是激动不已啊~~ 附一个下载链接：http://www.downg.com/soft/6641.html
@@ -1111,10 +1132,10 @@ Hello, this is Quagga (version 0.</description>
     
     <item>
       <title>Hello world once more!</title>
-      <link>https://donge.org/posts/hello-world-2/</link>
+      <link>http://localhost:1313/posts/hello-world-2/</link>
       <pubDate>Sat, 04 Jun 2011 09:18:10 +0000</pubDate>
       
-      <guid>https://donge.org/posts/hello-world-2/</guid>
+      <guid>http://localhost:1313/posts/hello-world-2/</guid>
       
         <description>Hi, I&amp;rsquo;m back again.
 在这个神奇的国家里，个人网站也需要工信部备案，民主和自由不说，就是日常生活也很不方便嘛。
@@ -1130,10 +1151,10 @@ Hello, this is Quagga (version 0.</description>
     
     <item>
       <title>回顾暴雪的20年</title>
-      <link>https://donge.org/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</link>
+      <link>http://localhost:1313/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</link>
       <pubDate>Mon, 21 Mar 2011 15:23:58 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</guid>
+      <guid>http://localhost:1313/posts/%E5%9B%9E%E9%A1%BE%E6%9A%B4%E9%9B%AA%E7%9A%8420%E5%B9%B4/</guid>
       
         <description>一口气看完了，暴雪的20年，梦想和奋斗，创业励志片。</description>
       
@@ -1141,10 +1162,10 @@ Hello, this is Quagga (version 0.</description>
     
     <item>
       <title>FW: 对程序员最具影响的书</title>
-      <link>https://donge.org/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</link>
+      <link>http://localhost:1313/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</link>
       <pubDate>Sun, 20 Mar 2011 09:13:37 +0000</pubDate>
       
-      <guid>https://donge.org/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</guid>
+      <guid>http://localhost:1313/posts/fw-%E5%AF%B9%E7%A8%8B%E5%BA%8F%E5%91%98%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E7%9A%84%E4%B9%A6/</guid>
       
         <description>http://stackoverflow.com/questions/1711/what-is-the-single-most-influential-book-every-programmer-should-read?tab=votes#tab-top
 国外知名网站 stackoverflow 上有一个问题调查： 哪本书是对程序员最有影响、每个程序员都该阅读的书？， 这个调查已历时两年，目前为止吸引了 153,432 人访问，读者共推荐出了 478 本书(还在增加)，其中最火的一本书《Code Complete》被顶了 1333 次。
@@ -1164,10 +1185,10 @@ Hello, this is Quagga (version 0.</description>
     
     <item>
       <title>FW: syslog的编程和配置</title>
-      <link>https://donge.org/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
+      <link>http://localhost:1313/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Tue, 15 Mar 2011 16:25:40 +0000</pubDate>
       
-      <guid>https://donge.org/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
+      <guid>http://localhost:1313/posts/fw-syslog%E7%9A%84%E7%BC%96%E7%A8%8B%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
       
         <description> </description>
       
@@ -1175,10 +1196,10 @@ Hello, this is Quagga (version 0.</description>
     
     <item>
       <title>FW: OSPF NSSA白皮书</title>
-      <link>https://donge.org/posts/nssa/</link>
+      <link>http://localhost:1313/posts/nssa/</link>
       <pubDate>Tue, 15 Mar 2011 15:49:39 +0000</pubDate>
       
-      <guid>https://donge.org/posts/nssa/</guid>
+      <guid>http://localhost:1313/posts/nssa/</guid>
       
         <description>NSSA原理简介
 众所周知，OSPF路由协议是目前因特网中应用最为广泛一种IGP，而NSSA则是在该协议发展过程中产生的一种新的属性，她的英文全称是&amp;quot;not-so-stubby&amp;quot; area，一个充满了幽默味道的名字。要想了解该属性的特征，我们先从路由协议的发展历程讲起。
@@ -1218,10 +1239,10 @@ area area-id nssa [ default-route-advertise ] [ no-import-route ] [ no-summary ]
     
     <item>
       <title>博客又重新开张了，哈哈~~</title>
-      <link>https://donge.org/posts/%E5%8D%9A%E5%AE%A2%E5%8F%88%E9%87%8D%E6%96%B0%E5%BC%80%E5%BC%A0%E4%BA%86%E5%93%88%E5%93%88/</link>
+      <link>http://localhost:1313/posts/%E5%8D%9A%E5%AE%A2%E5%8F%88%E9%87%8D%E6%96%B0%E5%BC%80%E5%BC%A0%E4%BA%86%E5%93%88%E5%93%88/</link>
       <pubDate>Sun, 13 Mar 2011 15:46:34 +0000</pubDate>
       
-      <guid>https://donge.org/posts/%E5%8D%9A%E5%AE%A2%E5%8F%88%E9%87%8D%E6%96%B0%E5%BC%80%E5%BC%A0%E4%BA%86%E5%93%88%E5%93%88/</guid>
+      <guid>http://localhost:1313/posts/%E5%8D%9A%E5%AE%A2%E5%8F%88%E9%87%8D%E6%96%B0%E5%BC%80%E5%BC%A0%E4%BA%86%E5%93%88%E5%93%88/</guid>
       
         <description>网站关闭了几个月，又要重新开了，虽然没写几篇博客，也没人看，但好歹是个窝，没事发发牢骚，聊聊心情。
 中断的原因自然是没有备案了，不是我故意和政府作对，是实在没有时间，工作太忙了。
