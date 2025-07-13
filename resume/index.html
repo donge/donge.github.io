@@ -7,12 +7,78 @@
 <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
 <link rel="stylesheet" type="text/css" media="all" href="style/style.css">
 <link rel="stylesheet" type="text/css" media="all" href="style/responsive.css">
+<style>
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --header-bg: #f5f5f5;
+    --section-bg: #ffffff;
+    --border-color: #e0e0e0;
+  }
+
+  body.light {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  body.light .site_header {
+    background-color: var(--header-bg);
+  }
+
+  body.light .section {
+    background-color: var(--section-bg);
+    border: 1px solid var(--border-color);
+  }
+
+  body.light .section_title {
+    color: var(--text-color);
+  }
+
+  .theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  .theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+  }
+
+  .theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .light-icon, .dark-icon {
+    font-size: 20px;
+  }
+
+  body.dark .light-icon {
+    display: none;
+  }
+
+  body.light .dark-icon {
+    display: none;
+  }
+</style>
 <!--[if lt IE 9]>
 	<script src="js/html5.js" type="text/javascript"></script>
 <![endif]-->
 </head>
 <body class="home blog dark">
 <div class="switherHead"></div>
+<div class="theme-switcher">
+  <button id="theme-toggle" class="theme-toggle">
+    <span class="light-icon">☀️</span>
+    <span class="dark-icon">🌙</span>
+  </button>
+</div>
 <div class="colored">
   <div class="blue"></div>
   <div class="aqua"></div>
@@ -59,9 +125,11 @@
             </div>
           </div>
           <div class="section_body profile_section_body">
-            <div class="proile_body">15 years of software development experience in the high-performance network system and products, e.g. router, firewall. Solid skill in C, Golang programming and debugging, An expert in IP/MPLS and ethernet protocols. Good at data engineering and common data analysis. Experienced still on high-performance software design and architect.<br>
-            I am also a full-stack software engineer. Willing to try some idea or solve the hard problem with my skill and experience.<br>
-            Here is my blog with some posts <a target='_blank' href="http://donge.org">http://donge.org</a> (Chinese) and Github: <a target='_blank' href="https://github.com/donge">https://github.com/donge</a>
+            <div class="proile_body">19 years of high-performance network system and product software development experience, focusing on Ethernet switching, routing, and security solutions. Proficient in C and Golang programming and debugging. Professional expertise in IP/MPLS, Ethernet protocols, and data center networking. Rich experience in high-performance software design and architecture.<br>
+            Familiar with network and application security solutions, and led a team from 0 to 1 to design and develop an API security platform, achieving product commercialization and certain scale.<br>
+            Also a full-stack software engineer, focusing on building scalable and efficient systems. Passionate about solving complex technical challenges and driving network technology innovation.<br>
+            Understanding of machine learning and big data technologies, with deep understanding of LLM principles and applications, experience in designing and developing RAG, LLM Agent and other AI applications.<br>
+            Here is my blog <a target='_blank' href="http://donge.org">http://donge.org</a> and Github: <a target='_blank' href="https://github.com/donge">https://github.com/donge</a> (both with 1500+ commits in recent years)
           </div>
         </section>
         <div id="mainpage_accordion_area">
@@ -88,10 +156,10 @@
                   <h3 class="widget_title">Network skills</h3>
                   <div class="widget_inner style_2">
                     <div class="skills_row odd"><span class="legend blue"></span><span class="caption">ISIS/OSPF/BGP/LDP/PIM</span></div>
-                    <div class="skills_row even"><span class="legend aqua"></span><span class="caption">Security Flow</span></div>
+                    <div class="skills_row even"><span class="legend aqua"></span><span class="caption">Network Security/Data Analysis</span></div>
                     <div class="skills_row odd"><span class="legend green"></span><span class="caption">MPLS/L3VPN/VPLS/QoS</span></div>
-                    <div class="skills_row even"><span class="legend yellow"></span><span class="caption">Datacenter/TRILL</span></div>
-                    <div class="skills_row odd"><span class="legend red"></span><span class="caption"></span>SDN/NFV</div>
+                    <div class="skills_row even"><span class="legend yellow"></span><span class="caption">Computing Network/SDN/NFV</span></div>
+                    <div class="skills_row odd"><span class="legend red"></span><span class="caption">AI/RAG/LLM</span></div>
                     <div class="svg"> <svg xmlns="http://www.w3.org/2000/svg" class="piechart">
                       <path d="M66,66 L130,66  A64,64 0 0,1 57,129 z" fill="#327ea3"></path>
                       <path d="M66,66 L57, 129 A64,64 0 0,1 2,60 z" fill="#4ca5d0"></path>
@@ -109,7 +177,7 @@
                     <div class="skills_row even"><span class="caption">GDB</span><span class="progressbar"><span data-process="75%" class="progress green"></span></span></div>
                     <div class="skills_row odd"><span class="caption">Docker</span><span class="progressbar"><span data-process="80%" class="progress blue"></span></span></div>
                     <div class="skills_row odd"><span class="caption">Clickhouse</span><span class="progressbar"><span data-process="90%" class="progress yellow"></span></span></div>
-                    <div class="skills_row odd"><span class="caption">Spark</span><span class="progressbar"><span data-process="70%" class="progress red"></span></span></div>
+                    <div class="skills_row odd"><span class="caption">Cursor</span><span class="progressbar"><span data-process="70%" class="progress red"></span></span></div>
                   </div>
                 </aside>
               </div>
@@ -127,10 +195,16 @@
                         <h5 class="post_subtitle">Founding Engineer / Architect</h5>
                       </div>
                       <div class="post_body resume_post_body">
-                        <p>Design and build the product from 0 to 1. The product is software-based, focus on service level security, leverage big data and machine learning to analyze the risk in customed service. <br>
-                       The software is mainly Golang stack with docker deployment. it can be scaled out with multiple instances include infrastructure components.<br>
-                       Leverage many open-source projects to shorten the development cycle, include Nginx, Clickhouse, Spark, Redis, Kafka, Cube.js...</p>
-                     With the architect, we win and support many customer case with a small team, and grows very fast.</p>
+                        <p>Design and build products from 0 to 1. The product is software-based, focusing on service and API-level security, leveraging data and AI analysis to assess risks in customer services.<br>
+                        The software primarily uses Golang technology stack and Docker deployment. It can be scaled with multiple instances, including infrastructure components.<br>
+                        Leverage multiple open-source projects to shorten development cycles, including OpenResty, Clickhouse, Spark, Redis, Kafka, Cube.js, etc.</p>
+                        I led a 12-person R&D team, and we won over 100 customers with revenue exceeding 15 million.</p>
+                        Built the R&D team, organized recruitment and training, defined R&D processes including code standards, CI/CD processes, testing processes, etc.<br>
+                        <strong>Key Projects:</strong><br>
+                        • <a href="#portfolio" onclick="filterAndScroll('.category_3')">API Security Platform</a> - Cloud-native distributed HTTP proxy and security gateway, using machine learning for real-time analysis of HTTP headers and content<br>
+                        • <a href="#portfolio" onclick="filterAndScroll('.category_3')">AI Business Firewall</a> - Large model firewall product, protecting LLM applications from emerging threats<br>
+                        • <a href="#portfolio" onclick="filterAndScroll('.category_3')">Mobile Threat Detection</a> - Client-side security SDK, device fingerprinting, solving secure access for mobile applications<br>
+                        • <a href="#portfolio" onclick="filterAndScroll('.category_3')">Data Security Control</a> - Personal information classification and grading, deep traffic analysis, real-time alerts and blocking
                       </div>
                     </article>
                     <article class="post resume_post resume_post_2 odd">
@@ -140,10 +214,14 @@
                         <h5 class="post_subtitle">Software Engineering Manager</h5>
                       </div>
                       <div class="post_body resume_post_body">
-                        <p>As manager of SRX platform team, owns CPU/BSP, Driver, Kernel, Network stack, Forwarding engine on <a target="_blank" href="http://www.juniper.net/us/en/products-services/security/srx-series/">SRX firewall</a>.<br>
-                         The platform team works across different geo teams to support feature design, bugs fix, and customer support.<br>
-                         Our team gets very positive feedback from India and the headquarters. and I am promoted as manager from MTS4, Staff, Manager from 2013 to 2016.<br>
-                       The product has hardware-based and virtualization-based, with unified software architecture to deliver high-performance low-cost product, our features include, IP/MPLS Routing and Forwarding, Traffic Policer and Shaping, Kernel, Driver, and BSP maintenance.</p>
+                        <p>As manager of the SRX platform team, responsible for CPU/BSP, drivers, kernel, network stack, and forwarding engine development on <a target="_blank" href="http://www.juniper.net/us/en/products-services/security/srx-series/">SRX firewall</a>.<br>
+                         The platform team collaborates with teams from different regions to support feature design, bug fixes, and customer support.<br>
+                         Our team received positive feedback from India and headquarters, and I was promoted from MTS4 to Staff to Manager from 2013 to 2016.<br>
+                         The product supports both hardware and virtualization solutions, using unified software architecture to provide high-performance, low-cost products. Our features include IP/MPLS routing and forwarding, traffic policy and shaping, kernel, driver, and BSP maintenance.</p>
+                         <strong>Key Projects:</strong><br>
+                         • <a href="#portfolio" onclick="filterAndScroll('.category_4')">Daybreak</a> - New SRX software architecture for cloud services, control plane OS runs in nested VMs, security services use DPDK<br>
+                         • <a href="#portfolio" onclick="filterAndScroll('.category_4')">Forge SRX1500</a> - X86-based security platform, using VT-x, KVM/QEMU, leveraging DPDK, SRIOV, VirtIO tools<br>
+                         • <a href="#portfolio" onclick="filterAndScroll('.category_4')">Branch SRX Firewall</a> - Enterprise SRX platform, MIPS architecture, integrating JUNOS and ScreenOS, providing complete security features
                       </div>
                     </article>
                             <article class="post resume_post resume_post_2 odd">
@@ -153,12 +231,17 @@
                         <h5 class="post_subtitle">Senior Software Engineer</h5>
                       </div>
                       <div class="post_body resume_post_body">
-                        <p>Works in Huawei Beijing R&D for nearly 7 years in network system platform. As a technical leader in the team for 4 years, project leader for 1 year. Be responsible for module design, coding, patent etc.<br>
-                        Chief designer and developer in TRILL project, its a highlight feature in data-center switch, and got Beijing R&D designer award in 2012.<br>
-                        As technical leader, publish 5 patents as author or co-author in network and system area.<br>
-                        Optimize and tuning performance of routes coverage, win top1 result serval time in a comparison test with the competitor.<br>
-                        Kickout nearly 10 projects as project leader and developer in our team with high quality, refer to the details in LinkedIn.<br>
-                        Be a mentor and tutor in knowledge ramp-up.</p>
+                        <p>Worked at Huawei Beijing R&D Center for nearly 7 years, focusing on network system platforms, particularly Ethernet switching and routing technologies. As team technical leader for 4 years and project leader for 1 year, responsible for module design, coding, and patents.<br>
+                         As chief designer and developer of the TRILL project, a highlight feature for data center switches, and received the Beijing R&D Design Award in 2012.<br>
+                         As technical leader, published 5 patents as author or co-author in network and system areas.<br>
+                         Optimized and tuned routing convergence performance, achieving first place multiple times in comparison tests with competitors.<br>
+                         As project leader and developer, completed nearly 10 projects with high quality in the team, see details on LinkedIn.<br>
+                         Served as mentor and trainer for knowledge enhancement.</p>
+                         <strong>Key Projects:</strong><br>
+                         • <a href="#portfolio" onclick="filterAndScroll('.category_5')">TRILL</a> - Key feature for data center switches, TRILL protocol requirements analysis, architecture and module design<br>
+                         • <a href="#portfolio" onclick="filterAndScroll('.category_5')">IP FRR</a> - Fast reroute technology, responsible for project technical research, design, development and implementation<br>
+                         • <a href="#portfolio" onclick="filterAndScroll('.category_5')">Non-stop Routing</a> - VRP NSR prototype project, organized technical discussions, development plans and solution decisions<br>
+                         • Patent Achievements - Published 10 patents as author or co-author in network, system and API security areas
                       </div>
                     </article>
                   </div>
@@ -177,9 +260,13 @@
                         <h5 class="post_subtitle">Computer Science & Technology</h5>
                       </div>
                       <div class="post_body resume_post_body">
-                        <p>Got scholarship 3 times, all A grade in computer experiment course.<br>
-                        Startup computer association with roommates.<br>
-                        Participated in many programming competitions online, like ACM/ICPC, Topcoder, Baidu Astar.</p>
+                        <p>Received 3 scholarships, all A grades in computer experiment courses.<br>
+                        Co-founded computer association with roommates.<br>
+                        Participated in multiple online programming competitions, such as ACM/ICPC, Topcoder, Baidu Star (Top 300 nationally).</p>
+                        <strong>Personal Projects:</strong><br>
+                        • <a href="#portfolio" onclick="filterAndScroll('.category_6')">wFilter</a> - High-performance web keyword filtering system, using Aho-Corasick algorithm and DPDK, MEAN full-stack architecture<br>
+                        • <a href="#portfolio" onclick="filterAndScroll('.category_6')">Bitcoin Auto-trading Robot</a> - Python/Golang development, deployed on Raspberry Pi, supporting multiple exchange APIs<br>
+                        • <a href="#portfolio" onclick="filterAndScroll('.category_6')">Disk Usage Visualization</a> - Using d3.js to visualize disk usage, data obtained through shell scripts
                       </div>
                     </article>
                   </div>
@@ -204,14 +291,26 @@
                   <li><a class="current" data-filter="*" href="#">All</a></li>
                   <li><a data-filter=".category_3" href="#">Servicewall</a></li>
                   <li><a data-filter=".category_4" href="#">Juniper</a></li>
-                  <li><a data-filter=".category_6" href="#">Huawei</a></li>
-                  <li><a data-filter=".category_5" href="#">Personal</a></li>
+                  <li><a data-filter=".category_5" href="#">Huawei</a></li>
+                  <li><a data-filter=".category_6" href="#">Personal</a></li>
                   <li><a data-filter=".category_7" href="#">Patent</a></li>
+                  <li><a data-filter=".category_8" href="#">Publications</a></li>
                 </ul>
                 <div class="portfolio_items">
                 	                  <article class="post portfolio_post portfolio_post_1 first even category_3">
-                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Beautiful-young-woman-jumping-15095405.jpg"> <span class="overlay"></span> <span class="link-icon"></span> Antibot-System </a> Cloud-native, distributed HTTP Proxy and Security gateway, real-time HTTP header and body check and analysis with ML.</div>
-                    <!--<h4 class="post_title"><a href="portfolio.html">Portfolio item 14</a></h4>-->
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Beautiful-young-woman-jumping-15095405.jpg"> <span class="overlay"></span> <span class="link-icon"></span> API Security Platform </a> Cloud-native distributed HTTP proxy and security gateway, using machine learning for real-time analysis of HTTP headers and content.</div>
+                    <h5 class="post_subtitle">Servicewall.ai</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_2 odd category_3">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Beautiful-young-woman-jumping-15095405.jpg"> <span class="overlay"></span> <span class="link-icon"></span> AI Business Firewall </a> Large model firewall product designed to protect Large Language Models (LLMs) from various emerging threats, different from traditional web applications. These products integrate multiple functions to ensure the security, compliance and availability of LLM applications.</div>
+                    <h5 class="post_subtitle">Servicewall.ai</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_3 even category_3">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Cheerful-red-haired-girl-15330950.jpg"> <span class="overlay"></span> <span class="link-icon"></span> Mobile Threat Detection </a> Through client-side security SDK, collect and track device information within non-privacy scope, generate device fingerprints, solve secure access for mobile applications. Can also fundamentally solve web crawler issues.</div>
+                    <h5 class="post_subtitle">Servicewall.ai</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_4 odd category_3">
+                    <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-beautiful-young-woman-in-bikin-43332169.jpg"> <span class="overlay"></span> <span class="link-icon"></span> Data Security Control </a> Classify and grade personal information and business information, and perform deep traffic analysis to detect privacy content in APIs and files, with real-time alerts, blocking, desensitization or approval access.</div>
                     <h5 class="post_subtitle">Servicewall.ai</h5>
                   </article>
                   <article class="post portfolio_post portfolio_post_1 first even category_4">
@@ -243,6 +342,18 @@
                     <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-christmas-girl-young-beautifu-38594893.jpg"> <span class="overlay"></span> <span class="link-icon"></span> Disk Usage Visualized </a> Visualized the usage of a disk with d3.js, data is caught by a shell script.</div>
                     <h4 class="post_title"><a href="https://github.com/donge/duv">https://github.com/donge/duv </a></h4>
                     <h5 class="post_subtitle">Personal</h5>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_11 even category_6">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://github.com/donge/gguf_inspector">GGUF Inspector</a>
+                      <br>GGUF file format inspection and analysis tool for parsing and validating the structure and content of GGUF model files.</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_12 odd category_6">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://github.com/donge/go-yyjson">go-yyjson</a>
+                      <br>High-performance JSON parsing library for Go language, based on yyjson implementation, providing fast and memory-efficient JSON processing capabilities.</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_13 even category_6">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://github.com/donge/llama2.zig">llama2.zig</a>
+                      <br>Llama2 model inference engine implemented in Zig language, demonstrating high-performance systems programming in AI model deployment.</div>
                   </article>
                   <article class="post portfolio_post portfolio_post_7 even category_5">
                     <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-art-exhibition-28071347d.jpg"> <span class="overlay"></span> <span class="link-icon"></span> TRILL </a> Led TRILL protocol requirements analysis, architecture and module design, as design leader, drive the TRILL overall design and participate in the process of development, it's key feature of Huawei CloudEngine series switches products.  </div>
@@ -284,6 +395,54 @@
                     <h4 class="post_title"><a href="portfolio.html">Portfolio 2</a></h4>
                     <h5 class="post_subtitle">Patent</h5>
                   </article>
+                  <article class="post portfolio_post portfolio_post_15 even category_7">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://patents.google.com/patent/CN119892515A">CN119892515A</a>
+                      <br>API security protection method, device and equipment based on HTTP message stream processing</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_16 odd category_7">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://patents.google.com/patent/CN119884893A">CN119884893A</a>
+                      <br>End-to-end hybrid expert model training method, device and electronic equipment</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_17 even category_7">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://patents.google.com/patent/CN118153060A">CN118153060A</a>
+                      <br>API security-based data analysis method, device, medium and product</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_18 odd category_7">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://patents.google.com/patent/CN116074118A">CN116074118A</a>
+                      <br>API access control method, system, smart terminal and storage medium</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_19 even category_7">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://patents.google.com/patent/CN116055219A">CN116055219A</a>
+                      <br>API access link anti-step method, system, terminal and storage medium</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_25 odd category_8">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://donge.org">Security Technology Research - donge.org</a>
+                      <br>During Servicewall.ai period, participated in API security technology research and development, related technical solutions and best practices published in industry conferences and technical blogs.</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_26 even category_8">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://github.com/donge">Open Source Project Contributions - GitHub</a>
+                      <br>Maintain multiple open source projects on GitHub, including wFilter, xiaoshaozi, etc., with over 1500 code contributions, related technical articles published on personal blog and technical communities.</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_27 odd category_8">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://zhuanlan.zhihu.com/p/395526707">Anti-Architecture Design - Zhihu</a>
+                      <br>Exploring anti-patterns in software architecture design, analyzing over-design and technical debt issues, proposing concise and effective architecture design principles.</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_28 even category_8">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://blog.csdn.net/weixin_51735396/article/details/118181911">Big Data Stream Processing State - CSDN</a>
+                      <br>In-depth analysis of state management mechanisms in big data stream processing tools like Spark and Flink, exploring the relationship between state and data flow in stream processing.</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_30 odd category_8">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://www.51cto.com/article/648919.html">Discussion on 2021 Network System Popular Architecture - 51CTO</a>
+                      <br>Summary of mainstream architecture patterns for network systems in 2021, analyzing development trends and application scenarios of microservices, cloud-native, edge computing and other technologies.</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_31 odd category_8">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://www.freebuf.com/articles/network/247527.html">Next-Generation Firewall Key Technology Discussion - FREEBUF</a>
+                      <br>In-depth discussion of next-generation firewall technology development trends, analyzing applications of AI, machine learning, behavioral analysis and other new technologies in network security.</div>
+                  </article>
+                  <article class="post portfolio_post portfolio_post_32 odd category_8">
+                    <div class="post_pic portfolio_post_pic"> <a target="_blank" href="https://xie.infoq.cn/article/dd794e3a8665c317a2aac4115">Network Attack and Defense: Crawler's Pincer Attack - InfoQ</a>
+                      <br>Analysis of offensive and defensive confrontation between web crawlers and anti-crawler technologies, exploring crawler detection and protection strategies, and best practices for website security protection.</div>
+                  </article>
                   <!-- <article class="post portfolio_post portfolio_post_15 even category_1 category_5">
                     <div class="post_pic portfolio_post_pic"> <a class="w_hover img-link img-wrap" href="images_post/bigstock-Close-up-image-of-an-office-wo-41874253-1024x682.jpg"> <span class="overlay"></span> <span class="link-icon"></span> <img src="images_post/bigstock-Close-up-image-of-an-office-wo-41874253-1024x682-504x348.jpg" alt="Portfolio item 15" /> </a> </div>
                     <h4 class="post_title"><a href="portfolio.html">Portfolio item 1</a></h4>
@@ -307,45 +466,24 @@
               <h2 class="section_title contact_section_title"><a href="#"><span class="icon icon-envelope-alt"></span><span class="section_name">Contacts</span></a><span class="section_icon"></span></h2>
             </div>
             <div class="section_body contact_section_body">
-              <div id="googlemap_data">
-                <div id="sc_googlemap" style="width:100%;height:294px;" class="sc_googlemap"></div>
-                <div class="add_info">
-                  <div class="profile_row header"> Contact info </div>
-                  <div class="profile_row address"> <span class="th">Address</span><span class="td"></span> </div>
-                  <div class="profile_row phone"> <span class="th">Phone</span><span class="td"></span> </div>
-                  <div class="profile_row email"> <span class="th">Email</span><span class="td"></span> </div>
-                  <div class="profile_row website"> <span class="th">Website</span><span class="td"></span> </div>
+              <div style="display: flex; gap: 20px; align-items: flex-start;">
+                <div id="googlemap_data" style="flex: 1;">
+                  <div id="sc_googlemap" style="width:100%;height:294px;" class="sc_googlemap"></div>
+                  <div class="add_info">
+                    <div class="profile_row header"> Contact info </div>
+                    <div class="profile_row address"> <span class="th">Address</span><span class="td"></span> </div>
+                    <div class="profile_row phone"> <span class="th">Phone</span><span class="td"></span> </div>
+                    <div class="profile_row email"> <span class="th">Email</span><span class="td"></span> </div>
+                    <div class="profile_row website"> <span class="th">Website</span><span class="td"></span> </div>
+                  </div>
                 </div>
-              </div>
-              <div class="sidebar contact_sidebar">
-                <aside class="widget widget_qrcode_vcard" id="qrcode-vcard-widget-2">
-                  <h3 class="widget_title">VCARD</h3>
-                  <div class="widget_inner">
-                    <div class="qrcode"></div>
-                  </div>
-                </aside>
-              </div>
-              <div class="contact_form">
-                <div class="contact_form_data">
-                  <div class="sc_contact_form">
-                    <h3 class="title">Let's keep in touch</h3>
-                    <form action="include/sendmail.php" method="post">
-                      <div class="field">
-                        <label class="required" for="sc_contact_form_username">Name</label>
-                        <input type="text" name="username" id="sc_contact_form_username" />
-                      </div>
-                      <div class="field">
-                        <label class="required" for="sc_contact_form_email">Email</label>
-                        <input type="text" name="email" id="sc_contact_form_email" />
-                      </div>
-                      <div class="field message">
-                        <label class="required" for="sc_contact_form_message">Your Message</label>
-                        <textarea name="message" id="sc_contact_form_message"></textarea>
-                      </div>
-                      <div class="button"> <a class="enter" href="#"><span>Submit</span></a> </div>
-                    </form>
-                    <div class="result sc_infobox"></div>
-                  </div>
+                <div class="sidebar contact_sidebar" style="flex: 0 0 auto;">
+                  <aside class="widget widget_qrcode_vcard" id="qrcode-vcard-widget-2">
+                    <h3 class="widget_title">VCARD</h3>
+                    <div class="widget_inner">
+                      <div class="qrcode"></div>
+                    </div>
+                  </aside>
                 </div>
               </div>
             </div>
@@ -362,7 +500,7 @@
   <!-- #main -->
 
   <footer role="contentinfo" class="site_footer" id="footer">
-    <div class="footer_copyright"> donge.org &copy; 2021 All Rights Reserved </div>
+    <div class="footer_copyright"> donge.org &copy; 2025 All Rights Reserved </div>
   </footer>
 </div>
 <!-- #page -->
@@ -380,5 +518,50 @@
 <script type="text/javascript" src="js/jquery.reject.js"></script>
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/lib.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    
+    // Check saved theme from local storage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      body.classList.remove('dark');
+      body.classList.add('light');
+    }
+    
+    themeToggle.addEventListener('click', function() {
+      if (body.classList.contains('dark')) {
+        body.classList.remove('dark');
+        body.classList.add('light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light');
+        body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  });
+
+  // Function to filter and scroll to portfolio section
+  function filterAndScroll(filterClass) {
+    // First scroll to portfolio section
+    const portfolioSection = document.getElementById('portfolio');
+    if (portfolioSection) {
+      portfolioSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Delay triggering filter to ensure scrolling completes
+    setTimeout(function() {
+      // Find corresponding filter link and click
+      const filterLinks = document.querySelectorAll('#portfolio_iso_filters a');
+      filterLinks.forEach(function(link) {
+        if (link.getAttribute('data-filter') === filterClass) {
+          link.click();
+        }
+      });
+    }, 500);
+  }
+</script>
 </body>
 </html>
