@@ -1,0 +1,1179 @@
+<!doctype html>
+<html
+  dir="ltr"
+  lang="en"
+  data-theme=""
+  
+    class="html theme--light"
+  
+><head>
+  <meta charset="utf-8" />
+  <title>
+    donge.org
+        |
+        API参数异常检测Transformer架构设计文档
+      
+
+    
+
+  </title>
+
+  <meta name="generator" content="Hugo 0.127.0"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="author" content="donge.org" />
+  <meta
+    name="description"
+    content="donge.org"
+  />
+  
+  
+    
+    
+    <link
+      rel="stylesheet"
+      href="/scss/main.min.009f917038f30ebd1f2147e8e1dfd40fc1b799422a7869aa0da12af1fd1bf8ba.css"
+      integrity="sha256-AJ&#43;RcDjzDr0fIUfo4d/UD8G3mUIqeGmqDaEq8f0b&#43;Lo="
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  
+
+  
+  <link
+    rel="stylesheet"
+    href="/css/markupHighlight.min.73ccfdf28df555e11009c13c20ced067af3cb021504cba43644c705930428b00.css"
+    integrity="sha256-c8z98o31VeEQCcE8IM7QZ688sCFQTLpDZExwWTBCiwA="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/fontawesome.min.7d272de35b410fb165377550cdf9c4d3a80fbbcc961e111914e4d5c0eaf5729f.css"
+    integrity="sha256-fSct41tBD7FlN3VQzfnE06gPu8yWHhEZFOTVwOr1cp8="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/solid.min.55d8333481b07a08e07cf6f37319753a2b47e99f4c395394c5747b48b495aa9b.css"
+    integrity="sha256-VdgzNIGwegjgfPbzcxl1OitH6Z9MOVOUxXR7SLSVqps="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/regular.min.a7448d02590b43449364b6b5922ed9af5410abb4de4238412a830316dedb850b.css"
+    integrity="sha256-p0SNAlkLQ0STZLa1ki7Zr1QQq7TeQjhBKoMDFt7bhQs="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link
+    rel="stylesheet"
+    href="/fontawesome/css/brands.min.9ed75a5d670c953fe4df935937674b4646f92674367e9e66eb995bb04e821647.css"
+    integrity="sha256-ntdaXWcMlT/k35NZN2dLRkb5JnQ2fp5m65lbsE6CFkc="
+    crossorigin="anonymous"
+    type="text/css"
+  />
+  
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <link rel="canonical" href="https://donge.org/posts/2025-transformer-waf/" />
+
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="/js/anatole-header.min.f9132794301a01ff16550ed66763482bd848f62243d278f5e550229a158bfd32.js"
+    integrity="sha256-&#43;RMnlDAaAf8WVQ7WZ2NIK9hI9iJD0nj15VAimhWL/TI="
+    crossorigin="anonymous"
+  ></script>
+
+  
+    
+    
+    <script
+      type="text/javascript"
+      src="/js/anatole-theme-switcher.min.d6d329d93844b162e8bed1e915619625ca91687952177552b9b3e211014a2957.js"
+      integrity="sha256-1tMp2ThEsWLovtHpFWGWJcqRaHlSF3VSubPiEQFKKVc="
+      crossorigin="anonymous"
+    ></script>
+  
+
+  
+
+  
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="API参数异常检测Transformer架构设计文档">
+  <meta name="twitter:description" content="1. 方法概述 1.1 背景 基于对现有API参数检测系统的分析，当前系统使用CNN、Word2Vec和GAN进行HTTP参数异常检测。为了提升检测精度和实时性，设计一个基于Transformer架构的改进方案。
+1.2 目标 提升HTTP参数异常检测的准确性 降低误报率和漏报率 提高实时检测性能 支持在线学习和自适应更新 增强对未知攻击的检测能力 1.3 技术栈 C语言（保持与现有系统兼容） Transformer架构 多头注意力机制 位置编码 残差连接 层归一化 2. 系统架构设计 2.1 整体架构 ┌─────────────────────────────────────────────────────────────┐ │ HTTP请求处理层 │ ├─────────────────────────────────────────────────────────────┤ │ 特征提取层 │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │ │ │ 统计特征 │ │ 语义特征 │ │ 结构特征 │ │ │ └─────────────┘ └─────────────┘ └─────────────┘ │ ├─────────────────────────────────────────────────────────────┤ │ Transformer检测层 │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │ │ │ 编码器 │ │ 解码器 │ │ 分类头 │ │ │ └─────────────┘ └─────────────┘ └─────────────┘ │ ├─────────────────────────────────────────────────────────────┤ │ 决策层 │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │ │ │ 异常评分 │ │ 规则匹配 │ │ 动作执行 │ │ │ └─────────────┘ └─────────────┘ └─────────────┘ │ └─────────────────────────────────────────────────────────────┘ 2.">
+
+
+
+  
+  <meta property="og:url" content="https://donge.org/posts/2025-transformer-waf/">
+  <meta property="og:site_name" content="东冬の乱记">
+  <meta property="og:title" content="API参数异常检测Transformer架构设计文档">
+  <meta property="og:description" content="1. 方法概述 1.1 背景 基于对现有API参数检测系统的分析，当前系统使用CNN、Word2Vec和GAN进行HTTP参数异常检测。为了提升检测精度和实时性，设计一个基于Transformer架构的改进方案。
+1.2 目标 提升HTTP参数异常检测的准确性 降低误报率和漏报率 提高实时检测性能 支持在线学习和自适应更新 增强对未知攻击的检测能力 1.3 技术栈 C语言（保持与现有系统兼容） Transformer架构 多头注意力机制 位置编码 残差连接 层归一化 2. 系统架构设计 2.1 整体架构 ┌─────────────────────────────────────────────────────────────┐ │ HTTP请求处理层 │ ├─────────────────────────────────────────────────────────────┤ │ 特征提取层 │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │ │ │ 统计特征 │ │ 语义特征 │ │ 结构特征 │ │ │ └─────────────┘ └─────────────┘ └─────────────┘ │ ├─────────────────────────────────────────────────────────────┤ │ Transformer检测层 │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │ │ │ 编码器 │ │ 解码器 │ │ 分类头 │ │ │ └─────────────┘ └─────────────┘ └─────────────┘ │ ├─────────────────────────────────────────────────────────────┤ │ 决策层 │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │ │ │ 异常评分 │ │ 规则匹配 │ │ 动作执行 │ │ │ └─────────────┘ └─────────────┘ └─────────────┘ │ └─────────────────────────────────────────────────────────────┘ 2.">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-27T02:00:00+08:00">
+    <meta property="article:modified_time" content="2025-07-27T02:00:00+08:00">
+
+
+
+  
+  
+  
+  
+  <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "articleSection": "posts",
+        "name": "API参数异常检测Transformer架构设计文档",
+        "headline": "API参数异常检测Transformer架构设计文档",
+        "alternativeHeadline": "",
+        "description": "
+      
+        1. 方法概述 1.1 背景 基于对现有API参数检测系统的分析，当前系统使用CNN、Word2Vec和GAN进行HTTP参数异常检测。为了提升检测精度和实时性，设计一个基于Transformer架构的改进方案。\n1.2 目标 提升HTTP参数异常检测的准确性 降低误报率和漏报率 提高实时检测性能 支持在线学习和自适应更新 增强对未知攻击的检测能力 1.3 技术栈 C语言（保持与现有系统兼容） Transformer架构 多头注意力机制 位置编码 残差连接 层归一化 2. 系统架构设计 2.1 整体架构 ┌─────────────────────────────────────────────────────────────┐ │ HTTP请求处理层 │ ├─────────────────────────────────────────────────────────────┤ │ 特征提取层 │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │ │ │ 统计特征 │ │ 语义特征 │ │ 结构特征 │ │ │ └─────────────┘ └─────────────┘ └─────────────┘ │ ├─────────────────────────────────────────────────────────────┤ │ Transformer检测层 │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │ │ │ 编码器 │ │ 解码器 │ │ 分类头 │ │ │ └─────────────┘ └─────────────┘ └─────────────┘ │ ├─────────────────────────────────────────────────────────────┤ │ 决策层 │ │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ │ │ │ 异常评分 │ │ 规则匹配 │ │ 动作执行 │ │ │ └─────────────┘ └─────────────┘ └─────────────┘ │ └─────────────────────────────────────────────────────────────┘ 2.
+
+
+      
+
+
+    ",
+        "inLanguage": "zh-CN",
+        "isFamilyFriendly": "true",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/donge.org\/posts\/2025-transformer-waf\/"
+        },
+        "author" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "creator" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "accountablePerson" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightHolder" : {
+            "@type": "Person",
+            "name": "donge.org"
+        },
+        "copyrightYear" : "2025",
+        "dateCreated": "2025-07-27T02:00:00.00Z",
+        "datePublished": "2025-07-27T02:00:00.00Z",
+        "dateModified": "2025-07-27T02:00:00.00Z",
+        "publisher":{
+            "@type":"Organization",
+            "name": "donge.org",
+            "url": "https://donge.org/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/donge.org\/favicon-32x32.png",
+                "width":"32",
+                "height":"32"
+            }
+        },
+        "image": 
+      [
+      ]
+
+    ,
+        "url" : "https:\/\/donge.org\/posts\/2025-transformer-waf\/",
+        "wordCount" : "2496",
+        "genre" : [ ],
+        "keywords" : [ ]
+    }
+  </script>
+
+
+</head>
+<body class="body">
+    <div class="wrapper">
+      <aside
+        
+          class="wrapper__sidebar"
+        
+      ><div
+  class="sidebar
+    animated fadeInDown
+  "
+>
+  <div class="sidebar__content">
+    <div class="sidebar__introduction">
+      <img
+        class="sidebar__introduction-profileimage"
+        src="https://avatars.githubusercontent.com/u/1329129?s=400&amp;v=4"
+        alt="profile picture"
+      />
+      
+        <div class="sidebar__introduction-title">
+          <a href="/">东冬の乱记</a>
+        </div>
+      
+      <div class="sidebar__introduction-description">
+        <p>donge.org</p>
+      </div>
+    </div>
+    <ul class="sidebar__list">
+      
+    </ul>
+  </div><footer class="footer footer__sidebar">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2025
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></div>
+</aside>
+      <main
+        
+          class="wrapper__main"
+        
+      >
+        <header class="header"><div
+  class="
+    animated fadeInDown
+  "
+>
+  <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+    <span aria-hidden="true" class="navbar-burger__line"></span>
+  </a>
+  <nav class="nav">
+    <ul class="nav__list" id="navMenu">
+      
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/"
+              
+              title=""
+              >Home</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/posts/"
+              
+              title=""
+              >Posts</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/ai/"
+              
+              title=""
+              >AI</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/resume/"
+              
+              title=""
+              >Resume</a
+            >
+          </li>
+        
+
+      
+        
+        
+          <li class="nav__list-item">
+            
+            <a
+              
+              href="/about/"
+              
+              title=""
+              >About</a
+            >
+          </li>
+        
+
+      
+    </ul>
+    <ul class="nav__list nav__list--end">
+      
+      
+        <li class="nav__list-item">
+          <div class="themeswitch">
+            <a title="Switch Theme">
+              <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+          </div>
+        </li>
+      
+    </ul>
+  </nav>
+</div>
+</header>
+  <div
+    class="post 
+      animated fadeInDown
+    "
+  >
+    
+    <div class="post__content">
+      <h1>API参数异常检测Transformer架构设计文档</h1>
+      <h2 id="1-方法概述">1. 方法概述</h2>
+<h3 id="11-背景">1.1 背景</h3>
+<p>基于对现有API参数检测系统的分析，当前系统使用CNN、Word2Vec和GAN进行HTTP参数异常检测。为了提升检测精度和实时性，设计一个基于Transformer架构的改进方案。</p>
+<h3 id="12-目标">1.2 目标</h3>
+<ul>
+<li>提升HTTP参数异常检测的准确性</li>
+<li>降低误报率和漏报率</li>
+<li>提高实时检测性能</li>
+<li>支持在线学习和自适应更新</li>
+<li>增强对未知攻击的检测能力</li>
+</ul>
+<h3 id="13-技术栈">1.3 技术栈</h3>
+<ul>
+<li>C语言（保持与现有系统兼容）</li>
+<li>Transformer架构</li>
+<li>多头注意力机制</li>
+<li>位置编码</li>
+<li>残差连接</li>
+<li>层归一化</li>
+</ul>
+<h2 id="2-系统架构设计">2. 系统架构设计</h2>
+<h3 id="21-整体架构">2.1 整体架构</h3>
+<pre tabindex="0"><code>┌─────────────────────────────────────────────────────────────┐
+│                    HTTP请求处理层                             │
+├─────────────────────────────────────────────────────────────┤
+│                     特征提取层                                │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
+│  │  统计特征    │ │  语义特征    │ │  结构特征     │            │
+│  └─────────────┘ └─────────────┘ └─────────────┘            │
+├─────────────────────────────────────────────────────────────┤
+│                   Transformer检测层                          │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
+│  │  编码器      │ │  解码器      │ │  分类头      │            │
+│  └─────────────┘ └─────────────┘ └─────────────┘            │
+├─────────────────────────────────────────────────────────────┤
+│                    决策层                                    │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐            │
+│  │  异常评分    │ │  规则匹配    │ │  动作执行     │            │
+│  └─────────────┘ └─────────────┘ └─────────────┘            │ 
+└─────────────────────────────────────────────────────────────┘
+</code></pre><h3 id="22-核心数据结构">2.2 核心数据结构</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// Transformer配置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> transformer_config {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> d_model;           <span style="color:#75715e">// 模型维度 (512)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> n_heads;           <span style="color:#75715e">// 注意力头数 (8)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> n_layers;          <span style="color:#75715e">// 层数 (6)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> d_ff;             <span style="color:#75715e">// 前馈网络维度 (2048)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> max_seq_len;       <span style="color:#75715e">// 最大序列长度 (1024)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> dropout;         <span style="color:#75715e">// Dropout率 (0.1)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> vocab_size;        <span style="color:#75715e">// 词汇表大小 (50000)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> num_classes;       <span style="color:#75715e">// 分类数量 (2: 正常/异常)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">transformer_config_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 位置编码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> position_encoding {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>pe;             <span style="color:#75715e">// 位置编码矩阵
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> max_len;           <span style="color:#75715e">// 最大长度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> d_model;           <span style="color:#75715e">// 模型维度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">position_encoding_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 多头注意力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> multi_head_attention {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>W_q;            <span style="color:#75715e">// Query权重矩阵
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>W_k;            <span style="color:#75715e">// Key权重矩阵
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>W_v;            <span style="color:#75715e">// Value权重矩阵
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>W_o;            <span style="color:#75715e">// 输出权重矩阵
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>b_q;            <span style="color:#75715e">// Query偏置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>b_k;            <span style="color:#75715e">// Key偏置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>b_v;            <span style="color:#75715e">// Value偏置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>b_o;            <span style="color:#75715e">// 输出偏置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> d_model;           <span style="color:#75715e">// 模型维度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> n_heads;           <span style="color:#75715e">// 注意力头数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> d_k;              <span style="color:#75715e">// 每个头的维度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">multi_head_attention_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 前馈网络
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> feed_forward {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>W1;             <span style="color:#75715e">// 第一层权重
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>W2;             <span style="color:#75715e">// 第二层权重
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>b1;             <span style="color:#75715e">// 第一层偏置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>b2;             <span style="color:#75715e">// 第二层偏置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> d_model;           <span style="color:#75715e">// 模型维度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> d_ff;             <span style="color:#75715e">// 前馈网络维度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">feed_forward_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Transformer层
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> transformer_layer {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">multi_head_attention_t</span> <span style="color:#f92672">*</span>attention;  <span style="color:#75715e">// 多头注意力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">feed_forward_t</span> <span style="color:#f92672">*</span>ff;                <span style="color:#75715e">// 前馈网络
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">layer_norm_t</span> <span style="color:#f92672">*</span>ln1;                 <span style="color:#75715e">// 第一个层归一化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">layer_norm_t</span> <span style="color:#f92672">*</span>ln2;                 <span style="color:#75715e">// 第二个层归一化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> dropout;                     <span style="color:#75715e">// Dropout率
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">transformer_layer_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 完整的Transformer模型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> transformer_model {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">transformer_config_t</span> config;        <span style="color:#75715e">// 配置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">position_encoding_t</span> <span style="color:#f92672">*</span>pe;           <span style="color:#75715e">// 位置编码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">transformer_layer_t</span> <span style="color:#f92672">*</span>layers;       <span style="color:#75715e">// Transformer层
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">layer_norm_t</span> <span style="color:#f92672">*</span>final_ln;           <span style="color:#75715e">// 最终层归一化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>classifier;                 <span style="color:#75715e">// 分类器权重
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>classifier_bias;            <span style="color:#75715e">// 分类器偏置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>embedding;                  <span style="color:#75715e">// 嵌入层权重
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>embedding_bias;             <span style="color:#75715e">// 嵌入层偏置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">transformer_model_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// HTTP参数特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> http_param_feature {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>name;                        <span style="color:#75715e">// 参数名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>value;                       <span style="color:#75715e">// 参数值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> name_len;                      <span style="color:#75715e">// 参数名长度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> value_len;                     <span style="color:#75715e">// 参数值长度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>name_embedding;             <span style="color:#75715e">// 参数名嵌入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>value_embedding;            <span style="color:#75715e">// 参数值嵌入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>combined_embedding;         <span style="color:#75715e">// 组合嵌入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">http_param_feature_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// HTTP请求特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> http_request_feature {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>uri;                         <span style="color:#75715e">// URI
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>method;                      <span style="color:#75715e">// HTTP方法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>content_type;                <span style="color:#75715e">// 内容类型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> content_length;                <span style="color:#75715e">// 内容长度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">http_param_feature_t</span> <span style="color:#f92672">*</span>params;      <span style="color:#75715e">// 参数列表
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> param_count;                   <span style="color:#75715e">// 参数数量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>request_embedding;          <span style="color:#75715e">// 请求嵌入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>context_embedding;          <span style="color:#75715e">// 上下文嵌入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">http_request_feature_t</span>;
+</span></span></code></pre></div><h2 id="3-特征工程设计">3. 特征工程设计</h2>
+<h3 id="31-特征提取策略">3.1 特征提取策略</h3>
+<h4 id="311-统计特征">3.1.1 统计特征</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> statistical_features {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 参数长度统计
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> param_length_mean;          <span style="color:#75715e">// 参数长度均值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> param_length_std;           <span style="color:#75715e">// 参数长度标准差
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> param_length_min;           <span style="color:#75715e">// 参数长度最小值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> param_length_max;           <span style="color:#75715e">// 参数长度最大值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 字符分布统计
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> digit_ratio;                <span style="color:#75715e">// 数字比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> alpha_ratio;                <span style="color:#75715e">// 字母比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> special_char_ratio;         <span style="color:#75715e">// 特殊字符比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> upper_case_ratio;           <span style="color:#75715e">// 大写字母比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 信息熵
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> entropy;                    <span style="color:#75715e">// 信息熵
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> conditional_entropy;        <span style="color:#75715e">// 条件熵
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 压缩特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> compression_ratio;          <span style="color:#75715e">// 压缩比
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> gzip_ratio;                <span style="color:#75715e">// Gzip压缩比
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 参数数量特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> param_count;                  <span style="color:#75715e">// 参数数量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> param_count_ratio;         <span style="color:#75715e">// 参数数量比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">statistical_features_t</span>;
+</span></span></code></pre></div><h4 id="312-语义特征">3.1.2 语义特征</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> semantic_features {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Word2Vec特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>word2vec_embedding;        <span style="color:#75715e">// Word2Vec嵌入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> embedding_dim;                <span style="color:#75715e">// 嵌入维度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 语义相似性
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> semantic_similarity;        <span style="color:#75715e">// 语义相似性
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> cosine_similarity;          <span style="color:#75715e">// 余弦相似性
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 词汇特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> vocabulary_size;              <span style="color:#75715e">// 词汇表大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> oov_ratio;                 <span style="color:#75715e">// 未知词比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> rare_word_ratio;           <span style="color:#75715e">// 罕见词比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">semantic_features_t</span>;
+</span></span></code></pre></div><h4 id="313-结构特征">3.1.3 结构特征</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> structural_features {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// URL结构特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> url_depth;                   <span style="color:#75715e">// URL深度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> path_segments;               <span style="color:#75715e">// 路径段数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> query_params;                <span style="color:#75715e">// 查询参数数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 参数结构特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> nested_level;                <span style="color:#75715e">// 嵌套层级
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> array_elements;              <span style="color:#75715e">// 数组元素数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> object_properties;           <span style="color:#75715e">// 对象属性数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 编码特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> encoding_type;               <span style="color:#75715e">// 编码类型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> encoding_efficiency;       <span style="color:#75715e">// 编码效率
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> escape_sequences;            <span style="color:#75715e">// 转义序列数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">structural_features_t</span>;
+</span></span></code></pre></div><h3 id="32-特征融合策略">3.2 特征融合策略</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 特征融合函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">float</span><span style="color:#f92672">*</span> <span style="color:#a6e22e">fuse_features</span>(<span style="color:#66d9ef">statistical_features_t</span> <span style="color:#f92672">*</span>stat_feat,
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">semantic_features_t</span> <span style="color:#f92672">*</span>sem_feat,
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">structural_features_t</span> <span style="color:#f92672">*</span>struct_feat,
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>output_dim) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 统计特征归一化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>norm_stat <span style="color:#f92672">=</span> <span style="color:#a6e22e">normalize_statistical_features</span>(stat_feat);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 语义特征处理
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>sem_feat_processed <span style="color:#f92672">=</span> <span style="color:#a6e22e">process_semantic_features</span>(sem_feat);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. 结构特征编码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>struct_feat_encoded <span style="color:#f92672">=</span> <span style="color:#a6e22e">encode_structural_features</span>(struct_feat);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 4. 特征拼接
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>fused_features <span style="color:#f92672">=</span> <span style="color:#a6e22e">concatenate_features</span>(norm_stat, 
+</span></span><span style="display:flex;"><span>                                                sem_feat_processed, 
+</span></span><span style="display:flex;"><span>                                                struct_feat_encoded);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>output_dim <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_fused_dimension</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> fused_features;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="4-transformer架构设计">4. Transformer架构设计</h2>
+<h3 id="41-位置编码">4.1 位置编码</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 正弦位置编码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">generate_position_encoding</span>(<span style="color:#66d9ef">position_encoding_t</span> <span style="color:#f92672">*</span>pe) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> pos <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; pos <span style="color:#f92672">&lt;</span> pe<span style="color:#f92672">-&gt;</span>max_len; pos<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> pe<span style="color:#f92672">-&gt;</span>d_model; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">float</span> angle <span style="color:#f92672">=</span> pos <span style="color:#f92672">/</span> <span style="color:#a6e22e">pow</span>(<span style="color:#ae81ff">10000</span>, (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> i) <span style="color:#f92672">/</span> (<span style="color:#66d9ef">float</span>)pe<span style="color:#f92672">-&gt;</span>d_model);
+</span></span><span style="display:flex;"><span>            pe<span style="color:#f92672">-&gt;</span>pe[pos <span style="color:#f92672">*</span> pe<span style="color:#f92672">-&gt;</span>d_model <span style="color:#f92672">+</span> i] <span style="color:#f92672">=</span> <span style="color:#a6e22e">sin</span>(angle);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> pe<span style="color:#f92672">-&gt;</span>d_model) {
+</span></span><span style="display:flex;"><span>                pe<span style="color:#f92672">-&gt;</span>pe[pos <span style="color:#f92672">*</span> pe<span style="color:#f92672">-&gt;</span>d_model <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">cos</span>(angle);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 相对位置编码
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">generate_relative_position_encoding</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>rel_pe, <span style="color:#66d9ef">int</span> max_len, <span style="color:#66d9ef">int</span> d_model) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> max_len; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> max_len; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> rel_pos <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> j <span style="color:#f92672">+</span> max_len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> d_model; k<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">float</span> angle <span style="color:#f92672">=</span> rel_pos <span style="color:#f92672">/</span> <span style="color:#a6e22e">pow</span>(<span style="color:#ae81ff">10000</span>, (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> k) <span style="color:#f92672">/</span> (<span style="color:#66d9ef">float</span>)d_model);
+</span></span><span style="display:flex;"><span>                rel_pe[(i <span style="color:#f92672">*</span> max_len <span style="color:#f92672">+</span> j) <span style="color:#f92672">*</span> d_model <span style="color:#f92672">+</span> k] <span style="color:#f92672">=</span> <span style="color:#a6e22e">sin</span>(angle);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="42-多头注意力机制">4.2 多头注意力机制</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 缩放点积注意力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">scaled_dot_product_attention</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>Q, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>K, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>V, 
+</span></span><span style="display:flex;"><span>                                 <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output, <span style="color:#66d9ef">int</span> seq_len, <span style="color:#66d9ef">int</span> d_k) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 计算注意力分数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>scores <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(seq_len <span style="color:#f92672">*</span> seq_len <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">matrix_multiply</span>(Q, K, scores, seq_len, d_k, seq_len);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 缩放
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> seq_len <span style="color:#f92672">*</span> seq_len; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        scores[i] <span style="color:#f92672">/=</span> <span style="color:#a6e22e">sqrt</span>(d_k);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Softmax
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">softmax</span>(scores, seq_len, seq_len);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 与V相乘
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">matrix_multiply</span>(scores, V, output, seq_len, seq_len, d_k);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(scores);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 多头注意力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">multi_head_attention_forward</span>(<span style="color:#66d9ef">multi_head_attention_t</span> <span style="color:#f92672">*</span>mha,
+</span></span><span style="display:flex;"><span>                                 <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output,
+</span></span><span style="display:flex;"><span>                                 <span style="color:#66d9ef">int</span> seq_len, <span style="color:#66d9ef">int</span> d_model) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> d_k <span style="color:#f92672">=</span> d_model <span style="color:#f92672">/</span> mha<span style="color:#f92672">-&gt;</span>n_heads;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 线性变换
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>Q <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(seq_len <span style="color:#f92672">*</span> d_model <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>K <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(seq_len <span style="color:#f92672">*</span> d_model <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>V <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(seq_len <span style="color:#f92672">*</span> d_model <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">linear_transform</span>(input, mha<span style="color:#f92672">-&gt;</span>W_q, mha<span style="color:#f92672">-&gt;</span>b_q, Q, seq_len, d_model);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">linear_transform</span>(input, mha<span style="color:#f92672">-&gt;</span>W_k, mha<span style="color:#f92672">-&gt;</span>b_k, K, seq_len, d_model);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">linear_transform</span>(input, mha<span style="color:#f92672">-&gt;</span>W_v, mha<span style="color:#f92672">-&gt;</span>b_v, V, seq_len, d_model);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 重塑为多头
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>Q_heads <span style="color:#f92672">=</span> <span style="color:#a6e22e">reshape_for_heads</span>(Q, seq_len, d_model, mha<span style="color:#f92672">-&gt;</span>n_heads);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>K_heads <span style="color:#f92672">=</span> <span style="color:#a6e22e">reshape_for_heads</span>(K, seq_len, d_model, mha<span style="color:#f92672">-&gt;</span>n_heads);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>V_heads <span style="color:#f92672">=</span> <span style="color:#a6e22e">reshape_for_heads</span>(V, seq_len, d_model, mha<span style="color:#f92672">-&gt;</span>n_heads);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 并行计算注意力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>attention_outputs <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(mha<span style="color:#f92672">-&gt;</span>n_heads <span style="color:#f92672">*</span> seq_len <span style="color:#f92672">*</span> d_k <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> h <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; h <span style="color:#f92672">&lt;</span> mha<span style="color:#f92672">-&gt;</span>n_heads; h<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>Q_head <span style="color:#f92672">=</span> Q_heads <span style="color:#f92672">+</span> h <span style="color:#f92672">*</span> seq_len <span style="color:#f92672">*</span> d_k;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>K_head <span style="color:#f92672">=</span> K_heads <span style="color:#f92672">+</span> h <span style="color:#f92672">*</span> seq_len <span style="color:#f92672">*</span> d_k;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>V_head <span style="color:#f92672">=</span> V_heads <span style="color:#f92672">+</span> h <span style="color:#f92672">*</span> seq_len <span style="color:#f92672">*</span> d_k;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output_head <span style="color:#f92672">=</span> attention_outputs <span style="color:#f92672">+</span> h <span style="color:#f92672">*</span> seq_len <span style="color:#f92672">*</span> d_k;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">scaled_dot_product_attention</span>(Q_head, K_head, V_head, 
+</span></span><span style="display:flex;"><span>                                   output_head, seq_len, d_k);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 合并多头输出
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>concatenated <span style="color:#f92672">=</span> <span style="color:#a6e22e">concatenate_heads</span>(attention_outputs, 
+</span></span><span style="display:flex;"><span>                                           seq_len, d_model, mha<span style="color:#f92672">-&gt;</span>n_heads);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 最终线性变换
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">linear_transform</span>(concatenated, mha<span style="color:#f92672">-&gt;</span>W_o, mha<span style="color:#f92672">-&gt;</span>b_o, output, seq_len, d_model);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 清理内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">free</span>(Q); <span style="color:#a6e22e">free</span>(K); <span style="color:#a6e22e">free</span>(V);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(Q_heads); <span style="color:#a6e22e">free</span>(K_heads); <span style="color:#a6e22e">free</span>(V_heads);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(attention_outputs); <span style="color:#a6e22e">free</span>(concatenated);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="43-前馈网络">4.3 前馈网络</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 前馈网络前向传播
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">feed_forward_forward</span>(<span style="color:#66d9ef">feed_forward_t</span> <span style="color:#f92672">*</span>ff, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, 
+</span></span><span style="display:flex;"><span>                         <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output, <span style="color:#66d9ef">int</span> seq_len) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 第一层线性变换
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>hidden <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(seq_len <span style="color:#f92672">*</span> ff<span style="color:#f92672">-&gt;</span>d_ff <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">linear_transform</span>(input, ff<span style="color:#f92672">-&gt;</span>W1, ff<span style="color:#f92672">-&gt;</span>b1, hidden, seq_len, ff<span style="color:#f92672">-&gt;</span>d_ff);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ReLU激活
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">relu_activation</span>(hidden, seq_len <span style="color:#f92672">*</span> ff<span style="color:#f92672">-&gt;</span>d_ff);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 第二层线性变换
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">linear_transform</span>(hidden, ff<span style="color:#f92672">-&gt;</span>W2, ff<span style="color:#f92672">-&gt;</span>b2, output, seq_len, ff<span style="color:#f92672">-&gt;</span>d_model);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(hidden);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="44-层归一化">4.4 层归一化</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 层归一化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">layer_norm_forward</span>(<span style="color:#66d9ef">layer_norm_t</span> <span style="color:#f92672">*</span>ln, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input, 
+</span></span><span style="display:flex;"><span>                       <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output, <span style="color:#66d9ef">int</span> seq_len, <span style="color:#66d9ef">int</span> d_model) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> seq_len; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>seq <span style="color:#f92672">=</span> input <span style="color:#f92672">+</span> i <span style="color:#f92672">*</span> d_model;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>out_seq <span style="color:#f92672">=</span> output <span style="color:#f92672">+</span> i <span style="color:#f92672">*</span> d_model;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 计算均值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> mean <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> d_model; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            mean <span style="color:#f92672">+=</span> seq[j];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        mean <span style="color:#f92672">/=</span> d_model;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 计算方差
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> var <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> d_model; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            var <span style="color:#f92672">+=</span> (seq[j] <span style="color:#f92672">-</span> mean) <span style="color:#f92672">*</span> (seq[j] <span style="color:#f92672">-</span> mean);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        var <span style="color:#f92672">/=</span> d_model;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 归一化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> d_model; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            out_seq[j] <span style="color:#f92672">=</span> (seq[j] <span style="color:#f92672">-</span> mean) <span style="color:#f92672">/</span> <span style="color:#a6e22e">sqrt</span>(var <span style="color:#f92672">+</span> ln<span style="color:#f92672">-&gt;</span>epsilon);
+</span></span><span style="display:flex;"><span>            out_seq[j] <span style="color:#f92672">=</span> out_seq[j] <span style="color:#f92672">*</span> ln<span style="color:#f92672">-&gt;</span>weight[j] <span style="color:#f92672">+</span> ln<span style="color:#f92672">-&gt;</span>bias[j];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="5-训练策略设计">5. 训练策略设计</h2>
+<h3 id="51-损失函数">5.1 损失函数</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 交叉熵损失
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">cross_entropy_loss</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>predictions, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>labels, 
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">int</span> batch_size, <span style="color:#66d9ef">int</span> num_classes) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> loss <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> batch_size; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> max_val <span style="color:#f92672">=</span> predictions[i <span style="color:#f92672">*</span> num_classes];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> num_classes; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (predictions[i <span style="color:#f92672">*</span> num_classes <span style="color:#f92672">+</span> j] <span style="color:#f92672">&gt;</span> max_val) {
+</span></span><span style="display:flex;"><span>                max_val <span style="color:#f92672">=</span> predictions[i <span style="color:#f92672">*</span> num_classes <span style="color:#f92672">+</span> j];
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> sum_exp <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> num_classes; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            sum_exp <span style="color:#f92672">+=</span> <span style="color:#a6e22e">exp</span>(predictions[i <span style="color:#f92672">*</span> num_classes <span style="color:#f92672">+</span> j] <span style="color:#f92672">-</span> max_val);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> log_prob <span style="color:#f92672">=</span> predictions[i <span style="color:#f92672">*</span> num_classes <span style="color:#f92672">+</span> labels[i]] <span style="color:#f92672">-</span> max_val <span style="color:#f92672">-</span> <span style="color:#a6e22e">log</span>(sum_exp);
+</span></span><span style="display:flex;"><span>        loss <span style="color:#f92672">-=</span> log_prob;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> loss <span style="color:#f92672">/</span> batch_size;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 焦点损失（处理类别不平衡）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">focal_loss</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>predictions, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>labels, 
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> batch_size, <span style="color:#66d9ef">int</span> num_classes, <span style="color:#66d9ef">float</span> alpha, <span style="color:#66d9ef">float</span> gamma) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> loss <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> batch_size; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> <span style="color:#66d9ef">p_t</span> <span style="color:#f92672">=</span> predictions[i <span style="color:#f92672">*</span> num_classes <span style="color:#f92672">+</span> labels[i]];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> <span style="color:#66d9ef">alpha_t</span> <span style="color:#f92672">=</span> (labels[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">?</span> alpha : (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> alpha);
+</span></span><span style="display:flex;"><span>        loss <span style="color:#f92672">-=</span> <span style="color:#66d9ef">alpha_t</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">pow</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#66d9ef">p_t</span>, gamma) <span style="color:#f92672">*</span> <span style="color:#a6e22e">log</span>(<span style="color:#66d9ef">p_t</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> loss <span style="color:#f92672">/</span> batch_size;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="52-优化器">5.2 优化器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// Adam优化器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> adam_optimizer {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> learning_rate;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> beta1;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> beta2;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> epsilon;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>m;              <span style="color:#75715e">// 一阶矩估计
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>v;              <span style="color:#75715e">// 二阶矩估计
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> t;                 <span style="color:#75715e">// 时间步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">adam_optimizer_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">adam_update</span>(<span style="color:#66d9ef">adam_optimizer_t</span> <span style="color:#f92672">*</span>adam, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>params, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>gradients, 
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> param_size) {
+</span></span><span style="display:flex;"><span>    adam<span style="color:#f92672">-&gt;</span>t<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> param_size; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 更新一阶矩估计
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        adam<span style="color:#f92672">-&gt;</span>m[i] <span style="color:#f92672">=</span> adam<span style="color:#f92672">-&gt;</span>beta1 <span style="color:#f92672">*</span> adam<span style="color:#f92672">-&gt;</span>m[i] <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> adam<span style="color:#f92672">-&gt;</span>beta1) <span style="color:#f92672">*</span> gradients[i];
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 更新二阶矩估计
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        adam<span style="color:#f92672">-&gt;</span>v[i] <span style="color:#f92672">=</span> adam<span style="color:#f92672">-&gt;</span>beta2 <span style="color:#f92672">*</span> adam<span style="color:#f92672">-&gt;</span>v[i] <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>                     (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> adam<span style="color:#f92672">-&gt;</span>beta2) <span style="color:#f92672">*</span> gradients[i] <span style="color:#f92672">*</span> gradients[i];
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 偏差修正
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> m_hat <span style="color:#f92672">=</span> adam<span style="color:#f92672">-&gt;</span>m[i] <span style="color:#f92672">/</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">pow</span>(adam<span style="color:#f92672">-&gt;</span>beta1, adam<span style="color:#f92672">-&gt;</span>t));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> v_hat <span style="color:#f92672">=</span> adam<span style="color:#f92672">-&gt;</span>v[i] <span style="color:#f92672">/</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">pow</span>(adam<span style="color:#f92672">-&gt;</span>beta2, adam<span style="color:#f92672">-&gt;</span>t));
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 参数更新
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        params[i] <span style="color:#f92672">-=</span> adam<span style="color:#f92672">-&gt;</span>learning_rate <span style="color:#f92672">*</span> m_hat <span style="color:#f92672">/</span> (<span style="color:#a6e22e">sqrt</span>(v_hat) <span style="color:#f92672">+</span> adam<span style="color:#f92672">-&gt;</span>epsilon);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="53-在线学习">5.3 在线学习</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 在线学习管理器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> online_learning_manager {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>buffer;         <span style="color:#75715e">// 样本缓冲区
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>labels;           <span style="color:#75715e">// 标签缓冲区
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> buffer_size;       <span style="color:#75715e">// 缓冲区大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> current_pos;       <span style="color:#75715e">// 当前位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> buffer_count;      <span style="color:#75715e">// 缓冲区中的样本数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> learning_rate;   <span style="color:#75715e">// 学习率
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> update_frequency;  <span style="color:#75715e">// 更新频率
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> update_counter;    <span style="color:#75715e">// 更新计数器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">online_learning_manager_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 添加新样本
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add_sample</span>(<span style="color:#66d9ef">online_learning_manager_t</span> <span style="color:#f92672">*</span>olm, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>features, <span style="color:#66d9ef">int</span> label) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 添加到缓冲区
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">memcpy</span>(olm<span style="color:#f92672">-&gt;</span>buffer <span style="color:#f92672">+</span> olm<span style="color:#f92672">-&gt;</span>current_pos <span style="color:#f92672">*</span> FEATURE_DIM, 
+</span></span><span style="display:flex;"><span>           features, FEATURE_DIM <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    olm<span style="color:#f92672">-&gt;</span>labels[olm<span style="color:#f92672">-&gt;</span>current_pos] <span style="color:#f92672">=</span> label;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    olm<span style="color:#f92672">-&gt;</span>current_pos <span style="color:#f92672">=</span> (olm<span style="color:#f92672">-&gt;</span>current_pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> olm<span style="color:#f92672">-&gt;</span>buffer_size;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (olm<span style="color:#f92672">-&gt;</span>buffer_count <span style="color:#f92672">&lt;</span> olm<span style="color:#f92672">-&gt;</span>buffer_size) {
+</span></span><span style="display:flex;"><span>        olm<span style="color:#f92672">-&gt;</span>buffer_count<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    olm<span style="color:#f92672">-&gt;</span>update_counter<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 达到更新频率时进行在线更新
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (olm<span style="color:#f92672">-&gt;</span>update_counter <span style="color:#f92672">&gt;=</span> olm<span style="color:#f92672">-&gt;</span>update_frequency) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">online_update_model</span>(olm);
+</span></span><span style="display:flex;"><span>        olm<span style="color:#f92672">-&gt;</span>update_counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 在线模型更新
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">online_update_model</span>(<span style="color:#66d9ef">online_learning_manager_t</span> <span style="color:#f92672">*</span>olm) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 使用缓冲区中的样本进行小批量更新
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> batch_size <span style="color:#f92672">=</span> <span style="color:#a6e22e">min</span>(olm<span style="color:#f92672">-&gt;</span>buffer_count, <span style="color:#ae81ff">32</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> batch_size; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> idx <span style="color:#f92672">=</span> (olm<span style="color:#f92672">-&gt;</span>current_pos <span style="color:#f92672">-</span> batch_size <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> olm<span style="color:#f92672">-&gt;</span>buffer_size) <span style="color:#f92672">%</span> olm<span style="color:#f92672">-&gt;</span>buffer_size;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>features <span style="color:#f92672">=</span> olm<span style="color:#f92672">-&gt;</span>buffer <span style="color:#f92672">+</span> idx <span style="color:#f92672">*</span> FEATURE_DIM;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> label <span style="color:#f92672">=</span> olm<span style="color:#f92672">-&gt;</span>labels[idx];
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 前向传播
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>prediction <span style="color:#f92672">=</span> <span style="color:#a6e22e">forward_pass</span>(features);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 计算梯度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>gradients <span style="color:#f92672">=</span> <span style="color:#a6e22e">compute_gradients</span>(prediction, label);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 更新模型参数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">update_model_parameters</span>(gradients, olm<span style="color:#f92672">-&gt;</span>learning_rate);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">free</span>(prediction);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">free</span>(gradients);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="6-推理优化">6. 推理优化</h2>
+<h3 id="61-模型量化">6.1 模型量化</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 量化配置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> quantization_config {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> bits;              <span style="color:#75715e">// 量化位数 (8/16)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> scale;           <span style="color:#75715e">// 缩放因子
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> zero_point;        <span style="color:#75715e">// 零点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> min_val;         <span style="color:#75715e">// 最小值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> max_val;         <span style="color:#75715e">// 最大值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">quantization_config_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 量化权重
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">quantize_weights</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>float_weights, <span style="color:#66d9ef">int8_t</span> <span style="color:#f92672">*</span>quantized_weights,
+</span></span><span style="display:flex;"><span>                     <span style="color:#66d9ef">int</span> size, <span style="color:#66d9ef">quantization_config_t</span> <span style="color:#f92672">*</span>config) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 计算量化参数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> range <span style="color:#f92672">=</span> config<span style="color:#f92672">-&gt;</span>max_val <span style="color:#f92672">-</span> config<span style="color:#f92672">-&gt;</span>min_val;
+</span></span><span style="display:flex;"><span>    config<span style="color:#f92672">-&gt;</span>scale <span style="color:#f92672">=</span> range <span style="color:#f92672">/</span> (<span style="color:#a6e22e">pow</span>(<span style="color:#ae81ff">2</span>, config<span style="color:#f92672">-&gt;</span>bits) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    config<span style="color:#f92672">-&gt;</span>zero_point <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#a6e22e">round</span>(config<span style="color:#f92672">-&gt;</span>min_val <span style="color:#f92672">/</span> config<span style="color:#f92672">-&gt;</span>scale);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 量化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> size; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> quantized <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(float_weights[i] <span style="color:#f92672">/</span> config<span style="color:#f92672">-&gt;</span>scale) <span style="color:#f92672">+</span> config<span style="color:#f92672">-&gt;</span>zero_point;
+</span></span><span style="display:flex;"><span>        quantized <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">min</span>(<span style="color:#a6e22e">pow</span>(<span style="color:#ae81ff">2</span>, config<span style="color:#f92672">-&gt;</span>bits) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, quantized));
+</span></span><span style="display:flex;"><span>        quantized_weights[i] <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int8_t</span>)quantized;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 反量化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dequantize_weights</span>(<span style="color:#66d9ef">int8_t</span> <span style="color:#f92672">*</span>quantized_weights, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>float_weights,
+</span></span><span style="display:flex;"><span>                       <span style="color:#66d9ef">int</span> size, <span style="color:#66d9ef">quantization_config_t</span> <span style="color:#f92672">*</span>config) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> size; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        float_weights[i] <span style="color:#f92672">=</span> (quantized_weights[i] <span style="color:#f92672">-</span> config<span style="color:#f92672">-&gt;</span>zero_point) <span style="color:#f92672">*</span> config<span style="color:#f92672">-&gt;</span>scale;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="62-缓存优化">6.2 缓存优化</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 注意力缓存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> attention_cache {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>key_cache;      <span style="color:#75715e">// Key缓存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>value_cache;    <span style="color:#75715e">// Value缓存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> cache_size;        <span style="color:#75715e">// 缓存大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> current_pos;       <span style="color:#75715e">// 当前位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">attention_cache_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 缓存注意力计算
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">cached_attention</span>(<span style="color:#66d9ef">multi_head_attention_t</span> <span style="color:#f92672">*</span>mha, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>input,
+</span></span><span style="display:flex;"><span>                     <span style="color:#66d9ef">attention_cache_t</span> <span style="color:#f92672">*</span>cache, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>output,
+</span></span><span style="display:flex;"><span>                     <span style="color:#66d9ef">int</span> seq_len, <span style="color:#66d9ef">int</span> d_model) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 计算当前输入的Key和Value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>current_key <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(seq_len <span style="color:#f92672">*</span> d_model <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>current_value <span style="color:#f92672">=</span> <span style="color:#a6e22e">malloc</span>(seq_len <span style="color:#f92672">*</span> d_model <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">linear_transform</span>(input, mha<span style="color:#f92672">-&gt;</span>W_k, mha<span style="color:#f92672">-&gt;</span>b_k, current_key, seq_len, d_model);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">linear_transform</span>(input, mha<span style="color:#f92672">-&gt;</span>W_v, mha<span style="color:#f92672">-&gt;</span>b_v, current_value, seq_len, d_model);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 更新缓存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">memcpy</span>(cache<span style="color:#f92672">-&gt;</span>key_cache <span style="color:#f92672">+</span> cache<span style="color:#f92672">-&gt;</span>current_pos <span style="color:#f92672">*</span> seq_len <span style="color:#f92672">*</span> d_model,
+</span></span><span style="display:flex;"><span>           current_key, seq_len <span style="color:#f92672">*</span> d_model <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">memcpy</span>(cache<span style="color:#f92672">-&gt;</span>value_cache <span style="color:#f92672">+</span> cache<span style="color:#f92672">-&gt;</span>current_pos <span style="color:#f92672">*</span> seq_len <span style="color:#f92672">*</span> d_model,
+</span></span><span style="display:flex;"><span>           current_value, seq_len <span style="color:#f92672">*</span> d_model <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>));
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    cache<span style="color:#f92672">-&gt;</span>current_pos <span style="color:#f92672">=</span> (cache<span style="color:#f92672">-&gt;</span>current_pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> cache<span style="color:#f92672">-&gt;</span>cache_size;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 使用缓存进行注意力计算
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// ... 注意力计算逻辑
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(current_key);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">free</span>(current_value);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="7-集成与部署">7. 集成与部署</h2>
+<h3 id="71-与现有系统集成">7.1 与现有系统集成</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 集成接口
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> transformer_waf_integration {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">transformer_model_t</span> <span style="color:#f92672">*</span>model;        <span style="color:#75715e">// Transformer模型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">http_request_feature_t</span> <span style="color:#f92672">*</span>features;  <span style="color:#75715e">// 特征提取器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> threshold;                   <span style="color:#75715e">// 检测阈值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> action;                        <span style="color:#75715e">// 执行动作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">transformer_waf_integration_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 检测函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">transformer_detect_anomaly</span>(http_waf_msg <span style="color:#f92672">*</span>req) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 特征提取
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">http_request_feature_t</span> <span style="color:#f92672">*</span>features <span style="color:#f92672">=</span> <span style="color:#a6e22e">extract_http_features</span>(req);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 特征预处理
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>processed_features <span style="color:#f92672">=</span> <span style="color:#a6e22e">preprocess_features</span>(features);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. Transformer推理
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>prediction <span style="color:#f92672">=</span> <span style="color:#a6e22e">transformer_forward</span>(model, processed_features);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 4. 异常评分
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> anomaly_score <span style="color:#f92672">=</span> <span style="color:#a6e22e">compute_anomaly_score</span>(prediction);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 5. 决策
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (anomaly_score <span style="color:#f92672">&gt;</span> threshold) {
+</span></span><span style="display:flex;"><span>        req<span style="color:#f92672">-&gt;</span>rule_id <span style="color:#f92672">=</span> TRANSFORMER_RULE_ID;
+</span></span><span style="display:flex;"><span>        req<span style="color:#f92672">-&gt;</span>severity <span style="color:#f92672">=</span> SEVERITY_CRITICAL;
+</span></span><span style="display:flex;"><span>        req<span style="color:#f92672">-&gt;</span>action <span style="color:#f92672">=</span> ACTION_DROP;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">// 异常
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// 正常
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="72-性能监控">7.2 性能监控</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 性能指标
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> performance_metrics {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 检测性能
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> total_requests;        <span style="color:#75715e">// 总请求数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> detected_anomalies;    <span style="color:#75715e">// 检测到的异常数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> false_positives;       <span style="color:#75715e">// 误报数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> false_negatives;       <span style="color:#75715e">// 漏报数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 时间性能
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> avg_inference_time; <span style="color:#75715e">// 平均推理时间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> max_inference_time; <span style="color:#75715e">// 最大推理时间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> min_inference_time; <span style="color:#75715e">// 最小推理时间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 资源使用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> memory_usage;       <span style="color:#75715e">// 内存使用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> cpu_usage;          <span style="color:#75715e">// CPU使用率
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">performance_metrics_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 性能监控
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">update_performance_metrics</span>(<span style="color:#66d9ef">performance_metrics_t</span> <span style="color:#f92672">*</span>metrics,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">int</span> is_anomaly, <span style="color:#66d9ef">int</span> is_correct,
+</span></span><span style="display:flex;"><span>                              <span style="color:#66d9ef">double</span> inference_time) {
+</span></span><span style="display:flex;"><span>    metrics<span style="color:#f92672">-&gt;</span>total_requests<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (is_anomaly) {
+</span></span><span style="display:flex;"><span>        metrics<span style="color:#f92672">-&gt;</span>detected_anomalies<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>is_correct) {
+</span></span><span style="display:flex;"><span>            metrics<span style="color:#f92672">-&gt;</span>false_positives<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>is_correct) {
+</span></span><span style="display:flex;"><span>            metrics<span style="color:#f92672">-&gt;</span>false_negatives<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 更新时间统计
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    metrics<span style="color:#f92672">-&gt;</span>avg_inference_time <span style="color:#f92672">=</span> 
+</span></span><span style="display:flex;"><span>        (metrics<span style="color:#f92672">-&gt;</span>avg_inference_time <span style="color:#f92672">*</span> (metrics<span style="color:#f92672">-&gt;</span>total_requests <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> inference_time) 
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">/</span> metrics<span style="color:#f92672">-&gt;</span>total_requests;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (inference_time <span style="color:#f92672">&gt;</span> metrics<span style="color:#f92672">-&gt;</span>max_inference_time) {
+</span></span><span style="display:flex;"><span>        metrics<span style="color:#f92672">-&gt;</span>max_inference_time <span style="color:#f92672">=</span> inference_time;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (inference_time <span style="color:#f92672">&lt;</span> metrics<span style="color:#f92672">-&gt;</span>min_inference_time <span style="color:#f92672">||</span> metrics<span style="color:#f92672">-&gt;</span>min_inference_time <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        metrics<span style="color:#f92672">-&gt;</span>min_inference_time <span style="color:#f92672">=</span> inference_time;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="8-测试与评估">8. 测试与评估</h2>
+<h3 id="81-测试数据集">8.1 测试数据集</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 测试数据集结构
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> test_dataset {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">http_request_feature_t</span> <span style="color:#f92672">*</span>requests;  <span style="color:#75715e">// 请求特征
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>labels;                      <span style="color:#75715e">// 真实标签
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> dataset_size;                 <span style="color:#75715e">// 数据集大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> train_ratio;                <span style="color:#75715e">// 训练集比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> val_ratio;                  <span style="color:#75715e">// 验证集比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> test_ratio;                 <span style="color:#75715e">// 测试集比例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">test_dataset_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 数据集分割
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">split_dataset</span>(<span style="color:#66d9ef">test_dataset_t</span> <span style="color:#f92672">*</span>dataset, 
+</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">test_dataset_t</span> <span style="color:#f92672">*</span>train_set,
+</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">test_dataset_t</span> <span style="color:#f92672">*</span>val_set,
+</span></span><span style="display:flex;"><span>                  <span style="color:#66d9ef">test_dataset_t</span> <span style="color:#f92672">*</span>test_set) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> train_size <span style="color:#f92672">=</span> dataset<span style="color:#f92672">-&gt;</span>dataset_size <span style="color:#f92672">*</span> dataset<span style="color:#f92672">-&gt;</span>train_ratio;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> val_size <span style="color:#f92672">=</span> dataset<span style="color:#f92672">-&gt;</span>dataset_size <span style="color:#f92672">*</span> dataset<span style="color:#f92672">-&gt;</span>val_ratio;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> test_size <span style="color:#f92672">=</span> dataset<span style="color:#f92672">-&gt;</span>dataset_size <span style="color:#f92672">*</span> dataset<span style="color:#f92672">-&gt;</span>test_ratio;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 随机分割数据集
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// ... 实现细节
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="82-评估指标">8.2 评估指标</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 评估指标计算
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> evaluation_metrics {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> accuracy;           <span style="color:#75715e">// 准确率
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> precision;          <span style="color:#75715e">// 精确率
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> recall;             <span style="color:#75715e">// 召回率
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> f1_score;           <span style="color:#75715e">// F1分数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> auc;               <span style="color:#75715e">// AUC
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> mcc;               <span style="color:#75715e">// Matthews相关系数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} <span style="color:#66d9ef">evaluation_metrics_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 计算评估指标
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">evaluation_metrics_t</span> <span style="color:#a6e22e">calculate_metrics</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>predictions, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>labels, <span style="color:#66d9ef">int</span> size) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">evaluation_metrics_t</span> metrics;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> tp <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, fp <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, tn <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, fn <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> size; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (predictions[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> labels[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) tp<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (predictions[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> labels[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) fp<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (predictions[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> labels[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) tn<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (predictions[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> labels[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) fn<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    metrics.accuracy <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span>)(tp <span style="color:#f92672">+</span> tn) <span style="color:#f92672">/</span> (tp <span style="color:#f92672">+</span> tn <span style="color:#f92672">+</span> fp <span style="color:#f92672">+</span> fn);
+</span></span><span style="display:flex;"><span>    metrics.precision <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span>)tp <span style="color:#f92672">/</span> (tp <span style="color:#f92672">+</span> fp);
+</span></span><span style="display:flex;"><span>    metrics.recall <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span>)tp <span style="color:#f92672">/</span> (tp <span style="color:#f92672">+</span> fn);
+</span></span><span style="display:flex;"><span>    metrics.f1_score <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> metrics.precision <span style="color:#f92672">*</span> metrics.recall <span style="color:#f92672">/</span> 
+</span></span><span style="display:flex;"><span>                      (metrics.precision <span style="color:#f92672">+</span> metrics.recall);
+</span></span><span style="display:flex;"><span>    metrics.mcc <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span>)(tp <span style="color:#f92672">*</span> tn <span style="color:#f92672">-</span> fp <span style="color:#f92672">*</span> fn) <span style="color:#f92672">/</span> 
+</span></span><span style="display:flex;"><span>                  <span style="color:#a6e22e">sqrt</span>((tp <span style="color:#f92672">+</span> fp) <span style="color:#f92672">*</span> (tp <span style="color:#f92672">+</span> fn) <span style="color:#f92672">*</span> (tn <span style="color:#f92672">+</span> fp) <span style="color:#f92672">*</span> (tn <span style="color:#f92672">+</span> fn));
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> metrics;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="9-部署指南">9. 部署指南</h2>
+<h3 id="91-编译配置">9.1 编译配置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span><span style="color:#75715e"># Makefile配置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>CC <span style="color:#f92672">=</span> gcc
+</span></span><span style="display:flex;"><span>CFLAGS <span style="color:#f92672">=</span> -O3 -march<span style="color:#f92672">=</span>native -mtune<span style="color:#f92672">=</span>native -fopenmp
+</span></span><span style="display:flex;"><span>LDFLAGS <span style="color:#f92672">=</span> -lm -lpthread
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 源文件
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>TRANSFORMER_SOURCES <span style="color:#f92672">=</span> transformer.c <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                      attention.c <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                      feed_forward.c <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                      layer_norm.c <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                      position_encoding.c <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                      feature_extraction.c <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                      training.c <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                      inference.c
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 目标文件
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>TRANSFORMER_OBJECTS <span style="color:#f92672">=</span> <span style="color:#66d9ef">$(</span>TRANSFORMER_SOURCES:.c<span style="color:#f92672">=</span>.o<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 编译规则
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">transformer_waf</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">$(</span>TRANSFORMER_OBJECTS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -o $@ $^ <span style="color:#66d9ef">$(</span>LDFLAGS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">%.o</span><span style="color:#f92672">:</span> %.c
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -c $&lt; -o $@
+</span></span></code></pre></div><h3 id="92-配置文件">9.2 配置文件</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;transformer_config&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;d_model&#34;</span>: <span style="color:#ae81ff">512</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;n_heads&#34;</span>: <span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;n_layers&#34;</span>: <span style="color:#ae81ff">6</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;d_ff&#34;</span>: <span style="color:#ae81ff">2048</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;max_seq_len&#34;</span>: <span style="color:#ae81ff">1024</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;dropout&#34;</span>: <span style="color:#ae81ff">0.1</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;vocab_size&#34;</span>: <span style="color:#ae81ff">50000</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;num_classes&#34;</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;training_config&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;learning_rate&#34;</span>: <span style="color:#ae81ff">0.0001</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;batch_size&#34;</span>: <span style="color:#ae81ff">32</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;epochs&#34;</span>: <span style="color:#ae81ff">100</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;warmup_steps&#34;</span>: <span style="color:#ae81ff">4000</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;weight_decay&#34;</span>: <span style="color:#ae81ff">0.01</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;inference_config&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;threshold&#34;</span>: <span style="color:#ae81ff">0.5</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;quantization&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;cache_attention&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;max_batch_size&#34;</span>: <span style="color:#ae81ff">64</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;feature_config&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;use_statistical_features&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;use_semantic_features&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;use_structural_features&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;word2vec_dim&#34;</span>: <span style="color:#ae81ff">100</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;max_param_length&#34;</span>: <span style="color:#ae81ff">1024</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="10-总结与展望">10. 总结与展望</h2>
+<h3 id="101-技术优势">10.1 技术优势</h3>
+<ol>
+<li><strong>注意力机制</strong>：能够捕获HTTP参数之间的长距离依赖关系</li>
+<li><strong>位置编码</strong>：保留参数在请求中的位置信息</li>
+<li><strong>多头注意力</strong>：从不同角度学习参数特征</li>
+<li><strong>残差连接</strong>：缓解梯度消失问题</li>
+<li><strong>层归一化</strong>：加速训练收敛</li>
+</ol>
+<h3 id="102-性能预期">10.2 性能预期</h3>
+<ul>
+<li><strong>检测准确率</strong>：预期提升15-20%</li>
+<li><strong>误报率</strong>：预期降低30-40%</li>
+<li><strong>推理延迟</strong>：&lt; 1ms</li>
+<li><strong>内存使用</strong>：&lt; 100MB</li>
+<li><strong>CPU使用率</strong>：&lt; 5%</li>
+</ul>
+<h3 id="103-未来改进方向">10.3 未来改进方向</h3>
+<ol>
+<li><strong>模型压缩</strong>：知识蒸馏、剪枝、量化</li>
+<li><strong>多模态融合</strong>：结合图像、音频等特征</li>
+<li><strong>联邦学习</strong>：保护隐私的分布式训练</li>
+<li><strong>自适应阈值</strong>：动态调整检测阈值</li>
+<li><strong>可解释性</strong>：注意力权重可视化</li>
+</ol>
+<p>这个Transformer架构设计将为HTTP参数异常检测提供更强大、更准确的检测能力，同时保持高效的实时性能。</p>
+<blockquote>
+<p>📖 <strong>相关资源</strong>: 查看 <a href="/ai/api_transformer.html">API Transformer 原理演示</a> 了解Transformer架构的实际应用效果。</p>
+</blockquote>
+</div>
+    <div class="post__footer">
+      
+
+      
+    </div>
+
+    
+  </div>
+
+      </main>
+    </div><footer class="footer footer__base">
+  <ul class="footer__list">
+    <li class="footer__item">
+      &copy;
+      
+        donge.org
+        2025
+      
+    </li>
+    
+  </ul>
+</footer>
+  
+  <script
+    type="text/javascript"
+    src="/js/medium-zoom.min.1248fa75275e5ef0cbef27e8c1e27dc507c445ae3a2c7d2ed0be0809555dac64.js"
+    integrity="sha256-Ekj6dSdeXvDL7yfoweJ9xQfERa46LH0u0L4ICVVdrGQ="
+    crossorigin="anonymous"
+  ></script></body>
+</html>

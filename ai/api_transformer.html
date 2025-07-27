@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformer API 检测演示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+            color: #e5e7eb;
+            min-height: 100vh;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .stage-box {
+            border: 2px solid #4b5563;
+            background: rgba(31, 41, 55, 0.8);
+            transition: all 0.5s ease-in-out;
+            min-height: 120px;
+        }
+        .stage-box.active {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #8b5cf6, #a855f7);
+            height: 4px;
+            border-radius: 2px;
+            transition: width 0.5s ease-in-out;
+        }
+        .anomaly-score {
+            background: linear-gradient(45deg, #ef4444, #f87171);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+        }
+        .normal-score {
+            background: linear-gradient(45deg, #22c55e, #4ade80);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Transformer WAF 检测过程演示</h1>
+            <p class="text-xl text-gray-300">基于Transformer架构的HTTP参数异常检测系统</p>
+        </header>
+
+        <div class="text-center mb-8">
+            <button id="start-demo-btn" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg text-lg">
+                🚀 开始演示
+            </button>
+            <div class="mt-4">
+                <label class="text-white mr-4">选择测试用例:</label>
+                <select id="test-case-select" class="bg-gray-800 text-white px-3 py-2 rounded border border-gray-600">
+                    <option value="normal">正常请求</option>
+                    <option value="sql-injection">SQL注入攻击</option>
+                    <option value="xss">XSS攻击</option>
+                    <option value="path-traversal">路径遍历攻击</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- 左侧：系统架构 -->
+            <div class="lg:col-span-1 p-6 rounded-xl relative">
+                <h2 class="text-2xl font-bold mb-6 text-center text-violet-400">🏗️ 系统架构</h2>
+                
+                <div id="system-architecture" class="space-y-4">
+                    <!-- HTTP请求处理层 -->
+                    <div id="stage-http" class="stage-box p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg">🌐 HTTP请求处理层</h3>
+                        <div id="http-request" class="mt-2 text-sm bg-gray-800 p-2 rounded"></div>
+                    </div>
+                    
+                    <div class="text-center text-2xl text-violet-500">↓</div>
+                    
+                    <!-- 特征提取层 -->
+                    <div id="stage-features" class="stage-box p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg">🔍 特征提取层</h3>
+                        <div id="feature-extraction" class="mt-4 space-y-2">
+                            <div class="bg-gray-800 p-3 rounded" id="statistical-features">
+                                <h4 class="font-medium text-violet-300">📊 统计特征</h4>
+                                <div id="stat-features-data" class="text-sm text-gray-400"></div>
+                            </div>
+                            <div class="bg-gray-800 p-3 rounded" id="semantic-features">
+                                <h4 class="font-medium text-violet-300">🧠 语义特征</h4>
+                                <div id="sem-features-data" class="text-sm text-gray-400"></div>
+                            </div>
+                            <div class="bg-gray-800 p-3 rounded" id="structural-features">
+                                <h4 class="font-medium text-violet-300">🏗️ 结构特征</h4>
+                                <div id="struct-features-data" class="text-sm text-gray-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center text-2xl text-violet-500">↓</div>
+                    
+                    <!-- Transformer检测层 -->
+                    <div id="stage-transformer" class="stage-box p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg">⚡ Transformer检测层</h3>
+                        <div id="transformer-process" class="mt-4 space-y-4">
+                            <div id="attention-mechanism" class="p-3 bg-gray-800/50 rounded-lg opacity-0 transition-opacity duration-500">
+                                <h4 class="font-medium text-violet-300">👁️ 多头注意力机制</h4>
+                                <div id="attention-vis" class="mt-2 h-32 relative"></div>
+                            </div>
+                            <div id="feed-forward" class="p-3 bg-gray-800/50 rounded-lg opacity-0 transition-opacity duration-500">
+                                <h4 class="font-medium text-violet-300">🔄 前馈网络</h4>
+                                <div id="ffn-vis" class="mt-2 h-12 flex items-center"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center text-2xl text-violet-500">↓</div>
+                    
+                    <!-- 决策层 -->
+                    <div id="stage-decision" class="stage-box p-4 rounded-lg">
+                        <h3 class="font-semibold text-lg">🎯 决策层</h3>
+                        <div id="decision-result" class="mt-2 text-lg font-bold"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：检测过程 -->
+            <div class="lg:col-span-1 p-6 rounded-xl relative">
+                <h2 class="text-2xl font-bold mb-6 text-center text-violet-400">🔍 检测过程</h2>
+                
+                <div id="detection-process" class="space-y-6">
+                    <!-- 进度条 -->
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span>检测进度</span>
+                            <span id="progress-text">0%</span>
+                        </div>
+                        <div class="bg-gray-700 rounded-full h-2">
+                            <div id="progress-bar" class="progress-bar rounded-full h-2" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 实时日志 -->
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <h3 class="font-semibold mb-2">📝 实时日志</h3>
+                        <div id="log-container" class="text-sm text-gray-300 h-64 overflow-y-auto bg-gray-900 p-3 rounded">
+                            <div class="log-entry" id="init-log">系统初始化完成...</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 性能指标 -->
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <h3 class="font-semibold mb-2">📊 性能指标</h3>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <div class="text-gray-400">推理时间</div>
+                                <div id="inference-time" class="text-violet-300">0ms</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-400">内存使用</div>
+                                <div id="memory-usage" class="text-violet-300">0MB</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-400">CPU使用率</div>
+                                <div id="cpu-usage" class="text-violet-300">0%</div>
+                            </div>
+                            <div>
+                                <div class="text-gray-400">检测准确率</div>
+                                <div id="accuracy" class="text-violet-300">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// 测试用例数据
+const testCases = {
+    normal: {
+        name: "正常请求",
+        request: "GET /api/users?id=123&name=john HTTP/1.1",
+        params: {id: "123", name: "john"},
+        expected: "normal"
+    },
+    "sql-injection": {
+        name: "SQL注入攻击",
+        request: "GET /api/users?id=1' OR '1'='1&name=admin HTTP/1.1",
+        params: {id: "1' OR '1'='1", name: "admin"},
+        expected: "anomaly"
+    },
+    xss: {
+        name: "XSS攻击",
+        request: "GET /api/search?q=&lt;script&gt;alert('xss')&lt;/script&gt; HTTP/1.1",
+        params: {q: "&lt;script&gt;alert('xss')&lt;/script&gt;"},
+        expected: "anomaly"
+    },
+    "path-traversal": {
+        name: "路径遍历攻击",
+        request: "GET /api/files?path=../../../etc/passwd HTTP/1.1",
+        params: {path: "../../../etc/passwd"},
+        expected: "anomaly"
+    }
+};
+
+// DOM元素
+const startBtn = document.getElementById('start-demo-btn');
+const testCaseSelect = document.getElementById('test-case-select');
+const allStageBoxes = document.querySelectorAll('.stage-box');
+const progressBar = document.getElementById('progress-bar');
+const progressText = document.getElementById('progress-text');
+const logContainer = document.getElementById('log-container');
+const inferenceTime = document.getElementById('inference-time');
+const memoryUsage = document.getElementById('memory-usage');
+const cpuUsage = document.getElementById('cpu-usage');
+const accuracy = document.getElementById('accuracy');
+
+let animationRunning = false;
+const sleep = ms => new Promise(res => setTimeout(res, ms));
+
+const log = (message, type = 'info') => {
+    const timestamp = new Date().toLocaleTimeString();
+    const logEntry = document.createElement('div');
+    logEntry.className = `log-entry ${type}`;
+    
+    const timeSpan = document.createElement('span');
+    timeSpan.className = 'text-gray-500';
+    timeSpan.textContent = `[${timestamp}] `;
+    
+    const messageSpan = document.createElement('span');
+    messageSpan.textContent = message;
+    
+    logEntry.appendChild(timeSpan);
+    logEntry.appendChild(messageSpan);
+    logContainer.appendChild(logEntry);
+    logContainer.scrollTop = logContainer.scrollHeight;
+};
+
+const activateStage = (el) => {
+    allStageBoxes.forEach(box => box.classList.remove('active'));
+    if (el) el.classList.add('active');
+};
+
+const updateProgress = (percent) => {
+    progressBar.style.width = percent + '%';
+    progressText.textContent = percent + '%';
+};
+
+const updateMetrics = (time, memory, cpu, acc) => {
+    inferenceTime.textContent = time + 'ms';
+    memoryUsage.textContent = memory + 'MB';
+    cpuUsage.textContent = cpu + '%';
+    accuracy.textContent = acc + '%';
+};
+
+const simulateAttention = async () => {
+    const attentionVis = document.getElementById('attention-vis');
+    attentionVis.innerHTML = '';
+    
+    const container = document.createElement('div');
+    container.className = 'flex justify-around items-center h-full';
+    
+    // 创建Q向量
+    const qDiv = document.createElement('div');
+    qDiv.className = 'text-center';
+    const qLabel = document.createElement('div');
+    qLabel.className = 'bg-blue-500 text-white px-2 py-1 rounded mb-2';
+    qLabel.textContent = 'Q';
+    qDiv.appendChild(qLabel);
+    for (let i = 0; i < 3; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'w-2 h-2 bg-blue-500 rounded-full mx-1 inline-block';
+        qDiv.appendChild(dot);
+    }
+    container.appendChild(qDiv);
+    
+    // 创建K向量
+    const kDiv = document.createElement('div');
+    kDiv.className = 'text-center';
+    const kLabel = document.createElement('div');
+    kLabel.className = 'bg-red-500 text-white px-2 py-1 rounded mb-2';
+    kLabel.textContent = 'K';
+    kDiv.appendChild(kLabel);
+    for (let i = 0; i < 3; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'w-2 h-2 bg-red-500 rounded-full mx-1 inline-block';
+        kDiv.appendChild(dot);
+    }
+    container.appendChild(kDiv);
+    
+    // 创建V向量
+    const vDiv = document.createElement('div');
+    vDiv.className = 'text-center';
+    const vLabel = document.createElement('div');
+    vLabel.className = 'bg-green-500 text-white px-2 py-1 rounded mb-2';
+    vLabel.textContent = 'V';
+    vDiv.appendChild(vLabel);
+    for (let i = 0; i < 3; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'w-2 h-2 bg-green-500 rounded-full mx-1 inline-block';
+        vDiv.appendChild(dot);
+    }
+    container.appendChild(vDiv);
+    
+    attentionVis.appendChild(container);
+    
+    await sleep(1000);
+    const heads = attentionVis.querySelectorAll('.w-2');
+    heads.forEach((head, index) => {
+        setTimeout(() => {
+            head.style.transform = 'scale(1.5)';
+            head.style.boxShadow = '0 0 10px currentColor';
+        }, index * 200);
+    });
+    
+    await sleep(2000);
+    heads.forEach(head => {
+        head.style.transform = 'scale(1)';
+        head.style.boxShadow = 'none';
+    });
+};
+
+const simulateFFN = async () => {
+    const ffnVis = document.getElementById('ffn-vis');
+    ffnVis.innerHTML = '';
+    
+    const ffnBar = document.createElement('div');
+    ffnBar.className = 'w-full h-8 bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 rounded animate-pulse';
+    ffnVis.appendChild(ffnBar);
+    
+    await sleep(1500);
+    ffnBar.classList.remove('animate-pulse');
+};
+
+startBtn.addEventListener('click', async () => {
+    if (animationRunning) return;
+    animationRunning = true;
+    startBtn.disabled = true;
+    startBtn.textContent = '演示进行中...';
+    
+    // 重置状态
+    activateStage(null);
+    updateProgress(0);
+    logContainer.innerHTML = '';
+    const initLog = document.createElement('div');
+    initLog.className = 'log-entry';
+    initLog.textContent = '系统初始化完成...';
+    logContainer.appendChild(initLog);
+    updateMetrics(0, 0, 0, 0);
+    
+    const selectedCase = testCases[testCaseSelect.value];
+    log('开始检测: ' + selectedCase.name, 'info');
+    
+    // 1. HTTP请求处理
+    activateStage(document.getElementById('stage-http'));
+    // 安全显示HTTP请求，防止XSS
+    const requestElement = document.getElementById('http-request');
+    requestElement.textContent = selectedCase.request;
+    updateProgress(10);
+    log('接收HTTP请求', 'info');
+    await sleep(1000);
+    
+    // 2. 特征提取
+    activateStage(document.getElementById('stage-features'));
+    updateProgress(25);
+    log('开始特征提取...', 'info');
+    
+    // 统计特征
+    document.getElementById('statistical-features').classList.add('border-violet-500');
+    const statData = '参数长度: ' + Object.values(selectedCase.params).map(p => p.length).join(', ') + '\n字符分布: 数字' + (Math.floor(Math.random() * 30 + 20)) + '%, 字母' + (Math.floor(Math.random() * 50 + 30)) + '%, 特殊字符' + (Math.floor(Math.random() * 20 + 10)) + '%';
+    document.getElementById('stat-features-data').textContent = statData;
+    await sleep(800);
+    
+    // 语义特征
+    document.getElementById('semantic-features').classList.add('border-violet-500');
+    const semData = 'Word2Vec嵌入维度: 100\n语义相似性: ' + (Math.random() * 0.5 + 0.3).toFixed(3) + '\n词汇表覆盖率: ' + (Math.random() * 0.3 + 0.6).toFixed(1) + '%';
+    document.getElementById('sem-features-data').textContent = semData;
+    await sleep(800);
+    
+    // 结构特征
+    document.getElementById('structural-features').classList.add('border-violet-500');
+    const structData = 'URL深度: ' + (selectedCase.request.split('/').length - 1) + '\n参数数量: ' + Object.keys(selectedCase.params).length + '\n编码类型: URL编码';
+    document.getElementById('struct-features-data').textContent = structData;
+    await sleep(800);
+    
+    updateProgress(50);
+    log('特征提取完成', 'success');
+    
+    // 3. Transformer检测
+    activateStage(document.getElementById('stage-transformer'));
+    updateProgress(60);
+    log('启动Transformer检测引擎', 'info');
+    
+    // 注意力机制
+    document.getElementById('attention-mechanism').style.opacity = 1;
+    log('执行多头注意力计算...', 'info');
+    await simulateAttention();
+    updateProgress(70);
+    
+    // 前馈网络
+    document.getElementById('feed-forward').style.opacity = 1;
+    log('执行前馈网络处理...', 'info');
+    await simulateFFN();
+    updateProgress(80);
+    
+    // 4. 决策层
+    activateStage(document.getElementById('stage-decision'));
+    updateProgress(90);
+    log('生成检测结果...', 'info');
+    await sleep(1000);
+    
+    const isAnomaly = selectedCase.expected === 'anomaly';
+    const anomalyScore = isAnomaly ? (Math.random() * 0.3 + 0.7) : (Math.random() * 0.2);
+    
+    const resultElement = document.getElementById('decision-result');
+    if (isAnomaly) {
+        const anomalyDiv = document.createElement('div');
+        anomalyDiv.className = 'anomaly-score';
+        anomalyDiv.textContent = '🚨 检测到异常 (' + (anomalyScore * 100).toFixed(1) + '%)';
+        resultElement.innerHTML = '';
+        resultElement.appendChild(anomalyDiv);
+        log('检测到异常攻击，置信度: ' + (anomalyScore * 100).toFixed(1) + '%', 'error');
+    } else {
+        const normalDiv = document.createElement('div');
+        normalDiv.className = 'normal-score';
+        normalDiv.textContent = '✅ 正常请求 (' + ((1 - anomalyScore) * 100).toFixed(1) + '%)';
+        resultElement.innerHTML = '';
+        resultElement.appendChild(normalDiv);
+        log('请求正常，通过检测', 'success');
+    }
+    
+    updateProgress(100);
+    
+    // 更新性能指标
+    const inferenceTimeMs = Math.floor(Math.random() * 5 + 1);
+    const memoryMB = Math.floor(Math.random() * 20 + 80);
+    const cpuPercent = Math.floor(Math.random() * 3 + 2);
+    const accuracyPercent = Math.floor(Math.random() * 5 + 95);
+    
+    updateMetrics(inferenceTimeMs, memoryMB, cpuPercent, accuracyPercent);
+    
+    log('检测完成', 'success');
+    log('性能指标 - 推理时间: ' + inferenceTimeMs + 'ms, 内存: ' + memoryMB + 'MB, CPU: ' + cpuPercent + '%, 准确率: ' + accuracyPercent + '%', 'info');
+    
+    // 重置
+    setTimeout(() => {
+        startBtn.disabled = false;
+        startBtn.textContent = '🔄 重新演示';
+        animationRunning = false;
+    }, 2000);
+});
+
+// 测试用例切换
+testCaseSelect.addEventListener('change', () => {
+    if (!animationRunning) {
+        const selectedCase = testCases[testCaseSelect.value];
+        log('切换到测试用例: ' + selectedCase.name, 'info');
+    }
+});
+</script>
+
+</body>
+</html> 
