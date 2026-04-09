@@ -1,0 +1,436 @@
+<!DOCTYPE html><html dir="ltr" lang="zh-CN" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://donge.org/posts/2025-gguf/"><meta name="generator" content="Astro v5.18.0"><!-- General Meta Tags --><title>深度解析GGUF：为高效推理而生的终极格式 | 东冬の乱记</title><meta name="title" content="深度解析GGUF：为高效推理而生的终极格式 | 东冬の乱记"><meta name="description" content="GGUF (Georgi Gerganov Universal Format) 的核心设计哲学可以概括为：“一个文件，包含运行一个大语言模型所需的一切，并为快速、低内存加载而极致优化”。"><meta name="author" content="donge"><link rel="sitemap" href="/sitemap-index.xml"><!-- Open Graph / Facebook --><meta property="og:title" content="深度解析GGUF：为高效推理而生的终极格式 | 东冬の乱记"><meta property="og:description" content="GGUF (Georgi Gerganov Universal Format) 的核心设计哲学可以概括为：“一个文件，包含运行一个大语言模型所需的一切，并为快速、低内存加载而极致优化”。"><meta property="og:url" content="https://donge.org/posts/2025-gguf/"><meta property="og:image" content="https://donge.org/posts/2025-gguf/index.png"><!-- Article Published/Modified time --><meta property="article:published_time" content="2025-07-01T17:00:00.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://donge.org/posts/2025-gguf/"><meta property="twitter:title" content="深度解析GGUF：为高效推理而生的终极格式 | 东冬の乱记"><meta property="twitter:description" content="GGUF (Georgi Gerganov Universal Format) 的核心设计哲学可以概括为：“一个文件，包含运行一个大语言模型所需的一切，并为快速、低内存加载而极致优化”。"><meta property="twitter:image" content="https://donge.org/posts/2025-gguf/index.png"><!-- Google JSON-LD Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"深度解析GGUF：为高效推理而生的终极格式 | 东冬の乱记","image":"https://donge.org/posts/2025-gguf/index.png","datePublished":"2025-07-01T17:00:00.000Z","author":[{"@type":"Person","name":"donge","url":"https://github.com/donge"}]}</script><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml" title="东冬の乱记" href="https://donge.org/rss.xml"><meta name="theme-color" content=""><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CDGfc0hd.js"></script><!-- Minimal inline script to prevent FOUC - sets theme immediately --><script>
+      (function () {
+        const initialColorScheme = "dark"; // "light" | "dark"
+        const currentTheme = localStorage.getItem("theme");
+
+        function getPreferTheme() {
+          if (currentTheme) return currentTheme;
+          if (initialColorScheme) return initialColorScheme;
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+
+        const themeValue = getPreferTheme();
+
+        // Set theme immediately to prevent flash
+        document.firstElementChild?.setAttribute("data-theme", themeValue);
+
+        // Export minimal API for external script
+        window.theme = {
+          themeValue: themeValue,
+          getTheme: () => window.theme.themeValue,
+          setTheme: val => {
+            window.theme.themeValue = val;
+          },
+        };
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.BeoEOhaB.css">
+<style>@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media(prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+:where([data-astro-image]){object-fit:var(--fit);object-position:var(--pos);height:auto}:where([data-astro-image=full-width]){width:100%}:where([data-astro-image=constrained]){max-width:100%}
+</style><style>[data-astro-transition-scope="astro-fam6wyqg-1"] { view-transition-name: \6DF1\5EA6\89E3\6790gguf\FF1A\4E3A\9AD8\6548\63A8\7406\800C\751F\7684\7EC8\6781\683C\5F0F; }@layer astro { ::view-transition-old(\6DF1\5EA6\89E3\6790gguf\FF1A\4E3A\9AD8\6548\63A8\7406\800C\751F\7684\7EC8\6781\683C\5F0F) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(\6DF1\5EA6\89E3\6790gguf\FF1A\4E3A\9AD8\6548\63A8\7406\800C\751F\7684\7EC8\6781\683C\5F0F) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(\6DF1\5EA6\89E3\6790gguf\FF1A\4E3A\9AD8\6548\63A8\7406\800C\751F\7684\7EC8\6781\683C\5F0F) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(\6DF1\5EA6\89E3\6790gguf\FF1A\4E3A\9AD8\6548\63A8\7406\800C\751F\7684\7EC8\6781\683C\5F0F) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-2"] { view-transition-name: blog; }@layer astro { ::view-transition-old(blog) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(blog) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(blog) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(blog) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body>  <a id="skip-to-content" href="#main-content" class="absolute start-16 -top-full z-50 bg-background px-3 py-2 text-accent backdrop-blur-lg transition-all focus:top-4">
+Skip to content
+</a> <header class="app-layout flex flex-col items-center justify-between sm:flex-row"> <div id="top-nav-wrap" class="py-4 sm:py-6 border-b border-border relative w-full bg-background flex items-baseline justify-between sm:items-center"> <a href="/" class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"> <span class="text-accent select-none">~/</span>东冬の乱记 </a> <nav id="nav-menu" class="flex w-full flex-col items-center sm:ms-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0"> <button id="menu-btn" class="focus-outline self-end p-2 sm:hidden" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" id="close-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep" id="menu-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6h16" /><path d="M7 12h13" /><path d="M10 18h10" /></svg> </button> <ul id="menu-items" class="mt-4 grid w-44 grid-cols-2 place-content-center gap-2 [&#38;>li>a]:block [&#38;>li>a]:px-4 [&#38;>li>a]:py-3 [&#38;>li>a]:text-center [&#38;>li>a]:font-medium [&#38;>li>a]:hover:text-accent sm:[&#38;>li>a]:px-2 sm:[&#38;>li>a]:py-1 hidden sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0"> <li class="col-span-2"> <a href="/posts" class="active-nav">
+Posts
+</a> </li> <li class="col-span-2"> <a href="/tags">
+Tags
+</a> </li> <li class="col-span-2"> <a href="/projects">
+Projects
+</a> </li> <li class="col-span-2"> <a href="/about">
+About
+</a> </li> <li class="col-span-2"> <a href="/archives" title="Archives" aria-label="archives" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex justify-center p-3 sm:p-1">  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden sm:inline-block"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" /><path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" /><path d="M10 12l4 0" /></svg> <span class="sm:sr-only">Archives</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <a href="/search" title="Search" aria-label="search" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex p-3 sm:p-1">  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg> <span class="sr-only">Search</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <button id="theme-btn" class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent" title="Toggles light & dark" aria-label="auto" aria-live="polite"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" /><path d="M6.343 17.657l-1.414 1.414" /><path d="M6.343 6.343l-1.414 -1.414" /><path d="M17.657 6.343l1.414 -1.414" /><path d="M17.657 17.657l1.414 1.414" /><path d="M4 12h-2" /><path d="M12 4v-2" /><path d="M20 12h2" /><path d="M12 20v2" /></svg> </button> </li> </ul> </nav> </div> </header> <script type="module">function s(){const e=document.querySelector("#menu-btn"),t=document.querySelector("#menu-items"),n=document.querySelector("#menu-icon"),o=document.querySelector("#close-icon");!e||!t||!n||!o||e.addEventListener("click",()=>{const c=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",c?"false":"true"),e.setAttribute("aria-label",c?"Open Menu":"Close Menu"),t.classList.toggle("hidden"),n.classList.toggle("hidden"),o.classList.toggle("hidden")})}s();document.addEventListener("astro:after-swap",s);</script> <div class="app-layout flex items-center justify-start"><a id="back-button" href="/" class="group inline-flex items-center gap-1 hover:text-accent focus-outline -ms-2 mt-8 mb-2 hover:text-foreground/75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg><span>Go back</span> </a></div><script type="module">function o(){const t=document.querySelector("#back-button"),e=sessionStorage.getItem("backUrl");e&&t&&(t.href=e)}document.addEventListener("astro:page-load",o);o();</script> <main id="main-content" class="app-layout pb-12" data-pagefind-body> <h1 class="inline-block text-2xl font-bold text-accent sm:text-3xl" data-astro-transition-scope="astro-fam6wyqg-1"> 深度解析GGUF：为高效推理而生的终极格式 </h1> <div class="my-2 flex items-center gap-2"> <div class="flex items-center gap-x-2 opacity-80"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 min-w-5.5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg>  <time class="text-sm sm:text-base" datetime="2025-07-01T17:00:00.000Z">2 Jul, 2025</time> </div> <span aria-hidden="true" class="max-sm:hidden hidden">|</span>  </div> <article id="article" class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"> <p>GGUF (Georgi Gerganov Universal Format) 的核心设计哲学可以概括为：“一个文件，包含运行一个大语言模型所需的一切，并为快速、低内存加载而极致优化”。</p>
+<p>想象一下，它就像一个为AI模型量身定做的智能“压缩包”，里面不仅有数据，还有一份详细的“说明书”和“组装图”，让推理程序（如 llama.cpp）能够以最高效的方式快速读取和使用它。</p>
+<p>下面，我们按照文件从头到尾的顺序，逐字节地拆解其内部结构。</p>
+<h2 id="一-gguf-的文件结构四段式设计">一、 GGUF 的文件结构：四段式设计</h2>
+<p>一个GGUF文件由四个连续的部分组成：</p>
+<ul>
+<li>文件头 (Header): 文件的身份标识和“目录”。</li>
+<li>元数据 (Metadata): 模型的“说明书”，记录了架构、分词器等一切信息。</li>
+<li>张量信息 (Tensor Info): 模型权重的“索引”，描述了每个权重块的尺寸、类型和位置。</li>
+<li>张量数据 (Tensor Data): 模型真正的“大脑”，即所有权重的二进制数据。</li>
+</ul>
+<p>让我们逐一深入。</p>
+<h3 id="1-文件头-gguf_header">1. 文件头 (gguf_header)</h3>
+<p>这是文件最开始的一小段固定结构，它告诉解析器关于这个文件的基本信息。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>字段</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>magic</td><td>uint32_t</td><td>魔数。固定为 0x46554747，即ASCII码中的 “GGUF”。程序读取文件前4个字节，如果不是这个值，就说明它不是一个有效的GGUF文件。</td></tr><tr><td>version</td><td>uint32_t</td><td>版本号。GGUF格式本身也会迭代。版本号让解析器知道如何正确处理后续内容。例如，V2版本可能比V1支持了新的元数据类型。</td></tr><tr><td>tensor_count</td><td>uint64_t</td><td>张量数量。文件中包含多少个独立的权重张量。解析器根据这个数字来读取后续的“张量信息”部分。</td></tr><tr><td>metadata_kv_count</td><td>uint64_t</td><td>元数据键值对数量。文件中包含多少条元数据。解析器根据这个数字来读取“元数据”部分。</td></tr></tbody></table>
+<p>这个文件头非常简洁，提供了最关键的引导信息，让解析器可以立刻知道接下来要循环读取多少次元数据和张量信息。</p>
+<h3 id="2-元数据-metadata_kv---gguf-的灵魂">2. 元数据 (metadata_kv) - GGUF 的灵魂</h3>
+<p>这是GGUF格式最具扩展性和信息量的部分。它是一个键值对（Key-Value）列表，存储了关于模型的一切非权重信息。</p>
+<p><strong>结构</strong></p>
+<p>它由 metadata_kv_count 个键值对连续排列而成。每个键值对的结构是：</p>
+<ul>
+<li><strong>Key (键)</strong>: 一个字符串，用于描述信息的名称。
+<ul>
+<li>命名约定: 采用点分法 . 来创建有层次的命名空间，例如 llama.context_length 和 tokenizer.ggml.eos_token_id。这使得信息组织得非常清晰。</li>
+</ul>
+</li>
+<li><strong>Value Type (值类型)</strong>: 一个枚举值，指明了后面 Value 的数据类型。这赋予了GGUF极大的灵活性，它可以存储各种类型的数据。</li>
+<li><strong>Value (值)</strong>: 真正的元数据值。</li>
+</ul>
+<h4 id="关键的元数据类型-gguf_metadata_value_type">关键的元数据类型 (gguf_metadata_value_type)</h4>
+<p>GGUF可以存储多种类型的值，包括：</p>
+<ul>
+<li>基础类型: UINT32, INT32, FLOAT32, BOOL, STRING 等。</li>
+<li>数组类型: 这是GGUF的强大之处。它可以存储以上任意基础类型的数组。</li>
+</ul>
+<h4 id="必须理解的核心元数据键-keys">必须理解的核心元数据键 (Keys)</h4>
+<p>以下是一些你在几乎所有LLM的GGUF文件中都能找到的关键元数据，它们展示了GGUF的自包含特性：</p>
+<p><strong>通用信息 (general)</strong></p>
+<ul>
+<li>general.architecture: 模型架构 (如 llama, gemma, falcon)。这是最重要的键之一，它告诉推理引擎应该加载哪种模型的计算图。</li>
+<li>general.name: 模型的名字。</li>
+<li>general.file_type: 文件的量化类型 (如 Q4_K_M, F16)。这直接关系到模型的性能和内存占用。</li>
+<li>general.quantization_version: 量化算法的版本号。</li>
+</ul>
+<p><strong>架构特定信息 (以 LLaMA 为例)</strong></p>
+<ul>
+<li>llama.context_length: 上下文长度，模型能处理的最大序列长度。</li>
+<li>llama.embedding_length: 嵌入层的维度。</li>
+<li>llama.block_count: Transformer层的数量。</li>
+<li>llama.attention.head_count: 注意力头的数量。</li>
+<li>llama.attention.head_count_kv: 键/值（KV）头的数量（用于GQA或MQA）。</li>
+<li>llama.rope.dimension_count: RoPE（旋转位置嵌入）的维度。</li>
+</ul>
+<p><strong>分词器信息 (tokenizer)</strong></p>
+<ul>
+<li>tokenizer.ggml.model: 分词器类型 (如 llama for SentencePiece, gpt2 for BPE)。</li>
+<li>tokenizer.ggml.tokens: 整个词汇表，这是一个字符串数组，包含了数万个词元。</li>
+<li>tokenizer.ggml.scores: 每个词元的分数，这是一个浮点数数组。</li>
+<li>tokenizer.ggml.merges: BPE模型的分词合并规则。</li>
+<li>tokenizer.ggml.bos_token_id: 序列开始符的ID。</li>
+<li>tokenizer.ggml.eos_token_id: 序列结束符的ID。</li>
+<li>tokenizer.ggml.padding_token_id: 填充符的ID。</li>
+<li>tokenizer.ggml.unknown_token_id: 未知符的ID。</li>
+</ul>
+<blockquote>
+<p>划重点： 正是因为GGUF将完整的、可直接使用的分词器信息也打包了进来，才使得它成为了一个真正的“单文件解决方案”，无需再额外寻找和配置tokenizer文件。</p>
+</blockquote>
+<h3 id="3-张量信息-gguf_tensor_info---权重的索引">3. 张量信息 (gguf_tensor_info) - 权重的“索引”</h3>
+<p>紧跟元数据之后的是张量信息区。它由 tensor_count 个条目组成，每个条目都详细描述了一个张量（即一个权重矩阵或向量）。</p>
+<p>每个张量信息条目包含：</p>
+<ul>
+<li>name (名称): 字符串。张量的唯一名称，例如 blk.0.attn_q.weight (第0层的查询矩阵权重)。推理引擎根据这个名字将权重加载到模型架构对应的位置。</li>
+<li>n_dims (维度数): 张量的维度数量 (例如，2维矩阵，1维向量)。</li>
+<li>shape (形状): 一个 uint64_t 数组，包含每个维度的具体大小。</li>
+<li>type (类型): 至关重要。它是一个枚举值，定义了张量数据的存储类型。这直接决定了模型的内存占用和计算方式。常见的类型有：
+<ul>
+<li>GGML_TYPE_F32: 标准32位浮点数。</li>
+<li>GGML_TYPE_F16: 16位半精度浮点数。</li>
+<li>GGML_TYPE_Q8_0: 8位整数量化。</li>
+<li>GGML_TYPE_Q4_0, GGML_TYPE_Q4_K, GGML_TYPE_Q5_K_M…: 各种4位、5位等更低比特的量化类型，是GGUF实现极致压缩的核心。</li>
+</ul>
+</li>
+<li>offset (偏移量): uint64_t。这是性能优化的关键。它记录了该张量的实际数据，距离张量数据区起始位置的字节数。</li>
+</ul>
+<h3 id="4-对齐填充-padding-与-张量数据-tensor-data">4. 对齐填充 (Padding) 与 张量数据 (Tensor Data)</h3>
+<p><strong>对齐填充</strong></p>
+<p>在“张量信息”区和“张量数据”区之间，通常会有一小段空白的填充字节。这是为了确保“张量数据”区的起始地址是内存对齐的（通常是32或64字节对齐）。</p>
+<blockquote>
+<p>为什么需要对齐？ 现代CPU在读取内存对齐的数据时效率最高。这个看似微小的细节，体现了GGUF对性能的极致追求。</p>
+</blockquote>
+<p><strong>张量数据</strong></p>
+<p>这是文件中最大、也是最后的部分。它包含了所有张量的纯二进制数据，按照“张量信息”中描述的顺序和类型紧密地排列在一起。</p>
+<h2 id="gguf的高效加载机制">GGUF的高效加载机制</h2>
+<p>当 llama.cpp 加载一个GGUF文件时，它并不会一次性把几GB的数据全读入内存。它会：</p>
+<ol>
+<li>读取文件头、元数据和所有张量信息，这部分数据量很小，可以瞬间完成。</li>
+<li>通过内存映射 (memory mapping, mmap) 的方式打开文件。这使得操作系统将文件内容虚拟地映射到内存地址，但并不会立即产生实际的IO读操作。</li>
+<li>当模型计算需要某个张量时（例如 blk.0.attn_q.weight），程序会：
+<ul>
+<li>在张量信息中查找该张量的 offset 和 type。</li>
+<li>直接从内存映射的地址，根据 offset 定位到该张量数据的起始位置。</li>
+<li>只将这一小块需要用到的数据从硬盘加载到物理内存中进行计算。</li>
+</ul>
+</li>
+</ol>
+<p>这种“按需加载”的机制，使得GGUF模型的启动速度极快，且初始内存占用极低。</p>
+<h2 id="总结为什么gguf如此优秀">总结：为什么GGUF如此优秀？</h2>
+<p>通过以上的深度剖析，我们可以总结出GGUF格式设计的精髓：</p>
+<ul>
+<li><strong>自包含性 (Self-Contained)</strong>: 单个文件包含了运行模型所需的一切（架构、权重、分词器），极大简化了分发和使用。</li>
+<li><strong>可扩展性 (Extensibility)</strong>: 灵活的键值对元数据设计，让它可以轻松适应未来的新模型架构和新技术，只需增加新的键值对即可。</li>
+<li><strong>高性能 (High Performance)</strong>:
+<ul>
+<li>为量化而生： 原生支持多种低比特量化类型，实现极致压缩。</li>
+<li>为快速加载而生： 通过内存映射和精确的偏移量（offset），实现了近乎瞬时的模型加载和极低的内存占用。</li>
+<li>为计算而生： 内存对齐等细节设计，保证了底层计算库（ggml）的高效运行。</li>
+</ul>
+</li>
+</ul>
+<p>GGUF不仅仅是一个文件容器，它是一套完整、高效、面向未来的LLM推理解决方案的基石。</p> </article> <hr class="my-8 border-dashed">  <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8"> <li> <a href="/tags/blog/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> blog </a> </li> </ul> <div id="btt-btn-container" class="fixed end-4 bottom-8 z-50 md:sticky md:end-auto md:float-end md:me-1 translate-y-14 opacity-0 transition duration-500"> <button data-button="back-to-top" class="group relative bg-background px-2 py-1 size-14 rounded-full shadow-xl md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg"> <span id="progress-indicator" class="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"></span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block rotate-90 md:hidden"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <span class="sr-only text-sm group-hover:text-accent md:not-sr-only"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M16 9l-4 -4" /><path d="M8 9l4 -4" /></svg>
+Back To Top
+</span> </button> </div> <script data-astro-rerun>
+  /** Scrolls the document to the top when
+   * the "Back to Top" button is clicked. */
+  function backToTop() {
+    const rootElement = document.documentElement;
+    const btnContainer = document.querySelector("#btt-btn-container");
+    const backToTopBtn = document.querySelector("[data-button='back-to-top']");
+    const progressIndicator = document.querySelector("#progress-indicator");
+
+    if (!rootElement || !btnContainer || !backToTopBtn || !progressIndicator)
+      return;
+
+    // Attach click event handler for back-to-top button
+    backToTopBtn.addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+
+    // Handle button visibility according to scroll position
+    let lastVisible = null;
+    function handleScroll() {
+      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+      const scrollTop = rootElement.scrollTop;
+      const scrollPercent = Math.floor((scrollTop / scrollTotal) * 100);
+
+      progressIndicator.style.setProperty(
+        "background-image",
+        `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`
+      );
+
+      const isVisible = scrollTop / scrollTotal > 0.3;
+
+      if (isVisible !== lastVisible) {
+        btnContainer.classList.toggle("opacity-100", isVisible);
+        btnContainer.classList.toggle("translate-y-0", isVisible);
+        btnContainer.classList.toggle("opacity-0", !isVisible);
+        btnContainer.classList.toggle("translate-y-14", !isVisible);
+        lastVisible = isVisible;
+      }
+    }
+
+    let ticking = false;
+    document.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+  backToTop();
+</script> <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start"><span class="italic">Share this post on:</span><div class="text-center"><a href="https://x.com/intent/post?url=https://donge.org/posts/2025-gguf/" title="Share this post on X" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg><span class="sr-only">Share this post on X</span> </a><a href="https://t.me/share/url?url=https://donge.org/posts/2025-gguf/" title="Share this post via Telegram" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" /></svg><span class="sr-only">Share this post via Telegram</span> </a><a href="mailto:?subject=See%20this%20post&#38;body=https://donge.org/posts/2025-gguf/" title="Share this post via email" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg><span class="sr-only">Share this post via email</span> </a></div></div> <hr class="my-6 border-dashed"> <!-- Previous/Next Post Buttons --> <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2"> <a href="/posts/2025-module-format" class="flex w-full gap-1 hover:opacity-75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <div> <span>Previous Post</span> <div class="text-sm text-accent/85">从GGUF到TensorRT：一文读懂AI模型文件的江湖</div> </div> </a> <a href="/posts/deepseek" class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"> <div> <span>Next Post</span> <div class="text-sm text-accent/85">《模型大学的文理之争》——DeepSeek R1与GPT-4o的成长日记</div> </div> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l6 6l-6 6" /></svg> </a> </div> </main> <footer class="app-layout mt-auto"> <div class="py-6 sm:py-4 border-t border-border flex flex-col items-center justify-between sm:flex-row-reverse"> <div class="flex flex-wrap items-center gap-1"> <a href="https://github.com/donge" title="donge on GitHub" class="group inline-flex items-center gap-1 hover:text-accent p-2 hover:rotate-6 sm:p-1">  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /></svg> <span class="sr-only">donge on GitHub</span>  </a><a href="https://www.linkedin.com/in/donge" title="donge on LinkedIn" class="group inline-flex items-center gap-1 hover:text-accent p-2 hover:rotate-6 sm:p-1">  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" /></svg> <span class="sr-only">donge on LinkedIn</span>  </a> </div> <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row"> <span>Copyright &#169; 2026</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>All rights reserved.</span> </div> </div> </footer>  <!-- Load full theme logic --> <script type="module">const d="theme",r="light",m="dark";function i(){const e=localStorage.getItem(d);return e||(window.matchMedia("(prefers-color-scheme: dark)").matches?m:r)}let t=window.theme?.themeValue??i();function c(){localStorage.setItem(d,t),o()}function o(){document.firstElementChild?.setAttribute("data-theme",t),document.querySelector("#theme-btn")?.setAttribute("aria-label",t);const e=document.body;if(e){const n=window.getComputedStyle(e).backgroundColor;document.querySelector("meta[name='theme-color']")?.setAttribute("content",n)}}window.theme?(window.theme.setPreference=c,window.theme.reflectPreference=o):window.theme={themeValue:t,setPreference:c,reflectPreference:o,getTheme:()=>t,setTheme:e=>{t=e}};o();function s(){o(),document.querySelector("#theme-btn")?.addEventListener("click",()=>{t=t===r?m:r,window.theme?.setTheme(t),c()})}s();document.addEventListener("astro:after-swap",s);document.addEventListener("astro:before-swap",e=>{const a=e,n=document.querySelector("meta[name='theme-color']")?.getAttribute("content");n&&a.newDocument.querySelector("meta[name='theme-color']")?.setAttribute("content",n)});window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",({matches:e})=>{t=e?m:r,window.theme?.setTheme(t),c()});</script> </body> </html> <script data-astro-rerun>
+  /** Create a progress indicator
+   *  at the top */
+  function createProgressBar() {
+    // Create the main container div
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    // Create the progress bar div
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    // Append the progress bar to the progress container
+    progressContainer.appendChild(progressBar);
+
+    // Append the progress container to the document body or any other desired parent element
+    document.body.appendChild(progressContainer);
+  }
+  createProgressBar();
+
+  /** Update the progress bar
+   *  when user scrolls */
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      if (document) {
+        const myBar = document.getElementById("myBar");
+        if (myBar) {
+          myBar.style.width = scrolled + "%";
+        }
+      }
+    });
+  }
+  updateScrollProgress();
+
+  /** Attaches links to headings in the document,
+   *  allowing sharing of sections easily */
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("h2, h3, h4, h5, h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+      link.href = "#" + heading.id;
+
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  /** Attaches copy buttons to code blocks in the document,
+   * allowing users to copy code easily. */
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      // Check if --file-name-offset custom property exists
+      const computedStyle = getComputedStyle(codeBlock);
+      const hasFileNameOffset =
+        computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
+
+      // Determine the top positioning class
+      const topClass = hasFileNameOffset
+        ? "top-(--file-name-offset)"
+        : "-top-3";
+
+      const copyButton = document.createElement("button");
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      // wrap codebock with relative parent element
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      const code = block.querySelector("code");
+      const text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      // visual feedback that task is completed
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  /* Go to page start after page swap */
+  document.addEventListener("astro:after-swap", () =>
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+  );
+</script>
