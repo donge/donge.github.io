@@ -1,0 +1,142 @@
+/*@font-face {*/
+    /*font-family: 'Mono Social Icons Font';*/
+    /*src: url('MonoSocialIconsFont-1.10.eot');*/
+    /*src: url('MonoSocialIconsFont-1.10.eot?#iefix') format('embedded-opentype'),*/
+    /*url('MonoSocialIconsFont-1.10.woff') format('woff'),*/
+    /*url('MonoSocialIconsFont-1.10.ttf') format('truetype'),*/
+    /*url('MonoSocialIconsFont-1.10.svg#MonoSocialIconsFont') format('svg');*/
+    /*src: url('MonoSocialIconsFont-1.10.ttf') format('truetype');*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+/*}*/
+
+/*.symbol, a.symbol:before {*/
+    /*font-family: 'Mono Social Icons Font';*/
+    /*-webkit-text-rendering: optimizeLegibility;*/
+    /*-moz-text-rendering: optimizeLegibility;*/
+    /*-ms-text-rendering: optimizeLegibility;*/
+    /*-o-text-rendering: optimizeLegibility;*/
+    /*text-rendering: optimizeLegibility;*/
+    /*-webkit-font-smoothing: antialiased;*/
+    /*-moz-font-smoothing: antialiased;*/
+    /*-ms-font-smoothing: antialiased;*/
+    /*-o-font-smoothing: antialiased;*/
+    /*font-smoothing: antialiased;*/
+/*}*/
+
+/*a.symbol:before {*/
+    /*content: attr(title);*/
+    /*margin-right: 0.3em;*/
+    /*font-size: 130%;*/
+/*}*/
+
+
+/*
+Font: 		Verb
+Style: 		Extralight
+URL: 		http://www.youworkforthem.com/product.php?sku=T4205
+Foundry: 	Yellow Design Studio
+Foundry: 	http://www.youworkforthem.com/designer/351/yellow-design-studio
+Copyright:	Copyright (c) 2012 by Yellow Desing Studio. All rights reserved.
+Version: 	1.1
+Created:	January 21, 2013
+License: 	http://www.youworkforthem.com/font-license
+License: 	The WebFont(s) listed in this document must follow the YouWorkForThem
+			WebFont license rules. All other parties are strictly restricted
+			from using the WebFonts(s) listed without a purchased license.
+			All details above must always remain unaltered and visible in your CSS.
+*/
+
+@font-face {
+    font-family: 'Verb Extralight';
+    src: url('verb-extralight.eot');
+    src: url('verb-extralight.eot?#iefix') format('embedded-opentype'),
+    url('verb-extralight.woff') format('woff'),
+    url('verb-extralight.ttf') format('truetype'),
+    url('verb-extralight.svg#ywftsvg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*
+Font: 		Verb
+Style: 		Light
+URL: 		http://www.youworkforthem.com/product.php?sku=T4205
+Foundry: 	Yellow Design Studio
+Foundry: 	http://www.youworkforthem.com/designer/351/yellow-design-studio
+Copyright:	Copyright (c) 2012 by Yellow Desing Studio. All rights reserved.
+Version: 	1.1
+Created:	January 22, 2013
+License: 	http://www.youworkforthem.com/font-license
+License: 	The WebFont(s) listed in this document must follow the YouWorkForThem
+			WebFont license rules. All other parties are strictly restricted
+			from using the WebFonts(s) listed without a purchased license.
+			All details above must always remain unaltered and visible in your CSS.
+*/
+
+@font-face {
+    font-family: 'Verb Light';
+    src: url('verb-light.eot');
+    src: url('verb-light.eot?#iefix') format('embedded-opentype'),
+    url('verb-light.woff') format('woff'),
+    url('verb-light.ttf') format('truetype'),
+    url('verb-light.svg#ywftsvg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/*
+Font: 		Verb
+Style: 		Regular
+URL: 		http://www.youworkforthem.com/product.php?sku=T4205
+Foundry: 	Yellow Design Studio
+Foundry: 	http://www.youworkforthem.com/designer/351/yellow-design-studio
+Copyright:	Copyright (c) 2012 by Yellow Desing Studio. All rights reserved.
+Version: 	1.1
+Created:	January 22, 2013
+License: 	http://www.youworkforthem.com/font-license
+License: 	The WebFont(s) listed in this document must follow the YouWorkForThem
+			WebFont license rules. All other parties are strictly restricted
+			from using the WebFonts(s) listed without a purchased license.
+			All details above must always remain unaltered and visible in your CSS.
+*/
+
+@font-face {
+    font-family: 'Verb Regular';
+    src: url('verb-regular.eot');
+    src: url('verb-regular.eot?#iefix') format('embedded-opentype'),
+    url('verb-regular.woff') format('woff'),
+    url('verb-regular.ttf') format('truetype'),
+    url('verb-regular.svg#ywftsvg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/*
+Font: 		Verb
+Style: 		Semibold
+URL: 		http://www.youworkforthem.com/product.php?sku=T4205
+Foundry: 	Yellow Design Studio
+Foundry: 	http://www.youworkforthem.com/designer/351/yellow-design-studio
+Copyright:	Copyright (c) 2012 by Yellow Desing Studio. All rights reserved.
+Version: 	1.1
+Created:	January 22, 2013
+License: 	http://www.youworkforthem.com/font-license
+License: 	The WebFont(s) listed in this document must follow the YouWorkForThem
+			WebFont license rules. All other parties are strictly restricted
+			from using the WebFonts(s) listed without a purchased license.
+			All details above must always remain unaltered and visible in your CSS.
+*/
+
+@font-face {
+    font-family: 'Verb Semibold';
+    src: url('verb-semibold.eot');
+    src: url('verb-semibold.eot?#iefix') format('embedded-opentype'),
+    url('verb-semibold.woff') format('woff'),
+    url('verb-semibold.ttf') format('truetype'),
+    url('verb-semibold.svg#ywftsvg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
