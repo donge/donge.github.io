@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>杨东冬 — 平台工程师</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "Helvetica Neue", Arial, "PingFang SC", sans-serif; color: #222; background: #fff; font-size: 10pt; line-height: 1.4; }
+.page { width: 210mm; min-height: 297mm; padding: 18mm 16mm; margin: 0 auto; }
+
+h1 { font-size: 18pt; letter-spacing: 1px; margin-bottom: 2px; }
+.title { font-size: 11pt; color: #555; margin-bottom: 14px; }
+.contact { font-size: 9pt; color: #555; margin-bottom: 18px; }
+.contact span { margin-right: 14px; }
+.contact a, .sub a { color: #2563eb; text-decoration: none; }
+
+.section { margin-bottom: 12px; }
+.section h2 { font-size: 10.5pt; color: #1a1a1a; border-bottom: 2px solid #2563eb; padding-bottom: 3px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+.summary { font-size: 9.5pt; color: #333; margin-bottom: 6px; }
+
+.item { margin-bottom: 8px; }
+.item-header { display: flex; align-items: baseline; }
+.item-header h3 { font-size: 10pt; font-weight: 700; }
+.item-header .sub { font-size: 8.5pt; color: #2563eb; font-weight: 500; margin-left: 6px; }
+.item-header .date { font-size: 9pt; color: #888; white-space: nowrap; margin-left: auto; }
+.item-header .company { font-size: 9.5pt; color: #555; }
+.item-body { font-size: 9pt; color: #444; margin-top: 3px; }
+.item-body ul { list-style: none; padding-left: 0; }
+.item-body li { position: relative; padding-left: 14px; margin-bottom: 2px; }
+.item-body li::before { content: "•"; position: absolute; left: 2px; color: #2563eb; }
+
+.grid-2 { display: flex; gap: 30px; }
+.col { flex: 1; }
+
+.skill-cat { margin-bottom: 10px; }
+.skill-cat h4 { font-size: 9.5pt; font-weight: 700; color: #1a1a1a; margin-bottom: 2px; }
+.skill-cat p { font-size: 9pt; color: #444; }
+
+@media print {
+  @page { margin: 0; size: A4; }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: auto; padding: 16mm 20mm; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<h1>杨东冬</h1>
+<div class="title">平台工程师 / Infrastructure Engineer</div>
+<div class="contact">
+  <span>📧 donge@donge.org</span>
+  <span>📱 18601121116</span>
+  <span>🔗 <a href="https://donge.org">donge.org</a></span>
+  <span>🐙 <a href="https://github.com/donge">github.com/donge</a></span>
+  <span>💼 <a href="https://linkedin.com/in/donge">linkedin.com/in/donge</a></span>
+</div>
+
+<div class="section">
+  <h2>专业摘要</h2>
+  <div class="summary">
+20 年系统基础设施与平台工程经验，专注于网络系统、Linux 内核、DPDK 高性能转发、分布式集群架构与性能优化。精通 C/C++、Golang、Python、Zig，深入理解计算机体系结构与 OS 内核原理。在华为、Juniper 期间积累了丰富的网络协议栈、路由交换、数据平面开发经验；在 Servicewall.ai 从零搭建了云原生分布式安全基础设施。活跃开源贡献者，创建 ZigHouse（ClickBench #1），将 DS4 推理引擎移植到昇腾 NPU。
+  </div>
+</div>
+
+<div class="section">
+  <h2>核心技能</h2>
+  <div class="grid-2">
+    <div class="col">
+      <div class="skill-cat">
+        <h4>系统与内核</h4>
+        <p>C/C++ / Zig · Linux Kernel (BSP/Drivers/mm) · DPDK · 计算机体系结构 · GDB/Perf/eBPF · 性能调优</p>
+      </div>
+      <div class="skill-cat">
+        <h4>网络基础设施</h4>
+        <p>TCP/IP · IP/MPLS / BGP / OSPF / IS-IS · 数据中心网络 · RDMA / RoCEv2 · 以太网交换 · SDN/NFV</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="skill-cat">
+        <h4>分布式与平台</h4>
+        <p>Kubernetes / Docker / KVM · 高可用 / 容错架构 · 可观测性 · 集群调度 · 资源管理 · ClickHouse / Kafka / Redis / Spark</p>
+      </div>
+      <div class="skill-cat">
+        <h4>AI 与异构计算</h4>
+        <p>LLM 推理优化 (llama2.zig / ds4-ascend) · GGUF · RAG/Agent · 异构平台 (x86/MIPS/ARM/Ascend)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>工作经历</h2>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>创始工程师 / 架构师</h3>
+      <span class="date">2018.4 — 至今</span>
+    </div>
+    <div class="item-header"><span class="company">Servicewall.ai · API 安全基础设施</span></div>
+    <div class="item-body">
+      从零搭建云原生分布式 API 安全平台，领导 12 人研发团队，服务 100+ 企业客户，营收超 1500 万。
+      <ul>
+        <li>架构设计水平可扩展的分布式 HTTP 代理与安全网关，日处理亿级请求，基于 Golang 微服务 + Docker 容器化部署</li>
+        <li>构建大规模数据管道与实时分析集群：ClickHouse（列式存储与分析）、Kafka（消息队列）、Redis（缓存）、Spark（批处理）</li>
+        <li>实现全面的可观测性与监控体系（指标采集、链路追踪、告警），保障 99.9%+ 可用性</li>
+        <li>建立 CI/CD 流水线、代码规范、测试框架等研发流程，从零组建并培养工程团队</li>
+        <li>核心项目：AI 业务防火墙（LLM 安全）、数据安全管控（流量深度解析与分类分级）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>软件工程经理（平台）</h3>
+      <span class="date">2013.4 — 2018.4</span>
+    </div>
+    <div class="item-header"><span class="company">Juniper Networks · SRX 平台团队</span></div>
+    <div class="item-body">
+      领导 SRX 防火墙平台团队，负责底层系统软件全栈开发：从 BSP、内核驱动到 DPDK 高性能转发引擎。
+      <ul>
+        <li>管理跨区域协作（印度、美国团队），2013-2016 年从 MTS4 晋升至 Manager</li>
+        <li>深度参与 Linux 内核开发：设备驱动、内存管理、中断处理、网络协议栈，覆盖 x86 (Xeon) 和 MIPS 双架构</li>
+        <li>基于 DPDK 构建用户态高性能包处理引擎，实现近线速转发（10Gbps+）</li>
+        <li>Daybreak 项目：云原生安全架构，控制平面 OS 运行在嵌套 VM 中，DPDK 加速数据平面</li>
+        <li>Forge SRX1500：基于 KVM/QEMU 虚拟化，集成 DPDK/SR-IOV/VirtIO 实现硬件级 I/O 性能</li>
+        <li>优化 IP/MPLS 路由转发、流量整形与 QoS，达到运营商级性能指标</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>高级软件工程师</h3>
+      <span class="date">2006.7 — 2013.3</span>
+    </div>
+    <div class="item-header"><span class="company">华为 · 北京研发中心 · 网络系统平台</span></div>
+    <div class="item-body">
+      近 7 年网络系统平台研发，聚焦以太网交换、路由协议与数据中心网络，担任技术负责人 4 年。
+      <ul>
+        <li>TRILL（Transparent Interconnection of Lots of Links）首席设计师与开发者，CloudEngine 系列数据中心交换机关键特性，获 2012 年北京研发设计奖</li>
+        <li>路由收敛性能优化，多次在竞争对手对比测试中排名第一</li>
+        <li>IP FRR（快速重路由）：技术研究、系统设计与实现</li>
+        <li>VRP NSR（不间断路由）原型项目负责人</li>
+        <li>作为作者/共同作者发表 10 项网络、系统与 API 安全领域专利</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>教育背景</h2>
+  <div class="item">
+    <div class="item-header">
+      <h3>沈阳工业大学</h3>
+      <span class="date">2002 — 2006</span>
+    </div>
+    <div class="item-header"><span class="company">计算机科学与技术 本科</span></div>
+    <div class="item-body">
+      专业成绩 TOP 10% · 3 次奖学金 · ACM/ICPC / Topcoder / 百度之星（全国 300 强）
+    </div>
+  </div>
+</div>
+
+<div class="section" style="page-break-before: always; padding-top: 16mm;">
+  <h2>产品</h2>
+  <div class="item-body">
+    <ul>
+      <li><a href="https://carrier.huawei.com/cn/products/fixed-network/carrier-ip/router/ne5000e">华为 NetEngine 5000E 集群路由器</a> — 核心路由器集群系统，参与路由协议栈与 TRILL 特性研发</li>
+      <li><a href="https://www.juniper.net/cn/zh/products/security/srx-series.html">Juniper SRX300 / SRX500 / SRX1500</a> — 下一代防火墙系列，领导平台软件全栈开发（BSP/内核/DPDK）</li>
+      <li><a href="https://www.juniper.net/us/en/products/network-operating-system/junos-os.html">Juniper Junos OS</a> — 深度参与 Junos 内核与数据平面开发</li>
+      <li><a href="https://www.asguarder.com">安胜华信 API 安全网关</a> — 云原生分布式 API 安全代理，日处理亿级请求</li>
+      <li><a href="https://www.servicewall.cn">Servicewall 数据安全监控平台</a> — 深度流量解析与数据分类分级系统</li>
+      <li><a href="https://www.asguarder.com">AI 业务防火墙</a> — 基于 LLM 的安全检测与防护系统</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <h2>开源项目</h2>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>ZigHouse</h3>
+      <span class="sub"><a href="https://github.com/donge/zighouse">github.com/donge/zighouse</a></span>
+      <span class="date">2026.6</span>
+    </div>
+    <div class="item-body">
+      用 Zig 编写的列式 OLAP 引擎，兼容 ClickHouse MergeTree 存储格式与有线协议。编译期 SIMD 向量化、Morsel-driven parallelism、纯 Zig 手写 SQL 解析器。ClickBench 特殊优化版本排名第一（43/43 查询全部通过，超越 DuckDB）。二进制仅 3MB，静态链接。
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>ds4-ascend</h3>
+      <span class="sub"><a href="https://github.com/donge/ds4-ascend">github.com/donge/ds4-ascend</a></span>
+      <span class="date">2026.5</span>
+    </div>
+    <div class="item-body">
+      将 Redis 作者 antirez 的 DeepSeek V4 Flash 推理引擎 ds4 移植到华为昇腾 Atlas 300i Duo NPU。实现 AscendC 自定义算子（MoE 路由、激活函数等）、CANN 运行时集成、GGUF 模型加载适配、weight/expert cache 管理。
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>ClickFS</h3>
+      <span class="sub"><a href="https://github.com/donge/clickfs">github.com/donge/clickfs</a></span>
+      <span class="date">2026.5</span>
+    </div>
+    <div class="item-body">
+      用 Rust 编写的 FUSE 文件系统，将 ClickHouse 服务挂载为只读 POSIX 目录树。支持用 ls/cat/grep/head/tail 浏览数据库表、流式读取数据，无需任何 SQL 客户端或库。发布至 crates.io，含 9 个发布版本。
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>Qiaohu（巧虎）</h3>
+      <span class="sub"><a href="https://github.com/donge/qiaohu">github.com/donge/qiaohu</a></span>
+      <span class="date">2026.4</span>
+    </div>
+    <div class="item-body">
+      在骁龙 8 Gen2 Android 设备上运行完全本地的多模态语音助手。集成 sherpa-onnx 语音识别、matcha-icefall-zh-baker TTS 引擎、LLM 推理的 VAD→LLM→TTS pipeline。纯端侧运行，不依赖任何云端 API。
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>TDX-ClickHouse</h3>
+      <span class="sub"><a href="https://github.com/donge/tdx-clickhouse">github.com/donge/tdx-clickhouse</a></span>
+      <span class="date">2026.3</span>
+    </div>
+    <div class="item-body">
+      基于 Agentic Workflow 的通达信公式回测系统。将通达信技术指标公式自动转换为 ClickHouse SQL，在大规模历史行情数据上执行回测。结合 LLM Agent 实现自然语言→公式→SQL 的转换链路。
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>DuckDB 通达信扩展</h3>
+      <span class="sub"><a href="https://github.com/donge/duckdb-tdx">github.com/donge/duckdb-tdx</a></span>
+      <span class="date">2026.3</span>
+    </div>
+    <div class="item-body">
+      为 DuckDB 编写的扩展，支持直接读取通达信行情数据文件（.day/.lc1/.lc5 等格式）。用户可以用标准 SQL 查询 A 股历史行情数据，无需格式转换或中间导入步骤。
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>llama2.zig</h3>
+      <span class="sub"><a href="https://github.com/donge/llama2.zig">github.com/donge/llama2.zig</a></span>
+      <span class="date">2024</span>
+    </div>
+    <div class="item-body">
+      用纯 Zig 实现的 Llama2 LLM 推理引擎。从零手写张量运算、tokenizer、transformer 前向传播，无任何外部依赖。展示 Zig 在 ML 推理领域零开销抽象与交叉编译的优势。
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <h3>go-yyjson</h3>
+      <span class="sub"><a href="https://github.com/donge/go-yyjson">github.com/donge/go-yyjson</a></span>
+      <span class="date">2024</span>
+    </div>
+    <div class="item-body">
+      基于 yyjson C 库的 Go 高性能 JSON 解析绑定。提供零拷贝字符串视图、流式解析、DOM/SAX 双模式。性能较 encoding/json 提升 5-10 倍。
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>专利</h2>
+  <div class="item-body">
+    <ul>
+      <li><a href="https://patents.google.com/patent/CN103414644A">CN103414644A</a> — TRILL 多链路透明互联：表项下发与控制器同步</li>
+      <li><a href="https://patents.google.com/patent/CN103179032A">CN103179032A</a> — 路由快速备份与恢复方法及设备 (IP FRR)</li>
+      <li><a href="https://patents.google.com/patent/WO2012130083A1">WO2012130083A1</a> — 地址解析协议 (ARP) 表项配置方法及设备</li>
+      <li><a href="https://patents.google.com/patent/CN102739504A">CN102739504A</a> — 网络设备间路由信息同步方法</li>
+      <li><a href="https://patents.google.com/patent/CN103078798A">CN103078798A</a> — 链路状态数据库同步与快速收敛方法</li>
+      <li><a href="https://patents.google.com/patent/CN119892515A">CN119892515A</a> — API 安全检测方法及系统</li>
+      <li><a href="https://patents.google.com/patent/CN119884893A">CN119884893A</a> — 分布式流量深度解析与分类分级方法</li>
+      <li><a href="https://patents.google.com/patent/CN118153060A">CN118153060A</a> — AI 业务安全防护方法与网关设备</li>
+      <li><a href="https://patents.google.com/patent/CN116074118A">CN116074118A</a> — 基于行为分析的 API 异常检测方法</li>
+      <li><a href="https://patents.google.com/patent/CN116055219A">CN116055219A</a> — 云原生零信任安全接入方法及系统</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+</body>
+</html>
