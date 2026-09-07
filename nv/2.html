@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>5 分钟面试自我介绍 | Interview Prompt</title>
+<style>
+:root{--bg:#080d12;--panel:#101820;--panel2:#151f29;--text:#edf3f8;--muted:#91a2b2;--line:#293846;--green:#76b900;--blue:#59b7ff;--orange:#ffb454;--fs:15px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:500 var(--fs)/1.48 Inter,Arial,"PingFang SC","Microsoft YaHei",sans-serif}.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:6px;padding:7px 9px;background:#080d12f2;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}button{border:1px solid #3c4d5c;border-radius:5px;background:#16222c;color:var(--text);padding:5px 8px;font:inherit;line-height:1.2;cursor:pointer}button:hover,button:focus-visible{border-color:var(--green);outline:none}.lang.active{background:var(--green);border-color:var(--green);color:#071006}.clock{margin-left:auto;font:700 16px ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--green)}.clock.warn{color:var(--orange)}main{max-width:920px;margin:auto;padding:8px}.lead{display:grid;grid-template-columns:auto 1fr;gap:7px;align-items:start;padding:9px 11px;margin-bottom:7px;border:1px solid #3b511f;background:#111c12;border-radius:7px}.lead strong{color:var(--green);font-size:1.08em}.lead p{margin:0}.timeline{display:grid;gap:7px}.card{display:grid;grid-template-columns:72px minmax(0,1fr);border:1px solid var(--line);border-radius:7px;background:var(--panel);overflow:hidden}.card.focus{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}.time{padding:10px 7px;background:var(--panel2);color:var(--green);font:700 12px/1.25 ui-monospace,SFMono-Regular,Consolas,monospace}.time small{display:block;margin-top:5px;color:var(--muted);font:600 11px/1.25 Inter,Arial,sans-serif}.content{padding:8px 10px}.content h2{margin:0 0 4px;color:#fff;font-size:1.02em}.script{margin:0}.script b{color:var(--blue)}.cue{margin:6px 0 0;padding-top:5px;border-top:1px dashed #334654;color:var(--muted);font-size:.88em}.cue b{color:var(--orange)}.branches{margin-top:8px;border:1px solid var(--line);border-radius:7px;background:var(--panel);padding:7px 10px}summary{cursor:pointer;color:var(--green);font-weight:700}.qa{display:grid;gap:6px;margin-top:7px}.qa div{border-left:2px solid var(--blue);padding-left:8px}.qa b{color:var(--blue)}.qa p{margin:2px 0;color:#d6e0e8}.footer{padding:8px 2px;color:var(--muted);font-size:.78em}.en{display:none}body[data-lang=en] .zh{display:none}body[data-lang=en] .en{display:initial}body[data-lang=en] div.en,body[data-lang=en] p.en,body[data-lang=en] span.en,body[data-lang=en] small.en{display:block}body.compact{--fs:13px}body.compact .card{grid-template-columns:64px}body.compact .content{padding:6px 8px}body.compact .cue{margin-top:4px;padding-top:3px}.shortcut{color:var(--muted);font-size:11px}
+@media(min-width:1000px){body{width:50vw;margin-left:0;border-right:1px solid var(--line)}main{max-width:none}}
+@media(max-width:560px){:root{--fs:13px}.shortcut{display:none}.card{grid-template-columns:58px}.time{padding:8px 5px}.bar{padding:6px}.lead{grid-template-columns:1fr}}
+@media print{body{background:#fff;color:#111;width:auto}.bar{display:none}main{max-width:none}.card,.branches,.lead{background:#fff;border-color:#999;break-inside:avoid}.time{background:#eee}.content h2{color:#111}.script b,.qa b{color:#064f88}.cue,.footer{color:#444}}
+</style>
+</head>
+<body data-lang="zh">
+<nav class="bar" aria-label="Prompt controls">
+  <button class="lang active" data-lang="zh">中文</button><button class="lang" data-lang="en">English</button>
+  <button id="smaller" title="Smaller text">A−</button><button id="larger" title="Larger text">A＋</button>
+  <button id="compact"><span class="zh">紧凑</span><span class="en">Compact</span></button>
+  <button id="timer"><span class="zh">开始</span><span class="en">Start</span></button>
+  <span class="shortcut">Space: timer · ↑↓: focus</span><span class="clock" aria-live="polite">05:00</span>
+</nav>
+<main>
+  <section class="lead">
+    <strong><span class="zh">一句定位</span><span class="en">POSITIONING</span></strong>
+    <p class="zh">20 年网络与高性能系统经验：<b>华为 IS-IS Tech Lead 与 TRILL</b> → <b>Juniper SRX PFE 与软件转发</b> → <b>创业公司的端到端架构与交付</b>。</p>
+    <p class="en">20 years in networking and high-performance systems: <b>IS-IS Tech Lead and TRILL at Huawei</b> → <b>SRX PFE and software forwarding at Juniper</b> → <b>end-to-end architecture and delivery in a startup</b>.</p>
+  </section>
+
+  <div class="timeline">
+    <section class="card focus" data-at="0"><div class="time">0:00–0:35<small class="zh">定位</small><small class="en">Profile</small></div><div class="content">
+      <h2><span class="zh">开场：我解决什么问题</span><span class="en">Opening: the problems I solve</span></h2>
+      <p class="script zh">您好，我是杨东冬。我有接近 20 年网络产品和高性能系统经验，职业主线一直是把<b>协议、控制面、平台软件和数据面</b>连成可交付的产品。我在华为担任 IS-IS Tech Lead，并负责 TRILL 等协议特性；在 Juniper 负责 SRX 的 PFE 和软件转发功能；近几年则从零搭建分布式安全网关和研发团队。我也一直保持一线编码。</p>
+      <p class="script en">Hello, I’m Dongdong Yang. I have nearly 20 years of experience in networking products and high-performance systems. My focus has been turning <b>protocols, control plane, platform software and data plane</b> into reliable products. At Huawei I served as the IS-IS Tech Lead and worked on protocol features including TRILL; at Juniper I worked on the SRX PFE and software forwarding functions; and more recently I built a distributed security gateway and engineering team from scratch. I have remained hands-on throughout.</p>
+      <p class="cue zh"><b>关键词：</b>端到端 · 架构到落地 · 持续编码</p><p class="cue en"><b>Cues:</b> end-to-end · architecture to delivery · hands-on</p>
+    </div></section>
+
+    <section class="card" data-at="35"><div class="time">0:35–1:55<small>Huawei</small></div><div class="content">
+      <h2><span class="zh">协议特性：IS-IS / TRILL / NSR / LFA / ISPF</span><span class="en">Protocol features: IS-IS / TRILL / NSR / LFA / ISPF</span></h2>
+      <p class="script zh">在华为七年，我主要从事路由协议软件和相关特性开发，并担任 <b>IS-IS Tech Lead</b>。我的代表性经历是 <b>TRILL 的首席设计与核心开发</b>：TRILL 把 IS-IS 的链路状态机制用于交换机大二层网络，在避免环路的同时支持多路径转发。我负责协议设计与实现、状态机、拓扑计算和收敛等工作。围绕 IS-IS，我还负责过 <b>NSR</b>、基于 <b>LFA（Loop-Free Alternative）的 IP FRR</b>，以及 <b>ISPF（Incremental Shortest Path First）</b> 等特性。</p>
+      <p class="script en">During seven years at Huawei, I mainly developed routing-protocol software and related features and served as the <b>IS-IS Tech Lead</b>. My representative work was <b>chief design and core implementation for TRILL</b>. TRILL applies the IS-IS link-state mechanism to large Layer-2 switch networks, providing multipath forwarding while preventing loops. My work covered protocol design and implementation, state machines, topology calculation and convergence. Within IS-IS, I also led work on <b>NSR</b>, <b>IP FRR using LFA—Loop-Free Alternative</b>, and <b>ISPF—Incremental Shortest Path First</b>.</p>
+      <p class="cue zh"><b>停顿：</b>“如果您感兴趣，我可以展开 TRILL 如何复用 IS-IS、LFA 备份路径计算，或 NSR 状态同步。”</p><p class="cue en"><b>Pause:</b> “I can go deeper into how TRILL uses IS-IS, LFA backup-path calculation, or NSR state synchronization.”</p>
+    </div></section>
+
+    <section class="card" data-at="115"><div class="time">1:55–3:20<small>Juniper</small></div><div class="content">
+      <h2><span class="zh">转发引擎：SRX PFE / Parser / JEXEC / NHDB</span><span class="en">Forwarding engine: SRX PFE / Parser / JEXEC / NHDB</span></h2>
+      <p class="script zh">在 Juniper，我从 MTS4 晋升到 Staff Engineer 和 Manager，负责 <b>SRX 的 PFE（Packet Forwarding Engine）</b>。控制面把路由与下一跳通过 <b>NHDB</b> 下载到 PFE，Parser 解析报文，JEXEC 执行转发指令，随后应用下一跳、QoS、ACL 等处理。我们的软件转发功能还支持 <b>IP/MPLS、MPLS VPN</b> 等特性。我也参与 Broadcom 平台 bring-up、MIPS SDK 适配和 FPGA 驱动；在 SRX1500 上使用 <b>KVM/QEMU、DPDK、SR-IOV、VirtIO</b> 实现控制面与数据面分离以及近线速处理。</p>
+      <p class="script en">At Juniper, I progressed from MTS4 to Staff Engineer and Manager and worked on the <b>SRX PFE—Packet Forwarding Engine</b>. The control plane downloaded routes and next hops to the PFE through the <b>NHDB</b>; the parser classified packets; JEXEC executed forwarding instructions; and the pipeline applied next-hop, QoS and ACL processing. The software forwarding implementation also supported features including <b>IP/MPLS and MPLS VPNs</b>. I also worked on Broadcom platform bring-up, MIPS SDK adaptation and an FPGA driver. On SRX1500, we used <b>KVM/QEMU, DPDK, SR-IOV and VirtIO</b> for control/data-plane separation and near-line-rate processing.</p>
+      <p class="cue zh"><b>主线：</b>报文进入 → Parser → JEXEC → NHDB/下一跳 → QoS/ACL → 软件转发。</p><p class="cue en"><b>Flow:</b> packet ingress → parser → JEXEC → NHDB/next hop → QoS/ACL → software forwarding.</p>
+    </div></section>
+
+    <section class="card" data-at="200"><div class="time">3:20–4:15<small>Servicewall</small></div><div class="content">
+      <h2><span class="zh">近期经历：端到端架构和交付</span><span class="en">Recent work: end-to-end architecture and delivery</span></h2>
+      <p class="script zh">2018 年以后，我作为创始工程师和架构师，组建了 12 人团队，构建日处理数亿请求的分布式代理与安全网关。技术链路包括 <b>eBPF/XDP、Go、Kafka、ClickHouse、Redis 和 Spark</b>，峰值达到 5 万 QPS。我负责需求澄清、架构、PoC、性能、可观测性与客户交付。这段经历加强了我从不完整需求中识别关键约束、快速做原型并把系统运行起来的能力。</p>
+      <p class="script en">Since 2018, as a founding engineer and architect, I built a 12-person team and a distributed proxy and security gateway processing hundreds of millions of requests per day. The stack includes <b>eBPF/XDP, Go, Kafka, ClickHouse, Redis and Spark</b>, reaching 50,000 QPS. I owned requirements, architecture, PoCs, performance, observability and customer delivery. This strengthened my ability to find the real constraints in ambiguous problems, prototype quickly and operate the resulting system.</p>
+      <p class="cue zh"><b>关键词：</b>0→1 · 50k QPS · 客户 PoC · 可观测性</p><p class="cue en"><b>Cues:</b> zero-to-one · 50k QPS · customer PoC · observability</p>
+    </div></section>
+
+    <section class="card" data-at="255"><div class="time">4:15–5:00<small>NVIDIA</small></div><div class="content">
+      <h2><span class="zh">岗位匹配与收尾</span><span class="en">Fit and close</span></h2>
+      <p class="script zh">我认为自己与这个岗位的匹配点有三层：第一，华为经历让我深入理解 <b>IS-IS、TRILL、NSR、LFA 和 ISPF</b> 等协议机制与收敛；第二，Juniper 经历让我深入到 <b>SRX PFE、Parser、JEXEC、NHDB、QoS、ACL 和 IP/MPLS 软件转发</b>；第三，创业经历让我能在需求、架构、原型、跨团队执行与交付之间闭环。我希望把这些跨层经验用于 NVIDIA 的交换机软件架构，特别是 AI 网络对吞吐、时延、拥塞控制、可观测性和可靠性的要求。</p>
+      <p class="script en">I see three layers of fit. Huawei gave me deep experience with protocol mechanisms and convergence through <b>IS-IS, TRILL, NSR, LFA and ISPF</b>. Juniper took me into the <b>SRX PFE, parser, JEXEC, NHDB, QoS, ACL and IP/MPLS software forwarding</b>. My startup experience taught me to close the loop from requirements and architecture through prototypes, cross-team execution and delivery. I would like to apply this cross-layer experience to NVIDIA switch software, especially the throughput, latency, congestion-control, observability and reliability demands of AI networks.</p>
+      <p class="cue zh"><b>交回对话：</b>“您更希望我先展开交换协议、平台软件，还是高性能数据面？”</p><p class="cue en"><b>Hand back:</b> “Would you like me to expand first on switching protocols, platform software, or the high-performance data plane?”</p>
+    </div></section>
+  </div>
+
+  <details class="branches"><summary><span class="zh">追问分支（需要时展开）</span><span class="en">Follow-up branches</span></summary><div class="qa">
+    <div><b class="zh">IS-IS Tech Lead 的重点工作？</b><b class="en">What did you lead for IS-IS?</b><p class="zh">负责 IS-IS 协议特性的技术设计与实现，包括将其链路状态机制用于大二层网络的 TRILL，以及 NSR、LFA IP FRR、ISPF 和收敛优化。</p><p class="en">I led the technical design and implementation of IS-IS features, including TRILL for large Layer-2 networks, NSR, LFA IP FRR, ISPF and convergence optimization.</p></div>
+    <div><b class="zh">TRILL 具体负责什么？</b><b class="en">What exactly did you own in TRILL?</b><p class="zh">首席设计与核心开发，重点是协议架构和实现、状态机、拓扑计算、故障收敛以及与平台模块的接口，不把职责表述为交换机硬件或整机研发。</p><p class="en">Chief design and core implementation, focused on protocol architecture, state machines, topology calculation, failure convergence and interfaces with platform modules, rather than switch hardware or full-product ownership.</p></div>
+    <div><b class="zh">SRX PFE 如何完成软件转发？</b><b class="en">How did the SRX PFE perform software forwarding?</b><p class="zh">控制面经 NHDB 下载路由和下一跳，PFE 中的 Parser 与 JEXEC 执行转发，并结合 QoS、ACL、IP/MPLS 和 MPLS VPN 等功能形成完整软件转发路径。</p><p class="en">The control plane downloaded routes and next hops through NHDB; the PFE parser and JEXEC performed forwarding together with QoS, ACL, IP/MPLS and MPLS VPN functions.</p></div>
+    <div><b class="zh">为什么适合 AI Ethernet？</b><b class="en">Why AI Ethernet?</b><p class="zh">我的经验跨越链路状态协议与收敛、PFE 软件转发、Linux/DPDK 数据面和大规模分布式系统，可用于跨层分析拥塞、尾延迟、丢包、遥测与故障恢复；RoCE/PFC/ECN 是进一步迁移和深化的方向。</p><p class="en">My experience spans link-state protocols and convergence, PFE software forwarding, Linux/DPDK data planes and large distributed systems, supporting cross-layer analysis of congestion, tail latency, loss, telemetry and recovery. RoCE, PFC and ECN are areas where I can transfer and deepen that experience.</p></div>
+  </div></details>
+  <div class="footer"><span class="zh">记忆线：华为＝IS-IS Tech Lead / TRILL｜Juniper＝SRX PFE 与软件转发｜Servicewall＝端到端架构与交付</span><span class="en">Memory line: Huawei = IS-IS Tech Lead / TRILL | Juniper = SRX PFE and software forwarding | Servicewall = end-to-end architecture and delivery</span></div>
+</main>
+<script>
+const body=document.body,clock=document.querySelector('.clock'),cards=[...document.querySelectorAll('.card')];let left=300,run=false,tick=null,focus=0,fs=15;
+function setLang(lang){body.dataset.lang=lang;document.documentElement.lang=lang==='zh'?'zh-CN':'en';document.querySelectorAll('.lang').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));localStorage.setItem('intro-lang',lang)}
+function paint(){const elapsed=300-left;let i=cards.findLastIndex(c=>Number(c.dataset.at)<=elapsed);i=Math.max(0,i);if(run){focus=i;cards.forEach((c,n)=>c.classList.toggle('focus',n===focus));cards[focus].scrollIntoView({block:'center',behavior:'smooth'})}const m=Math.floor(Math.max(left,0)/60),s=Math.max(left,0)%60;clock.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;clock.classList.toggle('warn',left<=30)}
+function toggle(){run=!run;document.querySelector('#timer').querySelector('.zh').textContent=run?'暂停':'开始';document.querySelector('#timer').querySelector('.en').textContent=run?'Pause':'Start';if(run){tick=setInterval(()=>{left--;paint();if(left<=0){clearInterval(tick);run=false}},1000)}else clearInterval(tick)}
+document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));document.querySelector('#timer').onclick=toggle;document.querySelector('#compact').onclick=()=>body.classList.toggle('compact');document.querySelector('#smaller').onclick=()=>{fs=Math.max(11,fs-1);document.documentElement.style.setProperty('--fs',fs+'px')};document.querySelector('#larger').onclick=()=>{fs=Math.min(22,fs+1);document.documentElement.style.setProperty('--fs',fs+'px')};
+document.addEventListener('keydown',e=>{if(e.target.closest('button,summary'))return;if(e.code==='Space'){e.preventDefault();toggle()}else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();focus=Math.max(0,Math.min(cards.length-1,focus+(e.key==='ArrowDown'?1:-1)));cards.forEach((c,n)=>c.classList.toggle('focus',n===focus));cards[focus].scrollIntoView({block:'center',behavior:'smooth'})}});setLang(localStorage.getItem('intro-lang')||'zh');paint();
+</script>
+</body>
+</html>
