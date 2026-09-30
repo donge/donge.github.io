@@ -1,0 +1,1800 @@
+/* COLORS */
+/* Blue */
+html.blue {
+  background: #f5f6f8;
+  /* Region Modal Colouring  */
+
+  /* End Region */
+
+}
+html.blue body {
+  background: #f5f6f8;
+}
+html.blue .large-image {
+  background: #4a4d5a;
+}
+html.blue .details-background {
+  background: #f5f6f8;
+}
+html.blue .section-header h3,
+html.blue .details .last-name {
+  color: #656873;
+}
+html.blue .navigation ul li a {
+  border-color: #4a4d5a;
+}
+html.blue .navigation ul li a span {
+  background: #4a4d5a;
+  color: #f5f6f8;
+}
+html.blue .navigation ul li a:hover {
+  background: #4a4d5a;
+  color: #f5f6f8;
+}
+html.blue .loading-animation .circle {
+  background: #4a4d5a;
+}
+html.blue .section-white .line,
+html.blue .section-white .circle > div,
+html.blue .section-white .input-text label,
+html.blue .section-white .input-text-area label {
+  background: #4a4d5a;
+}
+html.blue .section-white .submit {
+  border-color: #5c5f6b;
+  color: #4a4d5a;
+}
+html.blue .section-white .submit:hover {
+  border-color: #4a4d5a;
+}
+html.blue .section-white .submit:active {
+  color: #5c5f6b;
+}
+html.blue .section-white .stages:after {
+  background: #a0a2a9;
+}
+html.blue .section-white .stages > li {
+  color: #a0a2a9;
+}
+html.blue .section-white .stages > li:before {
+  color: #f5f6f8;
+  background: #a0a2a9;
+}
+html.blue .section-white .stages > li.complete,
+html.blue .section-white .stages > li:hover {
+  color: white;
+}
+html.blue .section-white .stages > li.complete:before,
+html.blue .section-white .stages > li:hover:before {
+  color: #f5f6f8;
+  background: white;
+}
+html.blue .section-white .chart {
+  background: #f5f6f8;
+  color: #4a4d5a;
+  border-color: #4a4d5a;
+}
+html.blue .section-white {
+  background: #f5f6f8;
+}
+html.blue .section-white .input-text,
+html.blue .section-white .input-text-area {
+  border-color: #4a4d5a;
+}
+html.blue .section-white .point-placeholder .drop-zone {
+  border-color: #4a4d5a;
+}
+html.blue .section-white,
+html.blue .section-white .section-header h2 {
+  color: #4a4d5a;
+}
+html.blue .section-white ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(74, 77, 90, 0.7);
+}
+html.blue .section-white :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(74, 77, 90, 0.7);
+}
+html.blue .section-white ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(74, 77, 90, 0.7);
+}
+html.blue .section-white :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(74, 77, 90, 0.7);
+}
+html.blue .section-white .input-text label,
+html.blue .section-white .input-text-area label,
+html.blue .section-white .circle,
+html.blue .section-white .social-icon.symbol,
+html.blue .section-white .line {
+  color: #f5f6f8;
+}
+html.blue .section-white .point .point-body {
+  color: #5c5f6b;
+}
+html.blue .section-black .line,
+html.blue .section-black .circle > div,
+html.blue .section-black .input-text label,
+html.blue .section-black .input-text-area label {
+  background: #f5f6f8;
+}
+html.blue .section-black .submit {
+  border-color: #dddddf;
+  color: #f5f6f8;
+}
+html.blue .section-black .submit:hover {
+  border-color: #f5f6f8;
+}
+html.blue .section-black .submit:active {
+  color: #dddddf;
+}
+html.blue .section-black .stages:after {
+  background: #a0a2a9;
+}
+html.blue .section-black .stages > li {
+  color: #a0a2a9;
+}
+html.blue .section-black .stages > li:before {
+  color: #4a4d5a;
+  background: #a0a2a9;
+}
+html.blue .section-black .stages > li.complete,
+html.blue .section-black .stages > li:hover {
+  color: white;
+}
+html.blue .section-black .stages > li.complete:before,
+html.blue .section-black .stages > li:hover:before {
+  color: #4a4d5a;
+  background: white;
+}
+html.blue .section-black .chart {
+  background: #4a4d5a;
+  color: #f5f6f8;
+  border-color: #f5f6f8;
+}
+html.blue .section-black {
+  background: #4a4d5a;
+}
+html.blue .section-black .input-text,
+html.blue .section-black .input-text-area {
+  border-color: #f5f6f8;
+}
+html.blue .section-black .point-placeholder .drop-zone {
+  border-color: #f5f6f8;
+}
+html.blue .section-black,
+html.blue .section-black .section-header h2 {
+  color: #f5f6f8;
+}
+html.blue .section-black ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(245, 246, 248, 0.7);
+}
+html.blue .section-black :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(245, 246, 248, 0.7);
+}
+html.blue .section-black ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(245, 246, 248, 0.7);
+}
+html.blue .section-black :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(245, 246, 248, 0.7);
+}
+html.blue .section-black .input-text label,
+html.blue .section-black .input-text-area label,
+html.blue .section-black .circle,
+html.blue .section-black .social-icon.symbol,
+html.blue .section-black .line {
+  color: #4a4d5a;
+}
+html.blue .section-black .point .point-body {
+  color: #dddddf;
+}
+html.blue.modal-page {
+  background: #4a4d5a;
+}
+html.blue.modal-page body {
+  background: #4a4d5a;
+}
+html.blue .modal-container .shield {
+  background: fade-out(#4a4d5a, 50%);
+}
+html.blue .modal {
+  border-color: #565968;
+  color: #4a4d5a;
+}
+html.blue .modal .input-text {
+  color: #4a4d5a;
+  border-color: #565968;
+}
+html.blue .modal .input-text label {
+  background: #565968;
+  color: #f5f6f8;
+}
+html.blue .modal .submit {
+  border-color: #565968;
+  background: #565968;
+  color: #f5f6f8;
+}
+html.blue .modal-explain-payment .payments .payment {
+  border-color: #616576;
+}
+html.blue .modal-explain-payment .payments .payment label {
+  background: #616576;
+  color: #f5f6f8;
+}
+html.blue .modal-explain-payment .payments .payment .icons {
+  border-top-color: #616576;
+}
+html.blue .coffee-svg {
+  fill: #4a4d5a;
+}
+.color-options .color-option.blue {
+  background: #4a4d5a;
+}
+/* Black & DEFAULT */
+html.black,
+html {
+  background: #fafafa;
+  /* Region Modal Colouring  */
+
+  /* End Region */
+
+}
+html.black body,
+html body {
+  background: #fafafa;
+}
+html.black .large-image,
+html .large-image {
+  background: #484848;
+}
+html.black .details-background,
+html .details-background {
+  background: #fafafa;
+}
+html.black .section-header h3,
+html .section-header h3,
+html.black .details .last-name,
+html .details .last-name {
+  color: #636363;
+}
+html.black .navigation ul li a,
+html .navigation ul li a {
+  border-color: #484848;
+}
+html.black .navigation ul li a span,
+html .navigation ul li a span {
+  background: #484848;
+  color: #fafafa;
+}
+html.black .navigation ul li a:hover,
+html .navigation ul li a:hover {
+  background: #484848;
+  color: #fafafa;
+}
+html.black .loading-animation .circle,
+html .loading-animation .circle {
+  background: #484848;
+}
+html.black .section-white .line,
+html .section-white .line,
+html.black .section-white .circle > div,
+html .section-white .circle > div,
+html.black .section-white .input-text label,
+html .section-white .input-text label,
+html.black .section-white .input-text-area label,
+html .section-white .input-text-area label {
+  background: #484848;
+}
+html.black .section-white .submit,
+html .section-white .submit {
+  border-color: #5a5a5a;
+  color: #484848;
+}
+html.black .section-white .submit:hover,
+html .section-white .submit:hover {
+  border-color: #484848;
+}
+html.black .section-white .submit:active,
+html .section-white .submit:active {
+  color: #5a5a5a;
+}
+html.black .section-white .stages:after,
+html .section-white .stages:after {
+  background: #a1a1a1;
+}
+html.black .section-white .stages > li,
+html .section-white .stages > li {
+  color: #a1a1a1;
+}
+html.black .section-white .stages > li:before,
+html .section-white .stages > li:before {
+  color: #fafafa;
+  background: #a1a1a1;
+}
+html.black .section-white .stages > li.complete,
+html .section-white .stages > li.complete,
+html.black .section-white .stages > li:hover,
+html .section-white .stages > li:hover {
+  color: white;
+}
+html.black .section-white .stages > li.complete:before,
+html .section-white .stages > li.complete:before,
+html.black .section-white .stages > li:hover:before,
+html .section-white .stages > li:hover:before {
+  color: #fafafa;
+  background: white;
+}
+html.black .section-white .chart,
+html .section-white .chart {
+  background: #fafafa;
+  color: #484848;
+  border-color: #484848;
+}
+html.black .section-white,
+html .section-white {
+  background: #fafafa;
+}
+html.black .section-white .input-text,
+html .section-white .input-text,
+html.black .section-white .input-text-area,
+html .section-white .input-text-area {
+  border-color: #484848;
+}
+html.black .section-white .point-placeholder .drop-zone,
+html .section-white .point-placeholder .drop-zone {
+  border-color: #484848;
+}
+html.black .section-white,
+html .section-white,
+html.black .section-white .section-header h2,
+html .section-white .section-header h2 {
+  color: #484848;
+}
+html.black .section-white ::-webkit-input-placeholder,
+html .section-white ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(72, 72, 72, 0.7);
+}
+html.black .section-white :-moz-placeholder,
+html .section-white :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(72, 72, 72, 0.7);
+}
+html.black .section-white ::-moz-placeholder,
+html .section-white ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(72, 72, 72, 0.7);
+}
+html.black .section-white :-ms-input-placeholder,
+html .section-white :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(72, 72, 72, 0.7);
+}
+html.black .section-white .input-text label,
+html .section-white .input-text label,
+html.black .section-white .input-text-area label,
+html .section-white .input-text-area label,
+html.black .section-white .circle,
+html .section-white .circle,
+html.black .section-white .social-icon.symbol,
+html .section-white .social-icon.symbol,
+html.black .section-white .line,
+html .section-white .line {
+  color: #fafafa;
+}
+html.black .section-white .point .point-body,
+html .section-white .point .point-body {
+  color: #5a5a5a;
+}
+html.black .section-black .line,
+html .section-black .line,
+html.black .section-black .circle > div,
+html .section-black .circle > div,
+html.black .section-black .input-text label,
+html .section-black .input-text label,
+html.black .section-black .input-text-area label,
+html .section-black .input-text-area label {
+  background: #fafafa;
+}
+html.black .section-black .submit,
+html .section-black .submit {
+  border-color: #e1e1e1;
+  color: #fafafa;
+}
+html.black .section-black .submit:hover,
+html .section-black .submit:hover {
+  border-color: #fafafa;
+}
+html.black .section-black .submit:active,
+html .section-black .submit:active {
+  color: #e1e1e1;
+}
+html.black .section-black .stages:after,
+html .section-black .stages:after {
+  background: #a1a1a1;
+}
+html.black .section-black .stages > li,
+html .section-black .stages > li {
+  color: #a1a1a1;
+}
+html.black .section-black .stages > li:before,
+html .section-black .stages > li:before {
+  color: #484848;
+  background: #a1a1a1;
+}
+html.black .section-black .stages > li.complete,
+html .section-black .stages > li.complete,
+html.black .section-black .stages > li:hover,
+html .section-black .stages > li:hover {
+  color: white;
+}
+html.black .section-black .stages > li.complete:before,
+html .section-black .stages > li.complete:before,
+html.black .section-black .stages > li:hover:before,
+html .section-black .stages > li:hover:before {
+  color: #484848;
+  background: white;
+}
+html.black .section-black .chart,
+html .section-black .chart {
+  background: #484848;
+  color: #fafafa;
+  border-color: #fafafa;
+}
+html.black .section-black,
+html .section-black {
+  background: #484848;
+}
+html.black .section-black .input-text,
+html .section-black .input-text,
+html.black .section-black .input-text-area,
+html .section-black .input-text-area {
+  border-color: #fafafa;
+}
+html.black .section-black .point-placeholder .drop-zone,
+html .section-black .point-placeholder .drop-zone {
+  border-color: #fafafa;
+}
+html.black .section-black,
+html .section-black,
+html.black .section-black .section-header h2,
+html .section-black .section-header h2 {
+  color: #fafafa;
+}
+html.black .section-black ::-webkit-input-placeholder,
+html .section-black ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(250, 250, 250, 0.7);
+}
+html.black .section-black :-moz-placeholder,
+html .section-black :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(250, 250, 250, 0.7);
+}
+html.black .section-black ::-moz-placeholder,
+html .section-black ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(250, 250, 250, 0.7);
+}
+html.black .section-black :-ms-input-placeholder,
+html .section-black :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(250, 250, 250, 0.7);
+}
+html.black .section-black .input-text label,
+html .section-black .input-text label,
+html.black .section-black .input-text-area label,
+html .section-black .input-text-area label,
+html.black .section-black .circle,
+html .section-black .circle,
+html.black .section-black .social-icon.symbol,
+html .section-black .social-icon.symbol,
+html.black .section-black .line,
+html .section-black .line {
+  color: #484848;
+}
+html.black .section-black .point .point-body,
+html .section-black .point .point-body {
+  color: #e1e1e1;
+}
+html.black.modal-page,
+html.modal-page {
+  background: #484848;
+}
+html.black.modal-page body,
+html.modal-page body {
+  background: #484848;
+}
+html.black .modal-container .shield,
+html .modal-container .shield {
+  background: fade-out(#484848, 50%);
+}
+html.black .modal,
+html .modal {
+  border-color: #555555;
+  color: #484848;
+}
+html.black .modal .input-text,
+html .modal .input-text {
+  color: #484848;
+  border-color: #555555;
+}
+html.black .modal .input-text label,
+html .modal .input-text label {
+  background: #555555;
+  color: #fafafa;
+}
+html.black .modal .submit,
+html .modal .submit {
+  border-color: #555555;
+  background: #555555;
+  color: #fafafa;
+}
+html.black .modal-explain-payment .payments .payment,
+html .modal-explain-payment .payments .payment {
+  border-color: #626262;
+}
+html.black .modal-explain-payment .payments .payment label,
+html .modal-explain-payment .payments .payment label {
+  background: #626262;
+  color: #fafafa;
+}
+html.black .modal-explain-payment .payments .payment .icons,
+html .modal-explain-payment .payments .payment .icons {
+  border-top-color: #626262;
+}
+html.black .coffee-svg,
+html .coffee-svg {
+  fill: #484848;
+}
+.color-option.black {
+  background: #484848;
+}
+/* brown */
+html.brown {
+  background: #fff5eb;
+  /* Region Modal Colouring  */
+
+  /* End Region */
+
+}
+html.brown body {
+  background: #fff5eb;
+}
+html.brown .large-image {
+  background: #43392f;
+}
+html.brown .details-background {
+  background: #fff5eb;
+}
+html.brown .section-header h3,
+html.brown .details .last-name {
+  color: #5f574e;
+}
+html.brown .navigation ul li a {
+  border-color: #43392f;
+}
+html.brown .navigation ul li a span {
+  background: #43392f;
+  color: #fff5eb;
+}
+html.brown .navigation ul li a:hover {
+  background: #43392f;
+  color: #fff5eb;
+}
+html.brown .loading-animation .circle {
+  background: #43392f;
+}
+html.brown .section-white .line,
+html.brown .section-white .circle > div,
+html.brown .section-white .input-text label,
+html.brown .section-white .input-text-area label {
+  background: #43392f;
+}
+html.brown .section-white .submit {
+  border-color: #564d44;
+  color: #43392f;
+}
+html.brown .section-white .submit:hover {
+  border-color: #43392f;
+}
+html.brown .section-white .submit:active {
+  color: #564d44;
+}
+html.brown .section-white .stages:after {
+  background: #a1978d;
+}
+html.brown .section-white .stages > li {
+  color: #a1978d;
+}
+html.brown .section-white .stages > li:before {
+  color: #fff5eb;
+  background: #a1978d;
+}
+html.brown .section-white .stages > li.complete,
+html.brown .section-white .stages > li:hover {
+  color: white;
+}
+html.brown .section-white .stages > li.complete:before,
+html.brown .section-white .stages > li:hover:before {
+  color: #fff5eb;
+  background: white;
+}
+html.brown .section-white .chart {
+  background: #fff5eb;
+  color: #43392f;
+  border-color: #43392f;
+}
+html.brown .section-white {
+  background: #fff5eb;
+}
+html.brown .section-white .input-text,
+html.brown .section-white .input-text-area {
+  border-color: #43392f;
+}
+html.brown .section-white .point-placeholder .drop-zone {
+  border-color: #43392f;
+}
+html.brown .section-white,
+html.brown .section-white .section-header h2 {
+  color: #43392f;
+}
+html.brown .section-white ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(67, 57, 47, 0.7);
+}
+html.brown .section-white :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(67, 57, 47, 0.7);
+}
+html.brown .section-white ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(67, 57, 47, 0.7);
+}
+html.brown .section-white :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(67, 57, 47, 0.7);
+}
+html.brown .section-white .input-text label,
+html.brown .section-white .input-text-area label,
+html.brown .section-white .circle,
+html.brown .section-white .social-icon.symbol,
+html.brown .section-white .line {
+  color: #fff5eb;
+}
+html.brown .section-white .point .point-body {
+  color: #564d44;
+}
+html.brown .section-black .line,
+html.brown .section-black .circle > div,
+html.brown .section-black .input-text label,
+html.brown .section-black .input-text-area label {
+  background: #fff5eb;
+}
+html.brown .section-black .submit {
+  border-color: #e6ddd4;
+  color: #fff5eb;
+}
+html.brown .section-black .submit:hover {
+  border-color: #fff5eb;
+}
+html.brown .section-black .submit:active {
+  color: #e6ddd4;
+}
+html.brown .section-black .stages:after {
+  background: #a1978d;
+}
+html.brown .section-black .stages > li {
+  color: #a1978d;
+}
+html.brown .section-black .stages > li:before {
+  color: #43392f;
+  background: #a1978d;
+}
+html.brown .section-black .stages > li.complete,
+html.brown .section-black .stages > li:hover {
+  color: white;
+}
+html.brown .section-black .stages > li.complete:before,
+html.brown .section-black .stages > li:hover:before {
+  color: #43392f;
+  background: white;
+}
+html.brown .section-black .chart {
+  background: #43392f;
+  color: #fff5eb;
+  border-color: #fff5eb;
+}
+html.brown .section-black {
+  background: #43392f;
+}
+html.brown .section-black .input-text,
+html.brown .section-black .input-text-area {
+  border-color: #fff5eb;
+}
+html.brown .section-black .point-placeholder .drop-zone {
+  border-color: #fff5eb;
+}
+html.brown .section-black,
+html.brown .section-black .section-header h2 {
+  color: #fff5eb;
+}
+html.brown .section-black ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(255, 245, 235, 0.7);
+}
+html.brown .section-black :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(255, 245, 235, 0.7);
+}
+html.brown .section-black ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(255, 245, 235, 0.7);
+}
+html.brown .section-black :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(255, 245, 235, 0.7);
+}
+html.brown .section-black .input-text label,
+html.brown .section-black .input-text-area label,
+html.brown .section-black .circle,
+html.brown .section-black .social-icon.symbol,
+html.brown .section-black .line {
+  color: #43392f;
+}
+html.brown .section-black .point .point-body {
+  color: #e6ddd4;
+}
+html.brown.modal-page {
+  background: #43392f;
+}
+html.brown.modal-page body {
+  background: #43392f;
+}
+html.brown .modal-container .shield {
+  background: fade-out(#43392f, 50%);
+}
+html.brown .modal {
+  border-color: #52463a;
+  color: #43392f;
+}
+html.brown .modal .input-text {
+  color: #43392f;
+  border-color: #52463a;
+}
+html.brown .modal .input-text label {
+  background: #52463a;
+  color: #fff5eb;
+}
+html.brown .modal .submit {
+  border-color: #52463a;
+  background: #52463a;
+  color: #fff5eb;
+}
+html.brown .modal-explain-payment .payments .payment {
+  border-color: #615344;
+}
+html.brown .modal-explain-payment .payments .payment label {
+  background: #615344;
+  color: #fff5eb;
+}
+html.brown .modal-explain-payment .payments .payment .icons {
+  border-top-color: #615344;
+}
+html.brown .coffee-svg {
+  fill: #43392f;
+}
+.color-options .color-option.brown {
+  background: #43392F;
+}
+/* Green */
+html.green {
+  background: #fafffe;
+  /* Region Modal Colouring  */
+
+  /* End Region */
+
+}
+html.green body {
+  background: #fafffe;
+}
+html.green .large-image {
+  background: #1abc9c;
+}
+html.green .details-background {
+  background: #fafffe;
+}
+html.green .section-header h3,
+html.green .details .last-name {
+  color: #3cc6ab;
+}
+html.green .navigation ul li a {
+  border-color: #1abc9c;
+}
+html.green .navigation ul li a span {
+  background: #1abc9c;
+  color: #fafffe;
+}
+html.green .navigation ul li a:hover {
+  background: #1abc9c;
+  color: #fafffe;
+}
+html.green .loading-animation .circle {
+  background: #1abc9c;
+}
+html.green .section-white .line,
+html.green .section-white .circle > div,
+html.green .section-white .input-text label,
+html.green .section-white .input-text-area label {
+  background: #1abc9c;
+}
+html.green .section-white .submit {
+  border-color: #31c3a6;
+  color: #1abc9c;
+}
+html.green .section-white .submit:hover {
+  border-color: #1abc9c;
+}
+html.green .section-white .submit:active {
+  color: #31c3a6;
+}
+html.green .section-white .stages:after {
+  background: #8adecd;
+}
+html.green .section-white .stages > li {
+  color: #8adecd;
+}
+html.green .section-white .stages > li:before {
+  color: #fafffe;
+  background: #8adecd;
+}
+html.green .section-white .stages > li.complete,
+html.green .section-white .stages > li:hover {
+  color: white;
+}
+html.green .section-white .stages > li.complete:before,
+html.green .section-white .stages > li:hover:before {
+  color: #fafffe;
+  background: white;
+}
+html.green .section-white .chart {
+  background: #fafffe;
+  color: #1abc9c;
+  border-color: #1abc9c;
+}
+html.green .section-white {
+  background: #fafffe;
+}
+html.green .section-white .input-text,
+html.green .section-white .input-text-area {
+  border-color: #1abc9c;
+}
+html.green .section-white .point-placeholder .drop-zone {
+  border-color: #1abc9c;
+}
+html.green .section-white,
+html.green .section-white .section-header h2 {
+  color: #1abc9c;
+}
+html.green .section-white ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(26, 188, 156, 0.7);
+}
+html.green .section-white :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(26, 188, 156, 0.7);
+}
+html.green .section-white ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(26, 188, 156, 0.7);
+}
+html.green .section-white :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(26, 188, 156, 0.7);
+}
+html.green .section-white .input-text label,
+html.green .section-white .input-text-area label,
+html.green .section-white .circle,
+html.green .section-white .social-icon.symbol,
+html.green .section-white .line {
+  color: #fafffe;
+}
+html.green .section-white .point .point-body {
+  color: #31c3a6;
+}
+html.green .section-black .line,
+html.green .section-black .circle > div,
+html.green .section-black .input-text label,
+html.green .section-black .input-text-area label {
+  background: #fafffe;
+}
+html.green .section-black .submit {
+  border-color: #e1e6e5;
+  color: #fafffe;
+}
+html.green .section-black .submit:hover {
+  border-color: #fafffe;
+}
+html.green .section-black .submit:active {
+  color: #e1e6e5;
+}
+html.green .section-black .stages:after {
+  background: #8adecd;
+}
+html.green .section-black .stages > li {
+  color: #8adecd;
+}
+html.green .section-black .stages > li:before {
+  color: #1abc9c;
+  background: #8adecd;
+}
+html.green .section-black .stages > li.complete,
+html.green .section-black .stages > li:hover {
+  color: white;
+}
+html.green .section-black .stages > li.complete:before,
+html.green .section-black .stages > li:hover:before {
+  color: #1abc9c;
+  background: white;
+}
+html.green .section-black .chart {
+  background: #1abc9c;
+  color: #fafffe;
+  border-color: #fafffe;
+}
+html.green .section-black {
+  background: #1abc9c;
+}
+html.green .section-black .input-text,
+html.green .section-black .input-text-area {
+  border-color: #fafffe;
+}
+html.green .section-black .point-placeholder .drop-zone {
+  border-color: #fafffe;
+}
+html.green .section-black,
+html.green .section-black .section-header h2 {
+  color: #fafffe;
+}
+html.green .section-black ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(250, 255, 254, 0.7);
+}
+html.green .section-black :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(250, 255, 254, 0.7);
+}
+html.green .section-black ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(250, 255, 254, 0.7);
+}
+html.green .section-black :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(250, 255, 254, 0.7);
+}
+html.green .section-black .input-text label,
+html.green .section-black .input-text-area label,
+html.green .section-black .circle,
+html.green .section-black .social-icon.symbol,
+html.green .section-black .line {
+  color: #1abc9c;
+}
+html.green .section-black .point .point-body {
+  color: #e1e6e5;
+}
+html.green.modal-page {
+  background: #1abc9c;
+}
+html.green.modal-page body {
+  background: #1abc9c;
+}
+html.green .modal-container .shield {
+  background: fade-out(#1abc9c, 50%);
+}
+html.green .modal {
+  border-color: #1dd2af;
+  color: #1abc9c;
+}
+html.green .modal .input-text {
+  color: #1abc9c;
+  border-color: #1dd2af;
+}
+html.green .modal .input-text label {
+  background: #1dd2af;
+  color: #fafffe;
+}
+html.green .modal .submit {
+  border-color: #1dd2af;
+  background: #1dd2af;
+  color: #fafffe;
+}
+html.green .modal-explain-payment .payments .payment {
+  border-color: #28e1bd;
+}
+html.green .modal-explain-payment .payments .payment label {
+  background: #28e1bd;
+  color: #fafffe;
+}
+html.green .modal-explain-payment .payments .payment .icons {
+  border-top-color: #28e1bd;
+}
+html.green .coffee-svg {
+  fill: #1abc9c;
+}
+.color-options .color-option.green {
+  background: #1abc9c;
+}
+/* Orange */
+html.orange {
+  background: #fff7f5;
+  /* Region Modal Colouring  */
+
+  /* End Region */
+
+}
+html.orange body {
+  background: #fff7f5;
+}
+html.orange .large-image {
+  background: #eb836e;
+}
+html.orange .details-background {
+  background: #fff7f5;
+}
+html.orange .section-header h3,
+html.orange .details .last-name {
+  color: #ee9684;
+}
+html.orange .navigation ul li a {
+  border-color: #eb836e;
+}
+html.orange .navigation ul li a span {
+  background: #eb836e;
+  color: #fff7f5;
+}
+html.orange .navigation ul li a:hover {
+  background: #eb836e;
+  color: #fff7f5;
+}
+html.orange .loading-animation .circle {
+  background: #eb836e;
+}
+html.orange .section-white .line,
+html.orange .section-white .circle > div,
+html.orange .section-white .input-text label,
+html.orange .section-white .input-text-area label {
+  background: #eb836e;
+}
+html.orange .section-white .submit {
+  border-color: #ed8f7d;
+  color: #eb836e;
+}
+html.orange .section-white .submit:hover {
+  border-color: #eb836e;
+}
+html.orange .section-white .submit:active {
+  color: #ed8f7d;
+}
+html.orange .section-white .stages:after {
+  background: #f5bdb1;
+}
+html.orange .section-white .stages > li {
+  color: #f5bdb1;
+}
+html.orange .section-white .stages > li:before {
+  color: #fff7f5;
+  background: #f5bdb1;
+}
+html.orange .section-white .stages > li.complete,
+html.orange .section-white .stages > li:hover {
+  color: white;
+}
+html.orange .section-white .stages > li.complete:before,
+html.orange .section-white .stages > li:hover:before {
+  color: #fff7f5;
+  background: white;
+}
+html.orange .section-white .chart {
+  background: #fff7f5;
+  color: #eb836e;
+  border-color: #eb836e;
+}
+html.orange .section-white {
+  background: #fff7f5;
+}
+html.orange .section-white .input-text,
+html.orange .section-white .input-text-area {
+  border-color: #eb836e;
+}
+html.orange .section-white .point-placeholder .drop-zone {
+  border-color: #eb836e;
+}
+html.orange .section-white,
+html.orange .section-white .section-header h2 {
+  color: #eb836e;
+}
+html.orange .section-white ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(235, 131, 110, 0.7);
+}
+html.orange .section-white :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(235, 131, 110, 0.7);
+}
+html.orange .section-white ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(235, 131, 110, 0.7);
+}
+html.orange .section-white :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(235, 131, 110, 0.7);
+}
+html.orange .section-white .input-text label,
+html.orange .section-white .input-text-area label,
+html.orange .section-white .circle,
+html.orange .section-white .social-icon.symbol,
+html.orange .section-white .line {
+  color: #fff7f5;
+}
+html.orange .section-white .point .point-body {
+  color: #ed8f7d;
+}
+html.orange .section-black .line,
+html.orange .section-black .circle > div,
+html.orange .section-black .input-text label,
+html.orange .section-black .input-text-area label {
+  background: #fff7f5;
+}
+html.orange .section-black .submit {
+  border-color: #e6dedc;
+  color: #fff7f5;
+}
+html.orange .section-black .submit:hover {
+  border-color: #fff7f5;
+}
+html.orange .section-black .submit:active {
+  color: #e6dedc;
+}
+html.orange .section-black .stages:after {
+  background: #f5bdb1;
+}
+html.orange .section-black .stages > li {
+  color: #f5bdb1;
+}
+html.orange .section-black .stages > li:before {
+  color: #eb836e;
+  background: #f5bdb1;
+}
+html.orange .section-black .stages > li.complete,
+html.orange .section-black .stages > li:hover {
+  color: white;
+}
+html.orange .section-black .stages > li.complete:before,
+html.orange .section-black .stages > li:hover:before {
+  color: #eb836e;
+  background: white;
+}
+html.orange .section-black .chart {
+  background: #eb836e;
+  color: #fff7f5;
+  border-color: #fff7f5;
+}
+html.orange .section-black {
+  background: #eb836e;
+}
+html.orange .section-black .input-text,
+html.orange .section-black .input-text-area {
+  border-color: #fff7f5;
+}
+html.orange .section-black .point-placeholder .drop-zone {
+  border-color: #fff7f5;
+}
+html.orange .section-black,
+html.orange .section-black .section-header h2 {
+  color: #fff7f5;
+}
+html.orange .section-black ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(255, 247, 245, 0.7);
+}
+html.orange .section-black :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(255, 247, 245, 0.7);
+}
+html.orange .section-black ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(255, 247, 245, 0.7);
+}
+html.orange .section-black :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(255, 247, 245, 0.7);
+}
+html.orange .section-black .input-text label,
+html.orange .section-black .input-text-area label,
+html.orange .section-black .circle,
+html.orange .section-black .social-icon.symbol,
+html.orange .section-black .line {
+  color: #eb836e;
+}
+html.orange .section-black .point .point-body {
+  color: #e6dedc;
+}
+html.orange.modal-page {
+  background: #eb836e;
+}
+html.orange.modal-page body {
+  background: #eb836e;
+}
+html.orange .modal-container .shield {
+  background: fade-out(#eb836e, 50%);
+}
+html.orange .modal {
+  border-color: #ee9684;
+  color: #eb836e;
+}
+html.orange .modal .input-text {
+  color: #eb836e;
+  border-color: #ee9684;
+}
+html.orange .modal .input-text label {
+  background: #ee9684;
+  color: #fff7f5;
+}
+html.orange .modal .submit {
+  border-color: #ee9684;
+  background: #ee9684;
+  color: #fff7f5;
+}
+html.orange .modal-explain-payment .payments .payment {
+  border-color: #f1a99b;
+}
+html.orange .modal-explain-payment .payments .payment label {
+  background: #f1a99b;
+  color: #fff7f5;
+}
+html.orange .modal-explain-payment .payments .payment .icons {
+  border-top-color: #f1a99b;
+}
+html.orange .coffee-svg {
+  fill: #eb836e;
+}
+.color-options .color-option.orange {
+  background: #eb836e;
+}
+/* Red */
+html.red {
+  background: #fff5f5;
+  /* Region Modal Colouring  */
+
+  /* End Region */
+
+}
+html.red body {
+  background: #fff5f5;
+}
+html.red .large-image {
+  background: #e85a59;
+}
+html.red .details-background {
+  background: #fff5f5;
+}
+html.red .section-header h3,
+html.red .details .last-name {
+  color: #eb7372;
+}
+html.red .navigation ul li a {
+  border-color: #e85a59;
+}
+html.red .navigation ul li a span {
+  background: #e85a59;
+  color: #fff5f5;
+}
+html.red .navigation ul li a:hover {
+  background: #e85a59;
+  color: #fff5f5;
+}
+html.red .loading-animation .circle {
+  background: #e85a59;
+}
+html.red .section-white .line,
+html.red .section-white .circle > div,
+html.red .section-white .input-text label,
+html.red .section-white .input-text-area label {
+  background: #e85a59;
+}
+html.red .section-white .submit {
+  border-color: #ea6b6a;
+  color: #e85a59;
+}
+html.red .section-white .submit:hover {
+  border-color: #e85a59;
+}
+html.red .section-white .submit:active {
+  color: #ea6b6a;
+}
+html.red .section-white .stages:after {
+  background: #f4a7a7;
+}
+html.red .section-white .stages > li {
+  color: #f4a7a7;
+}
+html.red .section-white .stages > li:before {
+  color: #fff5f5;
+  background: #f4a7a7;
+}
+html.red .section-white .stages > li.complete,
+html.red .section-white .stages > li:hover {
+  color: white;
+}
+html.red .section-white .stages > li.complete:before,
+html.red .section-white .stages > li:hover:before {
+  color: #fff5f5;
+  background: white;
+}
+html.red .section-white .chart {
+  background: #fff5f5;
+  color: #e85a59;
+  border-color: #e85a59;
+}
+html.red .section-white {
+  background: #fff5f5;
+}
+html.red .section-white .input-text,
+html.red .section-white .input-text-area {
+  border-color: #e85a59;
+}
+html.red .section-white .point-placeholder .drop-zone {
+  border-color: #e85a59;
+}
+html.red .section-white,
+html.red .section-white .section-header h2 {
+  color: #e85a59;
+}
+html.red .section-white ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(232, 90, 89, 0.7);
+}
+html.red .section-white :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(232, 90, 89, 0.7);
+}
+html.red .section-white ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(232, 90, 89, 0.7);
+}
+html.red .section-white :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(232, 90, 89, 0.7);
+}
+html.red .section-white .input-text label,
+html.red .section-white .input-text-area label,
+html.red .section-white .circle,
+html.red .section-white .social-icon.symbol,
+html.red .section-white .line {
+  color: #fff5f5;
+}
+html.red .section-white .point .point-body {
+  color: #ea6b6a;
+}
+html.red .section-black .line,
+html.red .section-black .circle > div,
+html.red .section-black .input-text label,
+html.red .section-black .input-text-area label {
+  background: #fff5f5;
+}
+html.red .section-black .submit {
+  border-color: #e6dcdc;
+  color: #fff5f5;
+}
+html.red .section-black .submit:hover {
+  border-color: #fff5f5;
+}
+html.red .section-black .submit:active {
+  color: #e6dcdc;
+}
+html.red .section-black .stages:after {
+  background: #f4a7a7;
+}
+html.red .section-black .stages > li {
+  color: #f4a7a7;
+}
+html.red .section-black .stages > li:before {
+  color: #e85a59;
+  background: #f4a7a7;
+}
+html.red .section-black .stages > li.complete,
+html.red .section-black .stages > li:hover {
+  color: white;
+}
+html.red .section-black .stages > li.complete:before,
+html.red .section-black .stages > li:hover:before {
+  color: #e85a59;
+  background: white;
+}
+html.red .section-black .chart {
+  background: #e85a59;
+  color: #fff5f5;
+  border-color: #fff5f5;
+}
+html.red .section-black {
+  background: #e85a59;
+}
+html.red .section-black .input-text,
+html.red .section-black .input-text-area {
+  border-color: #fff5f5;
+}
+html.red .section-black .point-placeholder .drop-zone {
+  border-color: #fff5f5;
+}
+html.red .section-black,
+html.red .section-black .section-header h2 {
+  color: #fff5f5;
+}
+html.red .section-black ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(255, 245, 245, 0.7);
+}
+html.red .section-black :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(255, 245, 245, 0.7);
+}
+html.red .section-black ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(255, 245, 245, 0.7);
+}
+html.red .section-black :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(255, 245, 245, 0.7);
+}
+html.red .section-black .input-text label,
+html.red .section-black .input-text-area label,
+html.red .section-black .circle,
+html.red .section-black .social-icon.symbol,
+html.red .section-black .line {
+  color: #e85a59;
+}
+html.red .section-black .point .point-body {
+  color: #e6dcdc;
+}
+html.red.modal-page {
+  background: #e85a59;
+}
+html.red.modal-page body {
+  background: #e85a59;
+}
+html.red .modal-container .shield {
+  background: fade-out(#e85a59, 50%);
+}
+html.red .modal {
+  border-color: #eb706f;
+  color: #e85a59;
+}
+html.red .modal .input-text {
+  color: #e85a59;
+  border-color: #eb706f;
+}
+html.red .modal .input-text label {
+  background: #eb706f;
+  color: #fff5f5;
+}
+html.red .modal .submit {
+  border-color: #eb706f;
+  background: #eb706f;
+  color: #fff5f5;
+}
+html.red .modal-explain-payment .payments .payment {
+  border-color: #ee8786;
+}
+html.red .modal-explain-payment .payments .payment label {
+  background: #ee8786;
+  color: #fff5f5;
+}
+html.red .modal-explain-payment .payments .payment .icons {
+  border-top-color: #ee8786;
+}
+html.red .coffee-svg {
+  fill: #e85a59;
+}
+.color-options .color-option.red {
+  background: #e85a59;
+}
+/* Light Blue */
+html.light-blue {
+  background: #fafdff;
+  /* Region Modal Colouring  */
+
+  /* End Region */
+
+}
+html.light-blue body {
+  background: #fafdff;
+}
+html.light-blue .large-image {
+  background: #44a0c8;
+}
+html.light-blue .details-background {
+  background: #fafdff;
+}
+html.light-blue .section-header h3,
+html.light-blue .details .last-name {
+  color: #60aed0;
+}
+html.light-blue .navigation ul li a {
+  border-color: #44a0c8;
+}
+html.light-blue .navigation ul li a span {
+  background: #44a0c8;
+  color: #fafdff;
+}
+html.light-blue .navigation ul li a:hover {
+  background: #44a0c8;
+  color: #fafdff;
+}
+html.light-blue .loading-animation .circle {
+  background: #44a0c8;
+}
+html.light-blue .section-white .line,
+html.light-blue .section-white .circle > div,
+html.light-blue .section-white .input-text label,
+html.light-blue .section-white .input-text-area label {
+  background: #44a0c8;
+}
+html.light-blue .section-white .submit {
+  border-color: #57aace;
+  color: #44a0c8;
+}
+html.light-blue .section-white .submit:hover {
+  border-color: #44a0c8;
+}
+html.light-blue .section-white .submit:active {
+  color: #57aace;
+}
+html.light-blue .section-white .stages:after {
+  background: #9fcfe4;
+}
+html.light-blue .section-white .stages > li {
+  color: #9fcfe4;
+}
+html.light-blue .section-white .stages > li:before {
+  color: #fafdff;
+  background: #9fcfe4;
+}
+html.light-blue .section-white .stages > li.complete,
+html.light-blue .section-white .stages > li:hover {
+  color: white;
+}
+html.light-blue .section-white .stages > li.complete:before,
+html.light-blue .section-white .stages > li:hover:before {
+  color: #fafdff;
+  background: white;
+}
+html.light-blue .section-white .chart {
+  background: #fafdff;
+  color: #44a0c8;
+  border-color: #44a0c8;
+}
+html.light-blue .section-white {
+  background: #fafdff;
+}
+html.light-blue .section-white .input-text,
+html.light-blue .section-white .input-text-area {
+  border-color: #44a0c8;
+}
+html.light-blue .section-white .point-placeholder .drop-zone {
+  border-color: #44a0c8;
+}
+html.light-blue .section-white,
+html.light-blue .section-white .section-header h2 {
+  color: #44a0c8;
+}
+html.light-blue .section-white ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(68, 160, 200, 0.7);
+}
+html.light-blue .section-white :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(68, 160, 200, 0.7);
+}
+html.light-blue .section-white ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(68, 160, 200, 0.7);
+}
+html.light-blue .section-white :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(68, 160, 200, 0.7);
+}
+html.light-blue .section-white .input-text label,
+html.light-blue .section-white .input-text-area label,
+html.light-blue .section-white .circle,
+html.light-blue .section-white .social-icon.symbol,
+html.light-blue .section-white .line {
+  color: #fafdff;
+}
+html.light-blue .section-white .point .point-body {
+  color: #57aace;
+}
+html.light-blue .section-black .line,
+html.light-blue .section-black .circle > div,
+html.light-blue .section-black .input-text label,
+html.light-blue .section-black .input-text-area label {
+  background: #fafdff;
+}
+html.light-blue .section-black .submit {
+  border-color: #e1e4e6;
+  color: #fafdff;
+}
+html.light-blue .section-black .submit:hover {
+  border-color: #fafdff;
+}
+html.light-blue .section-black .submit:active {
+  color: #e1e4e6;
+}
+html.light-blue .section-black .stages:after {
+  background: #9fcfe4;
+}
+html.light-blue .section-black .stages > li {
+  color: #9fcfe4;
+}
+html.light-blue .section-black .stages > li:before {
+  color: #44a0c8;
+  background: #9fcfe4;
+}
+html.light-blue .section-black .stages > li.complete,
+html.light-blue .section-black .stages > li:hover {
+  color: white;
+}
+html.light-blue .section-black .stages > li.complete:before,
+html.light-blue .section-black .stages > li:hover:before {
+  color: #44a0c8;
+  background: white;
+}
+html.light-blue .section-black .chart {
+  background: #44a0c8;
+  color: #fafdff;
+  border-color: #fafdff;
+}
+html.light-blue .section-black {
+  background: #44a0c8;
+}
+html.light-blue .section-black .input-text,
+html.light-blue .section-black .input-text-area {
+  border-color: #fafdff;
+}
+html.light-blue .section-black .point-placeholder .drop-zone {
+  border-color: #fafdff;
+}
+html.light-blue .section-black,
+html.light-blue .section-black .section-header h2 {
+  color: #fafdff;
+}
+html.light-blue .section-black ::-webkit-input-placeholder {
+  /* WebKit browsers */
+
+  color: rgba(250, 253, 255, 0.7);
+}
+html.light-blue .section-black :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+
+  color: rgba(250, 253, 255, 0.7);
+}
+html.light-blue .section-black ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+
+  color: rgba(250, 253, 255, 0.7);
+}
+html.light-blue .section-black :-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+
+  color: rgba(250, 253, 255, 0.7);
+}
+html.light-blue .section-black .input-text label,
+html.light-blue .section-black .input-text-area label,
+html.light-blue .section-black .circle,
+html.light-blue .section-black .social-icon.symbol,
+html.light-blue .section-black .line {
+  color: #44a0c8;
+}
+html.light-blue .section-black .point .point-body {
+  color: #e1e4e6;
+}
+html.light-blue.modal-page {
+  background: #44a0c8;
+}
+html.light-blue.modal-page body {
+  background: #44a0c8;
+}
+html.light-blue .modal-container .shield {
+  background: fade-out(#44a0c8, 50%);
+}
+html.light-blue .modal {
+  border-color: #58aace;
+  color: #44a0c8;
+}
+html.light-blue .modal .input-text {
+  color: #44a0c8;
+  border-color: #58aace;
+}
+html.light-blue .modal .input-text label {
+  background: #58aace;
+  color: #fafdff;
+}
+html.light-blue .modal .submit {
+  border-color: #58aace;
+  background: #58aace;
+  color: #fafdff;
+}
+html.light-blue .modal-explain-payment .payments .payment {
+  border-color: #6bb4d4;
+}
+html.light-blue .modal-explain-payment .payments .payment label {
+  background: #6bb4d4;
+  color: #fafdff;
+}
+html.light-blue .modal-explain-payment .payments .payment .icons {
+  border-top-color: #6bb4d4;
+}
+html.light-blue .coffee-svg {
+  fill: #44a0c8;
+}
+.color-options .color-option.light-blue {
+  background: #44a0c8;
+}
+/* END COLORS */

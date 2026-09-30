@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>端侧推理技术图谱 | donge.org</title>
+  <meta name="description" content="端侧推理加速技术全景图：从模型压缩到推理引擎，从硬件加速到工程实践" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #21262d;
+      --fg: #c9d1d9;
+      --fg2: #8b949e;
+      --accent: #39d353;
+      --blue: #58a6ff;
+      --orange: #f0883e;
+      --purple: #bc8cff;
+      --red: #ff7b72;
+      --yellow: #e3b341;
+      --border: #30363d;
+      --font: ui-monospace, "JetBrains Mono", "Fira Code", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      font-size: 13px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout ── */
+    .page { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    /* ── Header ── */
+    .header { margin-bottom: 48px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+    .back { color: var(--fg2); font-size: 12px; margin-bottom: 16px; display: inline-block; }
+    .back:hover { color: var(--accent); }
+    .title { font-size: 22px; color: var(--accent); margin-bottom: 8px; }
+    .subtitle { color: var(--fg2); font-size: 12px; }
+    .subtitle span { color: var(--blue); }
+
+    /* ── Section ── */
+    .section { margin-bottom: 56px; }
+    .section-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .section-num {
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--fg2); font-size: 11px;
+      padding: 2px 7px; border-radius: 3px;
+      min-width: 28px; text-align: center;
+    }
+    .section-title { font-size: 15px; color: var(--fg); }
+    .section-tag {
+      font-size: 10px; padding: 2px 8px; border-radius: 10px;
+      border: 1px solid; margin-left: auto;
+    }
+    .tag-compress { color: var(--orange); border-color: var(--orange); }
+    .tag-arch     { color: var(--purple); border-color: var(--purple); }
+    .tag-memory   { color: var(--blue);   border-color: var(--blue); }
+    .tag-compute  { color: var(--accent); border-color: var(--accent); }
+    .tag-engine   { color: var(--yellow); border-color: var(--yellow); }
+    .tag-hw       { color: var(--red);    border-color: var(--red); }
+    .tag-practice { color: var(--fg2);    border-color: var(--fg2); }
+
+    /* ── Cards ── */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+      position: relative;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .card.active { border-color: var(--accent); background: #0d1f0e; }
+    .card-icon { font-size: 18px; margin-bottom: 8px; }
+    .card-name { font-size: 13px; color: var(--fg); margin-bottom: 4px; }
+    .card-desc { font-size: 11px; color: var(--fg2); line-height: 1.5; }
+    .card-detail {
+      display: none; margin-top: 12px; padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .card.active .card-detail { display: block; }
+    .card-detail p { font-size: 11px; color: var(--fg2); margin-bottom: 8px; }
+    .card-detail .highlight { color: var(--accent); }
+    .card-detail .note { color: var(--yellow); }
+    .card-detail .code {
+      background: var(--bg3); border: 1px solid var(--border);
+      padding: 8px 10px; border-radius: 4px; font-size: 10px;
+      color: var(--blue); margin: 6px 0; white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .card-detail ul { padding-left: 14px; }
+    .card-detail li { font-size: 11px; color: var(--fg2); margin-bottom: 3px; }
+    .card-detail li span { color: var(--accent); }
+
+    /* ── Timeline ── */
+    .timeline { position: relative; padding-left: 24px; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 7px; top: 0; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .tl-item { position: relative; margin-bottom: 16px; }
+    .tl-dot {
+      position: absolute; left: -20px; top: 4px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--bg3); border: 1px solid var(--border);
+    }
+    .tl-item.active .tl-dot { background: var(--accent); border-color: var(--accent); }
+    .tl-year { font-size: 10px; color: var(--fg2); margin-bottom: 2px; }
+    .tl-name { font-size: 12px; color: var(--fg); }
+    .tl-body { font-size: 11px; color: var(--fg2); margin-top: 3px; }
+
+    /* ── Pipeline diagram ── */
+    .pipeline {
+      display: flex; align-items: stretch; gap: 0;
+      overflow-x: auto; padding-bottom: 8px;
+    }
+    .pipe-stage {
+      flex: 1; min-width: 100px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 0; padding: 12px 10px; text-align: center;
+      cursor: pointer; transition: background 0.2s;
+      position: relative;
+    }
+    .pipe-stage:first-child { border-radius: 6px 0 0 6px; }
+    .pipe-stage:last-child { border-radius: 0 6px 6px 0; }
+    .pipe-stage:not(:first-child) { border-left: none; }
+    .pipe-stage:hover { background: var(--bg3); }
+    .pipe-stage.sel { background: #0d1f0e; border-color: var(--accent); z-index: 1; }
+    .pipe-stage.sel + .pipe-stage { border-left: 1px solid var(--border); }
+    .pipe-icon { font-size: 16px; margin-bottom: 4px; }
+    .pipe-name { font-size: 11px; color: var(--fg); }
+    .pipe-sub  { font-size: 10px; color: var(--fg2); margin-top: 2px; }
+    .pipe-arrow {
+      display: flex; align-items: center; color: var(--border);
+      font-size: 14px; padding: 0 2px; flex-shrink: 0;
+    }
+    .pipe-detail {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 16px; margin-top: 12px;
+      display: none;
+    }
+    .pipe-detail.show { display: block; }
+    .pipe-detail h4 { color: var(--accent); font-size: 12px; margin-bottom: 8px; }
+    .pipe-detail p  { font-size: 11px; color: var(--fg2); margin-bottom: 6px; }
+
+    /* ── Quant levels ── */
+    .quant-bar { margin: 6px 0; }
+    .quant-label {
+      display: flex; justify-content: space-between;
+      font-size: 10px; color: var(--fg2); margin-bottom: 3px;
+    }
+    .quant-track {
+      height: 6px; background: var(--bg3); border-radius: 3px;
+      overflow: hidden;
+    }
+    .quant-fill {
+      height: 100%; border-radius: 3px;
+      transition: width 0.6s ease;
+    }
+
+    /* ── Comparison table ── */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 11px;
+    }
+    th {
+      background: var(--bg3); color: var(--fg2);
+      padding: 7px 10px; text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-weight: normal;
+    }
+    td {
+      padding: 7px 10px; border-bottom: 1px solid var(--border);
+      color: var(--fg2);
+    }
+    tr:hover td { background: var(--bg2); }
+    .good { color: var(--accent); }
+    .mid  { color: var(--yellow); }
+    .bad  { color: var(--red); }
+
+    /* ── Layer diagram ── */
+    .layers { display: flex; flex-direction: column; gap: 6px; }
+    .layer-row {
+      display: flex; gap: 6px; align-items: center;
+    }
+    .layer-label {
+      width: 80px; font-size: 10px; color: var(--fg2); text-align: right; flex-shrink: 0;
+    }
+    .layer-box {
+      flex: 1; padding: 8px 12px; border-radius: 4px;
+      border: 1px solid; font-size: 11px; text-align: center;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .layer-box:hover { opacity: 0.8; }
+    .l-compress { border-color: var(--orange); color: var(--orange); background: rgba(240,136,62,0.08); }
+    .l-arch     { border-color: var(--purple); color: var(--purple); background: rgba(188,140,255,0.08); }
+    .l-compute  { border-color: var(--accent); color: var(--accent); background: rgba(57,211,83,0.08); }
+    .l-memory   { border-color: var(--blue);   color: var(--blue);   background: rgba(88,166,255,0.08); }
+    .l-engine   { border-color: var(--yellow); color: var(--yellow); background: rgba(227,179,65,0.08); }
+    .l-hw       { border-color: var(--red);    color: var(--red);    background: rgba(255,123,114,0.08); }
+
+    /* ── Footer ── */
+    .footer { text-align: center; color: var(--fg2); font-size: 11px; padding-top: 32px; border-top: 1px solid var(--border); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .cards { grid-template-columns: 1fr; }
+      .pipeline { flex-direction: column; }
+      .pipe-stage { border-radius: 4px !important; border-left: 1px solid var(--border) !important; }
+      .pipe-stage.sel + .pipe-stage { border-left: 1px solid var(--border); }
+    }
+
+    /* ── Tooltip ── */
+    .badge {
+      display: inline-block; font-size: 9px; padding: 1px 5px;
+      border-radius: 3px; margin-left: 4px; vertical-align: middle;
+    }
+    .badge-new { background: rgba(57,211,83,0.15); color: var(--accent); }
+    .badge-hot { background: rgba(240,136,62,0.15); color: var(--orange); }
+
+    /* ── Overview map ── */
+    .map-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 8px;
+    }
+    .map-cell {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 12px;
+    }
+    .map-cell h3 { font-size: 11px; margin-bottom: 8px; }
+    .map-cell ul { padding-left: 12px; }
+    .map-cell li { font-size: 10px; color: var(--fg2); margin-bottom: 2px; }
+    .map-span2 { grid-column: span 2; }
+    .map-span3 { grid-column: span 3; }
+
+    @media (max-width: 700px) {
+      .map-grid { grid-template-columns: 1fr 1fr; }
+      .map-span2 { grid-column: span 1; }
+      .map-span3 { grid-column: span 2; }
+    }
+    @media (max-width: 480px) {
+      .map-grid { grid-template-columns: 1fr; }
+      .map-span2, .map-span3 { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <a class="back" href="/">← donge.org</a>
+    <div class="title">// 端侧推理技术图谱</div>
+    <div class="subtitle">
+      On-Device Inference Engineering Map ·
+      <span>18 个核心技术模块</span> · 由浅入深
+    </div>
+  </header>
+
+  <!-- ===== 0. 全局技术栈视图 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">00</span>
+      <span class="section-title">全局视图 — 端侧推理技术栈</span>
+      <span class="section-tag tag-practice">overview</span>
+    </div>
+    <p style="font-size:11px;color:var(--fg2);margin-bottom:16px;">
+      一个模型从训练完成到在手机/嵌入式设备上高效运行，需要跨越六个层次的工程挑战。点击各层查看说明。
+    </p>
+    <div class="layers" id="layers">
+      <div class="layer-row">
+        <div class="layer-label">模型压缩层</div>
+        <div class="layer-box l-compress" onclick="showLayer('compress')">
+          量化 &nbsp;·&nbsp; 剪枝 &nbsp;·&nbsp; 蒸馏 &nbsp;·&nbsp; MoE 稀疏化
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label">架构设计层</div>
+        <div class="layer-box l-arch" onclick="showLayer('arch')">
+          位置编码演进 &nbsp;·&nbsp; MQA / GQA &nbsp;·&nbsp; 轻量 LLM 架构
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label">内存优化层</div>
+        <div class="layer-box l-memory" onclick="showLayer('memory')">
+          KV Cache 演进 &nbsp;·&nbsp; PagedAttention &nbsp;·&nbsp; 内存规划 / 复用
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label">计算优化层</div>
+        <div class="layer-box l-compute" onclick="showLayer('compute')">
+          Flash Attention &nbsp;·&nbsp; GEMM 优化 &nbsp;·&nbsp; 计算图优化 &nbsp;·&nbsp; 投机解码
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label">引擎工程层</div>
+        <div class="layer-box l-engine" onclick="showLayer('engine')">
+          模型格式 &nbsp;·&nbsp; 线程调度 &nbsp;·&nbsp; 后端抽象 &nbsp;·&nbsp; 推理框架演进
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-label">硬件加速层</div>
+        <div class="layer-box l-hw" onclick="showLayer('hw')">
+          SIMD / NEON &nbsp;·&nbsp; NPU / DSP &nbsp;·&nbsp; 异构调度 &nbsp;·&nbsp; Metal / OpenCL
+        </div>
+      </div>
+    </div>
+    <div id="layer-desc" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-top:12px;font-size:11px;color:var(--fg2);">
+    </div>
+  </section>
+
+  <!-- ===== 1. 引言 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">端侧推理的约束 — 为什么难？</span>
+      <span class="section-tag tag-practice">background</span>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🖥️</div>
+        <div class="card-name">云端 vs 端侧</div>
+        <div class="card-desc">A100 GPU 有 312 TFLOPS FP16，而手机 SoC 的 NPU 通常只有 10–40 TOPS INT8</div>
+        <div class="card-detail">
+          <p>云端服务器可以用 8× H100（每张 2000W）堆算力，端侧设备的功耗预算通常是 <span class="highlight">2–5W</span>，差距高达 3 个数量级。</p>
+          <ul>
+            <li><span>算力</span>：A100 312 TFLOPS → 手机 NPU ~20 TOPS（INT8）</li>
+            <li><span>内存</span>：服务器 80GB HBM → 手机 6–12GB LPDDR5 共享</li>
+            <li><span>带宽</span>：HBM 2TB/s → LPDDR5 ~70GB/s</li>
+            <li><span>功耗</span>：数据中心无限 → 端侧 2–5W 热设计</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📉</div>
+        <div class="card-name">核心矛盾</div>
+        <div class="card-desc">模型参数量指数级增长（GPT-3 175B），而端侧内存只有 GB 级别</div>
+        <div class="card-detail">
+          <p>一个 7B 参数模型，FP16 精度需要 <span class="highlight">14GB 内存</span>，端侧完全放不下。但通过量化到 INT4，只需 <span class="highlight">3.5GB</span>，可以在手机上运行。</p>
+          <p class="note">这正是端侧推理所有优化技术的根本动机：在约束下尽量保持模型能力。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🔒</div>
+        <div class="card-name">端侧的优势</div>
+        <div class="card-desc">隐私保护、低延迟、离线可用、无网络传输成本</div>
+        <div class="card-detail">
+          <ul>
+            <li><span>隐私</span>：数据不出设备，符合 GDPR / 个人敏感数据场景</li>
+            <li><span>延迟</span>：无网络往返延迟，首 Token 时间可 &lt;100ms</li>
+            <li><span>离线</span>：飞行模式、弱网环境正常使用</li>
+            <li><span>成本</span>：不产生 API 调用费用，边缘 AIoT 场景尤其重要</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 历史时间线 -->
+    <div style="margin-top:20px;">
+      <div style="font-size:11px;color:var(--fg2);margin-bottom:12px;">端侧推理技术演进时间线</div>
+      <div class="timeline">
+        <div class="tl-item active">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2017</div>
+          <div class="tl-name">MobileNet v1 · TFLite 早期版本</div>
+          <div class="tl-body">Google 提出 Depthwise Separable Convolution，首次系统性地为手机设计 CV 模型。端侧推理从 CV 起步。</div>
+        </div>
+        <div class="tl-item active">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2018–2019</div>
+          <div class="tl-name">NCNN / MNN · MQA · INT8 量化普及</div>
+          <div class="tl-body">腾讯 NCNN、阿里 MNN 相继开源，移动端推理引擎进入竞争时代。Shazeer 提出 Multi-Query Attention。</div>
+        </div>
+        <div class="tl-item active">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2020–2021</div>
+          <div class="tl-name">Apple Neural Engine · RoPE · GPTQ 前身</div>
+          <div class="tl-body">苹果 A14 集成强大 NPU，苏剑林提出 RoPE 旋转位置编码，成为后续 LLM 标配。</div>
+        </div>
+        <div class="tl-item active">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2022–2023</div>
+          <div class="tl-name">llama.cpp · Flash Attention 2 · GQA · GPTQ / AWQ</div>
+          <div class="tl-body">Georgi Gerganov 发布 llama.cpp，LLM 端侧推理元年。GPTQ、AWQ 使 4-bit LLM 量化变得实用。Flash Attention 2 大幅提升训练和推理效率。</div>
+        </div>
+        <div class="tl-item active">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2024–至今</div>
+          <div class="tl-name">Phi-3 / Gemma / Qwen · MLC LLM · ExecuTorch · DeepSeek MoE</div>
+          <div class="tl-body">主流厂商发布专为端侧设计的小参数 LLM。MLC LLM 支持 iOS/Android/Web 全平台。端侧 LLM 进入产品化阶段。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 2. 量化 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">量化（Quantization）— 最主流的压缩手段</span>
+      <span class="section-tag tag-compress">模型压缩</span>
+    </div>
+
+    <p style="font-size:11px;color:var(--fg2);margin-bottom:16px;">
+      量化将模型权重和激活值从高精度浮点数（FP32）映射到低位宽整数（INT8/INT4），以精度换速度和内存。
+    </p>
+
+    <!-- 精度对比可视化 -->
+    <div style="margin-bottom:20px;">
+      <div style="font-size:11px;color:var(--fg2);margin-bottom:10px;">各精度格式：内存占用 vs 精度损失（7B 模型为例）</div>
+      <div class="quant-bar">
+        <div class="quant-label"><span>FP32 &nbsp;<span style="color:var(--fg)">原始精度</span></span><span style="color:var(--red)">28 GB ↑↑↑</span></div>
+        <div class="quant-track"><div class="quant-fill" style="width:100%;background:var(--red);"></div></div>
+      </div>
+      <div class="quant-bar">
+        <div class="quant-label"><span>FP16 / BF16 &nbsp;<span style="color:var(--fg)">训练常用</span></span><span style="color:var(--orange)">14 GB ↑↑</span></div>
+        <div class="quant-track"><div class="quant-fill" style="width:50%;background:var(--orange);"></div></div>
+      </div>
+      <div class="quant-bar">
+        <div class="quant-label"><span>INT8 &nbsp;<span style="color:var(--fg)">推理主流</span></span><span style="color:var(--yellow)">7 GB ↑</span></div>
+        <div class="quant-track"><div class="quant-fill" style="width:25%;background:var(--yellow);"></div></div>
+      </div>
+      <div class="quant-bar">
+        <div class="quant-label"><span>INT4 / Q4_K_M &nbsp;<span style="color:var(--fg)">端侧主流</span></span><span style="color:var(--accent)">3.5 GB ✓</span></div>
+        <div class="quant-track"><div class="quant-fill" style="width:12.5%;background:var(--accent);"></div></div>
+      </div>
+      <div class="quant-bar">
+        <div class="quant-label"><span>INT2 &nbsp;<span style="color:var(--fg)">研究阶段</span></span><span style="color:var(--blue)">1.75 GB</span></div>
+        <div class="quant-track"><div class="quant-fill" style="width:6%;background:var(--blue);"></div></div>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📐</div>
+        <div class="card-name">PTQ — 训练后量化</div>
+        <div class="card-desc">Post-Training Quantization：直接对已训练模型量化，无需重训练。最常用。</div>
+        <div class="card-detail">
+          <p>核心公式：<span class="highlight">Q(x) = round(x / scale) + zero_point</span></p>
+          <p>关键在于确定 <span class="highlight">scale</span> 和 <span class="highlight">zero_point</span>，常用方法：</p>
+          <ul>
+            <li><span>MinMax</span>：简单，但对 outlier 敏感</li>
+            <li><span>Percentile</span>：截断极值，更稳定</li>
+            <li><span>KL 散度校准</span>：最小化量化前后分布差异（TensorRT 用）</li>
+          </ul>
+          <p class="note">需要一小批 calibration data 来统计激活值分布。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🏋️</div>
+        <div class="card-name">QAT — 量化感知训练</div>
+        <div class="card-desc">Quantization-Aware Training：训练时模拟量化噪声，精度更高但需要重训练。</div>
+        <div class="card-detail">
+          <p>在前向传播中插入 Fake Quantize 算子，使模型学会适应量化误差。反向传播使用 Straight-Through Estimator (STE) 绕过不可微问题。</p>
+          <p>适用于精度要求严苛的场景（如 INT4 量化），代价是需要 GPU 重训练数小时到数天。</p>
+          <p class="note">端侧小模型（如 MobileNet）常用 QAT 获得更好的 INT8 精度。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">⚡</div>
+        <div class="card-name">GPTQ</div>
+        <div class="card-desc"><span class="badge badge-hot">HOT</span> 基于二阶 Hessian 信息的逐层 PTQ，LLM 4-bit 量化主流方案之一。</div>
+        <div class="card-detail">
+          <p>核心思路：量化一个权重后，用 Hessian 矩阵信息补偿其他权重，使量化误差最小化。逐列（column-wise）处理，计算量可控。</p>
+          <p>实际效果：Llama-2-7B 用 GPTQ INT4 量化后，困惑度（perplexity）仅上升 ~0.3，几乎无感知。</p>
+          <div class="code">pip install auto-gptq
+model = AutoGPTQForCausalLM.from_pretrained(
+    model_id, quantize_config=GPTQConfig(bits=4)
+)</div>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🎯</div>
+        <div class="card-name">AWQ — 激活感知量化</div>
+        <div class="card-desc"><span class="badge badge-hot">HOT</span> 保护显著权重（1% 的权重贡献 >10% 精度），比 GPTQ 更快且精度相当。</div>
+        <div class="card-detail">
+          <p>关键洞察：权重的重要性由对应的<span class="highlight">激活值大小</span>决定，而非权重本身。只需保护激活值大的通道，即可保住精度。</p>
+          <p>AWQ 不需要 Hessian 矩阵，速度比 GPTQ 快 3-10×，且不需要 GPU 校准数据。</p>
+          <p class="note">MLC LLM、llama.cpp 的 GGUF 格式均支持 AWQ 量化导出。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📦</div>
+        <div class="card-name">GGUF / Q4_K_M 格式</div>
+        <div class="card-desc">llama.cpp 的专属量化格式，K-Quant 方法对不同层使用不同精度，端侧 LLM 最常用。</div>
+        <div class="card-detail">
+          <p>GGUF（GPT-Generated Unified Format）是 GGML 的继任者，在单个文件中打包模型权重、tokenizer、元数据。</p>
+          <p>K-Quant 命名规则：<span class="highlight">Q{bits}_K_{size}</span></p>
+          <ul>
+            <li><span>Q4_K_S</span>：4-bit，小块，速度优先</li>
+            <li><span>Q4_K_M</span>：4-bit，混合精度，推荐默认</li>
+            <li><span>Q5_K_M</span>：5-bit，更高精度</li>
+            <li><span>Q8_0</span>：8-bit，接近 FP16 精度</li>
+          </ul>
+          <p class="note">关键层（如 attention output）保留更高精度，FFN 层用更低精度。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🔀</div>
+        <div class="card-name">混合精度推理</div>
+        <div class="card-desc">不同层使用不同精度：Embedding 层 FP16，FFN 层 INT4，Attention 层 INT8。</div>
+        <div class="card-detail">
+          <p>核心思路：LLM 各层对量化的敏感程度不同：</p>
+          <ul>
+            <li><span>Embedding 层</span>：词表大，敏感，保持 FP16</li>
+            <li><span>第一层/最后层</span>：对误差敏感，用 INT8</li>
+            <li><span>中间 FFN 层</span>：数量多，用 INT4 节省最多内存</li>
+          </ul>
+          <p>LLM.int8() 专门处理 outlier 激活值：正常值用 INT8，outlier 列保留 FP16。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3. 剪枝与蒸馏 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">结构化剪枝 & 知识蒸馏</span>
+      <span class="section-tag tag-compress">模型压缩</span>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">✂️</div>
+        <div class="card-name">结构化剪枝</div>
+        <div class="card-desc">删除整个 Attention Head、FFN 通道或 Transformer 层，直接减少 FLOPs。</div>
+        <div class="card-detail">
+          <p>非结构化剪枝（随机置零权重）产生稀疏矩阵，在通用硬件上<span class="highlight">无法加速</span>，端侧基本没用。</p>
+          <p>结构化剪枝的目标是删除整块结构：</p>
+          <ul>
+            <li><span>Head 剪枝</span>：某些 Attention Head 贡献极低，可直接删除</li>
+            <li><span>通道剪枝</span>：FFN 的部分神经元，按 L1/L2 范数排序删除</li>
+            <li><span>层剪枝</span>：删除对输出影响小的整个 Transformer Block</li>
+          </ul>
+          <p class="note">SparseGPT、Wanda 等方法可在不重训练的情况下做结构化剪枝。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🎓</div>
+        <div class="card-name">知识蒸馏</div>
+        <div class="card-desc">大模型（教师）指导小模型（学生）训练，学生学习软标签分布，而非硬标签。</div>
+        <div class="card-detail">
+          <p>软标签（Soft Label）包含类间相似度信息，比 one-hot 硬标签信息更丰富：</p>
+          <p><span class="highlight">L = α · CE(y, p_student) + (1-α) · KL(p_teacher / T, p_student / T)</span></p>
+          <p>T 是温度参数，T 越大，软标签越平滑，类间相似度信息越多。</p>
+          <ul>
+            <li><span>Phi-3-mini</span>：微软用 GPT-4 生成训练数据进行蒸馏</li>
+            <li><span>Gemma-2B</span>：Google 用 Gemini 蒸馏</li>
+            <li><span>DistilBERT</span>：BERT 的 40% 体积版本，性能保留 97%</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📐</div>
+        <div class="card-name">低秩分解（LoRA 原理）</div>
+        <div class="card-desc">将大权重矩阵分解为两个低秩矩阵之积，LoRA 微调的基础，也可用于推理压缩。</div>
+        <div class="card-detail">
+          <p>原始权重矩阵 <span class="highlight">W ∈ ℝ^(d×k)</span>，用两个小矩阵近似：<span class="highlight">W ≈ A·B，A ∈ ℝ^(d×r)，B ∈ ℝ^(r×k)</span></p>
+          <p>当 r ≪ min(d,k) 时，参数量从 d×k 降至 r×(d+k)。</p>
+          <p class="note">端侧推理时，LoRA adapter 可以动态合并进基础模型权重，不增加推理延迟。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 4. MoE ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">MoE — 稀疏激活的算力魔法</span>
+      <span class="section-tag tag-arch">架构</span>
+    </div>
+
+    <p style="font-size:11px;color:var(--fg2);margin-bottom:16px;">
+      Mixture of Experts：每次前向传播只激活部分专家（Expert），总参数量大但实际计算量小。
+    </p>
+
+    <!-- MoE 示意图 -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:16px;">
+      <div style="font-size:11px;color:var(--fg2);margin-bottom:12px;">MoE 前向传播示意（8个专家，每次激活2个）</div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <div style="background:var(--bg3);border:1px solid var(--blue);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--blue);">Input Token</div>
+        <div style="color:var(--border);">→</div>
+        <div style="background:var(--bg3);border:1px solid var(--purple);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--purple);">Router<br/><span style="font-size:9px;color:var(--fg2);">softmax topK</span></div>
+        <div style="color:var(--border);">→</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div id="moe-experts" style="display:flex;gap:4px;">
+            <!-- experts rendered by JS -->
+          </div>
+          <div style="font-size:9px;color:var(--fg2);text-align:center;">8 个 FFN Expert（每次激活 2 个）</div>
+        </div>
+        <div style="color:var(--border);">→</div>
+        <div style="background:var(--bg3);border:1px solid var(--accent);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--accent);">加权求和<br/><span style="font-size:9px;color:var(--fg2);">Weighted Sum</span></div>
+      </div>
+      <button onclick="animateMoE()" style="margin-top:12px;background:var(--bg3);border:1px solid var(--border);color:var(--accent);padding:4px 12px;border-radius:4px;cursor:pointer;font-family:var(--font);font-size:11px;">▶ 模拟路由</button>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📅</div>
+        <div class="card-name">MoE 演进历史</div>
+        <div class="card-desc">从 GShard 到 DeepSeek-V2，MoE 的规模和效率不断突破。</div>
+        <div class="card-detail">
+          <ul>
+            <li><span>2020 GShard</span>：首个大规模 MoE，600B 参数，机器翻译</li>
+            <li><span>2021 Switch Transformer</span>：简化路由，每 Token 只激活 1 个专家</li>
+            <li><span>2022 GLaM</span>：1.2T 参数，推理成本仅是 GPT-3 的 1/3</li>
+            <li><span>2023 Mixtral 8×7B</span>：激活参数仅 13B，性能超 Llama-2-70B</li>
+            <li><span>2024 DeepSeek-V2</span>：Fine-grained MoE + 共享专家，236B 总参/21B 激活</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📱</div>
+        <div class="card-name">端侧 MoE 的挑战</div>
+        <div class="card-desc">MoE 减少 FLOPs 但不减少内存占用，端侧需要 Expert Offloading 解决。</div>
+        <div class="card-detail">
+          <p><span class="highlight">关键矛盾</span>：Mixtral 8×7B 虽然激活参数只有 13B，但需要加载全部 47B 参数到内存。</p>
+          <p><span class="highlight">Expert Offloading</span>：将不活跃的 Expert 存到 CPU 内存或闪存，按需换入 GPU/NPU。</p>
+          <ul>
+            <li><span>PowerInfer</span>：利用 LLM 激活的局部性，将热门 Expert 常驻 GPU</li>
+            <li><span>MLC LLM</span>：支持 MoE 的量化与分层 offload</li>
+          </ul>
+          <p class="note">Expert 路由的不规则性对硬件不友好，是端侧 MoE 工程难点。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 5. 位置编码 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">位置编码演进</span>
+      <span class="section-tag tag-arch">架构</span>
+    </div>
+
+    <p style="font-size:11px;color:var(--fg2);margin-bottom:16px;">
+      Transformer 本身无序列位置感知，位置编码的设计直接影响模型的长上下文推理能力——这在端侧尤其重要，因为内存是瓶颈。
+    </p>
+
+    <div class="timeline">
+      <div class="tl-item active">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2017 · Vaswani et al.</div>
+        <div class="tl-name">正弦绝对位置编码（APE）</div>
+        <div class="tl-body">PE(pos, 2i) = sin(pos/10000^(2i/d))。固定公式，不可学习，无法外推到训练长度之外。原始 Transformer 标配。</div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2018 · BERT</div>
+        <div class="tl-name">可学习绝对位置编码</div>
+        <div class="tl-body">每个位置一个可训练向量，表达能力更强，但同样无法外推。BERT 最大位置 512。</div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2019–2021 · T5 / Shaw et al.</div>
+        <div class="tl-name">相对位置编码（RPE）</div>
+        <div class="tl-body">编码的是 token 间的相对距离而非绝对位置，具备一定外推能力。T5 用 bucket 量化的 bias，计算在 Attention logits 上加偏置。</div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2021 · 苏剑林（Su et al.）</div>
+        <div class="tl-name">RoPE — 旋转位置编码 ★</div>
+        <div class="tl-body">
+          将位置编码融入 Q/K 的旋转变换：<strong style="color:var(--accent)">q_m · k_n 的内积只依赖相对位置 (m-n)</strong>。
+          外推能力好，计算高效，成为 Llama / Qwen / Mistral 等几乎所有现代 LLM 的标配。
+        </div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2022 · Press et al.</div>
+        <div class="tl-name">ALiBi — 线性偏置注意力</div>
+        <div class="tl-body">不添加位置向量，在 Attention 分数上减去与距离成正比的线性惩罚。可在短序列训练后推理更长序列，MPT 模型使用。</div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2023–2024</div>
+        <div class="tl-name">RoPE 长度外推：YaRN / LongRoPE / RoPE Scaling</div>
+        <div class="tl-body">
+          <strong style="color:var(--accent)">端侧直接关联</strong>：更长上下文 = 更大 KV Cache = 更多内存。
+          YaRN 通过频率插值让 4K 训练的模型推理 128K；LongRoPE 动态调整旋转角度。
+          端侧常用线性/NTK 插值 scaling 因子简单扩展上下文窗口。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6. KV Cache ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">KV Cache 演进</span>
+      <span class="section-tag tag-memory">内存优化</span>
+    </div>
+
+    <p style="font-size:11px;color:var(--fg2);margin-bottom:16px;">
+      自回归解码中，每生成一个 Token 需要访问所有历史 Token 的 K/V 矩阵。KV Cache 是端侧 LLM 最大的内存消耗来源。
+    </p>
+
+    <!-- KV Cache 内存公式 -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:16px;">
+      <div style="font-size:10px;color:var(--fg2);margin-bottom:6px;">KV Cache 内存计算（FP16）</div>
+      <div style="font-size:12px;color:var(--accent);">Memory = 2 × num_layers × seq_len × num_heads × head_dim × 2 bytes</div>
+      <div style="font-size:10px;color:var(--fg2);margin-top:6px;">
+        例：Llama-3-8B（32层，32头，128维），seq=4096 → <span style="color:var(--orange)">KV Cache = 2×32×4096×32×128×2 ≈ 2GB</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>方案</th>
+            <th>时间</th>
+            <th>K/V Head 数</th>
+            <th>内存节省</th>
+            <th>精度影响</th>
+            <th>端侧支持</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MHA（原始）</td>
+            <td>2017</td>
+            <td>H 个 K，H 个 V</td>
+            <td class="bad">基准</td>
+            <td class="good">无损失</td>
+            <td class="mid">内存压力大</td>
+          </tr>
+          <tr>
+            <td>MQA</td>
+            <td>2019</td>
+            <td>1 个 K，1 个 V</td>
+            <td class="good">节省 H×</td>
+            <td class="mid">轻微下降</td>
+            <td class="good">极友好</td>
+          </tr>
+          <tr>
+            <td>GQA</td>
+            <td>2023</td>
+            <td>G 个 K，G 个 V</td>
+            <td class="good">节省 H/G×</td>
+            <td class="good">接近 MHA</td>
+            <td class="good">Llama-3 标配</td>
+          </tr>
+          <tr>
+            <td>Sliding Window</td>
+            <td>2023</td>
+            <td>H 个，固定窗口</td>
+            <td class="good">固定上限</td>
+            <td class="mid">长依赖受损</td>
+            <td class="good">Mistral 使用</td>
+          </tr>
+          <tr>
+            <td>PagedAttention</td>
+            <td>2023</td>
+            <td>分页管理</td>
+            <td class="good">碎片减少</td>
+            <td class="good">无损失</td>
+            <td class="mid">参考借鉴</td>
+          </tr>
+          <tr>
+            <td>量化 KV（INT8）</td>
+            <td>2023+</td>
+            <td>不变</td>
+            <td class="good">节省 2×</td>
+            <td class="mid">极小下降</td>
+            <td class="good">llama.cpp 支持</td>
+          </tr>
+          <tr>
+            <td>量化 KV（INT4）</td>
+            <td>2024</td>
+            <td>不变</td>
+            <td class="good">节省 4×</td>
+            <td class="mid">可接受</td>
+            <td class="good">MLC LLM 支持</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:16px;" class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🔍</div>
+        <div class="card-name">MQA vs GQA 原理</div>
+        <div class="card-desc">MQA 所有 Query Head 共享同一组 KV，GQA 分组共享，两者折中。</div>
+        <div class="card-detail">
+          <p>MHA：每个 Query Head 有独立的 K, V → KV Cache 大小 = H × seq × d</p>
+          <p>MQA：所有 H 个 Query Head 共享 1 组 KV → KV Cache 大小 = 1 × seq × d（减少 H 倍）</p>
+          <p>GQA：H 个 Query Head 分为 G 组，每组共享 1 组 KV → KV Cache = G × seq × d</p>
+          <p class="note">Llama-3-8B 用 GQA，32个 Q Head，8个 KV Head（G=8），KV Cache 减少 4×。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📄</div>
+        <div class="card-name">PagedAttention</div>
+        <div class="card-desc">借鉴操作系统虚拟内存分页思想，将 KV Cache 切成固定大小的 Page 管理。</div>
+        <div class="card-detail">
+          <p>传统 KV Cache 预先分配连续内存，导致大量内部碎片（平均浪费 60-80%）。</p>
+          <p>PagedAttention 将 KV Cache 分为固定大小的 Block（如 16 个 Token），用逻辑-物理地址映射管理，内存利用率提升至 >95%。</p>
+          <p class="note">vLLM 的核心技术，端侧可借鉴其 Block 管理思想，在内存受限场景动态管理长序列。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 7. 计算图优化 & GEMM ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">计算图优化 & GEMM — 推理引擎的核心</span>
+      <span class="section-tag tag-compute">计算优化</span>
+    </div>
+
+    <p style="font-size:11px;color:var(--fg2);margin-bottom:16px;">
+      推理引擎在执行模型前，先将计算图做一系列变换优化，然后在算子（Kernel）层面最大化硬件利用率。
+    </p>
+
+    <!-- Pipeline: 模型文件 → 执行 -->
+    <div style="margin-bottom:20px;">
+      <div style="font-size:11px;color:var(--fg2);margin-bottom:10px;">推理引擎内部处理流程（点击各阶段查看详情）</div>
+      <div class="pipeline" id="pipeline">
+        <div class="pipe-stage" onclick="selectPipe(this, 0)">
+          <div class="pipe-icon">📁</div>
+          <div class="pipe-name">模型文件</div>
+          <div class="pipe-sub">ONNX/GGUF</div>
+        </div>
+        <div class="pipe-stage" onclick="selectPipe(this, 1)">
+          <div class="pipe-icon">🔍</div>
+          <div class="pipe-name">图解析</div>
+          <div class="pipe-sub">构建 IR</div>
+        </div>
+        <div class="pipe-stage" onclick="selectPipe(this, 2)">
+          <div class="pipe-icon">🔧</div>
+          <div class="pipe-name">图优化</div>
+          <div class="pipe-sub">融合/折叠</div>
+        </div>
+        <div class="pipe-stage" onclick="selectPipe(this, 3)">
+          <div class="pipe-icon">📊</div>
+          <div class="pipe-name">内存规划</div>
+          <div class="pipe-sub">Lifetime分析</div>
+        </div>
+        <div class="pipe-stage" onclick="selectPipe(this, 4)">
+          <div class="pipe-icon">⚙️</div>
+          <div class="pipe-name">后端选择</div>
+          <div class="pipe-sub">CPU/GPU/NPU</div>
+        </div>
+        <div class="pipe-stage" onclick="selectPipe(this, 5)">
+          <div class="pipe-icon">🚀</div>
+          <div class="pipe-name">Kernel执行</div>
+          <div class="pipe-sub">GEMM/Conv</div>
+        </div>
+      </div>
+      <div class="pipe-detail" id="pipe-detail">
+        <h4 id="pipe-detail-title"></h4>
+        <p id="pipe-detail-body"></p>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🔗</div>
+        <div class="card-name">算子融合（Kernel Fusion）</div>
+        <div class="card-desc">将多个连续算子合并为一个 Kernel，减少内存读写往返（memory roundtrip）。</div>
+        <div class="card-detail">
+          <p>典型案例：Attention 中的 Linear + Bias + GELU 三步可合并为一次 Kernel 调用。</p>
+          <p>每次 Kernel 调用都涉及：<span class="highlight">写显存 → 读显存 → 计算 → 写显存</span>。融合后只需最终写一次。</p>
+          <ul>
+            <li><span>LayerNorm + 线性层融合</span>：Transformer 最常见的融合</li>
+            <li><span>QKV 投影融合</span>：3 个 Linear 合并为 1 个大矩阵乘</li>
+            <li><span>Attention + Softmax + Dropout</span>：Flash Attention 的融合策略</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📉</div>
+        <div class="card-name">常量折叠 & 死代码消除</div>
+        <div class="card-desc">推理时某些节点输入永远是常量，提前计算并内联，减少运行时开销。</div>
+        <div class="card-detail">
+          <p><span class="highlight">常量折叠</span>：如 LayerNorm 的 weight/bias 是常量，可以预计算并与前一层融合。</p>
+          <p><span class="highlight">死代码消除</span>：训练时用到的 Dropout（推理时 p=0）、某些辅助输出节点，推理时删除。</p>
+          <p class="note">ONNX Runtime 的图优化 Pass 会自动做这些变换，MNN/NCNN 也内置类似优化。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🧮</div>
+        <div class="card-name">GEMM 优化：Tiling & Pack</div>
+        <div class="card-desc">矩阵乘法（GEMM）是 LLM 推理 >90% 的计算量，Tiling 提升缓存命中率。</div>
+        <div class="card-detail">
+          <p><span class="highlight">Tiling（分块）</span>：将大矩阵切成能放进 L1/L2 Cache 的小块，每块在缓存中完成计算，避免大量 Cache Miss。</p>
+          <p><span class="highlight">Pack</span>：将矩阵 B 重排内存布局，使连续访问对应连续内存，提升向量化效率。</p>
+          <div class="code">// 典型 Tiling 伪代码
+for (int i = 0; i &lt; M; i += TILE_M)
+  for (int k = 0; k &lt; K; k += TILE_K)
+    for (int j = 0; j &lt; N; j += TILE_N)
+      // TILE_M × TILE_K × TILE_N 的小块乘法
+      // 全部在 L1 Cache 中完成</div>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📈</div>
+        <div class="card-name">Roofline Model</div>
+        <div class="card-desc">判断计算是「算力受限」还是「带宽受限」的分析工具，指导优化方向。</div>
+        <div class="card-detail">
+          <p><span class="highlight">算术强度（Arithmetic Intensity）</span>= FLOPs / Bytes（计算量/访存量）</p>
+          <p>如果算术强度 &lt; 设备 Ridge Point（峰值算力/峰值带宽），则是<span class="highlight">带宽受限（Memory-Bound）</span>。</p>
+          <ul>
+            <li><span>Decode 阶段</span>：batch=1，矩阵乘退化为矩阵-向量乘，严重 Memory-Bound</li>
+            <li><span>Prefill 阶段</span>：batch 较大，Compute-Bound，GPU 利用率高</li>
+          </ul>
+          <p class="note">端侧 Decode 基本是 Memory-Bound，所以量化（减少带宽）比增加算力更有效！</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 8. 内存规划 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">内存规划 — 推理引擎的静默优化</span>
+      <span class="section-tag tag-engine">引擎工程</span>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📊</div>
+        <div class="card-name">Tensor 生命周期分析</div>
+        <div class="card-desc">推理是有向无环图（DAG），每个 Tensor 有确定的「产生」和「最后使用」时刻。</div>
+        <div class="card-detail">
+          <p>如果两个 Tensor 的生命周期<span class="highlight">不重叠</span>，就可以复用同一块内存。</p>
+          <p>这等价于图着色问题：最小化颜色数（内存块数）。</p>
+          <div class="code">// 示意：Layer0 输出在 Layer2 输入后可以释放
+// Layer3 输入可以复用 Layer0 输出的内存
+Tensor A: [0, 3]  // 算子 0 产生，算子 3 最后使用
+Tensor B: [1, 2]  // 可以和 A 共用内存（生命周期不重叠）
+Tensor C: [4, 6]  // 可以复用 A 的内存</div>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">♻️</div>
+        <div class="card-name">In-place & Alias 优化</div>
+        <div class="card-desc">某些算子（如 ReLU、Reshape）可以直接在输入内存上原地操作，无需分配新内存。</div>
+        <div class="card-detail">
+          <ul>
+            <li><span>In-place</span>：激活函数、Add、LayerNorm 等可原地操作</li>
+            <li><span>Alias</span>：Reshape / Transpose / Slice 可以共享底层数据，只修改 strides</li>
+            <li><span>Concat 优化</span>：提前分配输出内存，各输入直接写入对应偏移位置</li>
+          </ul>
+          <p class="note">NCNN 的 Blob 设计、TFLite 的 arena 分配器都大量使用这些技术。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🗄️</div>
+        <div class="card-name">静态 vs 动态内存分配</div>
+        <div class="card-desc">静态分配：编译时确定内存布局，零运行时开销；动态分配：支持变长输入。</div>
+        <div class="card-detail">
+          <p><span class="highlight">静态分配</span>：固定输入尺寸（如 MobileNet 224×224），编译时做 lifetime 分析，生成固定内存池。TFLite 默认策略，适合嵌入式。</p>
+          <p><span class="highlight">动态分配</span>：LLM 序列长度不固定，需要运行时分配。代价是内存碎片和分配开销。</p>
+          <p>混合策略：权重用静态（加载时分配），KV Cache 和激活值用动态（带内存池）。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 9. Flash Attention & 投机解码 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-title">Flash Attention & 投机解码</span>
+      <span class="section-tag tag-compute">计算优化</span>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">⚡</div>
+        <div class="card-name">Flash Attention</div>
+        <div class="card-desc">IO-aware 的注意力实现：将 QKV 分块，在 SRAM 中完成计算，避免 O(N²) HBM 读写。</div>
+        <div class="card-detail">
+          <p>标准 Attention 的瓶颈不是计算量，而是 HBM 读写：N×N 的 score 矩阵需要写入再读出 HBM，随序列长度平方增长。</p>
+          <p><span class="highlight">Flash Attention 核心</span>：Tiling + Online Softmax。将 Q/K/V 分成小块，每块在 SRAM（片上高速内存）中完成 Attention 计算，结果累积，不写中间矩阵到 HBM。</p>
+          <ul>
+            <li><span>Flash Attention 1</span>：2022，速度提升 2-4×，内存 O(N)</li>
+            <li><span>Flash Attention 2</span>：2023，减少 non-matmul FLOPs，速度再提升 2×</li>
+            <li><span>Flash Attention 3</span>：2024，专为 H100 Tensor Core 优化</li>
+          </ul>
+          <p class="note">端侧：Apple Metal / ARM NEON 均有对应实现（llama.cpp 内置），NPU 的 SRAM 特性同样适合 Flash Attention 策略。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🔮</div>
+        <div class="card-name">投机解码（Speculative Decoding）</div>
+        <div class="card-desc"><span class="badge badge-hot">HOT</span> 用小模型快速草拟多个 Token，大模型并行验证，拒绝则回退。不改变输出分布。</div>
+        <div class="card-detail">
+          <p><span class="highlight">动机</span>：自回归解码每步只生成 1 个 Token，大模型严重低效（Decode 阶段是 Memory-Bound）。</p>
+          <p><span class="highlight">流程</span>：</p>
+          <ul>
+            <li><span>1.</span> 小模型（Draft Model）自回归生成 γ 个候选 Token</li>
+            <li><span>2.</span> 大模型（Target Model）对 γ+1 个位置并行做一次前向</li>
+            <li><span>3.</span> 用拒绝采样（Rejection Sampling）验证，不改变大模型分布</li>
+            <li><span>4.</span> 平均接受 β 个 Token（β ≈ 2-4×），相当于 2-4× 加速</li>
+          </ul>
+          <p class="note">端侧变体：Self-Speculative Decoding（同一模型的不同层做 Draft），无需额外小模型。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 10. 线程模型 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      <span class="section-title">线程模型与并行调度</span>
+      <span class="section-tag tag-engine">引擎工程</span>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🔀</div>
+        <div class="card-name">Intra-op 并行</div>
+        <div class="card-desc">单个算子内部的并行：将矩阵乘按行/列切分，多线程分别计算。</div>
+        <div class="card-detail">
+          <p>对于 GEMM（M×K × K×N），可以沿 M 维切分，每个线程计算一部分行：</p>
+          <div class="code">// 4 线程并行，每线程计算 M/4 行
+thread[i]: C[i*M/4 : (i+1)*M/4, :] = A[...] × B</div>
+          <p>llama.cpp 的 ggml_compute_forward 用线程池 + barrier 同步实现 intra-op 并行，是其性能核心。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">⏭️</div>
+        <div class="card-name">Inter-op 并行</div>
+        <div class="card-desc">多个无依赖算子同时执行（流水线并行），减少总执行时间。</div>
+        <div class="card-detail">
+          <p>计算图中有些节点无数据依赖（如 MoE 中不同 Expert），可以并行执行。</p>
+          <p>实现上用有向图拓扑排序 + 就绪队列，就绪节点分发到空闲线程。</p>
+          <p class="note">端侧效果有限，因为 Decode 阶段计算图大多是线性的。但 Prefill 阶段有更多并行机会。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📱</div>
+        <div class="card-name">大小核调度（big.LITTLE）</div>
+        <div class="card-desc">Android / ARM 设备有高性能大核和低功耗小核，推理引擎需要合理分配任务。</div>
+        <div class="card-detail">
+          <p>Android：通过 pthread_setaffinity_np 或 QoS API 绑定大核。</p>
+          <p>Apple：通过 QOS_CLASS_USER_INTERACTIVE 让系统自动调度到 P-Core（性能核）。</p>
+          <ul>
+            <li><span>性能核（P-Core）</span>：执行计算密集型 GEMM</li>
+            <li><span>效能核（E-Core）</span>：处理 IO、KV Cache 加载、预处理</li>
+          </ul>
+          <p class="note">llama.cpp 在 Apple Silicon 上会优先占满 P-Core，同时利用 Metal GPU。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 11. 模型格式 & 后端抽象 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <span class="section-title">模型格式 & 后端抽象</span>
+      <span class="section-tag tag-engine">引擎工程</span>
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:16px;">
+      <table>
+        <thead>
+          <tr><th>格式</th><th>设计者</th><th>序列化</th><th>量化支持</th><th>适用场景</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="color:var(--blue)">ONNX</span></td>
+            <td>微软/Facebook</td>
+            <td>Protobuf</td>
+            <td class="mid">INT8（QDQ）</td>
+            <td>通用 IR，跨框架转换</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--accent)">GGUF</span></td>
+            <td>ggerganov</td>
+            <td>自定义二进制</td>
+            <td class="good">INT2-INT8，K-Quant</td>
+            <td>端侧 LLM，llama.cpp 生态</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--orange)">FlatBuffers</span></td>
+            <td>Google</td>
+            <td>FlatBuffers</td>
+            <td class="mid">INT8</td>
+            <td>TFLite，零拷贝反序列化</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--purple)">MLC Relax IR</span></td>
+            <td>MLC.ai</td>
+            <td>JSON + 二进制</td>
+            <td class="good">INT4/INT8</td>
+            <td>全平台（iOS/Android/Web）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🏗️</div>
+        <div class="card-name">后端抽象设计</div>
+        <div class="card-desc">推理引擎需要在同一套 API 下支持 CPU / GPU / NPU 多种后端。</div>
+        <div class="card-detail">
+          <p>核心模式：<span class="highlight">Operator Registry + Backend Interface</span></p>
+          <div class="code">// 典型后端抽象（伪代码）
+class Backend {
+  virtual void matmul(Tensor& C, Tensor& A, Tensor& B) = 0;
+  virtual void softmax(Tensor& out, Tensor& in) = 0;
+};
+class CPUBackend : public Backend { ... };
+class MetalBackend : public Backend { ... };
+class HexagonBackend : public Backend { ... };</div>
+          <p>算子注册表：每个算子对多个后端分别注册实现，运行时根据设备能力选择。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🔄</div>
+        <div class="card-name">Fallback 机制</div>
+        <div class="card-desc">NPU 不支持的算子自动 fallback 到 GPU，GPU 不支持的 fallback 到 CPU。</div>
+        <div class="card-detail">
+          <p>实际中 NPU 只能高效运行固定算子集合（Conv/MatMul/Sigmoid），不规则算子（如 RoPE 的复数运算）需要 fallback。</p>
+          <p>频繁 CPU↔GPU 数据搬运会抵消 NPU 加速，因此 Fallback 策略需要权衡：</p>
+          <ul>
+            <li><span>子图分割</span>：将 NPU 支持的部分切成子图，整块送 NPU</li>
+            <li><span>算子融合后再判断</span>：融合后的算子可能整体由 NPU 支持</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 12. 推理框架演进 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">12</span>
+      <span class="section-title">推理框架演进 — 从 CV 到端侧 LLM</span>
+      <span class="section-tag tag-engine">引擎工程</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>框架</th><th>发布</th><th>定位</th><th>模型类型</th><th>优势</th><th>局限</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="color:var(--orange)">TFLite</span></td>
+            <td>2017</td>
+            <td>Google，移动端</td>
+            <td>CV / NLP</td>
+            <td class="good">FlatBuffers 零拷贝，Android 集成</td>
+            <td class="bad">LLM 支持弱</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--blue)">NCNN</span></td>
+            <td>2017</td>
+            <td>腾讯，纯 C++ 无依赖</td>
+            <td>CV 为主</td>
+            <td class="good">极轻量，ARM NEON 优化出色</td>
+            <td class="bad">Transformer 支持有限</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--purple)">MNN</span></td>
+            <td>2019</td>
+            <td>阿里，移动+嵌入式</td>
+            <td>CV / NLP</td>
+            <td class="good">完整 CV+NLP，Vulkan/Metal</td>
+            <td class="mid">LLM 较新支持</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--blue)">ONNX Runtime</span></td>
+            <td>2019</td>
+            <td>微软，跨平台</td>
+            <td>通用</td>
+            <td class="good">ONNX 生态，Execution Provider 可扩展</td>
+            <td class="mid">嵌入式体积较大</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--fg)">Core ML</span></td>
+            <td>2019</td>
+            <td>Apple，iOS/macOS</td>
+            <td>通用</td>
+            <td class="good">自动调度 ANE/GPU/CPU</td>
+            <td class="bad">Apple 生态锁定</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--accent)">llama.cpp</span></td>
+            <td>2023</td>
+            <td>社区，LLM 首选</td>
+            <td>LLM</td>
+            <td class="good">GGUF 量化，Metal/CUDA，活跃生态</td>
+            <td class="mid">CV 模型不支持</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--yellow)">MLC LLM</span></td>
+            <td>2023</td>
+            <td>陈天奇团队</td>
+            <td>LLM</td>
+            <td class="good">iOS/Android/Web，TVM 编译优化</td>
+            <td class="mid">部署复杂度高</td>
+          </tr>
+          <tr>
+            <td><span style="color:var(--orange)">ExecuTorch</span></td>
+            <td>2023</td>
+            <td>Meta / PyTorch</td>
+            <td>通用</td>
+            <td class="good">PyTorch 原生导出，XNNPACK/Core ML后端</td>
+            <td class="mid">生态相对新</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== 13. 硬件加速 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">13</span>
+      <span class="section-title">硬件加速 — SIMD / NPU / 异构调度</span>
+      <span class="section-tag tag-hw">硬件</span>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🔢</div>
+        <div class="card-name">SIMD 指令集演进</div>
+        <div class="card-desc">Single Instruction Multiple Data：一条指令同时处理多个数据，是 CPU 推理加速的基础。</div>
+        <div class="card-detail">
+          <ul>
+            <li><span>x86 SSE（1999）</span>：128-bit，4×FP32 同时计算</li>
+            <li><span>x86 AVX2（2013）</span>：256-bit，8×FP32 或 8×INT32</li>
+            <li><span>x86 AVX-512（2017）</span>：512-bit，16×FP32，服务器主流</li>
+            <li><span>ARM NEON（2004）</span>：128-bit，移动端 SIMD 标配</li>
+            <li><span>ARM SVE（2016）</span>：可变长度向量，MacBook M 系列 512-bit</li>
+            <li><span>ARM SVE2（2019）</span>：增强整数支持，INT4 量化加速</li>
+          </ul>
+          <p class="note">llama.cpp 针对 NEON/AVX2/AVX-512 分别有专门的量化矩阵乘实现，性能差异 3-5×。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🧠</div>
+        <div class="card-name">NPU / DSP 架构</div>
+        <div class="card-desc">专为 AI 矩阵乘设计的加速单元，通常比 CPU 高效 10-50×（INT8）。</div>
+        <div class="card-detail">
+          <ul>
+            <li><span>Apple Neural Engine（ANE）</span>：A11 起集成，M 系列最强 ~38 TOPS，支持 Core ML 直接调用</li>
+            <li><span>高通 Hexagon NPU</span>：Snapdragon 8 Gen 3 达 ~73 TOPS，QNN SDK</li>
+            <li><span>联发科 APU</span>：Dimensity 9300 ~35 TOPS，NeuroPilot SDK</li>
+            <li><span>三星 NPU</span>：Exynos 2400 ~14.7 TOPS</li>
+          </ul>
+          <p class="note">NPU 通常只支持固定精度（INT8/INT16）和固定算子集，灵活性低于 GPU，需要专门优化。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🎮</div>
+        <div class="card-name">移动 GPU（Shader 计算）</div>
+        <div class="card-desc">Adreno / Mali GPU 通过 Compute Shader（OpenCL / Vulkan / Metal）执行通用计算。</div>
+        <div class="card-detail">
+          <p>移动 GPU 与 CPU 共享内存，避免 PCIe 数据搬运，延迟低。</p>
+          <ul>
+            <li><span>Metal（Apple）</span>：llama.cpp Metal 后端，M2 Pro 上 ~30 token/s（7B Q4）</li>
+            <li><span>Vulkan</span>：跨 Android 设备，MLC LLM / MNN 均支持</li>
+            <li><span>OpenCL</span>：NCNN 最早的 GPU 后端，兼容性最广</li>
+          </ul>
+          <p>端侧 GPU VRAM 和主存共享，无显存容量限制，但带宽低于离散 GPU。</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🔀</div>
+        <div class="card-name">异构调度策略</div>
+        <div class="card-desc">CPU + GPU + NPU 协同：用计算特性决定谁来执行哪部分。</div>
+        <div class="card-detail">
+          <p>典型策略：</p>
+          <ul>
+            <li><span>Prefill（长输入处理）</span>：计算密集，送 GPU / NPU</li>
+            <li><span>Decode（逐 Token 生成）</span>：Memory-Bound，CPU + GPU 均可</li>
+            <li><span>不规则算子（RoPE / TopK）</span>：CPU 处理，避免 GPU 调度开销</li>
+            <li><span>量化权重解压</span>：CPU 解压后送 GPU，或 GPU Shader 内解压</li>
+          </ul>
+          <p class="note">Core ML 的 MLComputeUnits.all 让系统自动在 ANE/GPU/CPU 间调度，是目前最完善的异构实现。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 14. Profiling ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">14</span>
+      <span class="section-title">Profiling 与优化工作流</span>
+      <span class="section-tag tag-practice">实践</span>
+    </div>
+
+    <p style="font-size:11px;color:var(--fg2);margin-bottom:16px;">
+      端侧优化的正确姿势：先测量，再优化，不要凭直觉猜瓶颈。
+    </p>
+
+    <!-- 优化闭环 -->
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px;">
+      <div style="background:var(--bg3);border:1px solid var(--accent);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--accent);">① 建立 Baseline<br/><span style="color:var(--fg2);font-size:9px;">latency/memory/throughput</span></div>
+      <div style="color:var(--border);font-size:18px;">→</div>
+      <div style="background:var(--bg3);border:1px solid var(--blue);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--blue);">② Profiling<br/><span style="color:var(--fg2);font-size:9px;">找最热算子</span></div>
+      <div style="color:var(--border);font-size:18px;">→</div>
+      <div style="background:var(--bg3);border:1px solid var(--purple);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--purple);">③ 分析瓶颈<br/><span style="color:var(--fg2);font-size:9px;">Roofline / 带宽</span></div>
+      <div style="color:var(--border);font-size:18px;">→</div>
+      <div style="background:var(--bg3);border:1px solid var(--orange);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--orange);">④ 针对优化<br/><span style="color:var(--fg2);font-size:9px;">量化/融合/换算法</span></div>
+      <div style="color:var(--border);font-size:18px;">→</div>
+      <div style="background:var(--bg3);border:1px solid var(--accent);border-radius:4px;padding:8px 12px;font-size:11px;color:var(--accent);">⑤ 验证回归<br/><span style="color:var(--fg2);font-size:9px;">精度 + 速度</span></div>
+    </div>
+
+    <div class="cards">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">🍎</div>
+        <div class="card-name">Apple Instruments</div>
+        <div class="card-desc">Xcode 内置，Time Profiler + Metal System Trace，分析 CPU/GPU/ANE 使用。</div>
+        <div class="card-detail">
+          <ul>
+            <li><span>Time Profiler</span>：CPU 热点函数，采样粒度 1ms</li>
+            <li><span>Metal System Trace</span>：GPU Shader 执行时间线，找 Shader 瓶颈</li>
+            <li><span>Core ML Instrument</span>：ANE / GPU / CPU 分别的耗时，自动标注调度决策</li>
+            <li><span>Memory Graph</span>：内存分配可视化，找内存泄漏和峰值</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📱</div>
+        <div class="card-name">Android Profiling</div>
+        <div class="card-desc">Android Studio Profiler + Snapdragon Profiler，覆盖 CPU/GPU/DSP。</div>
+        <div class="card-detail">
+          <ul>
+            <li><span>Android Studio CPU Profiler</span>：采样/插桩两种模式，方法级耗时</li>
+            <li><span>Snapdragon Profiler</span>：Adreno GPU 专用，Shader 分析，带宽使用率</li>
+            <li><span>simpleperf</span>：命令行 perf，可分析 JNI / NDK 层</li>
+            <li><span>Perfetto</span>：系统级 trace，多进程时间线，分析调度延迟</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-icon">📏</div>
+        <div class="card-name">关键指标</div>
+        <div class="card-desc">端侧 LLM 推理的核心 KPI：TTFT、Decode throughput、内存峰值。</div>
+        <div class="card-detail">
+          <ul>
+            <li><span>TTFT</span>（Time To First Token）：Prefill 延迟，决定用户感知响应速度</li>
+            <li><span>Decode throughput</span>：token/s，决定生成流畅度（&gt;15 token/s 较流畅）</li>
+            <li><span>内存峰值</span>：模型权重 + KV Cache + 激活值，决定是否 OOM</li>
+            <li><span>功耗</span>：长推理任务的电池消耗，端侧独特指标</li>
+            <li><span>模型精度</span>：量化/压缩后的 perplexity / benchmark 分数回归</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 15. 总结 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">15</span>
+      <span class="section-title">总结：技术图谱</span>
+      <span class="section-tag tag-practice">summary</span>
+    </div>
+
+    <div class="map-grid">
+      <div class="map-cell" style="border-color:var(--orange);">
+        <h3 style="color:var(--orange);">模型压缩层</h3>
+        <ul>
+          <li>量化 PTQ / QAT / GPTQ / AWQ</li>
+          <li>GGUF K-Quant / 混合精度</li>
+          <li>结构化剪枝</li>
+          <li>知识蒸馏 / LoRA 低秩</li>
+        </ul>
+      </div>
+      <div class="map-cell" style="border-color:var(--purple);">
+        <h3 style="color:var(--purple);">架构设计层</h3>
+        <ul>
+          <li>位置编码：RoPE / ALiBi / YaRN</li>
+          <li>注意力：MQA / GQA / Sliding Window</li>
+          <li>MoE 稀疏激活 / Expert Offload</li>
+          <li>轻量 LLM：Phi-3 / Gemma / Qwen</li>
+        </ul>
+      </div>
+      <div class="map-cell" style="border-color:var(--blue);">
+        <h3 style="color:var(--blue);">内存优化层</h3>
+        <ul>
+          <li>KV Cache 演进（MHA→GQA）</li>
+          <li>PagedAttention 分页管理</li>
+          <li>KV Cache 量化 INT8/INT4</li>
+          <li>Tensor 生命周期 / 内存复用</li>
+        </ul>
+      </div>
+      <div class="map-cell map-span2" style="border-color:var(--accent);">
+        <h3 style="color:var(--accent);">计算优化层</h3>
+        <ul style="columns:2;column-gap:20px;">
+          <li>Flash Attention（IO-aware Tiling）</li>
+          <li>GEMM Tiling / Pack / 向量化</li>
+          <li>算子融合 / 常量折叠</li>
+          <li>Roofline 瓶颈分析</li>
+          <li>投机解码（Speculative）</li>
+          <li>计算图 IR 优化</li>
+        </ul>
+      </div>
+      <div class="map-cell" style="border-color:var(--yellow);">
+        <h3 style="color:var(--yellow);">引擎工程层</h3>
+        <ul>
+          <li>模型格式：ONNX / GGUF / FlatBuffers</li>
+          <li>线程调度：Intra/Inter-op 并行</li>
+          <li>后端抽象 / Fallback 机制</li>
+          <li>推理框架演进</li>
+        </ul>
+      </div>
+      <div class="map-cell map-span2" style="border-color:var(--red);">
+        <h3 style="color:var(--red);">硬件加速层</h3>
+        <ul style="columns:2;column-gap:20px;">
+          <li>CPU：SIMD / NEON / SVE / AVX</li>
+          <li>GPU：Metal / Vulkan / OpenCL Shader</li>
+          <li>NPU：ANE / Hexagon / APU</li>
+          <li>异构调度 / CPU+GPU+NPU 协同</li>
+          <li>大小核调度（big.LITTLE）</li>
+          <li>Profiling 工具链</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px;">
+      <div style="font-size:11px;color:var(--fg2);margin-bottom:8px;">// 选择优化策略的决策逻辑</div>
+      <div style="font-size:11px;color:var(--fg2);line-height:1.8;">
+        内存放不下模型？→ <span style="color:var(--orange)">量化（首选 Q4_K_M）</span><br/>
+        模型跑得慢？先测 Roofline：<br/>
+        &nbsp;&nbsp;Memory-Bound（Decode 常见）→ <span style="color:var(--accent)">量化降带宽 + GEMM 优化</span><br/>
+        &nbsp;&nbsp;Compute-Bound（Prefill 常见）→ <span style="color:var(--red)">NPU/GPU 加速 + 算子融合</span><br/>
+        想做更长上下文？→ <span style="color:var(--purple)">GQA + RoPE 外推 + KV 量化</span><br/>
+        精度要求高不敢量化？→ <span style="color:var(--blue)">知识蒸馏 + QAT</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>donge.org · 端侧推理技术图谱 · 2026</p>
+    <p style="margin-top:6px;"><a href="/">← 返回首页</a> &nbsp;·&nbsp; <a href="/posts/">博客文章</a></p>
+  </footer>
+</div>
+
+<script>
+  // Toggle card expand
+  function toggleCard(el) {
+    const wasActive = el.classList.contains('active');
+    // collapse siblings in same parent
+    el.parentElement.querySelectorAll('.card.active').forEach(c => c.classList.remove('active'));
+    if (!wasActive) el.classList.add('active');
+  }
+
+  // Layer descriptions
+  const layerDesc = {
+    compress: '模型压缩层：拿到训练好的大模型后，第一步是压缩它让它能放进端侧内存。量化是最主流的手段（INT4 将 7B 模型从 14GB 压缩到 3.5GB），剪枝和蒸馏用于进一步缩减或在小模型上恢复精度。',
+    arch: '架构设计层：在设计模型或选择模型时，优秀的架构设计能从根本上减少内存和计算需求。GQA 减少 KV Cache，RoPE 支持长上下文外推，MoE 用稀疏激活降低实际 FLOPs。',
+    memory: '内存优化层：LLM 推理中 KV Cache 是最大的动态内存消耗，随序列长度线性增长。从 MHA 到 GQA 将 KV Head 数减少 4-8×，量化 KV Cache 再减少 2-4×，PagedAttention 减少碎片，共同解决端侧长文本推理的内存瓶颈。',
+    compute: '计算优化层：在算法和 Kernel 层面提升计算效率。Flash Attention 将注意力计算的内存访问从 O(N²) 降至 O(N)，GEMM Tiling 提升 Cache 命中率，算子融合减少内存读写往返，投机解码提升 Decode 吞吐量。',
+    engine: '引擎工程层：将优化好的模型高效地运行起来的工程系统。包括模型序列化格式（如何存储量化权重）、多线程调度（如何利用多核）、后端抽象（如何对接 CPU/GPU/NPU）以及各主流推理框架的设计取舍。',
+    hw: '硬件加速层：利用设备上专用硬件单元的计算能力。CPU 的 SIMD 指令集（NEON/AVX）提供 4-16× 向量化加速，NPU 对 INT8 矩阵乘有专用电路，移动 GPU 通过 Metal/Vulkan Compute Shader 利用数百个 ALU 并行，异构调度让三者协同工作。'
+  };
+
+  function showLayer(key) {
+    const desc = document.getElementById('layer-desc');
+    desc.style.display = 'block';
+    desc.textContent = layerDesc[key];
+  }
+
+  // Pipeline stages
+  const pipeInfo = [
+    { title: '模型文件（ONNX / GGUF / TFLite）', body: '推理引擎的输入。ONNX 用 Protobuf 序列化计算图和权重；GGUF 在单文件中紧凑存储量化权重（如 Q4_K_M）和模型元数据，支持 mmap 加载，减少启动时内存拷贝。' },
+    { title: '图解析 — 构建内部 IR', body: '将文件格式反序列化为引擎内部的计算图表示（Intermediate Representation）。节点对应算子，边对应 Tensor 数据流。这一步建立运行时图结构，是后续所有优化的基础。' },
+    { title: '图优化 — 融合 / 折叠 / 消除', body: '对 IR 做多轮变换 Pass：①常量折叠：提前计算所有输入为常量的节点；②算子融合：将 Linear+Bias+Activation 合并为单个 Kernel 调用，减少内存往返；③死代码消除：删除推理时不使用的 Dropout、训练辅助输出等节点。' },
+    { title: '内存规划 — Tensor Lifetime 分析', body: '对计算图做 liveness 分析，确定每个 Tensor 的生命周期（产生时刻 ~ 最后使用时刻）。生命周期不重叠的 Tensor 可以复用同一块内存（arena 分配），最小化推理时峰值内存占用。TFLite 的静态内存规划在嵌入式场景下非常高效。' },
+    { title: '后端选择 — CPU / GPU / NPU 分配', body: '根据算子类型和设备能力，将计算图分区分配给不同硬件后端。支持 NPU 的算子送 NPU（高效 INT8 矩阵乘），不规则算子（如 RoPE、TopK）fallback 到 CPU。Core ML 的 MLComputeUnits.all 是目前最自动化的异构调度实现。' },
+    { title: 'Kernel 执行 — GEMM / Conv / Attention', body: '实际计算的最底层。GEMM（通用矩阵乘法）是 LLM 推理 90% 以上的计算量，通过 Tiling（分块适配 Cache）、Pack（内存布局重排）、SIMD 向量化三板斧实现高效执行。Flash Attention 则专门优化注意力 Kernel 的内存访问模式。' }
+  ];
+
+  function selectPipe(el, idx) {
+    document.querySelectorAll('.pipe-stage').forEach(s => s.classList.remove('sel'));
+    el.classList.add('sel');
+    const detail = document.getElementById('pipe-detail');
+    detail.classList.add('show');
+    document.getElementById('pipe-detail-title').textContent = pipeInfo[idx].title;
+    document.getElementById('pipe-detail-body').textContent = pipeInfo[idx].body;
+  }
+
+  // MoE animation
+  function renderExperts(active) {
+    const container = document.getElementById('moe-experts');
+    container.innerHTML = '';
+    for (let i = 0; i < 8; i++) {
+      const div = document.createElement('div');
+      const isActive = active.includes(i);
+      div.style.cssText = `
+        width:32px; height:32px; border-radius:4px; border:1px solid;
+        display:flex; align-items:center; justify-content:center;
+        font-size:10px; transition:all 0.3s;
+        border-color:${isActive ? 'var(--accent)' : 'var(--border)'};
+        background:${isActive ? 'rgba(57,211,83,0.15)' : 'var(--bg3)'};
+        color:${isActive ? 'var(--accent)' : 'var(--fg2)'};
+      `;
+      div.textContent = `E${i}`;
+      container.appendChild(div);
+    }
+  }
+
+  function animateMoE() {
+    const active = [];
+    while (active.length < 2) {
+      const r = Math.floor(Math.random() * 8);
+      if (!active.includes(r)) active.push(r);
+    }
+    renderExperts(active);
+  }
+
+  // Init
+  renderExperts([1, 4]);
+</script>
+</body>
+</html>
