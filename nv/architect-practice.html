@@ -1,0 +1,55 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>架构师方法学与影响力 · NV Technical Guide</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:68px}body{margin:0;background:#0b1118;color:#dde8f3;font:15px/1.85 Arial,"PingFang SC","Microsoft YaHei",sans-serif}a{color:#a9d7ff;text-decoration:none}a:hover{text-decoration:underline}nav{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#0b1118f5;border-bottom:1px solid #30445a;padding:10px 24px}button{background:#192c3d;color:#dde8f3;border:1px solid #476077;padding:5px 10px;border-radius:3px;cursor:pointer}button.active{background:#8bdc65;color:#0b1118}nav .spacer{flex:1}.layout{max-width:1340px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,900px);gap:40px;padding:26px}aside{position:sticky;top:80px;align-self:start;font-size:12px;max-height:85vh;overflow:auto}aside a{display:block;padding:6px 0;border-bottom:1px solid #263747}h1{font-size:30px;line-height:1.3;color:white;margin:0 0 12px}h2{font-size:21px;color:#a8d6ff;margin:0 0 12px}h3{font-size:16px;color:#8bdc65;margin:20px 0 8px}.number{color:#8bdc65;font:13px monospace;letter-spacing:2px}section{padding:25px 0;border-bottom:1px solid #30445a}p{margin:10px 0}p.lead{color:#acbfd0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 ui-monospace,monospace;background:#122335;border-left:3px solid #8bdc65;padding:16px}footer{padding:24px 0;color:#9fb2c5;font-size:12px}.refs a{display:block;margin:4px 0}body[data-lang=zh] [data-l=en],body[data-lang=en] [data-l=zh]{display:none}a:focus-visible,button:focus-visible{outline:2px solid #8bdc65;outline-offset:4px}.pager{display:flex;justify-content:space-between;gap:15px;margin:20px 0}@media(max-width:850px){.layout{display:block;padding:20px}aside{position:static;max-height:none;margin-bottom:25px}h1{font-size:24px}body{font-size:14px}nav{padding:8px 12px}}@media print{nav,aside,.pager{display:none}.layout{display:block;max-width:none}body{background:white;color:#111}h1,h2,h3,a{color:#123}section{break-inside:auto}pre{background:#eee}html{scroll-padding-top:0}}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;vertical-align:top;padding:10px 12px;border:1px solid #30445a}th{background:#192b3a;color:#8bdc65}.tablewrap{overflow:auto}td:first-child{width:32%}code{overflow-wrap:anywhere}</style></head>
+<body data-lang="zh">
+<nav><a class="local" href="index.html">← <span data-l="zh" class="">技术速查表</span><span data-l="en" class="">Technical cheatsheet</span></a><span class="spacer"></span><button id="zh" class="active">中文</button><button id="en">English</button><button id="print"><span data-l="zh" class="">打印</span><span data-l="en" class="">Print</span></button></nav>
+<div class="layout">
+<aside>
+<a href="#topic-1"><span data-l="zh" class="">架构方法学</span><span data-l="en" class="">Architecture methodology</span></a>
+<a href="#topic-2"><span data-l="zh" class="">权衡与决策记录</span><span data-l="en" class="">Tradeoffs &amp; decision records</span></a>
+<a href="#topic-3"><span data-l="zh" class="">领导力与跨团队</span><span data-l="en" class="">Leadership &amp; cross-team</span></a>
+<a href="#topic-4"><span data-l="zh" class="">开源与标准</span><span data-l="en" class="">Open source &amp; standards</span></a>
+<a href="#topic-5"><span data-l="zh" class="">专利、白皮书与传播</span><span data-l="en" class="">Patents, whitepapers &amp; communication</span></a>
+</aside>
+<main><div class="number">27 / 27</div>
+<h1 data-l="zh" class="">架构师方法学与影响力</h1><h1 data-l="en" class="">Architect methodology &amp; influence</h1>
+<p class="lead" data-l="zh" class="">前 26 页是技术；这一页补上 JD 明确要求、但技术速查表通常缺失的架构师软能力：方法学、权衡、领导力、开源标准与影响力。</p>
+<p class="lead" data-l="en" class="">The previous 26 pages are technical; this page adds the architect's non-technical requirements the JD explicitly asks for but a technical cheatsheet usually omits: methodology, tradeoffs, leadership, open-source/standards and influence.</p>
+
+<section id="topic-1"><h2 data-l="zh" class="">架构方法学</h2><h2 data-l="en" class="">Architecture methodology</h2>
+<p data-l="zh" class="">从需求到落地：需求 → 约束 → 架构决策 → 接口契约 → 验证。用三平面（管理/控制/数据）、职责与状态所有者建模；区分期望态、软件已应用态、硬件实际态，用 generation 与 reconcile 处理重复、乱序与漂移。</p>
+<p data-l="en" class="">From requirements to delivery: requirements → constraints → architecture decisions → interface contracts → validation. Model with three planes (management/control/data), responsibilities and state owners; distinguish desired, software-applied and actual-hardware state, using generations and reconcile for duplicates, reordering and drift.</p>
+<p data-l="zh" class="">每个功能用统一检查表：输入、状态所有者、执行路径、共享资源、失败报告、结果验证、重启恢复。用可观测证据代替组件名，避免“听起来懂、经不起追问”。</p>
+<p data-l="en" class="">Apply one checklist per feature: inputs, state ownership, execution path, shared resources, failure reporting, result verification, restart recovery. Use observable evidence instead of component names to avoid sounding informed without substance.</p></section>
+
+<section id="topic-2"><h2 data-l="zh" class="">权衡与决策记录</h2><h2 data-l="en" class="">Tradeoffs &amp; decision records</h2>
+<p data-l="zh" class="">常见权衡：可移植性 / 芯片能力、吞吐 / 延迟、隔离 / 利用率、内核 / 用户态、同步 / 异步、通用 / 专用。用记分卡量化约束（容量、时延、恢复上界、成本），用实测而非口号决策。</p>
+<p data-l="en" class="">Common tradeoffs: portability / chip capability, throughput / latency, isolation / utilization, kernel / user space, sync / async, general / purpose-built. Quantify constraints on a scorecard (capacity, latency, recovery bound, cost) and decide from measurement, not slogans.</p>
+<p data-l="zh" class="">架构决策记录（ADR）写清背景、备选、选择与后果；实验一次只改一个变量以便归因，并记录可复现的基准。</p>
+<p data-l="en" class="">An Architecture Decision Record (ADR) captures context, options, choice and consequences. Change one variable at a time for attribution, and record reproducible benchmarks.</p></section>
+
+<section id="topic-3"><h2 data-l="zh" class="">领导力与跨团队</h2><h2 data-l="en" class="">Leadership &amp; cross-team</h2>
+<p data-l="zh" class="">把需求映射为模块、接口与平台能力，跨协议/平台/转发/硬件/测试协作；用清晰接口 + 书面规格 + 评审门，与 Chip/FW/HW/PM 建立共识。跨地域团队靠书面契约与异步评审，用里程碑与健康门槛而非口头同步。</p>
+<p data-l="en" class="">Map requirements to modules, interfaces and platform capabilities; collaborate across protocol/platform/forwarding/hardware/test. Use clear interfaces + written specs + review gates, building consensus with Chip/FW/HW/PM. Distributed teams rely on written contracts and async review, using milestones and health gates rather than verbal sync.</p>
+<p data-l="zh" class="">故障时先保留现场（寄存器、计数器、版本快照）再行动，避免恢复动作抹掉根因证据。</p>
+<p data-l="en" class="">On failure, preserve evidence (registers, counters, version snapshots) before acting, so recovery does not erase the root cause.</p></section>
+
+<section id="topic-4"><h2 data-l="zh" class="">开源与标准</h2><h2 data-l="en" class="">Open source &amp; standards</h2>
+<p data-l="zh" class="">相关社区与标准：SAI/OCP、SONiC、UEC（Ultra Ethernet）、IEEE/IETF。架构师代表公司在开源与 SDO 发声，把内部需求变成提案与补丁，用共识影响路线。</p>
+<p data-l="en" class="">Relevant communities and standards: SAI/OCP, SONiC, UEC (Ultra Ethernet), IEEE/IETF. Architects represent the company in open source and SDOs, turning internal requirements into proposals and patches and influencing roadmaps through consensus.</p>
+<p data-l="zh" class="">把标准状态（草稿/稳定/废弃）纳入技术选型；AI 网络方向尤其关注 UEC 与无损以太网的演进。</p>
+<p data-l="en" class="">Fold standards status (draft/stable/deprecated) into technology choices; for AI networking, watch the evolution of UEC and lossless Ethernet closely.</p></section>
+
+<section id="topic-5"><h2 data-l="zh" class="">专利、白皮书与传播</h2><h2 data-l="en" class="">Patents, whitepapers &amp; communication</h2>
+<p data-l="zh" class="">把创新写成专利、白皮书、博客与会议分享，用数据讲清价值；招聘方常问「你推动了什么共识」。技术写作与可 demo 的原型是最强的影响力证据。</p>
+<p data-l="en" class="">Turn innovation into patents, whitepapers, blogs and conference talks, communicating value with data; panels often ask "what consensus did you drive?". Technical writing and demoable prototypes are the strongest evidence of influence.</p>
+<p data-l="zh" class="">记录设计取舍与基准，便于复用与复盘；对外表达遵循「先结论、后论证、给证据」。</p>
+<p data-l="en" class="">Record design tradeoffs and benchmarks for reuse and retrospectives; when presenting, lead with the conclusion, then the argument, then the evidence.</p></section>
+
+<footer><h3 data-l="zh" class="">参考与适用范围</h3><h3 data-l="en" class="">References &amp; scope</h3><div class="refs">
+<a href="https://github.com/opencomputeproject/SAI" target="_blank" rel="noopener">[S4] <span data-l="zh" class="">OCP SAI</span><span data-l="en" class="">OCP SAI</span></a>
+<a href="https://github.com/sonic-net/SONiC/wiki/Architecture" target="_blank" rel="noopener">[S3] <span data-l="zh" class="">SONiC 架构</span><span data-l="en" class="">SONiC architecture</span></a>
+<a href="https://ultraethernet.org/" target="_blank" rel="noopener">[S20] <span data-l="zh" class="">Ultra Ethernet Consortium</span><span data-l="en" class="">Ultra Ethernet Consortium</span></a>
+</div><p data-l="zh" class="">本节为方法学与从业建议，非厂商接口规范。</p><p data-l="en" class="">This section is methodology and practice guidance, not a vendor interface specification.</p></footer>
+<div class="pager"><a class="local" href="sdk-sai-integration.html">← <span data-l="zh" class="">SAI ↔ SDK ↔ SONiC 集成</span><span data-l="en" class="">SAI ↔ SDK ↔ SONiC integration</span></a><a class="local" href="architecture.html"><span data-l="zh" class="">软件架构与状态一致性</span><span data-l="en" class="">Software architecture &amp; state consistency</span> →</a></div>
+</main></div>
+<script>(()=>{function setLang(lang){document.body.dataset.lang=lang;document.documentElement.lang=lang==='en'?'en':'zh-CN';document.querySelectorAll('button#zh,button#en').forEach(b=>{b.classList.toggle('active',b.id===lang);b.setAttribute('aria-pressed',String(b.id===lang))});document.querySelectorAll('a.local').forEach(a=>{const u=new URL(a.href);u.searchParams.set('lang',lang);a.href=u.href});const u=new URL(location.href);u.searchParams.set('lang',lang);history.replaceState(null,'',u);document.title=document.querySelector('h1[data-l="'+lang+'"]').textContent+' · NV Technical Guide'}document.querySelector('#zh').onclick=()=>setLang('zh');document.querySelector('#en').onclick=()=>setLang('en');document.querySelector('#print').onclick=()=>window.print();setLang(new URLSearchParams(location.search).get('lang')==='en'?'en':'zh');})();</script>
+</body></html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>面试速记 · 锚点 + 追问 + 行为/架构题 | Interview Cheat Sheet</title>
+<style>
+:root{--bg:#080d12;--panel:#101820;--panel2:#0c141b;--text:#e9f0f6;--muted:#8fa1b1;--line:#26343f;--green:#76b900;--blue:#5bb6ff;--orange:#ffb454;--fs:10px}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:500 var(--fs)/1.3 Inter,Arial,"Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+.bar{display:flex;align-items:center;gap:10px;padding:5px 10px;background:#080d12;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.bar h1{margin:0;font-size:11px;letter-spacing:.3px;color:#fff}
+.bar .sub{color:var(--muted);font-size:9px}
+.bar .langbtns{display:flex;gap:4px;margin-left:auto}
+.bar .langbtns button.active{background:var(--green);border-color:var(--green);color:#071006}
+.bar .abtn{display:flex;gap:5px}
+button{border:1px solid #38495a;border-radius:4px;background:#15212b;color:var(--text);padding:2px 7px;font:inherit;line-height:1.2;cursor:pointer}
+button:hover{border-color:var(--green)}
+body[data-lang=zh] [data-l=en]{display:none}
+body[data-lang=en] [data-l=zh]{display:none}
+.board{display:grid;grid-template-columns:1.16fr 1.08fr 1.18fr;gap:7px;padding:7px;align-items:start}
+.board.q{grid-template-columns:1fr 1fr 1fr}
+.col{display:flex;flex-direction:column;gap:5px;min-width:0}
+.colhead{display:flex;align-items:baseline;gap:6px;padding:1px 2px 3px;border-bottom:2px solid var(--green)}
+.colhead b{font-size:10.5px;color:var(--green);letter-spacing:.4px}
+.colhead span{color:var(--muted);font-size:8.6px}
+.card{border:1px solid var(--line);border-left:3px solid var(--green);border-radius:5px;background:var(--panel);padding:5px 7px}
+.card h3{margin:0 0 2px;font-size:10px;color:#fff;display:flex;gap:5px;align-items:baseline;flex-wrap:wrap}
+.card h3 .tag{margin-left:auto;color:var(--muted);font-size:8.2px;font-weight:600;white-space:nowrap}
+.card p{margin:.5px 0}
+.card .st{color:var(--green);font-weight:800}
+.q{border:1px solid var(--line);border-radius:5px;background:var(--panel2);padding:5px 7px}
+.q h4{margin:0 0 3px;font-size:9.9px;color:var(--blue);font-weight:700}
+.q p{margin:1px 0;color:#d7e2ec}
+.q .st{color:var(--green);font-weight:800}
+.q em{color:var(--muted);font-style:normal}
+.cue{margin-top:2px!important;padding-top:2px;border-top:1px dashed #2f4250;color:var(--muted)}
+.cue b{color:var(--orange)}
+.risk{border-color:#3b511f;background:#111c12}
+.risk h4{color:var(--green)}
+.foot{padding:5px 10px 8px;color:var(--muted);font-size:9px;border-top:1px solid var(--line)}
+.foot b{color:var(--green)}
+@media(max-width:900px){.board,.board.q{grid-template-columns:1fr}:root{--fs:11px}}
+@media print{body{background:#fff;color:#111}.bar,.foot{display:none}.board,.board.q{grid-template-columns:1fr 1fr}.card,.q{background:#fff;border-color:#999;color:#111}.card h3,.q h4{color:#111}.card p,.q p{color:#111}.cue{color:#444}.card .st,.q .st{color:#064f88}.q h4{color:#064f88}.risk h4{color:#3a5f00}.colhead b{color:#3a5f00}}
+</style>
+</head>
+<body data-lang="zh">
+<nav class="bar">
+  <h1><span data-l="zh">面试速记 · NVIDIA 交换机软件架构师</span><span data-l="en">Interview Cheat Sheet · NVIDIA Switch SW Architect</span></h1>
+  <span class="sub"><span data-l="zh">7 锚点 + 8 追问 + 3 行为/架构题 · 先说<b style="color:var(--green)">结论/数字</b>，再停顿让面试官挑分支</span><span data-l="en">7 anchors + 8 follow-ups + 3 behavioral/architect Q&amp;A · lead with the <b style="color:var(--green)">result number</b>, then pause</span></span>
+  <span class="langbtns"><button class="lang active" data-lang="zh">中文</button><button class="lang" data-lang="en">English</button></span>
+  <span class="abtn"><button id="s">A−</button><button id="l">A＋</button></span>
+</nav>
+
+<div class="board">
+  <!-- ===== COLUMN 1 : ANCHORS 1-4 ===== -->
+  <div class="col">
+    <div class="colhead"><b><span data-l="zh">锚点 1–4</span><span data-l="en">ANCHORS 1–4</span></b><span><span data-l="zh">每条 = 一个 5 分钟 STAR 故事</span><span data-l="en">one 5-min STAR story each</span></span></div>
+
+    <article class="card">
+      <h3><span data-l="zh">1 · TRILL 首席设计师</span><span data-l="en">1 · TRILL Chief Designer</span><span class="tag"><span data-l="zh">华为 · CloudEngine · 2006–2013</span><span data-l="en">Huawei · CloudEngine · 2006–2013</span></span></h3>
+      <p><span class="st">S</span> <span data-l="zh">华为云引擎数据中心交换机需要大二层组网：既无环又支持多路径。</span><span data-l="en">CloudEngine data-center switches needed a <b>large Layer-2 fabric</b> — loop-free yet multipath.</span></p>
+      <p><span class="st">T</span> <span data-l="zh">我担任 <b>TRILL 首席设计师与核心开发者</b>，负责协议架构与实现。</span><span data-l="en">I was <b>chief designer &amp; core developer of TRILL</b>, owning protocol architecture and implementation.</span></p>
+      <p><span class="st">A</span> <span data-l="zh">复用 <b>IS-IS 链路状态做二层</b>；设计状态机、邻接、<b>等价多路径</b>转发、拓扑计算、故障收敛与<b>表项/FIB 下发</b>，并做平台集成。</span><span data-l="en">Reused <b>IS-IS link-state for L2</b>; designed the state machine, adjacency, <b>equal-cost multipath</b> forwarding, topology computation, failure convergence, and <b>table/FIB programming</b> with platform integration.</span></p>
+      <p><span class="st">R</span> <span data-l="zh">落地 CloudEngine 产品线；<b>2012 北京研发设计奖</b>；多次<b>收敛竞测第一</b>。</span><span data-l="en">Shipped on the CloudEngine line; <b>2012 Beijing R&amp;D Design Award</b>; repeatedly <b>#1 in competitive convergence tests</b>.</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“我可以展开 TRILL 如何复用 IS-IS，或收敛与 FIB 下发。”</span><span data-l="en">"I can go deeper into how TRILL reuses IS-IS, or how convergence and FIB programming work."</span></p>
+    </article>
+
+    <article class="card">
+      <h3><span data-l="zh">2 · SRX 平台经理</span><span data-l="en">2 · SRX Platform Manager</span><span class="tag">Juniper · 2013–2018</span></h3>
+      <p><span class="st">S</span> <span data-l="zh">SRX/NGSRX 需要从 BSP 到高性能数据面的<b>整套平台软件</b>。</span><span data-l="en">SRX/NGSRX needed the <b>full platform software stack</b>, from BSP to high-performance data plane.</span></p>
+      <p><span class="st">T</span> <span data-l="zh">领导 SRX 平台团队：<b>BSP、Linux 内核、驱动、控制面基础设施、软件数据面、虚拟化</b>，x86/MIPS。</span><span data-l="en">Led the SRX platform team: <b>BSP, Linux kernel, drivers, control-plane infra, software data plane, virtualization</b>, x86/MIPS.</span></p>
+      <p><span class="st">A</span> <span data-l="zh">驱动平台 bring-up 与高性能转发；设计<b>控制面/数据面分离</b>；组建并带领团队。</span><span data-l="en">Drove platform bring-up and high-performance forwarding; designed <b>control/data-plane separation</b>; built and led the team.</span></p>
+      <p><span class="st">R</span> <span data-l="zh">交付 <b>SRX300 / SRX500 / SRX1500</b> 与 Junos OS；由 <b>MTS4 晋升 Staff Engineer &amp; Manager</b>；协调中/印/美。</span><span data-l="en">Delivered <b>SRX300 / SRX500 / SRX1500</b> and Junos OS; promoted <b>MTS4 → Staff Engineer &amp; Manager</b>; coordinated China/India/US.</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“可以分成内核/驱动与数据面两部分展开。”</span><span data-l="en">"Happy to split this into kernel/driver work vs data-plane work."</span></p>
+    </article>
+
+    <article class="card">
+      <h3><span data-l="zh">3 · Broadcom Bring-up + SDK + FIB→JEXEC</span><span data-l="en">3 · Broadcom Bring-up + SDK + FIB→JEXEC</span><span class="tag"><span data-l="zh">Juniper · ASIC 链路</span><span data-l="en">Juniper · ASIC path</span></span></h3>
+      <p><span class="st">S</span> <span data-l="zh">NGSRX 基于 <b>Broadcom 芯片</b>，需要 bring-up 与 SDK 适配。</span><span data-l="en">NGSRX on <b>Broadcom silicon</b> needed bring-up and SDK adaptation.</span></p>
+      <p><span class="st">T</span> <span data-l="zh">负责平台集成、控制面基础设施、<b>软件 FIB</b> 与 <b>JEXEC 转发引擎</b>。</span><span data-l="en">Owned platform integration, control-plane infra, <b>software FIB</b>, and the <b>JEXEC forwarding engine</b>.</span></p>
+      <p><span class="st">A</span> <span data-l="zh">适配 <b>MIPS Broadcom SDK</b>；设计多类型 FIB 下发链路：<b>Routing Entry + Next-hop → 定长转发指令 → JEXEC</b>；JEXEC 兼具<b>软件转发引擎与转发芯片模拟器</b>。</span><span data-l="en">Adapted the <b>MIPS Broadcom SDK</b>; designed a multi-type FIB path encoding <b>Routing Entry + Next-hop → fixed-format forwarding instructions → JEXEC</b>; JEXEC was both a <b>software forwarding engine and a forwarding-chip simulator</b>.</span></p>
+      <p><span class="st">R</span> <span data-l="zh">支撑 <b>IP/MPLS、MPLS VPN</b> 等软件转发特性，并提供早期验证的芯片级模型。</span><span data-l="en">Enabled software-forwarding features (<b>IP/MPLS, MPLS VPN</b>) and a chip-accurate model for early validation.</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“我可以讲 RE/NH 如何编码为指令，以及 JEXEC 如何模拟芯片。”</span><span data-l="en">"I can walk through how RE/NH are encoded into instructions, and how JEXEC models the chip."</span></p>
+    </article>
+
+    <article class="card">
+      <h3><span data-l="zh">4 · DPDK / SR-IOV / VirtIO / eBPF-XDP</span><span data-l="en">4 · DPDK / SR-IOV / VirtIO / eBPF-XDP</span><span class="tag"><span data-l="zh">Juniper + Servicewall · 数据面</span><span data-l="en">Juniper + Servicewall · data plane</span></span></h3>
+      <p><span class="st">S</span> <span data-l="zh">SRX1500 要求<b>近线速</b>与控制/数据面分离；其后 Servicewall 要求高吞吐。</span><span data-l="en">SRX1500 required <b>near-line-rate</b> + control/data-plane separation; later Servicewall needed high throughput.</span></p>
+      <p><span class="st">T</span> <span data-l="zh">负责<b>快路径</b>——绕过拷贝、保持 CPU 可预期。</span><span data-l="en">Own the <b>fast path</b> — bypass copies, keep the CPU predictable.</span></p>
+      <p><span class="st">A</span> <span data-l="zh">Daybreak 用 <b>KVM/QEMU、DPDK、SR-IOV、VirtIO</b> 分离；其后用 <b>eBPF/XDP</b> 把过滤前移到<b>内核入口</b>；wFilter 用 <b>DPDK + Aho-Corasick</b>。</span><span data-l="en">Daybreak separation with <b>KVM/QEMU, DPDK, SR-IOV, VirtIO</b>; later <b>eBPF/XDP</b> to move filtering to the <b>kernel ingress</b>; wFilter uses <b>DPDK + Aho-Corasick</b>.</span></p>
+      <p><span class="st">R</span> <span data-l="zh">SRX1500 近线速；Servicewall <b>50k QPS</b>；过滤下沉到内核入口。</span><span data-l="en">SRX1500 near-line-rate; Servicewall <b>50k QPS</b>; filtering pushed into the kernel entry.</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“我可以讲 SRX1500 快路径与 XDP 挂载点。”</span><span data-l="en">"I can explain the SRX1500 fast path and where XDP hooks in."</span></p>
+    </article>
+  </div>
+
+  <!-- ===== COLUMN 2 : ANCHORS 5-7 + RISK ===== -->
+  <div class="col">
+    <div class="colhead"><b><span data-l="zh">锚点 5–7</span><span data-l="en">ANCHORS 5–7</span></b><span><span data-l="zh">+ 风险转化</span><span data-l="en">+ risk bridges</span></span></div>
+
+    <article class="card">
+      <h3><span data-l="zh">5 · 0→1 团队 · 10 专利 · 100+ 客户</span><span data-l="en">5 · 0→1 Team · 10 Patents · 100+ Customers</span><span class="tag"><span data-l="zh">Servicewall · 2018–至今</span><span data-l="en">Servicewall · 2018–now</span></span></h3>
+      <p><span class="st">S</span> <span data-l="zh">从零创立云原生网络 / API 安全 / AI 产品。</span><span data-l="en">Founded a cloud-native network / API-security / AI product from zero.</span></p>
+      <p><span class="st">T</span> <span data-l="zh">架构师 + 工程负责人——架构、组织、交付。</span><span data-l="en">Architect + engineering lead — architecture, org, delivery.</span></p>
+      <p><span class="st">A</span> <span data-l="zh">定义端到端架构；组建 <b>12 人团队</b>（平台/数据/安全/应用）；建立<b>设计/代码评审、CI/CD、测试策略、可观测性、on-call</b>；主导客户架构与 PoC。</span><span data-l="en">Defined end-to-end architecture; built a <b>12-engineer org</b>; set up <b>design &amp; code review, CI/CD, test strategy, observability, on-call</b>; led customer architecture and PoCs.</span></p>
+      <p><span class="st">R</span> <span data-l="zh"><b>100+ 企业客户</b>；日处理数亿请求；<b>50k QPS</b>；<b>10 项专利</b>。</span><span data-l="en"><b>100+ enterprise customers</b>; hundreds of millions of requests/day; <b>50k QPS</b>; <b>10 patents</b>.</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“我可以展开团队建设或某个客户 PoC。”</span><span data-l="en">"I can go deeper on org-building or on a customer PoC."</span></p>
+    </article>
+
+    <article class="card">
+      <h3><span data-l="zh">6 · IP FRR / NSR / 快速收敛</span><span data-l="en">6 · IP FRR / NSR / Fast Convergence</span><span class="tag"><span data-l="zh">华为 · 运营商路由</span><span data-l="en">Huawei · carrier routing</span></span></h3>
+      <p><span class="st">S</span> <span data-l="zh">运营商级路由要求<b>快速收敛</b>与无损倒换。</span><span data-l="en">Carrier-grade routing demanded <b>fast convergence</b> and hitless failover.</span></p>
+      <p><span class="st">T</span> <span data-l="zh">设计/实现 <b>IP FRR(LFA)</b>、<b>NSR</b> 原型与收敛优化。</span><span data-l="en">Design/implement <b>IP FRR (LFA)</b>, the <b>NSR</b> prototype, and convergence optimizations.</span></p>
+      <p><span class="st">A</span> <span data-l="zh">计算无环备份(LFA)、备份路径切换、NSR 状态同步；跨协议/转发层优化收敛。</span><span data-l="en">Computed loop-free alternates, backup-path switchover, state sync for NSR; tuned convergence across protocol/forwarding layers.</span></p>
+      <p><span class="st">R</span> <span data-l="zh"><b>竞测第一</b>；专利含 <b>CN103179032A</b>（路由备份/FRR）。</span><span data-l="en"><b>#1 in competitive convergence tests</b>; patents incl. <b>CN103179032A</b> (route backup / FRR).</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“我可以讲 LFA 备份计算或 NSR 状态同步。”</span><span data-l="en">"I can detail LFA backup computation or NSR state sync."</span></p>
+    </article>
+
+    <article class="card">
+      <h3><span data-l="zh">7 · 开源 PoC</span><span data-l="en">7 · Open-source PoC</span><span class="tag"><span data-l="zh">原型能力 · 加分</span><span data-l="en">prototype ability · stand-out</span></span></h3>
+      <p><span class="st">S</span> <span data-l="zh">让想法<b>端到端、公开</b>——证明我仍在动手。</span><span data-l="en">Keep ideas <b>end-to-end and public</b> — proof I still build.</span></p>
+      <p><span class="st">A</span> <span data-l="zh"><b>wFilter</b>（C/DPDK + Aho-Corasick）、<b>ZigHouse</b>（Zig，兼容 ClickHouse 的 OLAP → <b>ClickBench 43 项全过且第一</b>）、<b>clickfs</b>（Rust/FUSE）、<b>llama2.zig</b>、<b>go-yyjson</b>（Go/C）、<b>ds4-ascend</b>（AscendC）。</span><span data-l="en"><b>wFilter</b> (C/DPDK + Aho-Corasick), <b>ZigHouse</b> (Zig, ClickHouse-compatible OLAP → <b>ClickBench #1 across all 43 queries</b>), <b>clickfs</b> (Rust/FUSE), <b>llama2.zig</b>, <b>go-yyjson</b> (Go/C), <b>ds4-ascend</b> (AscendC).</span></p>
+      <p><span class="st">R</span> <span data-l="zh"><b>80 个 GitHub 仓库</b>；ClickBench 第一；博客 donge.org。</span><span data-l="en"><b>80 GitHub repos</b>; ClickBench #1; blog at donge.org.</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“挑一个，我讲设计与数据。”</span><span data-l="en">"Pick one and I'll explain the design and the numbers."</span></p>
+    </article>
+
+    <div class="q risk">
+      <h4><span data-l="zh">⚑ 风险转化——被追问时用</span><span data-l="en">⚑ RISK BRIDGES — deploy when pushed</span></h4>
+      <p><span data-l="zh"><b>8 年空档：</b>可迁移 + “AI 让交换机成为关键路径”。 <b>无 NVIDIA 栈：</b>“我研究过你们的 SDK/SAI/SONiC 分层——内核驱动 + 用户态 SDK + SAI，与 Broadcom 模型相通。” <b>无 AI 网络：</b>把 RoCEv2/PFC/ECN 接到你拥塞/数据面经验。 <b>TRILL 过时：</b>卖<b>多路径/收敛/FIB</b>思想，而非协议。</span><span data-l="en"><b>8-yr gap:</b> transferable + "AI makes the switch the critical path." <b>No NVIDIA stack:</b> "I studied your SDK/SAI/SONiC layering — kernel driver + userspace SDK + SAI, mirroring the Broadcom model." <b>No AI-net:</b> bridge RoCEv2/PFC/ECN to your congestion/data-plane work. <b>TRILL aging:</b> sell <b>multipath/convergence/FIB</b> thinking, not the protocol.</span></p>
+    </div>
+  </div>
+
+  <!-- ===== COLUMN 3 : FOLLOW-UPS 1-8 ===== -->
+  <div class="col">
+    <div class="colhead"><b><span data-l="zh">8 个追问</span><span data-l="en">8 FOLLOW-UPS</span></b><span><span data-l="zh">答完桥接到某个锚点</span><span data-l="en">answer, then bridge to an anchor</span></span></div>
+
+    <div class="q">
+      <h4><span data-l="zh">Q1 · TRILL——你具体负责什么？</span><span data-l="en">Q1 · TRILL — what exactly did you own?</span></h4>
+      <p><span data-l="zh">首席设计 + 核心实现：<b>协议架构、状态机、拓扑计算(IS-IS 链路状态)、等价多路径转发、故障收敛、FIB/表项下发</b>，以及与平台模块的接口。<em>范围：协议 + 软件，不含交换机硬件或整机。</em></span><span data-l="en">Chief design + core implementation: <b>protocol architecture, state machine, topology computation (IS-IS link-state), equal-cost multipath forwarding, failure convergence, FIB/table programming</b>, interfaces to platform modules. <em>Scope: protocol + software, not hardware or full-product.</em></span></p>
+    </div>
+
+    <div class="q">
+      <h4><span data-l="zh">Q2 · JEXEC——转发引擎还是芯片模拟器？</span><span data-l="en">Q2 · JEXEC — forwarding engine vs chip simulator?</span></h4>
+      <p><span data-l="zh">JEXEC 在 x86/MIPS <b>软件数据面</b>执行转发指令；<b>同一模型也模拟转发芯片</b>，让控制面/特性在流片前即可验证——本质是<b>芯片的软件模型</b>。</span><span data-l="en">JEXEC executed forwarding instructions in the <b>software data plane</b> on x86/MIPS. The <b>same model also simulated the forwarding chip</b>, validating control-plane/feature behavior before silicon — a <b>software model of the ASIC</b>.</span></p>
+    </div>
+
+    <div class="q">
+      <h4><span data-l="zh">Q3 · Broadcom bring-up + SDK——如何迁移到我们的栈？</span><span data-l="en">Q3 · Broadcom bring-up + SDK — and transition to our stack?</span></h4>
+      <p><span data-l="zh">在 Broadcom 上 bring-up：<b>芯片初始化、MIPS SDK 适配、平台集成、控制面基础设施、软件 FIB</b>。分工：芯片/SDK 管表项/流水线；平台管初始化 + 控制面；PFE 做转发。<em>迁移：</em>芯片相关代码藏在 <b>HAL/ops 表</b>后，SDK 设计原则直接迁移——<b>分层、版本化 ABI、规格生成、能力查询</b>。</span><span data-l="en">Bring-up on Broadcom: <b>chip init, MIPS SDK adaptation, platform integration, control-plane infra, software FIB</b>. Division: chip/SDK = tables/pipeline; platform = init + control plane; PFE = forwarding. <em>Transition:</em> chip-specific code hides behind a <b>HAL / ops table</b>; SDK principles transfer — <b>layering, versioned ABI, code-gen from specs, capability query</b>.</span></p>
+    </div>
+
+    <div class="q">
+      <h4><span data-l="zh">Q4 · Daybreak / SRX1500——分离取舍与 DPDK 近线速？</span><span data-l="en">Q4 · Daybreak / SRX1500 — tradeoffs + DPDK near-line-rate?</span></h4>
+      <p><span data-l="zh">把<b>控制面(Linux/KVM VM)</b>与<b>数据面</b>分离以获 HA 与独立重启；代价 = IPC + 复杂度。用 <b>DPDK 轮询 + SR-IOV/VirtIO</b> 绕过内核拷贝并锁定资源，达到近线速。取舍：<b>独占 CPU、内存锁定、复杂度</b>。</span><span data-l="en">Separated <b>control plane (Linux/KVM VM)</b> from <b>data plane</b> for HA / independent restarts; cost = IPC + complexity. Used <b>DPDK poll-mode + SR-IOV/VirtIO</b> to bypass copies and pin resources for near-line-rate. Tradeoffs: <b>dedicated CPU, memory pinning, complexity</b>.</span></p>
+    </div>
+
+    <div class="q">
+      <h4><span data-l="zh">Q5 · eBPF/XDP——哪一层，收益？</span><span data-l="en">Q5 · eBPF/XDP — which layer, what benefit?</span></h4>
+      <p><span data-l="zh">把 <b>XDP 挂到内核入口(驱动钩子)</b>做早期过滤/分类；<b>eBPF</b> 做可编程策略。收益：<b>更少拷贝、更低时延、线速抗 DDoS</b>。取舍：校验器限制、程序复杂度、按 NIC 支持。</span><span data-l="en">Attached <b>XDP to the kernel ingress (driver hook)</b> for early filtering/classification; <b>eBPF</b> for programmable policy. Benefit: <b>fewer copies, lower latency, line-rate DDoS mitigation</b>. Tradeoffs: verifier limits, program complexity, per-NIC support.</span></p>
+    </div>
+
+    <div class="q">
+      <h4><span data-l="zh">Q6 · 为什么 2018 离开交换，现在回来？</span><span data-l="en">Q6 · Why leave switching (2018) — and return now?</span></h4>
+      <p><span data-l="zh">创业强化了<b>端到端架构、0→1 交付、大规模系统</b>——且我一直一线编码。回来是因为 <b>AI 集群让以太网交换机成为关键路径</b>：拥塞、尾延迟、遥测、可靠性——正是我的<b>内核/数据面/协议</b>背景。</span><span data-l="en">The startup sharpened <b>end-to-end architecture, 0→1 delivery, large-scale systems</b> — and I stayed hands-on. Returning because <b>AI clusters make the Ethernet switch the critical path</b>: congestion, tail latency, telemetry, reliability — exactly my <b>kernel / data-plane / protocol</b> background.</span></p>
+    </div>
+
+    <div class="q">
+      <h4><span data-l="zh">Q7 · 领导力——12 人、跨地域、跨职能？</span><span data-l="en">Q7 · Leadership — 12-person, cross-geo, cross-functional?</span></h4>
+      <p><span data-l="zh">组建并带领 <b>12 人团队</b>；建立<b>设计/代码评审、CI/CD、测试策略、可观测性、on-call 责任</b>；在 Juniper 协调<b>中/印/美</b>研发。风格：<b>清晰接口 + 书面规格 + 评审门</b>；与 Chip/FW/HW/PM 建立共识。</span><span data-l="en">Built and led a <b>12-engineer team</b>; established <b>design &amp; code review, CI/CD, test strategy, observability, on-call ownership</b>. At Juniper coordinated <b>China / India / US</b> R&amp;D. Style: <b>clear interfaces + written specs + review gates</b>; consensus with Chip/FW/HW/PM.</span></p>
+    </div>
+
+    <div class="q">
+      <h4><span data-l="zh">Q8 · 专利/开源——你个人的贡献？</span><span data-l="en">Q8 · Patents / open source — personal contribution?</span></h4>
+      <p><span data-l="zh"><b>10 项专利</b>，如 <b>CN103414644A</b>（SDN 转发表下发/控制器同步）、<b>CN103179032A</b>（路由备份/IP FRR）、<b>WO2012130083A1</b>（ARP 表项配置）。开源：wFilter、ZigHouse、clickfs 等。贡献 = <b>设计与实现</b>，而非仅申请。</span><span data-l="en"><b>10 patents</b>, e.g. <b>CN103414644A</b> (SDN forwarding-table install / controller sync), <b>CN103179032A</b> (route backup / IP FRR), <b>WO2012130083A1</b> (ARP entry config). Open source: wFilter, ZigHouse, clickfs, etc. Contribution = <b>design + implementation</b>, not just the filing.</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BEHAVIORAL & ARCHITECT Q&A ===== -->
+<div class="board q">
+  <div class="colhead" style="grid-column:1/-1"><b><span data-l="zh">行为/架构题（非简历）</span><span data-l="en">BEHAVIORAL &amp; ARCHITECT Q&amp;A</span></b><span><span data-l="zh">开放题——先给方法论，再落到例子</span><span data-l="en">open-ended — give the method, then an example</span></span></div>
+  <div class="col">
+    <div class="q">
+      <h4><span data-l="zh">Q9 · 团队协作：与研发、市场、产品、测试如何配合？</span><span data-l="en">Q9 · Collaboration: how do you work with R&amp;D, marketing, product, test?</span></h4>
+      <p><span data-l="zh"><b>总纲：</b>我是各方的“接口与约束翻译器”——把需求变成契约，把风险提前暴露，让交付可验证。用一个统一链路：<b>需求 → 约束 → 架构决策 → 接口契约 → 验证</b>。</span><span data-l="en"><b>Framing:</b> I'm the "interface &amp; constraint translator" — turning needs into contracts, surfacing risk early, making delivery verifiable via one chain: <b>requirements → constraints → architecture decisions → interface contracts → validation</b>.</span></p>
+      <p><span data-l="zh"><b>与产品：</b>把产品目标转成技术约束与<b>验收标准</b>；区分必需/期望，明确范围与优先级。</span><span data-l="en"><b>With Product:</b> convert goals into technical constraints and <b>acceptance criteria</b>; separate must-have from nice-to-have; fix scope and priorities.</span></p>
+      <p><span data-l="zh"><b>与市场：</b>了解客户场景、SLA 与竞争点，把卖点映射为<b>可交付能力与路线图</b>，避免承诺无法落地的功能。</span><span data-l="en"><b>With Marketing/Sales:</b> learn customer scenarios, SLAs and differentiators; map claims to <b>deliverable capability and roadmap</b>; avoid promising what can't ship.</span></p>
+      <p><span data-l="zh"><b>与研发：</b>定义<b>模块/接口/契约</b>，做设计评审与选型，解耦变化点；不越俎代庖，但守住代码质量与契约门。</span><span data-l="en"><b>With R&amp;D:</b> define <b>modules / interfaces / contracts</b>, run design reviews and tradeoff calls, decouple variation points; don't micromanage, but hold the quality and contract gates.</span></p>
+      <p><span data-l="zh"><b>与测试：</b>把不变量与故障模型写进<b>验证矩阵</b>（功能/压力/故障/恢复），共同定义验收与退出标准。</span><span data-l="en"><b>With Test/QA:</b> feed invariants and failure models into the <b>validation matrix</b> (functional/stress/fault/recovery); co-define acceptance and exit criteria.</span></p>
+      <p><span data-l="zh"><b>机制：</b>书面规格 + 评审门 + 里程碑/健康门槛 + 异步契约；单一事实来源（决策记录 ADR）。冲突时先对齐“事实来源与验收标准”，用数据而非立场。</span><span data-l="en"><b>Mechanisms:</b> written specs + review gates + milestones/health gates + async contracts; a single source of truth (ADRs). On conflict, align on "source of truth and acceptance criteria" first, using data rather than positions.</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“在 Juniper 我协调中/印/美团队，在创业我一人串起产品/市场/研发/测试，都靠这套契约化协作。”</span><span data-l="en">"At Juniper I coordinated China/India/US teams; in the startup I connected product/marketing/R&amp;D/test — both ran on this contract-based collaboration."</span></p>
+    </div>
+  </div>
+  <div class="col">
+    <div class="q">
+      <h4><span data-l="zh">Q10 · 如何设计一个全新 SDK？（约束/调研/方法/交付物）</span><span data-l="en">Q10 · How would you design a brand-new SDK? (constraints/research/method/deliverables)</span></h4>
+      <p><span data-l="zh"><b>① 先问约束（澄清优先）：</b>目标芯片与 OS/架构；性能 SLA（吞吐/时延/规模）；兼容性与版本策略；安全边界；支持周期；团队与时间。约束没厘清，架构无从谈起。</span><span data-l="en"><b>① Clarify constraints first:</b> target chip and OS/arch; performance SLA (throughput/latency/scale); compatibility and versioning policy; security boundary; support lifetime; team and timeline. Architecture is meaningless before constraints are clear.</span></p>
+      <p><span data-l="zh"><b>② 调研：</b>用户与用例、现有 API/生态（SAI/NOS/开源）、竞品与标准、芯片能力(capability query)、可复用组件、失败与运维需求。</span><span data-l="en"><b>② Research:</b> users and use cases; existing APIs/ecosystem (SAI/NOS/open source); competitors and standards; chip capabilities (queryable); reusable components; failure and ops requirements.</span></p>
+      <p><span data-l="zh"><b>③ 方法：</b>分层与契约（门面/核心/资源/访问）；<b>稳定 ABI</b>（定宽类型、版本协商）；<b>规格驱动 + 代码生成</b>；变化点抽象为<b>函数表/插件/策略回调</b>；明确<b>失败语义与生命周期</b>（幂等、部分失败回滚、引用计数、ISSU/warm-boot）；<b>性能</b>（零拷贝、批处理、快慢路径分离）；<b>可观测内建</b>；原型先行（PoC 验证最大风险）。</span><span data-l="en"><b>③ Method:</b> layering and contracts (facade/core/resource/access); a <b>stable ABI</b> (fixed-width types, version negotiation); <b>spec-driven code generation</b>; abstract variation points as <b>ops tables / plugins / strategy callbacks</b>; explicit <b>failure semantics and lifecycle</b> (idempotency, partial-failure rollback, ref counting, ISSU/warm-boot); <b>performance</b> (zero-copy, batching, fast/slow path split); <b>built-in observability</b>; prototype first (PoC the biggest risk).</span></p>
+      <p><span data-l="zh"><b>④ 交付物：</b>架构文档与 <b>ADR</b>；接口规范/头文件(ABI)；参考实现与样例；测试与验证矩阵；兼容性矩阵与版本策略；性能基准与容量模型；迁移/升级与 ISSU 指南；调试工具与可观测面；发布/打包；开发者文档与可 demo 的 PoC。</span><span data-l="en"><b>④ Deliverables:</b> architecture doc + <b>ADRs</b>; interface spec/headers (ABI); reference implementation and examples; test/validation matrix; compatibility matrix and versioning policy; performance benchmarks and capacity model; migration/upgrade and ISSU guides; debug tooling and observability; packaging/release; developer docs and a demoable PoC.</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“一句话：SDK 的价值在于<b>把复杂度关进框里</b>——稳定的契约、可生成的代码、可观测的失败。”</span><span data-l="en">"In one line: a good SDK <b>boxes up the complexity</b> — stable contracts, generated code, observable failure."</span></p>
+    </div>
+  </div>
+  <div class="col">
+    <div class="q">
+      <h4><span data-l="zh">Q11 · 你如何做架构决策？</span><span data-l="en">Q11 · How do you make architecture decisions?</span></h4>
+      <p><span data-l="zh"><b>框架：</b>明确问题与约束 → 列<b>备选</b> → 评估（记分卡：容量/时延/恢复上界/成本/风险）→ <b>决策并写 ADR</b> → 用原型/基准<b>验证</b> → 复盘。</span><span data-l="en"><b>Framework:</b> define problem and constraints → list <b>options</b> → evaluate (scorecard: capacity/latency/recovery bound/cost/risk) → <b>decide and write an ADR</b> → <b>validate</b> with prototype/benchmark → retrospect.</span></p>
+      <p><span data-l="zh"><b>原则：</b>用数据与实测，不用口号；区分“必需/期望”；<b>优先可逆决策</b>，不可逆决策多验证、后置提交；一次只改一个变量；明确<b>状态所有者与失败语义</b>。</span><span data-l="en"><b>Principles:</b> data and measurement over slogans; separate must-have/nice-to-have; <b>favor reversible decisions</b>, gate irreversible ones with more validation; change one variable at a time; make <b>state ownership and failure semantics</b> explicit.</span></p>
+      <p><span data-l="zh"><b>常见权衡：</b>内核/用户态、同步/异步、通用/专用、可移植性/芯片能力、吞吐/延迟、隔离/利用率。例：交换机数据面选<b>内核驱动模型</b>而非 DPDK 用户态驱动——因为转发在 ASIC、CPU 只处理慢路径，安全与单一所有者更重要。</span><span data-l="en"><b>Common tradeoffs:</b> kernel/user space, sync/async, general/purpose-built, portability/chip capability, throughput/latency, isolation/utilization. E.g. switch data plane chose a <b>kernel-driver model</b> over DPDK: forwarding is in the ASIC and the CPU only handles slow path, so safety and single ownership dominate.</span></p>
+      <p><span data-l="zh"><b>记录与沟通：</b>ADR 写背景/备选/选择/后果；让干系人参与；对齐验收标准；保留证据链。<b>反模式：</b>过早优化、隐式耦合、无 owner 的共享状态、静默降级、用 API 名代替理解。</span><span data-l="en"><b>Record &amp; communicate:</b> an ADR captures context/options/choice/consequences; involve stakeholders; align on acceptance criteria; keep the evidence chain. <b>Anti-patterns:</b> premature optimization, hidden coupling, shared state without an owner, silent degradation, substituting API names for understanding.</span></p>
+      <p class="cue"><b>↳</b> <span data-l="zh">“每个决策我会写清：背景、备选、选择、后果、验证方式——这样别人能复审，未来能复盘。”</span><span data-l="en">"For each decision I record context, options, choice, consequences and how it's validated — so others can review it and we can revisit it."</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EXTENDED BANK : system design & judgment ===== -->
+<div class="board q">
+  <div class="colhead" style="grid-column:1/-1"><b><span data-l="zh">扩展题库 · 系统设计与判断力（非简历）</span><span data-l="en">EXTENDED BANK · SYSTEM DESIGN &amp; JUDGMENT</span></b><span><span data-l="zh">开放题——先给方法，再落一个例子</span><span data-l="en">open-ended — method first, then one example</span></span></div>
+  <div class="col">
+    <div class="q">
+      <h4><span data-l="zh">Q12 · 系统设计：AI 集群无损以太网（RoCEv2 零丢包）</span><span data-l="en">Q12 · System design: lossless Ethernet for AI (RoCEv2 zero loss)</span></h4>
+      <p><span data-l="zh"><b>目标：</b>零丢包、低尾延迟、可预测。<b>手段：</b>无损（PFC + ECN/DCQCN）或 ECN-only（视端点与验证）；按 <b>BDP 与 T_stop</b> 计算 buffer/headroom；拥塞参数端到端一致；哈希熵足够避免大流集中（ECMP/自适应路由）；优先级/QoS 映射一致；<b>PFC 死锁预防</b>（无环、优先级隔离）；遥测与排障。</span><span data-l="en"><b>Goal:</b> zero loss, low tail latency, predictability. <b>Means:</b> lossless (PFC + ECN/DCQCN) or ECN-only (per endpoints/validation); size buffer/headroom from <b>BDP and T_stop</b>; align congestion params end-to-end; enough hash entropy to avoid flow concentration (ECMP/adaptive routing); consistent priority/QoS mapping; <b>PFC deadlock prevention</b> (loop-free, priority isolation); telemetry and diagnosis.</span></p>
+      <p><span data-l="zh"><b>交付：</b>拓扑(Clos/Rail-optimized)、参数基线、验证矩阵(incast/微突发/多发送者)、故障恢复。<b>观点：</b>端点支持时优先 ECN-only，PFC 作兜底而非默认。</span><span data-l="en"><b>Deliver:</b> topology (Clos/rail-optimized), parameter baseline, validation matrix (incast/microburst/multi-sender), failure recovery. <b>View:</b> prefer ECN-only when endpoints support it; PFC as fallback, not default.</span></p>
+    </div>
+    <div class="q">
+      <h4><span data-l="zh">Q13 · 系统设计：支持 ISSU / warm-boot 的软件栈</span><span data-l="en">Q13 · System design: a stack that supports ISSU / warm-boot</span></h4>
+      <p><span data-l="zh">分离“控制面状态”与“硬件转发状态”：冻结/排空变更 → 保存必要状态 → 保留硬件转发 → 恢复映射 → reconcile → 恢复协议/学习；设超时与 cold fallback。关键：状态所有者、generation、幂等、软硬对账、SAI warm-boot 语义；测试新流/旧流/路由变化/异常报文；名称不代表零丢包。</span><span data-l="en">Separate control-plane state from hardware forwarding state: freeze/drain → save → retain hardware forwarding → restore mappings → reconcile → resume protocols/learning; set timeouts and cold fallback. Key: state ownership, generations, idempotency, software/hardware reconciliation, SAI warm-boot semantics; test new/existing flows, route changes, exceptional packets; labels do not prove zero loss.</span></p>
+    </div>
+    <div class="q">
+      <h4><span data-l="zh">Q14 · 取舍：内核驱动 vs 用户态驱动（DPDK）</span><span data-l="en">Q14 · Tradeoff: kernel driver vs userspace driver (DPDK)</span></h4>
+      <p><span data-l="zh">交换机：转发在 ASIC、CPU 只处理慢路径 → <b>内核驱动</b>（安全、单一所有者、内核网络集成、中断/DMA 友好）。服务器/NIC：CPU 处理每包 → <b>DPDK 用户态</b>（零 syscall、轮询、最高吞吐），代价：独占 CPU、复杂度、隔离差、依赖 UIO/VFIO。<b>按“谁处理数据面”决定。</b></span><span data-l="en">Switch: forwarding in the ASIC, CPU only slow path → <b>kernel driver</b> (safety, single ownership, kernel-network integration, IRQ/DMA friendly). Server/NIC: CPU processes every packet → <b>DPDK userspace</b> (no syscalls, polling, max throughput); cost: dedicated CPU, complexity, weaker isolation, needs UIO/VFIO. Decide by "who processes the data plane".</span></p>
+    </div>
+  </div>
+  <div class="col">
+    <div class="q">
+      <h4><span data-l="zh">Q15 · SDK 演进：不破坏 ABI 加特性</span><span data-l="en">Q15 · SDK evolution: add features without breaking the ABI</span></h4>
+      <p><span data-l="zh">稳定 ABI：定宽类型、显式对齐、保留字段、版本协商；新特性走新命令/新版本；<b>能力查询</b>让用户态适配；弃用走多版本窗口；规格驱动生成减少手改；维护兼容矩阵与 warm-boot 支持。</span><span data-l="en">Stable ABI: fixed-width types, explicit alignment, reserved fields, version negotiation; new features via new commands/versions; <b>capability query</b> so userspace adapts; deprecate over a multi-version window; spec-driven generation reduces hand edits; maintain a compatibility matrix and warm-boot support.</span></p>
+    </div>
+    <div class="q">
+      <h4><span data-l="zh">Q16 · 排障：PFC 风暴 / 尾延迟 / 丢包</span><span data-l="en">Q16 · Debugging: PFC storms / tail latency / loss</span></h4>
+      <p><span data-l="zh">先由“何时开始、影响谁、最近变更”缩小范围，对比正常/异常路径同指标。<b>PFC 风暴：</b>沿暂停传播方向找最早持续暂停的队列/端点。<b>尾延迟：</b>微突发、hash 热点、ECN/CNP、NIC retry、GPU/PCIe。<b>先保留现场再改配置。</b></span><span data-l="en">Narrow scope via onset, who is affected, recent changes; compare the same metrics on healthy vs failing paths. <b>PFC storm:</b> trace pause propagation to the earliest persistently paused queue/endpoint. <b>Tail latency:</b> microbursts, hash hotspots, ECN/CNP, NIC retries, GPU/PCIe. <b>Preserve evidence before changing config.</b></span></p>
+    </div>
+    <div class="q">
+      <h4><span data-l="zh">Q17 · 判断力：资源有限时如何排优先级</span><span data-l="en">Q17 · Judgment: prioritizing under limited resources</span></h4>
+      <p><span data-l="zh">用 <b>影响面 × 风险 × 成本</b> 排序；先做“解除阻塞”和“高风险去风险”的 PoC；区分必需/期望；可逆决策先做、不可逆后置并多验证；与产品/市场对齐验收标准。</span><span data-l="en">Rank by <b>impact × risk × cost</b>; first do "unblockers" and high-risk de-risking PoCs; separate must-have/nice-to-have; take reversible decisions first, gate irreversible ones with more validation; align acceptance criteria with product/marketing.</span></p>
+    </div>
+  </div>
+  <div class="col">
+    <div class="q">
+      <h4><span data-l="zh">Q18 · 影响力：如何说服反对的团队/资深工程师</span><span data-l="en">Q18 · Influence: convincing a dissenting team or senior engineer</span></h4>
+      <p><span data-l="zh">先理解对方约束与数据；用<b>可复现的基准/原型</b>而非立场；小步 PoC 降风险；把决策写成 <b>ADR</b> 便于复审；找共同验收标准；用数据/实验而非权威。</span><span data-l="en">Understand their constraints and data first; use <b>reproducible benchmarks/prototypes</b>, not positions; small PoCs to de-risk; write an <b>ADR</b> for review; find shared acceptance criteria; persuade with data/experiments, not authority.</span></p>
+    </div>
+    <div class="q">
+      <h4><span data-l="zh">Q19 · 复盘：讲一个失败/被推翻的设计</span><span data-l="en">Q19 · Retrospective: a failed or overturned design</span></h4>
+      <p><span data-l="zh">用 STAR：背景 → 我的判断 → 结果 → 复盘 → 改变。强调学到的方法论（如过早优化、忽视反馈延迟、状态所有者不清）。<b>诚实 + 成长</b>比“没有失败”更有说服力。</span><span data-l="en">Use STAR: context → my call → outcome → retro → change. Emphasize the methodology learned (premature optimization, ignoring feedback delay, unclear state ownership). <b>Honesty + growth</b> beats "no failures".</span></p>
+    </div>
+    <div class="q">
+      <h4><span data-l="zh">Q20 · 学习力/观点：陌生领域上手 + 以太网 vs IB / UEC</span><span data-l="en">Q20 · Ramp-up / opinion: new domain + Ethernet vs IB / UEC</span></h4>
+      <p><span data-l="zh"><b>上手：</b>读规格/源码 → 建最小可运行模型 → 找专家/社区 → 用 PoC 验证 → 输出文档。<b>观点：</b>以太网正补齐 IB 的无损/低延迟能力（RoCEv2/PFC/ECN/自适应路由/UEC），在 AI 集群份额上升；关键是端到端工程，而非单一协议。</span><span data-l="en"><b>Ramp-up:</b> read specs/source → build a minimal working model → find experts/community → validate with a PoC → write it down. <b>View:</b> Ethernet is closing IB's lossless/low-latency gap (RoCEv2/PFC/ECN/adaptive routing/UEC) and gaining share in AI clusters; the crux is end-to-end engineering, not a single protocol.</span></p>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <b><span data-l="zh">记忆线：</span><span data-l="en">Memory line:</span></b>
+  <span data-l="zh">华为 = IS-IS Tech Lead / <b>TRILL 首席设计师</b> | Juniper = <b>SRX 平台 + Broadcom SDK + FIB→JEXEC + DPDK</b> | Servicewall = <b>0→1 架构、12 人团队、100+ 客户、10 专利</b>。&nbsp; <span style="color:var(--green)">规则：</span>先说<b>结果数字</b>，再停顿让面试官挑分支。</span>
+  <span data-l="en">Huawei = IS-IS Tech Lead / <b>TRILL chief designer</b> &nbsp;|&nbsp; Juniper = <b>SRX platform + Broadcom SDK + FIB→JEXEC + DPDK</b> &nbsp;|&nbsp; Servicewall = <b>0→1 architecture, 12-person team, 100+ customers, 10 patents</b>. &nbsp; <span style="color:var(--green)">Rule:</span> lead with the <b>result number</b>, then pause for the interviewer to pick a branch.</span>
+</div>
+
+<script>
+const body=document.body;
+document.querySelectorAll('.lang').forEach(b=>b.addEventListener('click',()=>{
+  body.dataset.lang=b.dataset.lang;
+  document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('active',x===b));
+  document.documentElement.lang=(b.dataset.lang==='en')?'en':'zh-CN';
+}));
+let fs=10;const r=document.documentElement;
+document.getElementById('s').onclick=()=>{fs=Math.max(8,fs-0.5);r.style.setProperty('--fs',fs+'px')};
+document.getElementById('l').onclick=()=>{fs=Math.min(16,fs+0.5);r.style.setProperty('--fs',fs+'px')};
+</script>
+</body>
+</html>

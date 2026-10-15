@@ -1,0 +1,63 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SAI ↔ SDK ↔ SONiC 集成 · NV Technical Guide</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:68px}body{margin:0;background:#0b1118;color:#dde8f3;font:15px/1.85 Arial,"PingFang SC","Microsoft YaHei",sans-serif}a{color:#a9d7ff;text-decoration:none}a:hover{text-decoration:underline}nav{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#0b1118f5;border-bottom:1px solid #30445a;padding:10px 24px}button{background:#192c3d;color:#dde8f3;border:1px solid #476077;padding:5px 10px;border-radius:3px;cursor:pointer}button.active{background:#8bdc65;color:#0b1118}nav .spacer{flex:1}.layout{max-width:1340px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,900px);gap:40px;padding:26px}aside{position:sticky;top:80px;align-self:start;font-size:12px;max-height:85vh;overflow:auto}aside a{display:block;padding:6px 0;border-bottom:1px solid #263747}h1{font-size:30px;line-height:1.3;color:white;margin:0 0 12px}h2{font-size:21px;color:#a8d6ff;margin:0 0 12px}h3{font-size:16px;color:#8bdc65;margin:20px 0 8px}.number{color:#8bdc65;font:13px monospace;letter-spacing:2px}section{padding:25px 0;border-bottom:1px solid #30445a}p{margin:10px 0}p.lead{color:#acbfd0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 ui-monospace,monospace;background:#122335;border-left:3px solid #8bdc65;padding:16px}footer{padding:24px 0;color:#9fb2c5;font-size:12px}.refs a{display:block;margin:4px 0}body[data-lang=zh] [data-l=en],body[data-lang=en] [data-l=zh]{display:none}a:focus-visible,button:focus-visible{outline:2px solid #8bdc65;outline-offset:4px}.pager{display:flex;justify-content:space-between;gap:15px;margin:20px 0}@media(max-width:850px){.layout{display:block;padding:20px}aside{position:static;max-height:none;margin-bottom:25px}h1{font-size:24px}body{font-size:14px}nav{padding:8px 12px}}@media print{nav,aside,.pager{display:none}.layout{display:block;max-width:none}body{background:white;color:#111}h1,h2,h3,a{color:#123}section{break-inside:auto}pre{background:#eee}html{scroll-padding-top:0}}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;vertical-align:top;padding:10px 12px;border:1px solid #30445a}th{background:#192b3a;color:#8bdc65}.tablewrap{overflow:auto}td:first-child{width:32%}code{overflow-wrap:anywhere}</style></head>
+<body data-lang="zh">
+<nav><a class="local" href="index.html">← <span data-l="zh" class="">技术速查表</span><span data-l="en" class="">Technical cheatsheet</span></a><span class="spacer"></span><button id="zh" class="active">中文</button><button id="en">English</button><button id="print"><span data-l="zh" class="">打印</span><span data-l="en" class="">Print</span></button></nav>
+<div class="layout">
+<aside>
+<a href="#topic-1"><span data-l="zh" class="">mlnx_sai 到 sx_api</span><span data-l="en" class="">mlnx_sai → sx_api</span></a>
+<a href="#topic-2"><span data-l="zh" class="">warm-boot 与 ISSU</span><span data-l="en" class="">Warm-boot &amp; ISSU</span></a>
+<a href="#topic-3"><span data-l="zh" class="">SONiC 到 SDK 调用路径</span><span data-l="en" class="">SONiC → SDK call path</span></a>
+<a href="#topic-4"><span data-l="zh" class="">SDK 调试与可观测</span><span data-l="en" class="">SDK debug &amp; observability</span></a>
+<a href="#topic-5"><span data-l="zh" class="">企业版与社区版</span><span data-l="en" class="">Enterprise vs community</span></a>
+</aside>
+<main><div class="number">26 / 27</div>
+<h1 data-l="zh" class="">SAI ↔ SDK ↔ SONiC 集成</h1><h1 data-l="en" class="">SAI ↔ SDK ↔ SONiC integration</h1>
+<p class="lead" data-l="zh" class="">这页把 1.html 里「SDK / SAI 接口」和「NOS / SONiC」两节从抽象层落到 Spectrum 的实际映射：SAI 门面、厂商实现、SX SDK、内核驱动的分工与数据流。</p>
+<p class="lead" data-l="en" class="">This page grounds the cheatsheet's "SDK / SAI" and "NOS / SONiC" sections in the real Spectrum mapping: the SAI facade, the vendor implementation, the SX SDK and the kernel driver, and how data flows between them.</p>
+<pre>orchagent (swss) → Redis ASIC_DB → syncd → libsai.so (mlnx_sai)
+     → sx_api_* (SX SDK) → /dev/sxcdev (ioctl/read/write/mmap)
+     → sx_core.ko → PCIe → Spectrum ASIC</pre>
+
+<section id="topic-1"><h2 data-l="zh" class="">mlnx_sai 到 sx_api 的映射</h2><h2 data-l="en" class="">mlnx_sai → sx_api mapping</h2>
+<p data-l="zh" class="">SAI 是厂商无关门面；厂商实现 <code>libsai.so</code>（mlnx_sai，开源在 Mellanox/SAI-Implementation）把 <code>sai_*</code> 调用翻译成 SX SDK 的 <code>sx_api_*</code>。对象模型一一对应：SAI 的 switch/port/vlan/route 建到 SDK 的 device/port/fdb/route 表项。</p>
+<p data-l="en" class="">SAI is the vendor-neutral facade; the vendor implementation <code>libsai.so</code> (mlnx_sai, open at Mellanox/SAI-Implementation) translates <code>sai_*</code> calls into SX SDK <code>sx_api_*</code>. The object models correspond: SAI switch/port/vlan/route map to SDK device/port/fdb/route entries.</p>
+<p data-l="zh" class="">关键认知：统一 API 不代表各芯片的资源、原子性与语义相同。<code>create-only</code> 属性、能力查询、OID 映射、批量部分失败都需逐项核对。SAI 头（<code>sx/sdk/sx_api_*.h</code>）是契约。</p>
+<p data-l="en" class="">Key insight: a unified API does not imply identical resources, atomicity or semantics across chips. <code>create-only</code> attributes, capability queries, OID mapping and partial bulk failures must be verified item by item. The SAI headers (<code>sx/sdk/sx_api_*.h</code>) are the contract.</p></section>
+
+<section id="topic-2"><h2 data-l="zh" class="">warm-boot 与 ISSU 语义</h2><h2 data-l="en" class="">Warm-boot &amp; ISSU semantics</h2>
+<p data-l="zh" class="">SAI warm-boot 标志区分「首次初始化」与「保留硬件转发的重启」；厂商 SAI 决定哪些状态可从硬件恢复、哪些需重建。fast/warm/ISSU 只是名称，不代表零丢包。</p>
+<p data-l="en" class="">SAI warm-boot flags distinguish first init from restart-with-retained-forwarding; the vendor SAI decides which state recovers from hardware versus is rebuilt. fast/warm/ISSU are labels, not proof of zero loss.</p>
+<p data-l="zh" class="">验证要覆盖重启期间的新流、旧流、路由变化与异常报文；对账「期望态 / 软件已应用态 / 硬件实际态」，避免简单重放造成资源泄漏或覆盖更新后的配置。</p>
+<p data-l="en" class="">Validation must cover new and existing flows, route changes and exceptional packets during restart; reconcile desired / software-applied / actual-hardware state to avoid resource leaks or overwriting newer configuration on blind replay.</p></section>
+
+<section id="topic-3"><h2 data-l="zh" class="">SONiC 到 SDK 的调用路径</h2><h2 data-l="en" class="">SONiC → SDK call path</h2>
+<p data-l="zh" class="">完整路径：<code>CONFIG_DB/APPL_DB → orchagent → SAI 对象 → ASIC_DB/syncd → libsai → sx_api → /dev/sxcdev → sx_core.ko → ASIC</code>。各数据库反映不同阶段，不是彼此的镜像。</p>
+<p data-l="en" class="">Full path: <code>CONFIG_DB/APPL_DB → orchagent → SAI objects → ASIC_DB/syncd → libsai → sx_api → /dev/sxcdev → sx_core.ko → ASIC</code>. Each DB reflects a different stage and is not a mirror of the others.</p>
+<div class="tablewrap"><table><thead><tr><th><span data-l="zh" class="">阶段</span><span data-l="en" class="">Stage</span></th><th><span data-l="zh" class="">载体</span><span data-l="en" class="">Carrier</span></th></tr></thead><tbody>
+<tr><td><span data-l="zh" class="">配置/编排</span><span data-l="en" class="">Config / orchestration</span></td><td><span data-l="zh" class="">CONFIG_DB, APPL_DB, orchagent</span><span data-l="en" class="">CONFIG_DB, APPL_DB, orchagent</span></td></tr>
+<tr><td><span data-l="zh" class="">SAI 执行</span><span data-l="en" class="">SAI execution</span></td><td><span data-l="zh" class="">ASIC_DB, syncd, libsai</span><span data-l="en" class="">ASIC_DB, syncd, libsai</span></td></tr>
+<tr><td><span data-l="zh" class="">主机接口</span><span data-l="en" class="">Host interface</span></td><td><span data-l="zh" class="">sx_api, /dev/sxcdev, sx_core.ko</span><span data-l="en" class="">sx_api, /dev/sxcdev, sx_core.ko</span></td></tr>
+</tbody></table></div>
+<p data-l="zh" class="">排查配置未生效时追踪同一对象跨阶段：配置是否接受、应用态是否生成、依赖是否满足、syncd/SAI 是否报错、硬件表是否存在。</p>
+<p data-l="en" class="">To debug inactive config, trace one object across stages: config accepted, application state generated, dependencies satisfied, syncd/SAI errors, and hardware entry presence.</p></section>
+
+<section id="topic-4"><h2 data-l="zh" class="">SDK 调试与可观测</h2><h2 data-l="en" class="">SDK debug &amp; observability</h2>
+<p data-l="zh" class="">SDK 自带调试工具（syncd 容器内 <code>/usr/bin</code>），配合内核态面：<code>/proc/mlx_sx/*</code>、<code>/sys/module/sx_core/asic*</code>、SPICE 的 debugfs <code>/nvswitch</code>，以及 <code>sx_emad_dump.ko</code> 的 netlink EMAD 旁路抓取。</p>
+<p data-l="en" class="">The SDK ships debug utilities (in the syncd container <code>/usr/bin</code>), paired with kernel-side surfaces: <code>/proc/mlx_sx/*</code>, <code>/sys/module/sx_core/asic*</code>, the SPICE debugfs <code>/nvswitch</code>, and the <code>sx_emad_dump.ko</code> netlink EMAD tap.</p>
+<p data-l="zh" class="">分层定位：应用/collective → GPU/NIC → 链路 → 队列/转发 → 控制面 → SDK/ASIC。先保留现场（寄存器、计数器、版本快照）再改配置，避免恢复动作抹掉根因证据。</p>
+<p data-l="en" class="">Localize in layers: app/collective → GPU/NIC → link → queues/forwarding → control plane → SDK/ASIC. Preserve evidence (registers, counters, version snapshots) before changing config so recovery does not erase the root cause.</p></section>
+
+<section id="topic-5"><h2 data-l="zh" class="">企业版与社区版</h2><h2 data-l="en" class="">Enterprise vs community</h2>
+<p data-l="zh" class="">NVIDIA 同时提供社区 SONiC 与企业 SONiC；二者的 SAI 扩展、SDK 版本绑定与平台服务不同。同一接口名在不同版本可能有不同语义。</p>
+<p data-l="en" class="">NVIDIA offers both community and enterprise SONiC; their SAI extensions, SDK version binding and platform services differ. The same interface name may carry different semantics across versions.</p>
+<p data-l="zh" class="">跨版本升级需核对 SAI 头/扩展、SDK 版本兼容矩阵与 warm-boot 支持；schema 迁移不可逆时，回滚需要兼容数据，而不仅是旧镜像可启动。</p>
+<p data-l="en" class="">Cross-version upgrades must check SAI headers/extensions, the SDK compatibility matrix and warm-boot support; when schema migration is irreversible, rollback needs compatible data, not merely a bootable old image.</p></section>
+
+<footer><h3 data-l="zh" class="">参考与适用范围</h3><h3 data-l="en" class="">References &amp; scope</h3><div class="refs">
+<a href="https://github.com/Mellanox/SAI-Implementation" target="_blank" rel="noopener">[S19] <span data-l="zh" class="">mlnx_sai（libsai 厂商实现）</span><span data-l="en" class="">mlnx_sai (vendor libsai)</span></a>
+<a href="https://github.com/opencomputeproject/SAI" target="_blank" rel="noopener">[S4] <span data-l="zh" class="">OCP SAI 接口</span><span data-l="en" class="">OCP SAI interfaces</span></a>
+<a href="https://github.com/sonic-net/SONiC/wiki/Architecture" target="_blank" rel="noopener">[S3] <span data-l="zh" class="">SONiC 架构</span><span data-l="en" class="">SONiC architecture</span></a>
+</div><p data-l="zh" class="">流程为教学示意；具体 DB 键、SAI 扩展与 SDK 版本以目标 SONiC/SDK 为准。</p><p data-l="en" class="">Flows are instructional. Exact DB keys, SAI extensions and SDK versions follow the target SONiC/SDK.</p></footer>
+<div class="pager"><a class="local" href="spectrum-sdk.html">← <span data-l="zh" class="">Spectrum SDK 本体</span><span data-l="en" class="">Spectrum SDK internals</span></a><a class="local" href="architect-practice.html"><span data-l="zh" class="">架构师方法学与影响力</span><span data-l="en" class="">Architect methodology &amp; influence</span> →</a></div>
+</main></div>
+<script>(()=>{function setLang(lang){document.body.dataset.lang=lang;document.documentElement.lang=lang==='en'?'en':'zh-CN';document.querySelectorAll('button#zh,button#en').forEach(b=>{b.classList.toggle('active',b.id===lang);b.setAttribute('aria-pressed',String(b.id===lang))});document.querySelectorAll('a.local').forEach(a=>{const u=new URL(a.href);u.searchParams.set('lang',lang);a.href=u.href});const u=new URL(location.href);u.searchParams.set('lang',lang);history.replaceState(null,'',u);document.title=document.querySelector('h1[data-l="'+lang+'"]').textContent+' · NV Technical Guide'}document.querySelector('#zh').onclick=()=>setLang('zh');document.querySelector('#en').onclick=()=>setLang('en');document.querySelector('#print').onclick=()=>window.print();setLang(new URLSearchParams(location.search).get('lang')==='en'?'en':'zh');})();</script>
+</body></html>

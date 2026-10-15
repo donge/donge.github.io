@@ -1,0 +1,546 @@
+/* Fade In */
+@-webkit-keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Fade Out */
+@-webkit-keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-moz-keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.spin {
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  -moz-animation-name: rotate;
+  -moz-animation-duration: 1s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-name: rotate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-moz-keyframes rotate {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes shake {
+  8% {
+    transform: translateX(8px);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+@-webkit-keyframes shake {
+  8% {
+    -webkit-transform: translateX(8px);
+  }
+  20% {
+    -webkit-transform: translateX(-8px);
+  }
+  40% {
+    -webkit-transform: translateX(6px);
+  }
+  60% {
+    -webkit-transform: translateX(-4px);
+  }
+  80% {
+    -webkit-transform: translateX(4px);
+  }
+  100% {
+    -webkit-transform: translateX(0px);
+  }
+}
+@-moz-keyframes shake {
+  8% {
+    -moz-transform: translateX(8px);
+  }
+  20% {
+    -moz-transform: translateX(-8px);
+  }
+  40% {
+    -moz-transform: translateX(6px);
+  }
+  60% {
+    -moz-transform: translateX(-4px);
+  }
+  80% {
+    -moz-transform: translateX(4px);
+  }
+  100% {
+    -moz-transform: translateX(0px);
+  }
+}
+.shake {
+  animation: shake 0.6s linear;
+  -webkit-animation: shake 0.6s linear;
+  -moz-animation: shake 0.6s linear;
+}
+/* DROP IN ANIMATION */
+@-webkit-keyframes drop {
+  0% {
+    -webkit-transform: rotate(15deg) translate(0px, -800px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1) rotate(0deg) translate(0px, 0px);
+  }
+}
+@-moz-keyframes drop {
+  from {
+    opacity: 0;
+    -moz-transform: rotate(15deg) translate(0px, -400px);
+  }
+  to {
+    opacity: 1;
+    -moz-transform: scale(1) rotate(0deg) translate(0px, 0px);
+  }
+}
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: rotate(15deg) translate(0px, -400px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translate(0px, 0px);
+  }
+}
+/* DROP OUT ANIMATION */
+@-webkit-keyframes drop-out {
+  from {
+    opacity: 1;
+    -webkit-transform: scale(1) rotate(0deg) translate(0px, 0px);
+  }
+  to {
+    -webkit-transform: rotate(15deg) translate(0px, 800px);
+    opacity: 0;
+  }
+}
+@-moz-keyframes drop-out {
+  from {
+    opacity: 0;
+    -moz-transform: rotate(15deg) translate(0px, -400px);
+  }
+  to {
+    opacity: 1;
+    -moz-transform: scale(1) rotate(0deg) translate(0px, 0px);
+  }
+}
+@keyframes drop-out {
+  from {
+    opacity: 0;
+    transform: rotate(15deg) translate(0px, -400px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg) translate(0px, 0px);
+  }
+}
+/* Region General*/
+body,
+html {
+  font-family: "Verb Regular", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Georgia", sans-serif;
+  font-size: 16px;
+  line-height: 1.3em;
+  margin: 0;
+  position: relative;
+}
+.bold {
+  font-family: "Verb Semibold", "HelveticaNeue-Bold", "Helvetica Neue Bold", "Helvetica-Bold", "Helvetica", "Georgia", sans-serif;
+}
+html body {
+  padding: 0px;
+}
+p,
+h1,
+h2,
+h3,
+a {
+  line-height: 1.3em;
+  color: inherit;
+  font-weight: normal;
+}
+a:hover {
+  opacity: 0.8;
+}
+div.container {
+  margin: 0px;
+}
+.show-on-load {
+  opacity: 0;
+}
+weak,
+.weak {
+  opacity: 0.8;
+  font-size: 0.8em;
+}
+/* End Region */
+.login-actions {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  float: right;
+}
+.login-actions .submit {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.login-actions > * {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  text-rendering: optimizeLegibility;
+  margin-left: 10px;
+}
+/* Inputs */
+.input-text,
+input-text-area {
+  height: 40px;
+  border: 1px solid #ffffff;
+  /*varwhite*/
+
+  border-radius: 2px;
+  font-size: 16px;
+  line-height: 1em;
+  margin-bottom: 15px;
+  width: 100%;
+  position: relative;
+}
+.input-text.small,
+input-text-area.small {
+  width: 200px;
+}
+.input-text label,
+.input-text-area label {
+  display: block;
+  background: #ffffff;
+  /*varwhite*/
+
+  height: 100%;
+  margin: 0px;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  color: black;
+  /*varblack*/
+
+  line-height: 40px;
+  width: 80px;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.input-text input:focus,
+.input-text-area textarea:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
+.input-text-area {
+  height: 80px;
+}
+.input-text input,
+.input-text-area textarea {
+  display: block;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  height: 100%;
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+  /* css3 rec */
+
+  -moz-box-sizing: border-box;
+  /* ff2 */
+
+  -ms-box-sizing: border-box;
+  /* ie8 */
+
+  -webkit-box-sizing: border-box;
+  /* safari3 */
+
+  -khtml-box-sizing: border-box;
+  /* konqueror */
+
+}
+.input-text-area textarea {
+  resize: none;
+  padding: 10px;
+}
+.input-text .input-text-container {
+  padding-left: 80px;
+  height: 100%;
+}
+.input-text label + input {
+  padding-left: 90px;
+}
+.input-text label.large {
+  width: 100px;
+}
+.input-text label.large + input {
+  padding-left: 110px;
+}
+.input-text.input-text-dollar input {
+  padding-left: 10px;
+  text-align: right;
+}
+.input-text.input-text-dollar input:after {
+  content: "$";
+  font-color: inherit;
+  font-size: inherit;
+  line-height: 42px;
+  position: absolute;
+  margin-left: -3px;
+  top: 0;
+}
+border-sizing {
+  box-sizing: border-box;
+  /* css3 rec */
+
+  -moz-box-sizing: border-box;
+  /* ff2 */
+
+  -ms-box-sizing: border-box;
+  /* ie8 */
+
+  -webkit-box-sizing: border-box;
+  /* safari3 */
+
+  -khtml-box-sizing: border-box;
+  /* konqueror */
+
+}
+/*End Inputs*/
+/*Buttons*/
+.submit {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  color: white;
+  cursor: pointer;
+  height: 40px;
+  padding: 0 20px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  border-radius: 2px;
+  text-decoration: none;
+  border: 1px solid #ffffff;
+}
+form .submit {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  color: white;
+  cursor: pointer;
+  height: 40px;
+  padding: 0 20px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  border-radius: 2px;
+  text-decoration: none;
+  border: 1px solid #ffffff;
+}
+form .submit:hover {
+  opacity: 0.8;
+}
+form .submit:active {
+  opacity: 1.0;
+}
+form .formly-error {
+  animation: shake 0.6s linear;
+  -webkit-animation: shake 0.6s linear;
+  -moz-animation: shake 0.6s linear;
+}
+form.error {
+  animation: shake 0.6s linear;
+  -webkit-animation: shake 0.6s linear;
+  -moz-animation: shake 0.6s linear;
+}
+form.saving:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.5);
+}
+/*End Buttons*/
+.subtle-link {
+  border: none;
+  text-decoration: none;
+}
+.subtle-link:hover {
+  border: none;
+  text-decoration: none;
+}
+.stages {
+  position: relative;
+  display: inline-block;
+  margin: 20px 0;
+  padding: 0;
+  /* Connecting Line */
+
+}
+.stages:after {
+  content: "";
+  z-index: 1;
+  height: 1px;
+  position: absolute;
+  left: 65px;
+  right: 65px;
+  top: 7px;
+  background-color: #ffffff;
+}
+.stages > li {
+  font-family: "Verb Semibold", "HelveticaNeue-Bold", "Helvetica Neue Bold", "Helvetica-Bold", "Helvetica", "Georgia", sans-serif;
+  z-index: 2;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  width: 130px;
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  /* Circle */
+
+}
+.stages > li:not(:first-of-type) {
+  margin-left: 40px;
+}
+.stages > li span {
+  font-family: "Verb Regular", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Georgia", sans-serif;
+  -webkit-transition: all 0.1s ease;
+  -moz-transition: all 0.1s ease;
+  -ms-transition: all 0.1s ease;
+  -o-transition: all 0.1s ease;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  right: 0;
+  font-size: 13px;
+  opacity: 0;
+}
+.stages > li.force-show span {
+  opacity: 1;
+}
+.stages > li:hover {
+  text-decoration: underline;
+}
+.stages > li:hover span {
+  opacity: 1;
+}
+.stages > li:before {
+  content: "";
+  background: #FFFFFF;
+  font-family: FontAwesome;
+  font-size: 10px;
+  line-height: 14px;
+  width: 14px;
+  height: 14px;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+.stages > li.complete:before {
+  content: "";
+}
